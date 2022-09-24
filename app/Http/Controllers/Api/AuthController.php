@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Traits\HasResponseApi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
+use const App\Http\Traits\exampleStatusCode;
 
 class AuthController extends Controller
 {
+    use HasResponseApi;
     /**
      * Create User
      * @param Request $request
@@ -47,10 +51,10 @@ class AuthController extends Controller
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $exception) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $exception->getMessage()
             ], 500);
         }
     }
@@ -92,11 +96,57 @@ class AuthController extends Controller
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $exception) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $exception->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * Get current user role
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getRoleUser(Request $request)
+    {
+        try {
+            $user = Auth::guard('sanctum')->user();
+            $userRoles = $user->getRoleNames();
+
+            return response()->json([
+                'roles' => $userRoles,
+            ]);
+        } catch (\Exception $exception) {
+            return $this->apiErrorResponse($exception->getMessage());
+        }
+    }
+
+    /**
+     * set user roles
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setRoleUser(Request $request)
+    {
+        try {
+            $params = $request->only(['user_id', 'role_ids']);
+
+            $user = User::find($params['user_id']);
+            $roles = Role::whereIn('id', explode(',', $params['role_ids']))->pluck('name');
+
+            if (!$user || $roles->isEmpty()) {
+                $this->setApiStatusCode(exampleStatusCode['not_found']);
+                throw new \Exception('Wrong user id or role');
+            }
+
+            // Đồng bộ lại role , xóa role cũ dùng các role mới được truyền lên
+            $user->syncRoles($roles);
+
+            return $this->apiResponse($user);
+        } catch (\Exception $exception) {
+            return $this->apiErrorResponse($exception->getMessage());
         }
     }
 }

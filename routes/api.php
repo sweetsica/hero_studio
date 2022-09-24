@@ -26,6 +26,24 @@ Route::get('/__health/start', function () {
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'createUser']);
     Route::post('login', [AuthController::class, 'loginUser']);
+
+    // Role
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('get-role', [AuthController::class, 'getRoleUser']);
+        Route::post('set-role', [AuthController::class, 'setRoleUser']);
+    });
+
+    Route::middleware('kols')->group(function () {
+
+    });
+
+    Route::middleware('cof')->group(function () {
+
+    });
+
+    Route::middleware('editor')->group(function () {
+
+    });
 });
 
 /** Require token */
