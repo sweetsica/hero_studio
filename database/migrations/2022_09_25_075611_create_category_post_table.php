@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('category_post', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->nullable(); //Mã phòng
-            $table->string('name')->nullable(); //Tên phòng
-            $table->string('description')->nullable(); //Mô tả phòng
-            $table->integer('status')->default('1'); //Trạng thái phòng
-            $table->dateTime('deleted_at')->nullable(); //Thời gian xóa phòng
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('post_id');
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('post_id')->references('id')->on('posts');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('category_post');
     }
 };
