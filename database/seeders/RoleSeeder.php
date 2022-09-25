@@ -27,7 +27,5 @@ class RoleSeeder extends Seeder
           Role::create(['name' => Role::ROLE_COF]);
           Role::create(['name' => Role::ROLE_KOLS]);
           Role::create(['name' => Role::ROLE_EDITOR]);
-
-
     }
 }

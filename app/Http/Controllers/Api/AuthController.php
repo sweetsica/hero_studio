@@ -131,18 +131,18 @@ class AuthController extends Controller
     public function setRoleUser(Request $request)
     {
         try {
-            $params = $request->only(['user_id', 'role_ids']);
+            $params = $request->only(['user_id', 'role_id']);
 
             $user = User::find($params['user_id']);
-            $roles = Role::whereIn('id', explode(',', $params['role_ids']))->pluck('name');
+            $role = Role::find($params['role_id']);
 
-            if (!$user || $roles->isEmpty()) {
+            if (!$user || !$role) {
                 $this->setApiStatusCode(exampleStatusCode['not_found']);
                 throw new \Exception('Wrong user id or role');
             }
 
-            // Đồng bộ lại role , xóa role cũ dùng các role mới được truyền lên
-            $user->syncRoles($roles);
+            // Đồng bộ lại role , xóa role cũ dùng role mới được truyền lên
+            $user->syncRoles($role->name);
 
             return $this->apiResponse($user);
         } catch (\Exception $exception) {
