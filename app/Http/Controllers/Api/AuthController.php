@@ -137,7 +137,7 @@ class AuthController extends Controller
             $role = Role::find($params['role_id']);
 
             if (!$user || !$role) {
-                $this->setApiStatusCode(exampleStatusCode['not_found']);
+                $this->setApiStatusCode($this->exampleStatusCode['not_found']);
                 throw new \Exception('Wrong user id or role');
             }
 

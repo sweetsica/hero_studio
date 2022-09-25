@@ -46,6 +46,9 @@ Route::prefix('auth')->group(function () {
     });
 });
 
+Route::resource('categories', \App\Http\Controllers\Api\CategoryController::class);
+
+
 /** Require token */
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/__health', function () {
