@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();//Tên danh mục ("Hướng dẫn nghiệp vụ","Quy trình thực hiện")
-            $table->string('code')->nullable();//Mã chuyên mục
-            $table->string('description')->nullable();//Mô tả danh mục
+            $table->string('name');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('positions');
     }
 };

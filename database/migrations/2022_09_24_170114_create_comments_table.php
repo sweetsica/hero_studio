@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable(); //Người gửi bình luận
+            $table->unsignedBigInteger('member_id')->nullable(); //Người gửi bình luận
             $table->unsignedBigInteger('task_id')->nullable(); //Id task chứa bình luận
             $table->boolean('status')->nullable(); //Trạng thái bình luận
             $table->dateTime('deleted_at')->nullable(); //Thời gian xóa bình luận
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('member_id')->references('id')->on('members');
             $table->foreign('task_id')->references('id')->on('tasks');
         });
     }

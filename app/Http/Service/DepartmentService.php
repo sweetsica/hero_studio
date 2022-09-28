@@ -4,7 +4,7 @@ namespace App\Http\Service;
 
 use App\Http\Repository\DepartmentRepository;
 
-class CategoryService extends BaseService
+class DepartmentService extends BaseService
 {
     public function __construct(DepartmentRepository $categoryRepository)
     {

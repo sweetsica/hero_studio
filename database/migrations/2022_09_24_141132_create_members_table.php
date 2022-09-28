@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('link_source_task', function (Blueprint $table) {
+        Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
-            $table->unsignedBigInteger('task_id');
             $table->timestamps();
-
-            $table->foreign('tasks_id')->references('id')->on('tasks');
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('link_source_task');
+        Schema::dropIfExists('members');
     }
 };
