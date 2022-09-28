@@ -45,11 +45,13 @@ Route::prefix('auth')->group(function () {
 
     });
 });
-
-Route::resource('categories', \App\Http\Controllers\Api\CategoryController::class);
 Route::resource('posts', \App\Http\Controllers\Api\PostController::class);
 Route::resource('departments', \App\Http\Controllers\Api\DepartmentController::class);
+Route::resource('tasks', \App\Http\Controllers\Api\TaskController::class);
+Route::resource('members', \App\Http\Controllers\Api\MemberController::class);
 
+// expired
+Route::resource('categories', \App\Http\Controllers\Api\CategoryController::class);
 
 /** Require token */
 Route::middleware('auth:sanctum')->group(function () {

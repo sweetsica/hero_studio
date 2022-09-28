@@ -15,7 +15,17 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('name')->nullable();
+            $table->string('code')->nullable();
+            $table->dateTime('date_of_birth')->nullable();
+            $table->unsignedBigInteger('position_id');
+            $table->integer('status'); // 0 DEACTIVATE , 1 ACTIVE
+
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('position_id')->references('id')->on('positions');
         });
     }
 

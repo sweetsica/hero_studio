@@ -34,6 +34,9 @@ return new class extends Migration
             $table->text('url_others');
 
             $table->timestamps();
+
+            $table->foreign('member_id')->references('id')->on('members');
+            $table->foreign('department_id')->references('id')->on('departments');
         });
     }
 

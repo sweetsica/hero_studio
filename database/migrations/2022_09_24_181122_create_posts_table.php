@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('author')->nullable();//Tên tác giả bài viết
+            $table->string('title')->nullable();
             $table->string('thumb')->nullable();//Ảnh bài viết
             $table->string('category')->nullable();//Danh mục bài viết
             $table->text('content')->nullable();//Nội dung bài viết
