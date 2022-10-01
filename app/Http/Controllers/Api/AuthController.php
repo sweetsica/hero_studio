@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Traits\HasResponseApi;
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -43,6 +44,11 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
+            ]);
+
+            $member = Member::create([
+                'user_id' => $user->id,
+                'name' => $request->name
             ]);
 
             return response()->json([

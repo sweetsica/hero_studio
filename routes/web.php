@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/', function () {
+    return view('upload');
+});
+
+Route::post('/', function (\Illuminate\Http\Request $request) {
+    $file = $request->image;
+    // TODO:: add validation file type if can
+//    $request->validate([
+//        'image' => 'file'
+//    ]);
+    $file = $request->image;
+    $fileUrl = \Illuminate\Support\Facades\Storage::put('file', $request->image);
+    dd($fileUrl, $file->extension(), $file);
 });

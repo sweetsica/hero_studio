@@ -9,4 +9,9 @@ class Member extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    const MEMBER_STATUS = [
+        'ACTIVE' => 1,
+        'DEACTIVATE' => 2
+    ];
 }

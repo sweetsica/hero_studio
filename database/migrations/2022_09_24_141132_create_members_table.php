@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('code')->nullable();
             $table->dateTime('date_of_birth')->nullable();
-            $table->unsignedBigInteger('position_id');
-            $table->integer('status'); // 0 DEACTIVATE , 1 ACTIVE
+            $table->unsignedBigInteger('position_id')->nullable();
+            $table->integer('status')->default(\App\Models\Member::MEMBER_STATUS['ACTIVE']); // 0 DEACTIVATE , 1 ACTIVE
 
             $table->timestamps();
 

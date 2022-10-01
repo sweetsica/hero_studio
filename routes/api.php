@@ -47,6 +47,8 @@ Route::prefix('auth')->group(function () {
 });
 Route::resource('posts', \App\Http\Controllers\Api\PostController::class);
 Route::resource('departments', \App\Http\Controllers\Api\DepartmentController::class);
+Route::post('departments/assign', [\App\Http\Controllers\Api\DepartmentController::class, 'assignMember']);
+Route::post('departments/remove-member', [\App\Http\Controllers\Api\DepartmentController::class, 'removeMember']);
 Route::resource('tasks', \App\Http\Controllers\Api\TaskController::class);
 Route::resource('members', \App\Http\Controllers\Api\MemberController::class);
 
