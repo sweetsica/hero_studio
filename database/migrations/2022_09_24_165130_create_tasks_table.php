@@ -15,18 +15,28 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->nullable();//Mã đầu việc
-            $table->string('name')->nullable();//Tên đầu việc
-            $table->text('description')->nullable();//Mô tả đầu việc
-            $table->text('type')->nullable();//Loại đầu việc
-            $table->string('source_link')->nullable();//Link nguồn đầu việc
-            $table->string('edited_link_id')->nullable();//Link sản phẩm đầu việc up fanpage
-            $table->string('from')->nullable();//User_id người gửi
-            $table->string('to')->nullable();//User_id người nhận
-            $table->dateTime('endtime')->nullable();//Hạn hoàn thành
-            $table->integer('status')->default('1');//"0": Hủy, "1": Đã giao, "2": Đang thực hiện, "3": Đang phê duyệt,"4": Cần sửa, "5": Đã hoàn thành
-            $table->dateTime('deleted_at')->nullable();//Thời gian xóa task
+            $table->string('name');
+            $table->unsignedBigInteger('member_id'); // member phu trach
+            $table->unsignedBigInteger('department_id');  // task cua department nao
+            $table->text('content');
+            $table->dateTime('deadline');
+            $table->integer('status_code'); // 4 trang thai , SENT , INPROGRESS, REVIEW, DONE
+
+            $table->string('product_name');
+            $table->string('product_description');
+
+            $table->string('url_source');
+
+            $table->string('url_fanpage');
+            $table->string('url_facebook');
+            $table->string('url_youtube');
+            $table->string('url_tiktok');
+            $table->text('url_others');
+
             $table->timestamps();
+
+            $table->foreign('member_id')->references('id')->on('members');
+            $table->foreign('department_id')->references('id')->on('departments');
         });
     }
 

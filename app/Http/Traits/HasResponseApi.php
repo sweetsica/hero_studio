@@ -5,19 +5,22 @@ namespace App\Http\Traits;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-/** Các status code thường được sử dụng */
-const exampleStatusCode = [
-    'success' => ResponseAlias::HTTP_OK, /** Api thực thi thành công */
-    'error' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR, /** Api lỗi , có thể dùng bất kì khi nào thất bại */
 
-    'not_found' => ResponseAlias::HTTP_NOT_FOUND,  /** Có thứ gì đó khi thực thi api không được tìm thấy */
-    'bad_request' => ResponseAlias::HTTP_BAD_REQUEST, /** Dữ liệu truyền lên bị lỗi, không đúng với yêu cầu , vd user_id nhưng truyền lên email */
-    'permission_denied' => ResponseAlias::HTTP_FORBIDDEN, /** Đang cố truy cập tài nguyên không đủ quyền hạn */
-    'created' => ResponseAlias::HTTP_CREATED, /** Thêm vào cho vui vì còn vẫn nhiều mã lỗi khác  */
-];
+
 
 trait HasResponseApi
 {
+    /** Các status code thường được sử dụng */
+    public $exampleStatusCode = [
+        'success' => ResponseAlias::HTTP_OK, /** Api thực thi thành công */
+        'error' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR, /** Api lỗi , có thể dùng bất kì khi nào thất bại */
+
+        'not_found' => ResponseAlias::HTTP_NOT_FOUND, /** Có thứ gì đó khi thực thi api không được tìm thấy */
+        'bad_request' => ResponseAlias::HTTP_BAD_REQUEST, /** Dữ liệu truyền lên bị lỗi, không đúng với yêu cầu , vd user_id nhưng truyền lên email */
+        'permission_denied' => ResponseAlias::HTTP_FORBIDDEN, /** Đang cố truy cập tài nguyên không đủ quyền hạn */
+        'created' => ResponseAlias::HTTP_CREATED,/** Thêm vào cho vui vì còn vẫn nhiều mã lỗi khác  */
+    ];
+
     protected mixed $apiData = null;
     protected array $apiMessages = [];
     protected int $apiStatusCode = ResponseAlias::HTTP_OK; // Default success
