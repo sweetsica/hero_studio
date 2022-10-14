@@ -18,7 +18,7 @@ class PageController extends Controller
     public function getTaskList()
     {
         $info = Task::all();
-        return view('admin-template.page.task.index');
+        return view('admin-template.page.task.index-manage');
     }
     public function createTask()
     {
