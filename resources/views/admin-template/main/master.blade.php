@@ -424,7 +424,8 @@
 
     <!-- ========== Left Sidebar Start ========== -->
     <div class="left-side-menu">
-        @yield('content-left-sidebar')
+        @include('side-menu-layout')
+{{--        @yield('content-left-sidebar')--}}
     </div>
     <!-- Left Sidebar End -->
 
