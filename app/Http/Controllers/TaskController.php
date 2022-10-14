@@ -33,13 +33,23 @@ class TaskController extends Controller
 
     public function createTaskOrder()
     {
-        $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
         return view('admin-template.page.request.create',compact('info'));
     }
 
     public function editTaskOrder()
     {
-        $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn sửa task
         return view('admin-template.page.request.edit',compact('info'));
+    }
+
+    public function updateTaskOrder(Request $request)
+    {
+        // Cập nhật Yêu cầu theo id
+    }
+
+    public function deleteTaskOrder($taskOrder_id)
+    {
+        // Xóa Yêu cầu theo id
     }
 }
