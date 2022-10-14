@@ -10,7 +10,9 @@ class DepartmentController extends Controller
     public function getDepartmentList()
     {
         $datas = Department::all(); // Lấy danh sách phòng ban
-        return view('admin-template.page.department.index',compact('datas'));
+        dd($datas);
+
+        return view('admin-template.page.department.index', compact('datas'));
     }
 
     public function createDepartment()
@@ -41,6 +43,6 @@ class DepartmentController extends Controller
     {
         // Xóa phòng ban theo id
         $notice = "Xoá thành công phòng ban";
-        return view('admin-template.page.department.index',compact('notice'));
+        return view('admin-template.page.department.index', compact('notice'));
     }
 }
