@@ -10,7 +10,7 @@ class DepartmentController extends Controller
     public function getDepartmentList()
     {
         $datas = Department::all(); // Lấy danh sách phòng ban
-        dd($datas);
+//        dd($datas);
 
         return view('admin-template.page.department.index', compact('datas'));
     }

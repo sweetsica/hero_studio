@@ -19,12 +19,6 @@ class TaskController extends Controller
         return view('admin-template.page.task.index-manage',compact('info'));
     }
 
-    public function getTaskDetail($task_id)
-    {
-        $info = Task::all();//->where('id','=',$task_id) Lấy thông tin Task theo task_id
-        return view('admin-template.page.task.detail',compact('info'));
-    }
-
     public function getTaskOrder()
     {
         $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
@@ -34,13 +28,19 @@ class TaskController extends Controller
     public function createTaskOrder()
     {
         $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
-        return view('admin-template.page.request.create',compact('info'));
+        return view('admin-template.page.task.create',compact('info'));
     }
 
-    public function editTaskOrder()
+    public function editTask($id)
     {
-        $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn sửa task
-        return view('admin-template.page.request.edit',compact('info'));
+        $info = Task::all();//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
+        return view('admin-template.page.task.edit',compact('info'));
+    }
+
+    public function getTaskDetail($task_id)
+    {
+        $info = Task::all();//->where('id','=',$task_id) Lấy thông tin Task theo task_id
+        return view('admin-template.page.task.detail-member',compact('info'));
     }
 
     public function updateTaskOrder(Request $request)

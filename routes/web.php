@@ -64,7 +64,8 @@ Route::prefix('yeu-cau')->group(function () {
     Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
     Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
     Route::post('luu', [TaskController::class, 'storeUser'])->name('store.taskOrder'); //Lưu yêu cầu (nhiệm vụ dạng đang chờ)
-    Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTaskOrder'])->name('edit.taskOrder'); //Màn cập nhật yêu cầu (nhiệm vụ)
+    Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
+//    Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTaskOrder'])->name('edit.taskOrder'); //Màn cập nhật yêu cầu (nhiệm vụ)
     Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTaskOrderById'])->name('update.taskOrder'); //Dùng để cập nhật yêu cầu: Gồm cập nhật trạng thái, cập nhật người phụ trách
     Route::delete('xoa/{task_id}', [TaskController::class, 'deleteTaskOrderById'])->name('destroy.taskOrder'); //Xóa yêu cầu (nhiệm vụ)
 });

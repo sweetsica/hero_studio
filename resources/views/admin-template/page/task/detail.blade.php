@@ -716,7 +716,6 @@
                 </div>
             </div>
             <!-- end row -->
-
         </div> <!-- container -->
 
     </div> <!-- content -->
