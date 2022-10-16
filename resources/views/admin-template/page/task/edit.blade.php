@@ -51,7 +51,7 @@
 
             <div class="row">
                 <!-- calendar -->
-                <div class="col-xl-5">
+                <div class="col-xl-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="dropdown float-end">
@@ -77,42 +77,8 @@
                             <h6 class="header-title mb-4">Lịch</h6>
 
                             <div class="row calendar-widget col-md-12">
-                                <div class="col-sm-7">
+                                <div class="col-sm-12">
                                     <div id="calendar-widget" class="col-md-12"></div>
-                                </div>
-                                <div class="col-sm-5">
-                                    <ul class="list-unstyled ms-sm-3 mt-4 mt-sm-0">
-                                        <li class="mb-3">
-                                            <p class="text-muted mb-0 fs-13">
-                                                <i class="uil uil-calender me-1"></i>7:30 AM - 10:00 AM
-                                            </p>
-                                            <h6 class="mt-1 fs-16">UX Planning Meeting</h6>
-                                        </li>
-                                        <li class="mb-3">
-                                            <p class="text-muted mb-0 fs-13">
-                                                <i class="uil uil-calender me-1"></i>10:30 AM - 11:45 AM
-                                            </p>
-                                            <h6 class="mt-1 fs-16">Hyper v3 Scope Review</h6>
-                                        </li>
-                                        <li class="mb-3">
-                                            <p class="text-muted mb-0 fs-13">
-                                                <i class="uil uil-calender me-1"></i>12:15 PM - 02:00 PM
-                                            </p>
-                                            <h6 class="mt-1 fs-16">Ubold v4 Brainstorming</h6>
-                                        </li>
-                                        <li class="mb-3">
-                                            <p class="text-muted mb-0 fs-13">
-                                                <i class="uil uil-calender me-1"></i>5:30 PM - 06:15 PM
-                                            </p>
-                                            <h6 class="mt-1 fs-16">Shreyu React Planning</h6>
-                                        </li>
-                                        <li class="mb-3">
-                                            <p class="text-muted mb-0 fs-13">
-                                                <i class="uil uil-calender me-1"></i>5:30 PM - 06:15 PM
-                                            </p>
-                                            <h6 class="mt-1 fs-16">Shreyu React Planning</h6>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -212,51 +178,52 @@
                         </div>
                     </div> <!-- end card-->
                 </div>
-                <!-- activities -->
-                <div class="col-xl-2">
+                <!-- comments -->
+                <div class="col-xl-4">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="header-title mb-4">Hoạt động</h6>
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <h6 class="mt-0 mb-1 fs-15 fw-normal">
-                                        <a href="" class="fw-bold">Minh Tuấn</a> đã tải lên một link trong yêu cầu của
-                                        <span class="fw-bold text-primary">KOL Lan</span>
-                                    </h6>
-                                    <p class="text-muted">2 Min Ago</p>
-                                </div>
+                            <h4 class="mb-4 fs-16">Bình luận về yêu cầu này</h4>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <div class="d-flex mt-3 p-1">
+                                        <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}" class="me-2 rounded-circle" height="36" alt="Arya Stark">
+                                        <div class="flex-grow-1">
+                                            <h5 class="mt-0 mb-0 fs-14">
+                                                <span class="float-end text-muted fs-12">4:30am</span>Minh Thanh
+                                            </h5>
+                                            <p class="mt-1 mb-0 text-muted">
+                                                Làm video này theo hướng vui nhộn nhé
+                                            </p>
+                                        </div>
+                                    </div> <!-- end comment -->
+                                    <hr>
+                                </div> <!-- end col -->
                             </div>
 
-                            <div class="d-flex mt-1">
-                                <div class="flex-grow-1">
-                                    <h6 class="mt-0 mb-1 fs-15 fw-normal">
-                                        <a href="" class="fw-bold">Hoàng Minh</a> đã bình luận trong yêu cầu của
-                                        <span class="fw-bold text-primary">KOL Mỹ Lan</span>
-                                    </h6>
-                                    <p class="text-muted">12 Min Ago</p>
-                                </div>
+                            <div class="row mt-1">
+                                <div class="col">
+                                    <div class="border rounded">
+                                        <form action="#" class="comment-area-box">
+                                            <textarea rows="3" class="form-control border-0 resize-none" placeholder="Your comment..."></textarea>
+                                            <div class="p-2 bg-light">
+                                                <div class="float-end">
+                                                    <button type="submit" class="btn btn-sm btn-success">
+                                                        Gửi bình luận
+                                                    </button>
+                                                </div>
+                                                <div>
+                                                    {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
+                                                    {{--                                                        <i class="uil uil-cloud-upload"></i>--}}
+                                                    {{--                                                    </a>--}}
+                                                    {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
+                                                    <i class="uil uil-message me-1"></i>
+                                                    {{--                                                    </a>--}}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div> <!-- end .border-->
+                                </div> <!-- end col-->
                             </div>
-
-                            <div class="d-flex mt-1">
-                                <div class="flex-grow-1">
-                                    <h6 class="mt-0 mb-1 fs-15 fw-normal">
-                                        <a href="" class="fw-bold">Đặng Tuân</a> đã bình luận trong yêu cầu của
-                                        <span class="fw-bold text-primary">KOL Mỹ Lan</span>
-                                    </h6>
-                                    <p class="text-muted">12 Min Ago</p>
-                                </div>
-                            </div>
-
-                            <div class="d-flex mt-1">
-                                <div class="flex-grow-1">
-                                    <h6 class="mt-0 mb-1 fs-15 fw-normal">
-                                        <a href="" class="fw-bold">Hoàng Minh</a> đã bình luận trong yêu cầu của
-                                        <span class="fw-bold text-primary">KOL Mỹ Lan</span>
-                                    </h6>
-                                    <p class="text-muted">12 Min Ago</p>
-                                </div>
-                            </div>
-                            <a href="/" class="btn btn-primary btn-sm float-end">View All</a>
                         </div>
 
                     </div>
