@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +23,64 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/demo',function (){
-   return view('admin-template.main.index');
-});
 
 Route::get('/', function () {
     return view('admin-template.page.dashboard.index');
 });
+
+Route::prefix('phong-ban')->group(function () {
+    Route::get('danh-sach', [DepartmentController::class, 'getDepartmentList'])->name('get.department'); // Lấy danh sách phòng ban
+    Route::get('them-moi', [DepartmentController::class, 'createDepartment'])->name('create.department'); // Màn thêm mới phòng ban
+    Route::post('luu', [DepartmentController::class, 'storeDepartment'])->name('store.department'); // Lưu thông tin phòng ban
+    Route::get('cap-nhat/{department_id}', [DepartmentController::class, 'editDepartmentById'])->name('edit.department'); // Màn sửa thông tin phòng ban
+    Route::put('cap-nhat/{department_id}', [DepartmentController::class, 'updateDepartmentById'])->name('update.department'); // Cập nhật thông tin phòng ban, thành viên của phòng ban
+    Route::delete('xoa/{department_id}', [DepartmentController::class, 'deleteTaskById'])->name('destroy.department'); // Xóa phòng ban
+});
+
+Route::prefix('nguoi-dung')->group(function () {
+    Route::get('danh-sach', [MemberController::class, 'getUserList'])->name('get.member'); // Lấy danh sách người dùng
+    Route::get('them-moi', [MemberController::class, 'createUser'])->name('create.member'); // Thêm người dùng (admin)
+//    Route::post('luu',[MemberController::class,'storeUser'])->name('store.member');
+//    Route::get('cap-nhat/{user-id}',[MemberController::class,'editUserById'])->name('edit.member');
+//    Route::put('cap-nhat/{user-id}',[MemberController::class,'updateUserById'])->name('update.member');
+//    Route::delete('xoa/{user-id}',[MemberController::class,'deleteUserById'])->name('destroy.member');
+
+    Route::get('dang-nhap', [MemberController::class, 'getLoginView'])->name('get.user.login');
+//    Route::get('kiem-tra',[MemberController::class,'getUserList'])->name('post.user.check');
+    Route::get('dang-ky', [MemberController::class, 'getRegisterView'])->name('get.user.register'); // Đăng ký tài khoản bởi người dùng
+//    Route::get('dang-xuat',[MemberController::class,'getUserList'])->name('get.user.logout');
+
+});
+
+Route::prefix('cong-viec')->group(function () {
+    Route::get('danh-sach', [TaskController::class, 'getTaskList'])->name('get.task'); //Lấy danh sách nhiệm vụ
+    Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskListByDepartmentId'])->name('get.task.department'); //Lấy danh sách nhiệm vụ theo phòng ban
+    Route::get('chi-tiet/{task_id}', [TaskController::class, 'getTaskDetail'])->name('get.task.id'); //Lấy thông tin nhiệm vụ theo id
+    //Cập nhật thông tin nhiệm vụ theo id - Gắn người phụ trách vào nhiệm vụ theo id
+});
+
+Route::prefix('yeu-cau')->group(function () {
+    Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
+    Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
+    Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
+    Route::post('luu', [TaskController::class, 'storeUser'])->name('store.taskOrder'); //Lưu yêu cầu (nhiệm vụ dạng đang chờ)
+    Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
+//    Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTaskOrder'])->name('edit.taskOrder'); //Màn cập nhật yêu cầu (nhiệm vụ)
+    Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTaskOrderById'])->name('update.taskOrder'); //Dùng để cập nhật yêu cầu: Gồm cập nhật trạng thái, cập nhật người phụ trách
+    Route::delete('xoa/{task_id}', [TaskController::class, 'deleteTaskOrderById'])->name('destroy.taskOrder'); //Xóa yêu cầu (nhiệm vụ)
+});
+Route::prefix('media')->group(function () {
+    Route::get('danh-sach', [MediaController::class, 'getViewMediaStorage'])->name('get.media'); // Màn upload media kèm tên file, người up, danh mục media
+//    Route::get('them-moi',[MediaController::class,'createUser'])->name('create.user');
+//    Route::post('luu',[MediaController::class,'storeUser'])->name('store.user');
+//    Route::delete('xoa/{user-id}',[MediaController::class,'deleteUserById'])->name('destroy.user');
+});
+
+
+
+
+
+
 
 //Route::get('/', function () {
 //    return view('upload');
@@ -41,28 +96,3 @@ Route::get('/', function () {
 //    $fileUrl = \Illuminate\Support\Facades\Storage::put('file', $request->image);
 //    dd($fileUrl, $file->extension(), $file);
 //});
-
-Route::prefix('phong-ban')->group(function (){
-    Route::get('danh-sach',[PageController::class,'getDepartmentList'])->name('get.department');
-    Route::get('them-moi',[PageController::class,'createDepartment'])->name('create.department');
-    Route::post('luu',[PageController::class,'storeDepartment'])->name('store.department');
-    Route::get('cap-nhat/{department-id}',[PageController::class,'getDepartmentById'])->name('get.department');
-    Route::put('cap-nhat/{department-id}',[PageController::class,'updateDepartmentById'])->name('get.department');
-    Route::delete('xoa/{department-id}',[PageController::class,'deleteTaskById'])->name('destroy.department');
-});
-Route::prefix('cong-viec')->group(function (){
-    Route::get('danh-sach',[PageController::class,'getTaskList'])->name('get.task');
-    Route::get('them-moi',[PageController::class,'createTask'])->name('create.task');
-    Route::post('luu',[PageController::class,'storeTask'])->name('store.task');
-    Route::get('cap-nhat/{task-id}',[PageController::class,'editTaskById'])->name('edit.task');
-    Route::put('cap-nhat/{task-id}',[PageController::class,'updateTaskById'])->name('update.task');
-    Route::delete('xoa/{task-id}',[PageController::class,'deleteTaskById'])->name('destroy.task');
-});
-Route::prefix('nguoi-dung')->group(function (){
-    Route::get('danh-sach',[PageController::class,'getUserList'])->name('get.user');
-    Route::get('them-moi',[PageController::class,'createUser'])->name('create.user');
-    Route::post('luu',[PageController::class,'storeUser'])->name('store.user');
-    Route::get('cap-nhat/{user-id}',[PageController::class,'editUserById'])->name('edit.user');
-    Route::put('cap-nhat/{user-id}',[PageController::class,'updateUserById'])->name('update.user');
-    Route::delete('xoa/{user-id}',[PageController::class,'deleteUserById'])->name('destroy.user');
-});

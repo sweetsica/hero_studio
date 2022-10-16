@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('member_id')->nullable(); //Người gửi bình luận
-            $table->unsignedBigInteger('task_id')->nullable(); //Id task chứa bình luận
+            $table->unsignedBigInteger('member_id'); //Người gửi bình luận
+            $table->unsignedBigInteger('task_id'); //Id task chứa bình luận
+            $table->string('content');
             $table->boolean('status')->nullable(); //Trạng thái bình luận
             $table->dateTime('deleted_at')->nullable(); //Thời gian xóa bình luận
             $table->timestamps();

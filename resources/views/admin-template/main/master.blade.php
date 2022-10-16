@@ -2,31 +2,35 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
-    <title>Hero Studio | Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
-    <meta content="Coderthemes" name="author"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('admin-asset/assets/images/favicon.ico') }}"/>
+    @if(View::hasSection('content-js'))
+        @yield('content-css')
+    @else()
+        <meta charset="utf-8"/>
+        <title>Hero Studio | Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+        <meta content="Coderthemes" name="author"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{ asset('admin-asset/assets/images/favicon.ico') }}"/>
 
-    <!-- plugins -->
-    <link href="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css"/>
+        <!-- plugins -->
+        <link href="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css"/>
 
-    <!-- App css -->
-    <link href="{{ asset('admin-asset/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"
-          id="bs-default-stylesheet"/>
-    <link href="{{ asset('admin-asset/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"
-          id="app-default-stylesheet"/>
+        <!-- App css -->
+        <link href="{{ asset('admin-asset/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"
+              id="bs-default-stylesheet"/>
+        <link href="{{ asset('admin-asset/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"
+              id="app-default-stylesheet"/>
 
-    <link href="{{ asset('admin-asset/assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css"
-          id="bs-dark-stylesheet" disabled/>
-    <link href="{{ asset('admin-asset/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css"
-          id="app-dark-stylesheet" disabled/>
+        <link href="{{ asset('admin-asset/assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css"
+              id="bs-dark-stylesheet" disabled/>
+        <link href="{{ asset('admin-asset/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css"
+              id="app-dark-stylesheet" disabled/>
 
-    <!-- icons -->
-    <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
+        <!-- icons -->
+        <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
+    @endif
 </head>
 
 <body class="loading"
@@ -424,7 +428,11 @@
 
     <!-- ========== Left Sidebar Start ========== -->
     <div class="left-side-menu">
-        @yield('content-left-sidebar')
+        @if(View::hasSection('content-left-sidebar'))
+            @yield('content-left-sidebar')
+        @else
+            @include('admin-template.main.side-menu')
+        @endif
     </div>
     <!-- Left Sidebar End -->
 
@@ -436,7 +444,12 @@
         @yield('content-page')
         <!-- Footer Start -->
         <footer class="footer">
-            @yield('content-footer')
+            @if(View::hasSection('content-footer'))
+                @yield('content-footer')
+            @else
+                @include('admin-template.main.footer')
+            @endif
+
         </footer>
         <!-- end Footer -->
     </div>
@@ -447,151 +460,24 @@
 </div>
 <!-- END wrapper -->
 
-{{--<!-- Right Sidebar -->--}}
-{{--<div class="right-bar">--}}
-{{--    <div data-simplebar class="h-100">--}}
-{{--        <h6 class="fw-medium px-3 m-0 py-2 text-uppercase bg-light">--}}
-{{--            <span class="d-block py-1">Theme Settings</span>--}}
-{{--        </h6>--}}
+@if(View::hasSection('content-js'))
+    @yield('content-js')
+@else()
+    <!-- Vendor js -->
+    <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
+    <!-- optional plugins -->
+    <script src="{{ asset('admin-asset/assets/libs/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
 
-{{--        <div class="p-3">--}}
-{{--            <div class="alert alert-warning" role="alert">--}}
-{{--                <strong>Customize </strong> the overall color scheme, sidebar menu,--}}
-{{--                etc.--}}
-{{--            </div>--}}
+    <!-- page js -->
+    <script src="{{ asset('admin-asset/assets/js/pages/dashboard.init.js') }}"></script>
 
-{{--            <h6 class="fw-medium mt-4 mb-2 pb-1">Color Scheme</h6>--}}
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="color-scheme-mode" value="light"--}}
-{{--                       id="light-mode-check" checked/>--}}
-{{--                <label class="form-check-label" for="light-mode-check">Light Mode</label>--}}
-{{--            </div>--}}
+    <!-- App js -->
+    <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
+@endif
 
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="color-scheme-mode" value="dark"--}}
-{{--                       id="dark-mode-check"/>--}}
-{{--                <label class="form-check-label" for="dark-mode-check">Dark Mode</label>--}}
-{{--            </div>--}}
 
-{{--            <!-- Width -->--}}
-{{--            <h6 class="fw-medium mt-4 mb-2 pb-1">Width</h6>--}}
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="width" value="fluid" id="fluid-check"--}}
-{{--                       checked/>--}}
-{{--                <label class="form-check-label" for="fluid-check">Fluid</label>--}}
-{{--            </div>--}}
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="width" value="boxed"--}}
-{{--                       id="boxed-check"/>--}}
-{{--                <label class="form-check-label" for="boxed-check">Boxed</label>--}}
-{{--            </div>--}}
-
-{{--            <!-- Menu positions -->--}}
-{{--            <h6 class="fw-medium mt-4 mb-2 pb-1">--}}
-{{--                Menus (Leftsidebar and Topbar) Positon--}}
-{{--            </h6>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="menus-position" value="fixed"--}}
-{{--                       id="fixed-check" checked/>--}}
-{{--                <label class="form-check-label" for="fixed-check">Fixed</label>--}}
-{{--            </div>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="menus-position" value="scrollable"--}}
-{{--                       id="scrollable-check"/>--}}
-{{--                <label class="form-check-label" for="scrollable-check">Scrollable</label>--}}
-{{--            </div>--}}
-
-{{--            <!-- Left Sidebar-->--}}
-{{--            <h6 class="fw-medium mt-4 mb-2 pb-1">Left Sidebar Color</h6>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="leftsidebar-color" value="light"--}}
-{{--                       id="light-check" checked/>--}}
-{{--                <label class="form-check-label" for="light-check">Light</label>--}}
-{{--            </div>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="leftsidebar-color" value="dark"--}}
-{{--                       id="dark-check"/>--}}
-{{--                <label class="form-check-label" for="dark-check">Dark</label>--}}
-{{--            </div>--}}
-
-{{--            <!-- size -->--}}
-{{--            <h6 class="fw-medium mt-4 mb-2 pb-1">Left Sidebar Size</h6>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="leftsidebar-size" value="default"--}}
-{{--                       id="default-size-check" checked/>--}}
-{{--                <label class="form-check-label" for="default-size-check">Default</label>--}}
-{{--            </div>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="leftsidebar-size" value="condensed"--}}
-{{--                       id="condensed-check"/>--}}
-{{--                <label class="form-check-label" for="condensed-check">Condensed <small>(Extra Small--}}
-{{--                        size)</small></label>--}}
-{{--            </div>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="leftsidebar-size" value="compact"--}}
-{{--                       id="compact-check"/>--}}
-{{--                <label class="form-check-label" for="compact-check">Compact <small>(Small size)</small></label>--}}
-{{--            </div>--}}
-
-{{--            <!-- User info -->--}}
-{{--            <h6 class="fw-medium mt-4 mb-2 pb-1">Sidebar User Info</h6>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="leftsidebar-user" value="fixed"--}}
-{{--                       id="sidebaruser-check"/>--}}
-{{--                <label class="form-check-label" for="sidebaruser-check">Enable</label>--}}
-{{--            </div>--}}
-
-{{--            <!-- Topbar -->--}}
-{{--            <h6 class="fw-medium mt-4 mb-2 pb-1">Topbar</h6>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="topbar-color" value="dark"--}}
-{{--                       id="darktopbar-check" checked/>--}}
-{{--                <label class="form-check-label" for="darktopbar-check">Dark</label>--}}
-{{--            </div>--}}
-
-{{--            <div class="form-switch mb-1">--}}
-{{--                <input type="checkbox" class="form-check-input" name="topbar-color" value="light"--}}
-{{--                       id="lighttopbar-check"/>--}}
-{{--                <label class="form-check-label" for="lighttopbar-check">Light</label>--}}
-{{--            </div>--}}
-
-{{--            <button class="btn btn-primary w-100 mt-4" id="resetBtn">--}}
-{{--                Reset to Default--}}
-{{--            </button>--}}
-
-{{--            <a href="https://1.envato.market/shreyu_admin" class="btn btn-danger d-block mt-3" target="_blank">--}}
-{{--                <i class="mdi mdi-basket me-1"></i> Purchase Now--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <!-- end slimscroll-menu-->--}}
-{{--</div>--}}
-{{--<!-- /Right-bar -->--}}
-
-<!-- Right bar overlay-->
-<div class="rightbar-overlay"></div>
-
-<!-- Vendor js -->
-<script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
-<!-- optional plugins -->
-<script src="{{ asset('admin-asset/assets/libs/moment/min/moment.min.js') }}"></script>
-<script src="{{ asset('admin-asset/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-<script src="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
-
-<!-- page js -->
-<script src="{{ asset('admin-asset/assets/js/pages/dashboard.init.js') }}"></script>
-
-<!-- App js -->
-<script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
 </body>
 
 </html>

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use HasFactory;
+
+    const STATUS = [
+        'READY' => 1
+    ];
     protected $guarded = [];
 
     public function members() {
