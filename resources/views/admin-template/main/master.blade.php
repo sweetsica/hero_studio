@@ -136,41 +136,41 @@
                     <!-- End mobile menu toggle-->
                 </li>
 
-                <li class="dropdown d-none d-xl-block">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="false" aria-expanded="false">
-                        Create New
-                        <i class="uil uil-angle-down"></i>
-                    </a>
-                    <div class="dropdown-menu">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="uil uil-bag me-1"></i><span>New Projects</span>
-                        </a>
+{{--                <li class="dropdown d-none d-xl-block">--}}
+{{--                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"--}}
+{{--                       aria-haspopup="false" aria-expanded="false">--}}
+{{--                        Create New--}}
+{{--                        <i class="uil uil-angle-down"></i>--}}
+{{--                    </a>--}}
+{{--                    <div class="dropdown-menu">--}}
+{{--                        <!-- item-->--}}
+{{--                        <a href="javascript:void(0);" class="dropdown-item">--}}
+{{--                            <i class="uil uil-bag me-1"></i><span>New Projects</span>--}}
+{{--                        </a>--}}
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="uil uil-user-plus me-1"></i><span>Create Users</span>
-                        </a>
+{{--                        <!-- item-->--}}
+{{--                        <a href="javascript:void(0);" class="dropdown-item">--}}
+{{--                            <i class="uil uil-user-plus me-1"></i><span>Create Users</span>--}}
+{{--                        </a>--}}
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="uil uil-chart-pie me-1"></i><span>Revenue Report</span>
-                        </a>
+{{--                        <!-- item-->--}}
+{{--                        <a href="javascript:void(0);" class="dropdown-item">--}}
+{{--                            <i class="uil uil-chart-pie me-1"></i><span>Revenue Report</span>--}}
+{{--                        </a>--}}
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="uil uil-cog me-1"></i><span>Settings</span>
-                        </a>
+{{--                        <!-- item-->--}}
+{{--                        <a href="javascript:void(0);" class="dropdown-item">--}}
+{{--                            <i class="uil uil-cog me-1"></i><span>Settings</span>--}}
+{{--                        </a>--}}
 
-                        <div class="dropdown-divider"></div>
+{{--                        <div class="dropdown-divider"></div>--}}
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="uil uil-question-circle me-1"></i><span>Help & Support</span>
-                        </a>
-                    </div>
-                </li>
+{{--                        <!-- item-->--}}
+{{--                        <a href="javascript:void(0);" class="dropdown-item">--}}
+{{--                            <i class="uil uil-question-circle me-1"></i><span>Help & Support</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
             </ul>
             <div class="clearfix"></div>
         </div>
