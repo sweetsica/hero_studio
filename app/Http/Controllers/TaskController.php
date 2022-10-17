@@ -29,7 +29,7 @@ class TaskController extends Controller
 
     public function createTaskOrder()
     {
-        $tasks = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
+        $tasks = Task::with(['member', 'department'])->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
         $departments = Department::all();
         $members = Member::all();
 

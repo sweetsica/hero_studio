@@ -17,4 +17,12 @@ class Task extends Model
     ];
 
     protected $guarded = [];
+
+    public function member() {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function department() {
+        return $this->belongsTo(Department::class);
+    }
 }

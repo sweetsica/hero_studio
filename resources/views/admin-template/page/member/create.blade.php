@@ -154,16 +154,15 @@
     <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
     <!-- optional plugins -->
     <script src="{{ asset('admin-asset/assets/libs/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
-
-    <!-- page js -->
-    <script src="{{ asset('admin-asset/assets/js/pages/dashboard.init.js') }}"></script>
 
     <!-- App js -->
     <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
     <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
 
+
+
+    <!-- Data table neccessary -->
     <script src="{{ asset('admin-asset/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('admin-asset/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script

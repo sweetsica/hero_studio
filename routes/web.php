@@ -85,6 +85,10 @@ Route::prefix('media')->group(function () {
 });
 
 
+Route::get('test', function() {
+    return view('welcome');
+});
+
 
 
 
