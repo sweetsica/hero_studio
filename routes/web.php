@@ -7,6 +7,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\TaskController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +20,17 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 
 Route::get('/', function () {
-    return view('admin-template.page.dashboard.index');
+    if(!Auth::user()==null){
+        return view('admin-template.page.dashboard.index');
+    }else{
+        return redirect()->route('get.user.login');
+    }
 });
 
 Route::get('nguoi-dung/dang-nhap', [MemberController::class, 'getLoginView'])->name('get.user.login');

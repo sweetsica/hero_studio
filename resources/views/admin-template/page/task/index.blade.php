@@ -33,8 +33,8 @@
                                     <!-- cta -->
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <a href="#" class="btn btn-primary">
-                                                <i class='uil uil-plus me-1'></i>Add New
+                                            <a href="{{route('create.taskOrder')}}" class="btn btn-primary">
+                                                <i class='uil uil-plus me-1'></i>Thêm mới yêu cầu
                                             </a>
                                         </div>
                                         <div class="col-sm-9">

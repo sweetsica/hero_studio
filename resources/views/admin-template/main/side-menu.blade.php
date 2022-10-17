@@ -119,9 +119,9 @@
                 </a>
                 <div class="collapse" id="sidebarTaskKOL">
                     <ul class="nav-second-level">
-                        <li><a href="#">Tạo yêu cầu</a></li>
-                        <li><a href="#">Danh sách yêu cầu</a></li>
-                        <li><a href="#">Phân công nhiệm vụ</a></li>
+                        <li><a href="{{route('create.taskOrder')}}">Tạo yêu cầu</a></li>
+                        <li><a href="{{route('get.task')}}">Danh sách yêu cầu</a></li>
+{{--                        <li><a href="#">Phân công nhiệm vụ</a></li>--}}
                     </ul>
                 </div>
             </li>
@@ -185,7 +185,7 @@
             @endif
             <li>
                 <a href="{{route('logout')}}">
-                    <i data-feather="home"></i>
+                    <i class="uil uil-exit"></i>
                     <span> Đăng xuất </span>
                     <!-- <span class="menu-arrow"></span> -->
                 </a>
