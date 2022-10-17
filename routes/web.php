@@ -51,7 +51,6 @@ Route::prefix('nguoi-dung')->group(function () {
     Route::get('dang-ky', [MemberController::class, 'getRegisterView'])->name('get.user.register'); // Đăng ký tài khoản bởi người dùng
     Route::post('dang-ky', [MemberController::class, 'registerUser']); // Đăng ký tài khoản bởi người dùng
 //    Route::get('dang-xuat',[MemberController::class,'getUserList'])->name('get.user.logout');
-
 });
 
 Route::prefix('cong-viec')->group(function () {
@@ -84,6 +83,7 @@ Route::prefix('media')->group(function () {
 //    Route::delete('xoa/{user-id}',[MediaController::class,'deleteUserById'])->name('destroy.user');
 });
 
+Route::post('comment/{taskId}', [TaskController::class, 'comment'])->name('comment-task');
 
 Route::get('test', function() {
     return view('welcome');

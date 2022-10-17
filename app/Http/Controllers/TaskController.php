@@ -29,10 +29,9 @@ class TaskController extends Controller
 
     public function createTaskOrder()
     {
-        $tasks = Task::with(['member', 'department'])->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
+        $tasks = Task::with(['member', 'department', 'comments'])->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
         $departments = Department::all();
         $members = Member::all();
-
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
     }
@@ -40,7 +39,7 @@ class TaskController extends Controller
     public function editTask($id)
     {
         $tasks = Task::all();
-        $task = Task::find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
+        $task = Task::with('comments.member')->find($id);
         $departments = Department::all();
         $members = Member::all();
 
@@ -59,7 +58,7 @@ class TaskController extends Controller
     public function getTaskDetail($id)
     {
         $tasks = Task::all();
-        $task = Task::find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
+        $task = Task::with('comments.member')->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
         $departments = Department::all();
         $members = Member::all();
 
@@ -92,5 +91,9 @@ class TaskController extends Controller
         Task::create($request->only($validKeys));
 
         return redirect()->back();
+    }
+
+    public function comment(Request $request, $id) {
+        dd($request->all(), $id, session()->get('user'));
     }
 }
