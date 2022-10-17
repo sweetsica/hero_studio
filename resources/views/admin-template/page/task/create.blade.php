@@ -27,6 +27,7 @@
     <!-- icons -->
     <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('admin-asset/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content-page')
@@ -68,54 +69,56 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" method="POST" action="{{route('store.taskOrder')}}">
+                                @csrf
                                 <div class="mb-2 row">
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                                        <input name="name" type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1" >Nơi đăng tải</label>
-                                        <select class="form-select">
+                                        <select name="source" class="form-select">
                                             <option selected="" disabled>Chọn nguồn</option>
-                                            <option value="1">Facebook</option>
-                                            <option value="2">Tiktok</option>
-                                            <option value="3">Youtube</option>
+                                            <option value="Facebook">Facebook</option>
+                                            <option value="Tiktok">Tiktok</option>
+                                            <option value="Youtube">Youtube</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                                    <input name="content" type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
                                     <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài tầm 3' để up facebook)</small>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                                    <input name="url_source" type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
                                     <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với link google driver)</small>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-6">
-                                        <select class="form-select">
-                                            <option selected="">Người được giao</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select class="form-select" name="member_id">
+                                            <option selected disabled>Người được giao</option>
+                                            @foreach($members as $member)
+                                                <option value="{{$member->id}}">{{ $member->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <select class="form-select">
-                                            <option selected="">Phòng ban phụ trách</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select class="form-select" name="department_id">
+                                            <option selected disabled>Phòng ban phụ trách</option>
+                                            @foreach($departments as $department)
+                                                <option value="{{$department->id}}">{{ $department->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-2">
-                                            <input type="text" id="datetime-datepicker" class="form-control flatpickr-input active" placeholder="Thời hạn" readonly="readonly">
+{{--                                            <input type="text" id="datetime-datepicker" class="form-control flatpickr-input active" placeholder="Thời hạn" readonly="readonly">--}}
+                                            <input name="deadline" class="form-control flatpickr-input active" type="datetime-local">
                                         </div>
                                     </div>
                                     <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời hạn, chỉ quản lý mới thay đổi được thời hạn)</small>

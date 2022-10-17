@@ -1,36 +1,5 @@
 @extends('admin-template.main.master')
 
-@section('content-css')
-    <meta charset="utf-8"/>
-    <title>Hero Studio | Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
-    <meta content="Coderthemes" name="author"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('admin-asset/assets/images/favicon.ico') }}"/>
-
-    <!-- plugins -->
-    <link href="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css"/>
-
-    <!-- App css -->
-    <link href="{{ asset('admin-asset/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"
-          id="bs-default-stylesheet"/>
-    <link href="{{ asset('admin-asset/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"
-          id="app-default-stylesheet"/>
-
-    <link href="{{ asset('admin-asset/assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css"
-          id="bs-dark-stylesheet" disabled/>
-    <link href="{{ asset('admin-asset/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css"
-          id="app-dark-stylesheet" disabled/>
-
-    <!-- icons -->
-    <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('admin-asset/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}"
-          rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-
 @section('content-page')
     <div class="content">
         <!-- Start Content-->
@@ -39,10 +8,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">PHÂN CÔNG YÊU CẦU</h4>
+                        <h4 class="page-title">TẠO MỚI THÀNH VIÊN</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Yêu cầu</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Thành viên</a></li>
                                 <li class="breadcrumb-item active">Tạo mới</li>
                             </ol>
                         </div>
@@ -52,41 +21,6 @@
             <!-- end page title -->
 
             <div class="row">
-                <!-- calendar -->
-                <div class="col-xl-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="dropdown float-end">
-                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    <i class="uil uil-ellipsis-v"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="uil uil-edit-alt me-2"></i>Edit
-                                    </a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="uil uil-refresh me-2"></i>Refresh
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item text-danger">
-                                        <i class="uil uil-trash me-2"></i>Delete
-                                    </a>
-                                </div>
-                            </div>
-                            <h6 class="header-title mb-4">Lịch</h6>
-
-                            <div class="row calendar-widget col-md-12">
-                                <div class="col-sm-12">
-                                    <div id="calendar-widget" class="col-md-12"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- form information -->
                 <div class="col-xl-5">
                     <div class="card">
@@ -113,143 +47,38 @@
                                 </div>
                             </div>
 
-                            <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
-                            <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}" method="POST">
+                            <h4 class="header-title mb-4">Thông tin thành viên</h4>
+                            <form class="form-horizontal" method="POST">
                                 @csrf
                                 <div class="mb-2 row">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
-                                        <input value="{{ $task->name }}" type="text" class="form-control"
-                                               style="background-color: #e2e3e5" aria-describedby="emailHelp"
-                                               placeholder="Thiết kế video cho KOL Tùng Hoàng" disabled>
+                                    <div class="col-md-8">
+                                        <label class="form-label" for="exampleInputEmail1">Tên thành viên</label>
+                                        <input name="" type="text" class="form-control"
+                                               aria-describedby="emailHelp"
+                                               placeholder="Nguyễn Văn A" required
+                                        >
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
-                                        <select class="form-select" disabled style="background-color: #e2e3e5">
-                                            <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
-                                                Facebook
-                                            </option>
-                                            <option value="Tiktok" @if($task->source === 'Tiktok') selected @endif>
-                                                Tiktok
-                                            </option>
-                                            <option value="Youtube @if($task->source === 'Youtube') selected @endif">
-                                                Youtube
-                                            </option>
-                                        </select>
+                                    <div class="col-md-8 mt-2">
+                                        <label class="form-label" for="exampleInputEmail1">Email thành viên</label>
+                                        <input name="email" type="email" class="form-control" required>
                                     </div>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                    <input value="{{ $task->content }}" type="text" class="form-control"
-                                           style="background-color: #e2e3e5" aria-describedby="emailHelp" disabled
-                                           placeholder="Video dài 2 phút, cần gắn logo vào">
-                                    <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
-                                        tầm 3' để up facebook)</small>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                    <input value="{{ $task->url_source }}" type="text" class="form-control"
-                                           style="background-color: #e2e3e5" aria-describedby="emailHelp" disabled
-                                           placeholder="https://www.facebook.com">
-                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
-                                        link google driver)</small>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <select name="member_id" class="form-select">
-                                            @foreach($members as $member)
-                                                <option value="{{$member->id}}"
-                                                        @if($task->member_id === $member->id) selected @endif>{{ $member->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-md-8 mt-2">
+                                        <label class="form-label" for="exampleInputEmail1">Mật khẩu mặc định</label>
+                                        <input name="password" type="password" class="form-control" required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <select name="department_id" class="form-select">
-                                            @foreach($departments as $department)
-                                                <option value="{{$department->id}}"
-                                                        @if($task->department_id === $department->id) selected @endif>{{ $department->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-md-8 mt-2">
+                                        <label class="form-label" for="exampleInputEmail1">Ngày sinh</label>
+                                        <input name="date" type="date" class="form-control">
+                                    </div>
+                                    <div class="col-md-8 mt-2">
+                                        <label class="form-label" for="exampleInputEmail1">Mã nhân viên</label>
+                                        <input name="code" type="text" class="form-control">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-2">
-                                            {{--                                            <input type="text" id="datetime-datepicker" class="form-control flatpickr-input active" placeholder="Thời hạn" readonly="readonly">--}}
-                                            <input value="{{$task->deadline}}" name="deadline"
-                                                   class="form-control flatpickr-input active" type="datetime-local">
-                                        </div>
-                                        <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời
-                                            hạn, chỉ quản lý mới thay đổi được thời hạn)</small>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <select name="status_code" class="form-select">
-                                            <option disabled selected value="1">Đang chờ nhận</option>
-                                            <option value="2">Đang thực hiện</option>
-                                            <option value="3">Đã hoàn thành</option>
-                                            <option value="4">Cần làm lại</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="float-end">
-                                    <button type="submit" class="btn btn-primary">Xác nhận yêu cầu</button>
-                                </div>
+                                <button type="submit" class="btn btn-primary">Tạo thành viên</button>
                             </form>
                         </div>
                     </div> <!-- end card-->
-                </div>
-                <!-- comments -->
-                <div class="col-xl-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="mb-4 fs-16">Bình luận về yêu cầu này</h4>
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <div class="d-flex mt-3 p-1">
-                                        <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}"
-                                             class="me-2 rounded-circle" height="36" alt="Arya Stark">
-                                        <div class="flex-grow-1">
-                                            <h5 class="mt-0 mb-0 fs-14">
-                                                <span class="float-end text-muted fs-12">4:30am</span>Minh Thanh
-                                            </h5>
-                                            <p class="mt-1 mb-0 text-muted">
-                                                Làm video này theo hướng vui nhộn nhé
-                                            </p>
-                                        </div>
-                                    </div> <!-- end comment -->
-                                    <hr>
-                                </div> <!-- end col -->
-                            </div>
-
-                            <div class="row mt-1">
-                                <div class="col">
-                                    <div class="border rounded">
-                                        <form action="#" class="comment-area-box">
-                                            <textarea rows="3" class="form-control border-0 resize-none"
-                                                      placeholder="Your comment..."></textarea>
-                                            <div class="p-2 bg-light">
-                                                <div class="float-end">
-                                                    <button type="submit" class="btn btn-sm btn-success">
-                                                        Gửi bình luận
-                                                    </button>
-                                                </div>
-                                                <div>
-                                                    {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                                                    {{--                                                        <i class="uil uil-cloud-upload"></i>--}}
-                                                    {{--                                                    </a>--}}
-                                                    {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                                                    <i class="uil uil-message me-1"></i>
-                                                    {{--                                                    </a>--}}
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div> <!-- end .border-->
-                                </div> <!-- end col-->
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
                 <!-- end col -->
             </div>
@@ -258,13 +87,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title mt-0 mb-1">Danh sách công việc phòng ban</h4>
-                        <p class="sub-header">
-                            DataTables has most features enabled by default, so all you need to do to use it with your
-                            own tables is to call the construction
-                            function: <code>$().DataTable();</code>.
-                        </p>
-
+                        <h4 class="header-title mt-0 mb-1">Danh sách nhân viên</h4>
                         <div id="basic-datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
@@ -463,35 +286,23 @@
     </div> <!-- content -->
 @endsection
 
-@section('content-js')
-    <!-- Vendor js -->
-    <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
-
-    <!-- optional plugins -->
-    <script src="{{ asset('admin-asset/assets/libs/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
-    <!-- page js -->
-    <script src="{{ asset('admin-asset/assets/js/pages/widgets.init.js') }}"></script>
-
-    <!-- App js -->
-    <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script
-        src="{{ asset('admin-asset/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script
-        src="{{ asset('admin-asset/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script
-        src="{{ asset('admin-asset/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-
-
+@section('content-footer')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                &copy; Shreyu theme by <a href="">Coderthemes</a>
+            </div>
+            <div class="col-md-6">
+                <div class="text-md-end footer-links d-none d-sm-block">
+                    <a href="javascript:void(0);">About Us</a>
+                    <a href="javascript:void(0);">Help</a>
+                    <a href="javascript:void(0);">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('admin-asset/assets/js/pages/datatables.init.js') }}"></script>
 @endsection

@@ -26,7 +26,9 @@
 
     <!-- icons -->
     <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('admin-asset/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('admin-asset/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}"
+          rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 
 @section('content-page')
@@ -68,7 +70,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="dropdown float-end">
-                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
                                     <i class="uil uil-ellipsis-v"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -89,71 +92,103 @@
                             </div>
 
                             <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" action="{{route('update.task.id', $task->id)}}" method="POST">
+                                @csrf
                                 <div class="mb-2 row">
                                     <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1" >Tên yêu cầu</label>
-                                        <input type="email" class="form-control" style="background-color: #e2e3e5" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Thiết kế video cho KOL Tùng Hoàng" disabled>
+                                        <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
+                                        <input value="{{ $task->name }}" type="text" class="form-control"
+                                               style="background-color: #e2e3e5" aria-describedby="emailHelp"
+                                               placeholder="Thiết kế video cho KOL Tùng Hoàng" disabled>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1" >Nơi đăng tải</label>
+                                        <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
                                         <select class="form-select" disabled style="background-color: #e2e3e5">
-                                            <option selected="">Facebook</option>
-                                            <option value="1">Facebook</option>
-                                            <option value="2">Tiktok</option>
-                                            <option value="3">Youtube</option>
+                                            <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
+                                                Facebook
+                                            </option>
+                                            <option value="Tiktok" @if($task->source === 'Tiktok') selected @endif>
+                                                Tiktok
+                                            </option>
+                                            <option value="Youtube @if($task->source === 'Youtube') selected @endif">
+                                                Youtube
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                    <input type="email" class="form-control" style="background-color: #e2e3e5" id="exampleInputEmail1" aria-describedby="emailHelp" disabled placeholder="Video dài 2 phút, cần gắn logo vào">
-                                    <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài tầm 3' để up facebook)</small>
+                                    <input value="{{ $task->content }}" type="text" class="form-control"
+                                           style="background-color: #e2e3e5" aria-describedby="emailHelp" disabled
+                                           placeholder="Video dài 2 phút, cần gắn logo vào">
+                                    <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
+                                        tầm 3' để up facebook)</small>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                    <input type="email" class="form-control" style="background-color: #e2e3e5" id="exampleInputEmail1" aria-describedby="emailHelp" disabled placeholder="https://www.facebook.com">
-                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với link google driver)</small>
+                                    <input value="{{ $task->url_source }}" type="text" class="form-control"
+                                           style="background-color: #e2e3e5" aria-describedby="emailHelp" disabled
+                                           placeholder="https://www.facebook.com">
+                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
+                                        link google driver)</small>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-6">
-                                        <select class="form-select" style="background-color: #e2e3e5" disabled>
-                                            <option selected="">Người được giao</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select name="member_id" class="form-select" style="background-color: #e2e3e5"
+                                                disabled>
+                                            @foreach($members as $member)
+                                                <option value="{{$member->id}}"
+                                                        @if($task->member_id === $member->id) selected @endif>{{ $member->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <select class="form-select" style="background-color: #e2e3e5" disabled>
-                                            <option selected="">Phòng ban phụ trách</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            @foreach($departments as $department)
+                                                <option value="{{$department->id}}"
+                                                        @if($task->department_id === $department->id) selected @endif>{{ $department->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-2">
-                                            <input type="text" id="datetime-datepicker" style="background-color: #e2e3e5" disabled class="form-control flatpickr-input active" placeholder="Thời hạn" readonly="readonly">
+                                            {{--                                            <input type="text" id="datetime-datepicker"--}}
+                                            {{--                                                   style="background-color: #e2e3e5" disabled--}}
+                                            {{--                                                   class="form-control flatpickr-input active" placeholder="Thời hạn"--}}
+                                            {{--                                                   readonly="readonly">--}}
+                                            <input value="{{$task->deadline}}" name="deadline"
+                                                   style="background-color: #e2e3e5"
+                                                   class="form-control flatpickr-input active" type="datetime-local"
+                                                   disabled>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <select class="form-select">
-                                            <option disabled selected="">Đang chờ nhận</option>
-                                            <option value="1">Đang thực hiện</option>
-                                            <option value="2">Đã hoàn thành</option>
-                                            <option value="3">Cần làm lại</option>
+                                        <select name="status_code" class="form-select">
+                                            <option disabled value="1" @if($task->status_code === 1) selected @endif>
+                                                Đang chờ nhận
+                                            </option>
+                                            <option value="2" @if($task->status_code === 2) selected @endif>Đang thực
+                                                hiện
+                                            </option>
+                                            <option value="3" @if($task->status_code === 3) selected @endif>Đã hoàn
+                                                thành
+                                            </option>
+                                            <option value="4" @if($task->status_code === 4) selected @endif">Cần làm
+                                            lại</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="mb-2">
                                         <label class="form-label" for="exampleInputEmail1">Link sản phẩm</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
-                                        <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với link google driver)</small>
+                                        <input value="{{$task->url_others}}" name="url_others" type="text"
+                                               class="form-control" id="exampleInputEmail1"
+                                               aria-describedby="emailHelp" placeholder="">
+                                        <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ
+                                            với link google driver)</small>
                                     </div>
                                 </div>
                                 <div class="float-end">
@@ -171,7 +206,8 @@
                             <div class="row mt-3">
                                 <div class="col">
                                     <div class="d-flex mt-3 p-1">
-                                        <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}" class="me-2 rounded-circle" height="36" alt="Arya Stark">
+                                        <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}"
+                                             class="me-2 rounded-circle" height="36" alt="Arya Stark">
                                         <div class="flex-grow-1">
                                             <h5 class="mt-0 mb-0 fs-14">
                                                 <span class="float-end text-muted fs-12">4:30am</span>Minh Thanh
@@ -185,7 +221,8 @@
                                     <hr>
 
                                     <div class="d-flex p-1">
-                                        <img src="{{asset('admin-asset/assets/images/users/avatar-5.jpg')}}" class="me-2 rounded-circle" height="36" alt="Dominc B">
+                                        <img src="{{asset('admin-asset/assets/images/users/avatar-5.jpg')}}"
+                                             class="me-2 rounded-circle" height="36" alt="Dominc B">
                                         <div class="flex-grow-1">
                                             <h5 class="mt-0 mb-0 fs-14">
                                                 <span class="float-end text-muted fs-12">5:30am</span>Trung Quân
@@ -205,7 +242,8 @@
                                 <div class="col">
                                     <div class="border rounded">
                                         <form action="#" class="comment-area-box">
-                                            <textarea rows="3" class="form-control border-0 resize-none" placeholder="Your comment..."></textarea>
+                                            <textarea rows="3" class="form-control border-0 resize-none"
+                                                      placeholder="Your comment..."></textarea>
                                             <div class="p-2 bg-light">
                                                 <div class="float-end">
                                                     <button type="submit" class="btn btn-sm btn-success">
@@ -238,7 +276,8 @@
                     <div class="card-body">
                         <h4 class="header-title mt-0 mb-1">Tiến độ công việc</h4>
                         <p class="sub-header">
-                            DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction
+                            DataTables has most features enabled by default, so all you need to do to use it with your
+                            own tables is to call the construction
                             function: <code>$().DataTable();</code>.
                         </p>
 
@@ -247,7 +286,8 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="dataTables_length" id="basic-datatable_length">
                                         <label class="form-label">Show
-                                            <select name="basic-datatable_length" aria-controls="basic-datatable" class="form-control form-control-sm form-select form-select-sm">
+                                            <select name="basic-datatable_length" aria-controls="basic-datatable"
+                                                    class="form-control form-control-sm form-select form-select-sm">
                                                 <option value="10">10</option>
                                                 <option value="25">25</option>
                                                 <option value="50">50</option>
@@ -258,15 +298,44 @@
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <div id="basic-datatable_filter" class="dataTables_filter">
-                                        <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="basic-datatable"></label>
+                                        <label>Search:<input type="search" class="form-control form-control-sm"
+                                                             placeholder="" aria-controls="basic-datatable"></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100 dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable-buttons_info" style="width: 1521px;">
+                                    <table id="datatable-buttons"
+                                           class="table table-striped dt-responsive nowrap w-100 dataTable no-footer dtr-inline"
+                                           role="grid" aria-describedby="datatable-buttons_info" style="width: 1521px;">
                                         <thead>
-                                        <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 255.4px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 373.4px;" aria-label="Position: activate to sort column ascending">Position</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 190.4px;" aria-label="Office: activate to sort column ascending">Office</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 96.4px;" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 178.4px;" aria-label="Start date: activate to sort column ascending">Start date</th><th class="sorting" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" style="width: 165.4px;" aria-label="Salary: activate to sort column ascending">Salary</th></tr>
+                                        <tr role="row">
+                                            <th class="sorting sorting_asc" tabindex="0"
+                                                aria-controls="datatable-buttons" rowspan="1" colspan="1"
+                                                style="width: 255.4px;" aria-sort="ascending"
+                                                aria-label="Name: activate to sort column descending">Name
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 373.4px;"
+                                                aria-label="Position: activate to sort column ascending">Position
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 190.4px;"
+                                                aria-label="Office: activate to sort column ascending">Office
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 96.4px;"
+                                                aria-label="Age: activate to sort column ascending">Age
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 178.4px;"
+                                                aria-label="Start date: activate to sort column ascending">Start date
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 165.4px;"
+                                                aria-label="Salary: activate to sort column ascending">Salary
+                                            </th>
+                                        </tr>
                                         </thead>
                                         <tbody>
                                         <tr class="odd">
@@ -276,76 +345,88 @@
                                             <td>33</td>
                                             <td>2008/11/28</td>
                                             <td>$162,700</td>
-                                        </tr><tr class="even">
+                                        </tr>
+                                        <tr class="even">
                                             <td class="sorting_1 dtr-control">Angelica Ramos</td>
                                             <td>Chief Executive Officer (CEO)</td>
                                             <td>London</td>
                                             <td>47</td>
                                             <td>2009/10/09</td>
                                             <td>$1,200,000</td>
-                                        </tr><tr class="odd">
+                                        </tr>
+                                        <tr class="odd">
                                             <td class="dtr-control sorting_1" tabindex="0">Ashton Cox</td>
                                             <td>Junior Technical Author</td>
                                             <td>San Francisco</td>
                                             <td>66</td>
                                             <td>2009/01/12</td>
                                             <td>$86,000</td>
-                                        </tr><tr class="even">
+                                        </tr>
+                                        <tr class="even">
                                             <td class="sorting_1 dtr-control">Bradley Greer</td>
                                             <td>Software Engineer</td>
                                             <td>London</td>
                                             <td>41</td>
                                             <td>2012/10/13</td>
                                             <td>$132,000</td>
-                                        </tr><tr class="odd">
+                                        </tr>
+                                        <tr class="odd">
                                             <td class="sorting_1 dtr-control">Brenden Wagner</td>
                                             <td>Software Engineer</td>
                                             <td>San Francisco</td>
                                             <td>28</td>
                                             <td>2011/06/07</td>
                                             <td>$206,850</td>
-                                        </tr><tr class="even">
+                                        </tr>
+                                        <tr class="even">
                                             <td class="dtr-control sorting_1" tabindex="0">Brielle Williamson</td>
                                             <td>Integration Specialist</td>
                                             <td>New York</td>
                                             <td>61</td>
                                             <td>2012/12/02</td>
                                             <td>$372,000</td>
-                                        </tr><tr class="odd">
+                                        </tr>
+                                        <tr class="odd">
                                             <td class="sorting_1 dtr-control">Bruno Nash</td>
                                             <td>Software Engineer</td>
                                             <td>London</td>
                                             <td>38</td>
                                             <td>2011/05/03</td>
                                             <td>$163,500</td>
-                                        </tr><tr class="even">
+                                        </tr>
+                                        <tr class="even">
                                             <td class="sorting_1 dtr-control">Caesar Vance</td>
                                             <td>Pre-Sales Support</td>
                                             <td>New York</td>
                                             <td>21</td>
                                             <td>2011/12/12</td>
                                             <td>$106,450</td>
-                                        </tr><tr class="odd">
+                                        </tr>
+                                        <tr class="odd">
                                             <td class="sorting_1 dtr-control">Cara Stevens</td>
                                             <td>Sales Assistant</td>
                                             <td>New York</td>
                                             <td>46</td>
                                             <td>2011/12/06</td>
                                             <td>$145,600</td>
-                                        </tr><tr class="even">
+                                        </tr>
+                                        <tr class="even">
                                             <td class="dtr-control sorting_1" tabindex="0">Cedric Kelly</td>
                                             <td>Senior Javascript Developer</td>
                                             <td>Edinburgh</td>
                                             <td>22</td>
                                             <td>2012/03/29</td>
                                             <td>$433,060</td>
-                                        </tr></tbody>
+                                        </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 col-md-5">
-                                    <div class="dataTables_info" id="basic-datatable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                                    <div class="dataTables_info" id="basic-datatable_info" role="status"
+                                         aria-live="polite">Showing 1 to 10 of 57 entries
+                                    </div>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
                                     <div class="dataTables_paginate paging_simple_numbers"

@@ -12,8 +12,8 @@ class Task extends Model
     const TASK_STATUS = [
         'SENT' => 1,
         'IN_PROGRESS' => 2,
-        'REVIEW' => 3,
-        'DONE' => 4
+        'DONE' => 3,
+        'REDO' => 4
     ];
 
     protected $guarded = [];
