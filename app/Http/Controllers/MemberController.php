@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Member;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +36,26 @@ class MemberController extends Controller
         return redirect()->route('get.task');
     }
 
+    public function registerMember(Request $request) {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->syncRoles($request->role);
+
+        $member = Member::create([
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'date_of_birth' => $request->date_of_birth,
+            'code' => $request->code
+        ]);
+
+        //Màn đăng kí người dùng
+        return redirect()->back();
+    }
+
     public function registerUser(Request $request)
     {
         $user = User::create([
@@ -41,6 +63,8 @@ class MemberController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+
+        $user->syncRoles(Role::ROLE_EDITOR);
 
         $member = Member::create([
             'user_id' => $user->id,
@@ -53,6 +77,9 @@ class MemberController extends Controller
 
     public function createMember() {
         $members = Member::with('user')->get();
-        return view('admin-template.page.member.create', compact('members'));
+        $departments = Department::all();
+        $roles = Role::all();
+
+        return view('admin-template.page.member.create', compact('members','departments', 'roles'));
     }
 }

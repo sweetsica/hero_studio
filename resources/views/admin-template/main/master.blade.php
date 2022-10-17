@@ -30,6 +30,7 @@
 
         <!-- icons -->
         <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css"/>
     @endif
 </head>
 
@@ -427,6 +428,7 @@
     <!-- end Topbar -->
 
     <!-- ========== Left Sidebar Start ========== -->
+
     <div class="left-side-menu">
         @if(View::hasSection('content-left-sidebar'))
             @yield('content-left-sidebar')

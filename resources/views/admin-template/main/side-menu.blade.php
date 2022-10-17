@@ -48,65 +48,68 @@
             </li>
 
             {{--Menu quản lý--}}
-            <li class="menu-title mt-2">Menu cấp quản lý</li>
-            <li>
-                <a href="#sidebarTaskManage" data-bs-toggle="collapse">
-                    <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
-                    <span>Danh sách công việc</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarTaskManage">
-                    <ul class="nav-second-level">
-                        <li><a href="{{route('get.task')}}">Danh sách nhiệm vụ</a></li>
-                        <li><a href="{{route('get.task.department','1')}}">Nhiệm vụ theo id phòng</a></li>
-                        <li><a href="{{route('edit.taskOrder','1')}}">Phân công nhiệm vụ</a></li>
+            @if(Auth::user()->hasRole(\App\Models\Role::ROLE_COF))
+                <li class="menu-title mt-2">Menu cấp quản lý</li>
+                <li>
+                    <a href="#sidebarTaskManage" data-bs-toggle="collapse">
+                        <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
+                        <span>Danh sách công việc</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarTaskManage">
+                        <ul class="nav-second-level">
+                            <li><a href="{{route('get.task')}}">Danh sách nhiệm vụ</a></li>
+                            <li><a href="{{route('get.task.department','1')}}">Nhiệm vụ theo id phòng</a></li>
+                            <li><a href="{{route('edit.taskOrder','1')}}">Phân công nhiệm vụ</a></li>
 
-                        <li><a href="{{route('get.taskOrder.list')}}">Danh sách yêu cầu</a></li>
-                        <li><a href="{{route('get.taskOrder.byDepartmentId','1')}}">Yêu cầu theo id phòng</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a href="#sidebarDepartmentManager" data-bs-toggle="collapse">
-                    <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>
-                    <span>Danh sách phòng ban</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarDepartmentManager">
-                    <ul class="nav-second-level">
-                        <li><a href="{{route('get.department')}}">List phòng ban</a></li>
-                        <li><a href="{{route('create.department')}}">Tạo phòng ban</a></li>
-                        <li><a href="{{route('edit.department','1')}}">Phân bổ nhân sự</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a href="#sidebarStaffManager" data-bs-toggle="collapse">
-                    <i class="uil uil-users-alt" data-feather="uil uil-users-alt"></i>
-                    <span>Danh sách nhân sự</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarStaffManager">
-                    <ul class="nav-second-level">
-                        <li><a href="{{route('get.member')}}">List nhân sự</a></li>
-                        <li><a href="#">Thêm mới nhân sự</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a href="#sidebarMediaManager" data-bs-toggle="collapse">
-                    <i class="uil uil-film" data-feather="uil uil-film"></i>
-                    <span>Kho media</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarMediaManager">
-                    <ul class="nav-second-level">
-                        <li><a href="{{route('get.media')}}">Danh mục media</a></li>
-                    </ul>
-                </div>
-            </li>
+                            <li><a href="{{route('get.taskOrder.list')}}">Danh sách yêu cầu</a></li>
+                            <li><a href="{{route('get.taskOrder.byDepartmentId','1')}}">Yêu cầu theo id phòng</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#sidebarDepartmentManager" data-bs-toggle="collapse">
+                        <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>
+                        <span>Danh sách phòng ban</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarDepartmentManager">
+                        <ul class="nav-second-level">
+                            <li><a href="{{route('get.department')}}">List phòng ban</a></li>
+                            <li><a href="{{route('create.department')}}">Tạo phòng ban</a></li>
+                            <li><a href="{{route('edit.department','1')}}">Phân bổ nhân sự</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#sidebarStaffManager" data-bs-toggle="collapse">
+                        <i class="uil uil-users-alt" data-feather="uil uil-users-alt"></i>
+                        <span>Danh sách nhân sự</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarStaffManager">
+                        <ul class="nav-second-level">
+                            <li><a href="{{route('get.member')}}">List nhân sự</a></li>
+                            <li><a href="#">Thêm mới nhân sự</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#sidebarMediaManager" data-bs-toggle="collapse">
+                        <i class="uil uil-film" data-feather="uil uil-film"></i>
+                        <span>Kho media</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarMediaManager">
+                        <ul class="nav-second-level">
+                            <li><a href="{{route('get.media')}}">Danh mục media</a></li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
             {{--Hết menu quản lý--}
             {{--Menu KOL--}}
+            @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
             <li class="menu-title mt-2">Menu cấp KOL</li>
             <li>
                 <a href="#sidebarTaskKOL" data-bs-toggle="collapse">
@@ -147,8 +150,10 @@
                     </ul>
                 </div>
             </li>
+            @endif
             {{--Hết menu KOL--}}
             {{--Menu nhân viên--}}
+            @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR))
             <li class="menu-title mt-2">Menu cấp nhân viên</li>
             <li>
                 <a href="#sidebarTaskStaff" data-bs-toggle="collapse">
@@ -177,7 +182,14 @@
                 </div>
             </li>
             {{--Hết menu nhân viên--}}
-
+            @endif
+            <li>
+                <a href="{{route('logout')}}">
+                    <i data-feather="home"></i>
+                    <span> Đăng xuất </span>
+                    <!-- <span class="menu-arrow"></span> -->
+                </a>
+            </li>
         </ul>
     </div>
     <!-- End Sidebar -->
