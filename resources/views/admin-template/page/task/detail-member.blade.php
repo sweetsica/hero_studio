@@ -227,9 +227,10 @@
                         <div class="row mt-1">
                             <div class="col">
                                 <div class="border rounded">
-                                    <form action="#" class="comment-area-box">
-                                            <textarea rows="3" class="form-control border-0 resize-none"
-                                                      placeholder="Your comment..."></textarea>
+                                    <form action="{{route('comment-task', $task->id)}}" class="comment-area-box" method="POST">
+                                        @csrf
+                                        <textarea name="comment" rows="3" class="form-control border-0 resize-none"
+                                                  placeholder="Your comment..."></textarea>
                                         <div class="p-2 bg-light">
                                             <div class="float-end">
                                                 <button type="submit" class="btn btn-sm btn-success">

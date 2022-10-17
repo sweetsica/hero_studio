@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Member;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -39,7 +40,9 @@ class TaskController extends Controller
     public function editTask($id)
     {
         $tasks = Task::all();
-        $task = Task::with('comments.member')->find($id);
+        $task = Task::with(['comments' => function ($query) {
+            $query->orderBy('created_at', 'desc')->with('member');
+        }])->find($id);
         $departments = Department::all();
         $members = Member::all();
 
@@ -58,7 +61,9 @@ class TaskController extends Controller
     public function getTaskDetail($id)
     {
         $tasks = Task::all();
-        $task = Task::with('comments.member')->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
+        $task = Task::with(['comments' => function ($query) {
+            $query->orderBy('created_at', 'desc')->with('member');
+        }])->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
         $departments = Department::all();
         $members = Member::all();
 
@@ -93,7 +98,14 @@ class TaskController extends Controller
         return redirect()->back();
     }
 
-    public function comment(Request $request, $id) {
-        dd($request->all(), $id, session()->get('user'));
+    public function comment(Request $request, $id)
+    {
+        $task = Task::find($id);
+        $task->comments()->create([
+            'content' => $request->comment,
+            'member_id' => Auth::id()
+        ]);
+
+        return redirect()->back();
     }
 }
