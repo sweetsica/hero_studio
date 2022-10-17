@@ -38,6 +38,7 @@ class TaskSeeder extends Seeder
                 'product_name' => 'Hero Studio Product Data',
                 'product_description' => Lorem::text(),
 
+                'source' => 'Other',
                 'url_source' => Image::imageUrl(),  // example with image
 
                 'url_fanpage' => Image::imageUrl(),
@@ -60,6 +61,7 @@ class TaskSeeder extends Seeder
                 'product_name' => 'Database Seeder Laravel',
                 'product_description' => Lorem::text(),
 
+                'source' => 'Other',
                 'url_source' => Image::imageUrl(),  // example with image
 
                 'url_fanpage' => Image::imageUrl(),
@@ -82,6 +84,7 @@ class TaskSeeder extends Seeder
                 'product_name' => 'Convitcon Hello',
                 'product_description' => Lorem::text(),
 
+                'source' => 'Other',
                 'url_source' => Image::imageUrl(),  // example with image
 
                 'url_fanpage' => Image::imageUrl(),
@@ -99,11 +102,12 @@ class TaskSeeder extends Seeder
                 'department_id' => 1,
                 'content' => Lorem::text(),
                 'deadline' => Carbon::now(),
-                'status_code' => Task::TASK_STATUS['REVIEW'],
+                'status_code' => Task::TASK_STATUS['REDO'],
 
                 'product_name' => 'This is new Era',
                 'product_description' => Lorem::text(),
 
+                'source' => 'Other',
                 'url_source' => Image::imageUrl(),  // example with image
 
                 'url_fanpage' => Image::imageUrl(),
@@ -121,11 +125,12 @@ class TaskSeeder extends Seeder
                 'department_id' => 2,
                 'content' => Lorem::text(),
                 'deadline' => Carbon::now(),
-                'status_code' => Task::TASK_STATUS['REVIEW'],
+                'status_code' => Task::TASK_STATUS['REDO'],
 
                 'product_name' => 'Youtube viet cetera rhymastic',
                 'product_description' => Lorem::text(),
 
+                'source' => 'Other',
                 'url_source' => Image::imageUrl(),  // example with image
 
                 'url_fanpage' => Image::imageUrl(),

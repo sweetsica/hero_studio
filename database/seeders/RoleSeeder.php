@@ -24,6 +24,7 @@ class RoleSeeder extends Seeder
 //        Permission::create(['name' => 'unpublish articles']);
 
         // create roles - example
+          Role::create(['name' => 'super admin']);
           Role::create(['name' => Role::ROLE_COF]);
           Role::create(['name' => Role::ROLE_KOLS]);
           Role::create(['name' => Role::ROLE_EDITOR]);

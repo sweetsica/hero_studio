@@ -20,18 +20,19 @@ return new class extends Migration
             $table->unsignedBigInteger('department_id');  // task cua department nao
             $table->text('content');
             $table->dateTime('deadline');
-            $table->integer('status_code'); // 4 trang thai , SENT , INPROGRESS, REVIEW, DONE
+            $table->integer('status_code')->default(\App\Models\Task::TASK_STATUS['SENT']); // 4 trang thai , SENT , INPROGRESS, REVIEW, DONE
 
-            $table->string('product_name');
-            $table->string('product_description');
+            $table->string('product_name')->nullable();
+            $table->string('product_description')->nullable();
 
+            $table->string('source');
             $table->string('url_source');
 
-            $table->string('url_fanpage');
-            $table->string('url_facebook');
-            $table->string('url_youtube');
-            $table->string('url_tiktok');
-            $table->text('url_others');
+            $table->string('url_fanpage')->nullable();
+            $table->string('url_facebook')->nullable();
+            $table->string('url_youtube')->nullable();
+            $table->string('url_tiktok')->nullable();
+            $table->text('url_others')->nullable();
 
             $table->timestamps();
 
