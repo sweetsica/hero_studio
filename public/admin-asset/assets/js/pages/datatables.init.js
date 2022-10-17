@@ -9,6 +9,10 @@ File: Data tables init js
 
 
 $(document).ready(function() {
+// $('.buttons-columnVisibility').ready(function () {
+//     console.log($('.buttons-columnVisibility'));
+//     $('.buttons-columnVisibility').addClass('btn btn-secondary')
+// })
 
     // Default Datatable
     // $('#basic-datatable').DataTable( {
@@ -28,7 +32,7 @@ $(document).ready(function() {
         paging: true,
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print', 'colvis'
+            'csv', 'excel', 'pdf', 'print', 'colvis'
         ],
         fixedColumns: {
             left: 2
