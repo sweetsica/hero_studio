@@ -52,7 +52,7 @@ class MemberController extends Controller
     }
 
     public function createMember() {
-
-        return view('admin-template.page.member.create');
+        $members = Member::with('user')->get();
+        return view('admin-template.page.member.create', compact('members'));
     }
 }

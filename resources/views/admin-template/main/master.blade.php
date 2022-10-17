@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    @if(View::hasSection('content-js'))
+    @if(View::hasSection('content-css'))
         @yield('content-css')
     @else()
         <meta charset="utf-8"/>
