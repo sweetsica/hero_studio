@@ -12,8 +12,8 @@ class TaskController extends Controller
 {
     public function getTaskList()
     {
-        $data = Task::all(); // Lấy danh sách toàn bộ Task
-        return view('admin-template.page.task.index', compact('data'));
+        $datas = Task::all(); // Lấy danh sách toàn bộ Task
+        return view('admin-template.page.task.index', compact('datas'));
     }
 
     public function getTaskListByDepartmentId($phong_ban_id)

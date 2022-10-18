@@ -50,7 +50,6 @@
                 </div>
             </div>
             <!-- end page title -->
-
             <div class="row">
                 <!-- calendar -->
                 <div class="col-xl-3">
@@ -112,7 +111,6 @@
                                     </a>
                                 </div>
                             </div>
-
                             <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
                             <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}"
                                   method="POST">
@@ -183,7 +181,6 @@
                                         <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời
                                             hạn, chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
-
                                     <div class="col-md-6">
                                         <select name="status_code" class="form-select">
                                             <option disabled selected value="1">Đang chờ nhận</option>
@@ -283,7 +280,7 @@
                                 <tbody>
                                 @foreach($tasks as $task)
                                     <tr>
-                                        <td>{{ $task->name }}</td>
+                                        <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
                                         <td>{{ $task->member->name }}</td>
                                         <td>{{ $task->department->name }}</td>
                                         <td>{{ $task->content }}</td>

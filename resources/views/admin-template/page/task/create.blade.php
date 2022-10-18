@@ -201,7 +201,7 @@
                                 <tbody>
                                 @foreach($tasks as $task)
                                     <tr>
-                                        <td>{{ $task->name }}</td>
+                                        <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
                                         <td>{{ $task->member->name }}</td>
                                         <td>{{ $task->department->name }}</td>
                                         <td>{{ $task->content }}</td>
