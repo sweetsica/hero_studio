@@ -84,9 +84,11 @@
                                                                     <div class="form-check">
                                                                         <input type="checkbox" class="form-check-input" id="task1">
                                                                         <label class="form-check-label" for="task1">
-                                                                            <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
-                                                                            @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR))
+{{--                                                                            @dd(Auth::user()->getRoleNames())--}}
+                                                                            @if((Auth::user()->getRoleNames())[0])
                                                                                 <a href="{{route('get.task.id',$data->id)}}">{{$data->name}}</a>
+                                                                            @else
+                                                                                <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                                             @endif
                                                                         </label>
                                                                     </div> <!-- end checkbox -->
