@@ -15,12 +15,10 @@
                                     <img src="{{asset('admin-template/assets/images/logo-dark.png')}}" alt="" height="24" />
                                 </a>
                             </div>
-
                             <h6 class="h5 mb-0 mt-3">Ngày tốt lành!</h6>
                             <p class="text-muted mt-1 mb-4">
                                 Vui lòng đăng nhập để truy cập, nếu chưa có tài khoản vui lòng liên hệ admin: A - 091xxxxxxx
                             </p>
-
                             <form action="#" class="authentication-form" method="POST">
                                 @csrf
                                 <div class="mb-3">
@@ -35,7 +33,6 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Mật khẩu:</label>
-{{--                                    <a href="pages-recoverpw.html" class="float-end text-muted text-unline-dashed ms-1">Forgot your password?</a>--}}
                                     <div class="input-group">
                                                     <span class="input-group-text">
                                                         <i class="icon-dual" data-feather="lock"></i>
@@ -43,25 +40,16 @@
                                         <input name="password" type="password" class="form-control" id="password" placeholder="Chú ý phím caplock">
                                     </div>
                                 </div>
-
-{{--                                <div class="mb-3">--}}
-{{--                                    <div class="form-check">--}}
-{{--                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>--}}
-{{--                                        <label class="form-check-label" for="checkbox-signin">Remember me</label>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-
+                                @if(session('messenger'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ session('messenger') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                @endif
                                 <div class="mb-3 text-center d-grid">
                                     <button class="btn btn-primary" type="submit">Log In</button>
                                 </div>
                             </form>
-{{--                            <div class="py-3 text-center"><span class="fs-16 fw-bold">OR</span></div>--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col-12 text-center">--}}
-{{--                                    <a href="" class="btn btn-white mb-2 mb-sm-0"><i class='uil uil-google icon-google me-2'></i>With Google</a>--}}
-{{--                                    <a href="" class="btn btn-white mb-2 mb-sm-0"><i class='uil uil-facebook me-2 icon-fb'></i>With Facebook</a>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
                         </div>
                         <div class="col-lg-6 d-none d-md-inline-block">
                             <div class="auth-page-sidebar">

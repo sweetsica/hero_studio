@@ -113,20 +113,6 @@
             @if((Auth::user()->getRoleNames())[0]=='key opinion leaders')
             <li class="menu-title mt-2">Menu cấp KOL</li>
             <li>
-                <a href="#sidebarTaskKOL" data-bs-toggle="collapse">
-                    <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
-                    <span>Danh sách yêu cầu</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarTaskKOL">
-                    <ul class="nav-second-level">
-                        <li><a href="{{route('create.taskOrder')}}">Tạo yêu cầu</a></li>
-                        <li><a href="{{route('get.task')}}">Danh sách yêu cầu</a></li>
-{{--                        <li><a href="#">Phân công nhiệm vụ</a></li>--}}
-                    </ul>
-                </div>
-            </li>
-            <li>
                 <a href="#sidebarDepartmentKOL" data-bs-toggle="collapse">
                     <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>
                     <span>Danh sách phòng ban</span>

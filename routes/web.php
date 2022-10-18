@@ -8,6 +8,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,9 +99,8 @@ Route::get('test', function () {
 });
 
 Route::get('logout', function () {
-    \Illuminate\Support\Facades\Auth::logout();
-
-    return redirect()->route('get.user.login');
+    Auth::logout();
+    return redirect()->route('get.user.login')->with('messenger','Đăng xuất thành công!');
 })->name('logout');
 
 
