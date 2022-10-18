@@ -48,7 +48,8 @@
             </li>
 
             {{--Menu quản lý--}}
-            @if(Auth::user()->hasRole(\App\Models\Role::ROLE_COF))
+
+            @if((Auth::user()->getRoleNames())[0]=='chief of department')
                 <li class="menu-title mt-2">Menu cấp quản lý</li>
                 <li>
                     <a href="#sidebarTaskManage" data-bs-toggle="collapse">
@@ -109,7 +110,7 @@
             @endif
             {{--Hết menu quản lý--}
             {{--Menu KOL--}}
-            @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
+            @if((Auth::user()->getRoleNames())[0]=='key opinion leaders')
             <li class="menu-title mt-2">Menu cấp KOL</li>
             <li>
                 <a href="#sidebarTaskKOL" data-bs-toggle="collapse">
@@ -153,7 +154,7 @@
             @endif
             {{--Hết menu KOL--}}
             {{--Menu nhân viên--}}
-            @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR))
+            @if((Auth::user()->getRoleNames())[0]=='editor')
             <li class="menu-title mt-2">Menu cấp nhân viên</li>
             <li>
                 <a href="#sidebarTaskStaff" data-bs-toggle="collapse">
