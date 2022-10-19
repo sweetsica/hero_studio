@@ -51,43 +51,8 @@
             </div>
             <!-- end page title -->
             <div class="row">
-                <!-- calendar -->
-                <div class="col-xl-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="dropdown float-end">
-                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    <i class="uil uil-ellipsis-v"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="uil uil-edit-alt me-2"></i>Edit
-                                    </a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="uil uil-refresh me-2"></i>Refresh
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item text-danger">
-                                        <i class="uil uil-trash me-2"></i>Delete
-                                    </a>
-                                </div>
-                            </div>
-                            <h6 class="header-title mb-4">Lịch</h6>
-
-                            <div class="row calendar-widget col-md-12">
-                                <div class="col-sm-12">
-                                    <div id="calendar-widget" class="col-md-12"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- form information -->
-                <div class="col-xl-5">
+                <div class="col-xl-8">
                     <div class="card">
                         <div class="card-body">
                             <div class="dropdown float-end">
@@ -155,14 +120,7 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-6">
-                                        <select name="member_id" class="form-select">
-                                            @foreach($members as $member)
-                                                <option value="{{$member->id}}"
-                                                        @if($task->member_id === $member->id) selected @endif>{{ $member->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
                                         <select name="department_id" class="form-select">
                                             @foreach($departments as $department)
                                                 <option value="{{$department->id}}"
@@ -170,11 +128,20 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Thành viên phụ trách</label>
+                                        <select name="member_id" class="form-select">
+                                            @foreach($members as $member)
+                                                <option value="{{$member->id}}"
+                                                        @if($task->member_id === $member->id) selected @endif>{{ $member->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-2">
-                                            {{--                                            <input type="text" id="datetime-datepicker" class="form-control flatpickr-input active" placeholder="Thời hạn" readonly="readonly">--}}
+                                            <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
                                             <input value="{{$task->deadline}}" name="deadline"
                                                    class="form-control flatpickr-input active" type="datetime-local">
                                         </div>
@@ -182,12 +149,26 @@
                                             hạn, chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
                                     <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
                                         <select name="status_code" class="form-select">
                                             <option disabled selected value="1">Đang chờ nhận</option>
                                             <option value="2">Đang thực hiện</option>
                                             <option value="3">Đã hoàn thành</option>
                                             <option value="4">Cần làm lại</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
+                                        <select class="form-select" name="type">
+                                            <option selected value="Normal">Normal</option>
+                                            <option value="Sponsor">Sponsor</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
+                                        <input name="product_length" type="number" class="form-control">
                                     </div>
                                 </div>
                                 <div class="float-end">
@@ -226,7 +207,8 @@
                         <div class="row mt-1">
                             <div class="col">
                                 <div class="border rounded">
-                                    <form action="{{route('comment-task', $task->id)}}" class="comment-area-box" method="POST">
+                                    <form action="{{route('comment-task', $task->id)}}" class="comment-area-box"
+                                          method="POST">
                                         @csrf
                                         <textarea name="comment" rows="3" class="form-control border-0 resize-none"
                                                   placeholder="Your comment..."></textarea>
@@ -272,6 +254,7 @@
                                     <th>Phòng ban phụ trách</th>
                                     <th>Mô tả</th>
                                     <th>Nguồn</th>
+                                    <th>Loại yêu cầu</th>
                                     <th>Link video nguồn</th>
                                     <th>Thời hạn</th>
                                     <th>Ngày tạo</th>
@@ -281,10 +264,11 @@
                                 @foreach($tasks as $task)
                                     <tr>
                                         <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
-                                        <td>{{ $task->member->name }}</td>
+                                        <td>{{ $task->member?->name }}</td>
                                         <td>{{ $task->department->name }}</td>
                                         <td>{{ $task->content }}</td>
                                         <td>{{ $task->source }}</td>
+                                        <td>{{ $task->type }}</td>
                                         <td>{{ $task->url_source }}</td>
                                         <td>{{ $task->deadline }}</td>
                                         <td>{{ $task->created_at }}</td>

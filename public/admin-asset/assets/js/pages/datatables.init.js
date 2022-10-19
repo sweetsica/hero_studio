@@ -32,7 +32,7 @@ $(document).ready(function() {
         paging: true,
         dom: 'Bfrtip',
         buttons: [
-            'csv', 'excel', 'pdf', 'print', 'colvis'
+            'excel', 'pdf', 'print', 'colvis'
         ],
         fixedColumns: {
             left: 2

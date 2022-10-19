@@ -92,7 +92,12 @@ class TaskController extends Controller
     // tao moi task
     public function store(Request $request)
     {
-        $validKeys = ['name', 'member_id', 'department_id', 'deadline', 'source', 'url_source', 'content'];
+        $validKeys = [
+            'name', 'type', 'department_id', 'deadline',
+            'source', 'url_source', 'content', 'product_length',
+            'cof_note', 'kol_note', 'editor_note'
+        ];
+
         Task::create($request->only($validKeys));
 
         return redirect()->back();

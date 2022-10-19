@@ -39,10 +39,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">YÊU CẦU</h4>
+                        <h4 class="page-title">Bài viết</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Yêu cầu</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Bài viết</a></li>
                                 <li class="breadcrumb-item active">Tạo mới</li>
                             </ol>
                         </div>
@@ -56,88 +56,56 @@
                 <div class="col-xl-8">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
-                            <form class="form-horizontal" method="POST" action="{{route('store.taskOrder')}}">
+                            <h4 class="header-title mb-4">Thông tin bài viết</h4>
+                            <form class="form-horizontal" method="POST" action="{{route('post')}}"
+                                  enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-2 row">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
-                                        <input name="name" type="text" class="form-control" aria-describedby="emailHelp"
-                                               placeholder="">
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="exampleInputEmail1">Tiêu đề</label>
+                                        <input name="subject" type="text" class="form-control"
+                                               aria-describedby="emailHelp"
+                                               placeholder=""
+                                               required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
-                                        <select name="source" class="form-select">
-                                            <option selected="" disabled>Chọn nguồn</option>
-                                            <option value="Facebook">Facebook</option>
-                                            <option value="Tiktok">Tiktok</option>
-                                            <option value="Youtube">Youtube</option>
-                                        </select>
+                                    <div class="col-md-12 mt-2">
+                                        <label class="form-label" for="exampleInputEmail1">Nội dung</label>
+                                        <textarea name="content" class="form-control" rows="5"></textarea>
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                    <input name="content" type="text" class="form-control" aria-describedby="emailHelp"
-                                           placeholder="">
-                                    <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
-                                        tầm 3' để up facebook)</small>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                    <input name="url_source" type="text" class="form-control"
-                                           aria-describedby="emailHelp" placeholder="">
-                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
-                                        link google driver)</small>
-                                </div>
-                                <div class="row mb-2">
                                     <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
-                                        <select class="form-select" name="department_id">
-                                            @foreach($departments as $department)
-                                                <option value="{{$department->id}}">{{ $department->name }}</option>
+                                        <label class="form-label" for="exampleInputEmail1">Phân loại</label>
+                                        <select name="category_id" class="form-select" name="type" required>
+                                            @foreach($categories as $category)
+                                                <option selected
+                                                        value="{{$category->id}}">{{ucfirst($category->name)}}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="mb-2">
                                     <div class="col-md-6">
-                                        <div class="mb-2">
-                                        <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
-                                            {{--                                            <input type="text" id="datetime-datepicker" class="form-control flatpickr-input active" placeholder="Thời hạn" readonly="readonly">--}}
-                                            <input name="deadline" class="form-control flatpickr-input active"
-                                                   type="datetime-local">
-                                        </div>
-                                        <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời hạn,
-                                        chỉ quản lý mới thay đổi được thời hạn)</small>
+                                        <label class="form-label" for="exampleInputEmail1">Hình minh họa</label>
+                                        <input name="thumbnail" type="file" class="form-control" required>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
-                                        <select class="form-select" name="type">
-                                            <option selected value="Normal">Normal</option>
-                                            <option value="Sponsor">Sponsor</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
-                                        <input name="product_length" type="number" class="form-control">
-                                    </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="exampleInputEmail1">Link video</label>
+                                    <input name="link_video" type="text" class="form-control"
+                                           aria-describedby="emailHelp" placeholder="" required>
+                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
+                                        link google driver)</small>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Ghi chút quản lý</label>
-                                        <input name="cof_note" type="text" class="form-text form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Ghi chút KoL</label>
-                                        <input name="kol_note" type="text" class="form-text form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Ghi chút Editor</label>
-                                        <input name="editor_note" type="text" class="form-text form-control">
-                                    </div>
+                                <div class="mb-2">
+                                    <label class="form-label" for="exampleInputEmail1">Link driver</label>
+                                    <input name="link_driver" type="text" class="form-control"
+                                           aria-describedby="emailHelp" placeholder="" required>
+                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
+                                        link google driver)</small>
                                 </div>
                                 <div class="float-end">
-                                    <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
+                                    <button type="submit" class="btn btn-primary">Gửi bài viết</button>
                                 </div>
                             </form>
                         </div>
@@ -147,7 +115,7 @@
                 {{--                <div class="col-xl-4">--}}
                 {{--                    <div class="card">--}}
                 {{--                        <div class="card-body">--}}
-                {{--                            <h4 class="mb-4 fs-16">Bình luận về yêu cầu này</h4>--}}
+                {{--                            <h4 class="mb-4 fs-16">Bình luận về bài viết này</h4>--}}
                 {{--                            <div class="row mt-1">--}}
                 {{--                                <div class="col">--}}
                 {{--                                    <div class="border rounded">--}}
@@ -181,50 +149,50 @@
             </div>
             <!-- end row -->
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title mt-0 mb-1">Danh sách task</h4>
-                            <p class="sub-header">
+            {{--            <div class="row">--}}
+            {{--                <div class="col-12">--}}
+            {{--                    <div class="card">--}}
+            {{--                        <div class="card-body">--}}
+            {{--                            <h4 class="header-title mt-0 mb-1">Danh sách task</h4>--}}
+            {{--                            <p class="sub-header">--}}
 
-                            </p>
+            {{--                            </p>--}}
 
-                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
-                                <thead>
-                                <tr>
-                                    <th>Tên yêu cầu</th>
-                                    <th>Nhân viên phụ trách</th>
-                                    <th>Phòng ban phụ trách</th>
-                                    <th>Mô tả</th>
-                                    <th>Nguồn</th>
-                                    <th>Loại yêu cầu</th>
-                                    <th>Link video nguồn</th>
-                                    <th>Thời hạn</th>
-                                    <th>Ngày tạo</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($tasks as $task)
-                                    <tr>
-                                        <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
-                                        <td>{{ $task->member?->name }}</td>
-                                        <td>{{ $task->department->name }}</td>
-                                        <td>{{ $task->content }}</td>
-                                        <td>{{ $task->source }}</td>
-                                        <td>{{ $task->type }}</td>
-                                        <td>{{ $task->url_source }}</td>
-                                        <td>{{ $task->deadline }}</td>
-                                        <td>{{ $task->created_at }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+            {{--                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">--}}
+            {{--                                <thead>--}}
+            {{--                                <tr>--}}
+            {{--                                    <th>Tên bài viết</th>--}}
+            {{--                                    <th>Nhân viên phụ trách</th>--}}
+            {{--                                    <th>Phòng ban phụ trách</th>--}}
+            {{--                                    <th>Mô tả</th>--}}
+            {{--                                    <th>Nguồn</th>--}}
+            {{--                                    <th>Loại bài viết</th>--}}
+            {{--                                    <th>Link video nguồn</th>--}}
+            {{--                                    <th>Thời hạn</th>--}}
+            {{--                                    <th>Ngày tạo</th>--}}
+            {{--                                </tr>--}}
+            {{--                                </thead>--}}
+            {{--                                <tbody>--}}
+            {{--                                @foreach($tasks as $task)--}}
+            {{--                                    <tr>--}}
+            {{--                                        <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>--}}
+            {{--                                        <td>{{ $task->member?->name }}</td>--}}
+            {{--                                        <td>{{ $task->department->name }}</td>--}}
+            {{--                                        <td>{{ $task->content }}</td>--}}
+            {{--                                        <td>{{ $task->source }}</td>--}}
+            {{--                                        <td>{{ $task->type }}</td>--}}
+            {{--                                        <td>{{ $task->url_source }}</td>--}}
+            {{--                                        <td>{{ $task->deadline }}</td>--}}
+            {{--                                        <td>{{ $task->created_at }}</td>--}}
+            {{--                                    </tr>--}}
+            {{--                                @endforeach--}}
+            {{--                                </tbody>--}}
+            {{--                            </table>--}}
 
-                        </div> <!-- end card body-->
-                    </div> <!-- end card -->
-                </div><!-- end col-->
-            </div>
+            {{--                        </div> <!-- end card body-->--}}
+            {{--                    </div> <!-- end card -->--}}
+            {{--                </div><!-- end col-->--}}
+            {{--            </div>--}}
         </div> <!-- content -->
 
     </div> <!-- content -->

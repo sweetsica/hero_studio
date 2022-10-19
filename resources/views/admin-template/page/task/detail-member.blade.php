@@ -52,21 +52,8 @@
             <!-- end page title -->
 
             <div class="row">
-                <!-- calendar -->
-                <div class="col-xl-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h6 class="header-title mb-4">Lịch</h6>
-                            <div class="row calendar-widget col-md-12">
-                                <div class="col-sm-12">
-                                    <div id="calendar-widget" class="col-md-12"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- form information -->
-                <div class="col-xl-5">
+                <div class="col-xl-8">
                     <div class="card">
                         <div class="card-body">
                             <div class="dropdown float-end">
@@ -273,6 +260,7 @@
                                     <th>Phòng ban phụ trách</th>
                                     <th>Mô tả</th>
                                     <th>Nguồn</th>
+                                    <th>Loại yêu cầu</th>
                                     <th>Link video nguồn</th>
                                     <th>Thời hạn</th>
                                     <th>Ngày tạo</th>
@@ -282,10 +270,11 @@
                                 @foreach($tasks as $task)
                                     <tr>
                                         <td>{{ $task->name }}</td>
-                                        <td>{{ $task->member->name }}</td>
+                                        <td>{{ $task->member?->name }}</td>
                                         <td>{{ $task->department->name }}</td>
                                         <td>{{ $task->content }}</td>
                                         <td>{{ $task->source }}</td>
+                                        <td>{{ $task->type }}</td>
                                         <td>{{ $task->url_source }}</td>
                                         <td>{{ $task->deadline }}</td>
                                         <td>{{ $task->created_at }}</td>

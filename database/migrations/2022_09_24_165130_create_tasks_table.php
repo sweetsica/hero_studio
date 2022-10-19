@@ -16,17 +16,25 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('member_id'); // member phu trach
+            $table->unsignedBigInteger('member_id')->nullable(); // member phu trach
             $table->unsignedBigInteger('department_id');  // task cua department nao
             $table->text('content');
             $table->dateTime('deadline');
             $table->integer('status_code')->default(\App\Models\Task::TASK_STATUS['SENT']); // 4 trang thai , SENT , INPROGRESS, REVIEW, DONE
 
+            $table->string('type')->default('Normal');
+
             $table->string('product_name')->nullable();
             $table->string('product_description')->nullable();
+            $table->string('product_length')->nullable();
 
             $table->string('source');
             $table->string('url_source');
+
+            // Notes
+            $table->string('cof_note')->nullable();
+            $table->string('kol_note')->nullable();
+            $table->string('editor_note')->nullable();
 
             $table->string('url_fanpage')->nullable();
             $table->string('url_facebook')->nullable();

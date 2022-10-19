@@ -10,10 +10,11 @@ class Task extends Model
     use HasFactory;
 
     const TASK_STATUS = [
-        'SENT' => 1,
-        'IN_PROGRESS' => 2,
-        'DONE' => 3,
-        'REDO' => 4
+        'SENT' => 1,        // Trạng thái khi tạo task
+        'IN_PROGRESS' => 2, // Task đang được làm
+        'DONE' => 3,        // Task được báo hoàn thành
+        'REDO' => 4,        // Task bị yêu cầu làm lại
+        'CLOSE' => 5,       // Task kết thúc
     ];
 
     protected $guarded = [];

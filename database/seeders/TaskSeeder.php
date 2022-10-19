@@ -35,6 +35,7 @@ class TaskSeeder extends Seeder
                 'deadline' => Carbon::now(),
                 'status_code' => Task::TASK_STATUS['SENT'],
 
+                'product_length' => '20',
                 'product_name' => 'Hero Studio Product Data',
                 'product_description' => Lorem::text(),
 
@@ -58,6 +59,7 @@ class TaskSeeder extends Seeder
                 'deadline' => Carbon::now(),
                 'status_code' => Task::TASK_STATUS['IN_PROGRESS'],
 
+                'product_length' => '20',
                 'product_name' => 'Database Seeder Laravel',
                 'product_description' => Lorem::text(),
 
@@ -81,6 +83,7 @@ class TaskSeeder extends Seeder
                 'deadline' => Carbon::now(),
                 'status_code' => Task::TASK_STATUS['IN_PROGRESS'],
 
+                'product_length' => '20',
                 'product_name' => 'Convitcon Hello',
                 'product_description' => Lorem::text(),
 
@@ -104,6 +107,7 @@ class TaskSeeder extends Seeder
                 'deadline' => Carbon::now(),
                 'status_code' => Task::TASK_STATUS['REDO'],
 
+                'product_length' => '20',
                 'product_name' => 'This is new Era',
                 'product_description' => Lorem::text(),
 
@@ -127,6 +131,7 @@ class TaskSeeder extends Seeder
                 'deadline' => Carbon::now(),
                 'status_code' => Task::TASK_STATUS['REDO'],
 
+                'product_length' => '20',
                 'product_name' => 'Youtube viet cetera rhymastic',
                 'product_description' => Lorem::text(),
 

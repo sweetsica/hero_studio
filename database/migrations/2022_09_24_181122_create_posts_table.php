@@ -15,11 +15,22 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('author')->nullable();//Tên tác giả bài viết
-            $table->string('title')->nullable();
-            $table->string('thumb')->nullable();//Ảnh bài viết
-            $table->string('category')->nullable();//Danh mục bài viết
-            $table->text('content')->nullable();//Nội dung bài viết
+            $table->text('subject');
+            $table->text('content');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->text('thumbnail');
+            $table->text('link_video');
+            $table->text('link_driver');
+            $table->unsignedBigInteger('member_id')->nullable();
+
+            $table->foreign('member_id')->references('id')->on('members');
+            $table->foreign('category_id')->references('id')->on('categories');
+
+//            $table->string('author')->nullable();//Tên tác giả bài viết
+//            $table->string('title')->nullable();
+//            $table->string('thumb')->nullable();//Ảnh bài viết
+//            $table->text('content')->nullable();//Nội dung bài viết
+
             $table->boolean('status')->default('1');//Trạng thái bài viết
             $table->timestamps();
         });

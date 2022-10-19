@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             MemberSeeder::class,
             DepartmentSeeder::class,
             TaskSeeder::class,
-            CommentSeeder::class
+            CommentSeeder::class,
+            CategorySeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

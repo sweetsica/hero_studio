@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\PageController;
@@ -94,9 +95,9 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::get('test', function () {
-    return view('welcome');
-});
+
+Route::get('/bai-viet/tao-moi', [PostController::class, 'create'])->name('post');
+Route::post('/bai-viet/tao-moi', [PostController::class, 'store']);
 
 Route::get('logout', function () {
     Auth::logout();
