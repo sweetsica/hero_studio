@@ -17,7 +17,7 @@ class MemberSeeder extends Seeder
     {
         $memberInfo = [
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => 'Member name 1',
                 'code' => 'NV1',
                 'date_of_birth' => Carbon::now(),
@@ -27,7 +27,7 @@ class MemberSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 3,
                 'name' => 'Member name 2',
                 'code' => 'NV2',
                 'date_of_birth' => Carbon::now(),
@@ -37,7 +37,7 @@ class MemberSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 4,
                 'name' => 'Member name 3',
                 'code' => 'NV3',
                 'date_of_birth' => Carbon::now(),

@@ -228,7 +228,7 @@
     <!-- App js -->
     <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
 @endif
-
+@stack('custom-js')
 
 </body>
 

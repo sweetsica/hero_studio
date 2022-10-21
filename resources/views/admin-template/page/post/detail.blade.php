@@ -39,11 +39,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">Bài viết</h4>
+                        <h4 class="page-title">{{ $post->subject }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Bài viết</a></li>
-                                <li class="breadcrumb-item active">Tạo mới</li>
+                                <li class="breadcrumb-item active">Chi tiết</li>
                             </ol>
                         </div>
                     </div>
@@ -53,75 +53,39 @@
 
             <div class="row">
                 <!-- form information -->
-                <div class="col-xl-8">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title mb-4">Thông tin bài viết</h4>
-                            <form class="form-horizontal" method="POST" action="{{route('post.create')}}"
-                                  enctype="multipart/form-data">
-                                @csrf
-                                <div class="mb-2 row">
-                                    <div class="col-md-12">
-                                        <label class="form-label" for="exampleInputEmail1">Tiêu đề</label>
-                                        <input name="subject" type="text" class="form-control"
-                                               aria-describedby="emailHelp"
-                                               placeholder=""
-                                               required>
-                                    </div>
-                                    <div class="col-md-12 mt-2">
-                                        <label class="form-label" for="exampleInputEmail1">Nội dung</label>
-                                        <textarea name="content" class="form-control" rows="5"></textarea>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 mb-2">
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="exampleInputEmail1">Hình minh họa</label>
-                                            <input name="thumbnail" type="file" class="form-control"
-                                                   accept="image/*"
-                                                   onchange="loadFile(event)" required>
-                                        </div>
-                                        <div class="col-md-12 mt-2">
-                                            <label class="form-label" for="exampleInputEmail1">Phân loại</label>
-                                            <select name="category_id" class="form-select" name="type" required>
-                                                @foreach($categories as $category)
-                                                    <option selected value="{{$category->id}}">{{ucfirst($category->name)}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-12 mt-2">
-                                            <label class="form-label" for="exampleInputEmail1">Hash tag</label>
-                                            <input type="text" name="hash_tag" class="form-text form-control">
-                                            <small id="emailHelp" class="form-text text-muted">Tên mỗi hash tag cách nhau bằng dấu cách</small>
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-body">
+                                {{--                                        <h6 class="mt-0 header-title">About Project</h6>--}}
+
+                                <div class="text-muted mt-3">
+                                    <p>
+                                        {{ $post->content }}
+                                    </p>
+                                    <div class="tags">
+                                        <h6 class="fw-bold">Tags</h6>
+                                        <div class="text-uppercase">
+                                            @foreach($post->hashTags as $tag)
+                                                <a href="{{route('post', ['hash-tag-id' => $tag->id])}}"
+                                                   class="badge badge-soft-primary me-2"> {{$tag->name}} </a>
+                                            @endforeach
                                         </div>
                                     </div>
-                                    <div class="col-6 mt-2">
-                                        <img id="output" style="width: 200px; height: 200px"/>
+
+                                    <div class="tags">
+                                        <h6 class="fw-bold">Phân loại : {{ $post->category->name }}</h6>
+
+                                        <h6 class="fw-bold">Link video : <a
+                                                href="{{ $post->link_video }}">{{ $post->link_video }}</a></h6>
+
+                                        <h6 class="fw-bold">Link driver : <a
+                                                href="{{ $post->link_driver }}">{{ $post->link_driver }}</a></h6>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6 mb-2">
-                                        <label class="form-label" for="exampleInputEmail1">Link video</label>
-                                        <input name="link_video" type="text" class="form-control"
-                                               aria-describedby="emailHelp" placeholder="" required>
-                                        <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ
-                                            với link google driver)</small>
-                                    </div>
-                                    <div class="col-6 mb-2">
-                                        <label class="form-label" for="exampleInputEmail1">Link driver</label>
-                                        <input name="link_driver" type="text" class="form-control"
-                                               aria-describedby="emailHelp" placeholder="" required>
-                                        <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ
-                                            với
-                                            link google driver)</small>
-                                    </div>
-                                </div>
-                                <div class="float-end">
-                                    <button type="submit" class="btn btn-primary">Gửi bài viết</button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div> <!-- end card-->
+                    </div>
                 </div>
                 {{--                <!-- comments -->--}}
                 {{--                <div class="col-xl-4">--}}

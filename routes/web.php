@@ -96,8 +96,11 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/bai-viet/tao-moi', [PostController::class, 'create'])->name('post');
-Route::post('/bai-viet/tao-moi', [PostController::class, 'store']);
+Route::get('/post/danh-sach', [PostController::class, 'index'])->name('post');
+Route::get('/post/tao-moi', [PostController::class, 'create'])->name('post.create');
+Route::post('/post/tao-moi', [PostController::class, 'store']);
+
+Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
 
 Route::get('logout', function () {
     Auth::logout();

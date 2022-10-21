@@ -103,7 +103,7 @@
                     </a>
                     <div class="collapse" id="sidebarMediaManager">
                         <ul class="nav-second-level">
-                            <li><a href="{{route('get.media')}}">Danh mục media</a></li>
+                            <li><a href="{{route('post')}}">Danh mục media</a></li>
                         </ul>
                     </div>
                 </li>
@@ -133,7 +133,7 @@
                     </a>
                     <div class="collapse" id="sidebarMediaKOL">
                         <ul class="nav-second-level">
-                            <li><a href="{{route('get.media')}}">Danh mục media</a></li>
+                            <li><a href="{{route('post')}}">Danh mục media</a></li>
                         </ul>
                     </div>
                 </li>
@@ -165,7 +165,7 @@
                     </a>
                     <div class="collapse" id="sidebarDepartmentStaff">
                         <ul class="nav-second-level">
-                            <li><a href="{{route('get.media')}}">Danh mục media</a></li>
+                            <li><a href="{{route('post')}}">Danh mục media</a></li>
                         </ul>
                     </div>
                 </li>
