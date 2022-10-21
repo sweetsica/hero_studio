@@ -58,7 +58,9 @@
                         <div class="card">
                             <div class="card-body">
                                 {{--                                        <h6 class="mt-0 header-title">About Project</h6>--}}
-
+                                @if(Auth::id() === $post->member_id)
+                                    <a class="btn btn-primary" href="{{route('post.edit', $post->id)}}">Edit</a>
+                                @endif
                                 <div class="text-muted mt-3">
                                     <p>
                                         {{ $post->content }}

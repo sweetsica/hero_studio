@@ -30,7 +30,8 @@
                             <h6 class="mt-4">Category</h6>
                             <div class="mt-2">
                                 @foreach($categories as $category)
-                                    <a href="javascript:updateCurrentParam('category-id', '{{$category->id}}')" class="list-group-item border-0 fw-bold">
+                                    <a href="javascript:updateCurrentParam('category-id', '{{$category->id}}')"
+                                       class="list-group-item border-0 fw-bold">
                                         {{ ucfirst($category->name) }}
                                     </a>
                                 @endforeach
@@ -52,12 +53,20 @@
                             <div class="row">
                                 <div class="card-body">
                                     @foreach($posts as $post)
-                                        <div class="d-flex {{ $loop->index !== 0 ? 'mt-1 border-top' : '' }} pt-2">
-                                            <img src="{{ "/storage/$post->thumbnail" }}" class="avatar rounded me-3">
-                                            <div class="flex-grow-1">
-                                                <a class="mt-1 mb-0 fs-15"
-                                                   href="{{ route('post.detail', $post->id) }}">{{$post->subject}}</a>
-                                                <h6 class="text-muted fw-normal mt-1 mb-2">{{$post->content}}</h6>
+                                        <div class="row {{ $loop->index !== 0 ? 'mt-1 border-top' : '' }}">
+                                            <div class="col-10 d-flex pt-2">
+                                                <img src="{{ "/storage/$post->thumbnail" }}"
+                                                     class="avatar rounded me-3">
+                                                <div class="flex-grow-1">
+                                                    <a class="mt-1 mb-0 fs-15"
+                                                       href="{{ route('post.detail', $post->id) }}">{{$post->subject}}</a>
+                                                    <h6 class="text-muted fw-normal mt-1 mb-2">{{$post->content}}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 pt-2">
+                                                {{ $post->created_at }}
+                                                <br>
+                                                {{ $post->member?->name }}
                                             </div>
                                         </div>
                                     @endforeach

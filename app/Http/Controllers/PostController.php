@@ -18,9 +18,9 @@ class PostController extends Controller
 
         $categories = Category::all();
         $hashTags = HashTag::withCount('posts')
-        ->orderBy('posts_count', 'desc')
-        ->take(5)
-        ->get();
+            ->orderBy('posts_count', 'desc')
+            ->take(5)
+            ->get();
 
         $posts = Post::query()->with('hashTags');
         if (isset($query['category-id'])) {
@@ -38,21 +38,32 @@ class PostController extends Controller
         return view('admin-template.page.post.index', compact('categories', 'hashTags', 'posts'));
     }
 
-    public function detail(Request $request, $id) {
+    public function detail(Request $request, $id)
+    {
         $categories = Category::all();
         $post = Post::find($id);
 
         return view('admin-template.page.post.detail', compact('categories', 'post'));
     }
 
-    public function create()
+    public function edit(Request $request, $id)
     {
+        $post = Post::find($id);
+        $post->hash_tags = implode(' ', $post->hashTags->pluck('name')->toArray());
+
+        if (Auth::id() !== $post->member_id) return redirect()->back();
         $categories = Category::all();
-        return view('admin-template.page.post.create', compact('categories'));
+
+        return view('admin-template.page.post.edit', compact('categories', 'post'));
     }
 
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
+        $post = Post::find($id);
+        if (Auth::id() !== $post->member_id) return redirect()->route('post');
+
+        $validKey = ['subject', 'content', 'category_id', 'link_driver', 'link_video'];
+        $postData = $request->only($validKey);
         $hashTags = explode(' ', $request->hash_tag);
         $listTags = HashTag::whereIn('name', $hashTags)->get();
         $listExistTag = $listTags->pluck('name');
@@ -64,7 +75,7 @@ class PostController extends Controller
         if ($unknownTag->count()) {
             $hashTagRecord = $unknownTag->map(function ($item) {
                 return [
-                    'name' => $item->trim(),
+                    'name' => trim($item),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
@@ -77,10 +88,55 @@ class PostController extends Controller
         $thumbnail = $request->file('thumbnail');
         $category = Category::find($request->category_id);
 
-        $linkThumbnail = Storage::disk('public')->put("$category->name", $thumbnail);
+        if (isset($request->thumbnail)) {
+            $linkThumbnail = Storage::disk('public')->put("$category->name", $thumbnail);
+            $postData['thumbnail'] = $linkThumbnail;
+        }
+
+        $post->update($postData);
+        $post->hashTags()->sync($listTags->pluck('id'));
+
+        return redirect()->route('post');
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('admin-template.page.post.create', compact('categories'));
+    }
+
+    public function store(Request $request)
+    {
         $validKey = ['subject', 'content', 'category_id', 'link_driver', 'link_video'];
         $postData = $request->only($validKey);
-        $postData['thumbnail'] = $linkThumbnail;
+        $hashTags = explode(' ', $request->hash_tag);
+        $listTags = HashTag::whereIn('name', $hashTags)->get();
+        $listExistTag = $listTags->pluck('name');
+
+        $unknownTag = collect($hashTags)->filter(function ($item) use ($listExistTag) {
+            return !in_array($item, $listExistTag->toArray());
+        });
+
+        if ($unknownTag->count()) {
+            $hashTagRecord = $unknownTag->map(function ($item) {
+                return [
+                    'name' => trim($item),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+            })->toArray();
+            HashTag::insert($hashTagRecord);
+
+            $listTags = HashTag::whereIn('name', $hashTags)->get();
+        }
+
+        $thumbnail = $request->file('thumbnail');
+        $category = Category::find($request->category_id);
+
+        if (isset($request->thumbnail)) {
+            $linkThumbnail = Storage::disk('public')->put("$category->name", $thumbnail);
+            $postData['thumbnail'] = $linkThumbnail;
+        }
         $postData['member_id'] = Auth::id();
 
         $post = Post::create($postData);

@@ -101,6 +101,8 @@ Route::get('/post/tao-moi', [PostController::class, 'create'])->name('post.creat
 Route::post('/post/tao-moi', [PostController::class, 'store']);
 
 Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
+Route::get('/post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
+Route::post('/post/edit/{id}', [PostController::class, 'update']);
 
 Route::get('logout', function () {
     Auth::logout();
