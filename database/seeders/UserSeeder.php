@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Faker\Provider\Lorem;
@@ -23,20 +24,27 @@ class UserSeeder extends Seeder
             [
                 'name' => 'admin',
                 'email' => 'admin@admin.com',
+                'password' => bcrypt('admin@2022'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'cof',
+                'email' => 'cof@user.com',
                 'password' => bcrypt('testpass'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'user1',
-                'email' => 'user1@user.com',
+                'name' => 'kol',
+                'email' => 'kol@user.com',
                 'password' => bcrypt('testpass'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'user2',
-                'email' => 'user2@user.com',
+                'name' => 'member',
+                'email' => 'member@user.com',
                 'password' => bcrypt('testpass'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -44,5 +52,13 @@ class UserSeeder extends Seeder
         ];
 
         User::insert($userInfo);
+        $user = User::find(1);
+        $user->syncRoles('super admin');
+        $user = User::find(2);
+        $user->syncRoles(Role::ROLE_COF);
+        $user = User::find(3);
+        $user->syncRoles(Role::ROLE_KOLS);
+        $user = User::find(4);
+        $user->syncRoles(Role::ROLE_EDITOR);
     }
 }

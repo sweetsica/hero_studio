@@ -1,195 +1,5 @@
 @extends('admin-template.main.master')
 
-@section('content-left-sidebar')
-    <div class="h-100" data-simplebar>
-        <!-- User box -->
-        <div class="user-box text-center">
-            <img src="{{ asset('admin-asset/assets/images/users/avatar-1.jpg') }}" alt="user-img"
-                 title="Mat Helme" class="rounded-circle avatar-md"/>
-            <div class="dropdown">
-                <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
-                   data-bs-toggle="dropdown">Nik Patel</a>
-                <div class="dropdown-menu user-pro-dropdown">
-                    <a href="pages-profile.html" class="dropdown-item notify-item">
-                        <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i data-feather="settings" class="icon-dual icon-xs me-1"></i><span>Settings</span>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i data-feather="help-circle" class="icon-dual icon-xs me-1"></i><span>Support</span>
-                    </a>
-                    <a href="pages-lock-screen.html" class="dropdown-item notify-item">
-                        <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Logout</span>
-                    </a>
-                </div>
-            </div>
-            <p class="text-muted">Admin Header</p>
-        </div>
-        <!--- Sidemenu -->
-        <div id="sidebar-menu">
-            <ul id="side-menu">
-                <!-- <li class="menu-title">Navigation</li> -->
-                <li>
-                    <a href="#sidebarDashboard" data-bs-toggle="collapse">
-                        <span class="badge bg-success float-end">03</span>
-                        <i data-feather="home"></i>
-                        <span> Trang chủ </span>
-                        <!-- <span class="menu-arrow"></span> -->
-                    </a>
-                    <div class="collapse" id="sidebarDashboard">
-                        <ul class="nav-second-level">
-                            <li><a href="#">KOL</a></li>
-                            <li><a href="#">Quản lý</a></li>
-                            <li><a href="#">Nhân viên</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                {{--Menu quản lý--}}
-                <li class="menu-title mt-2">Menu cấp quản lý</li>
-                <li>
-                    <a href="#sidebarTaskManage" data-bs-toggle="collapse">
-                        <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
-                        <span>Danh sách công việc</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarTaskManage">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.task')}}">Danh sách nhiệm vụ</a></li>
-                            <li><a href="{{route('get.task.department','1')}}">Nhiệm vụ theo id phòng</a></li>
-                            <li><a href="{{route('edit.taskOrder','1')}}">Phân công nhiệm vụ</a></li>
-
-                            <li><a href="{{route('get.taskOrder.list')}}">Danh sách yêu cầu</a></li>
-                            <li><a href="{{route('get.taskOrder.byDepartmentId','1')}}">Yêu cầu theo id phòng</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#sidebarDepartmentManager" data-bs-toggle="collapse">
-                        <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>
-                        <span>Danh sách phòng ban</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarDepartmentManager">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.department')}}">List phòng ban</a></li>
-                            <li><a href="{{route('create.department')}}">Tạo phòng ban</a></li>
-                            <li><a href="{{route('edit.department','1')}}">Phân bổ nhân sự</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#sidebarStaffManager" data-bs-toggle="collapse">
-                        <i class="uil uil-users-alt" data-feather="uil uil-users-alt"></i>
-                        <span>Danh sách nhân sự</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarStaffManager">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.member')}}">List nhân sự</a></li>
-                            <li><a href="#">Thêm mới nhân sự</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#sidebarMediaManager" data-bs-toggle="collapse">
-                        <i class="uil uil-film" data-feather="uil uil-film"></i>
-                        <span>Kho media</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarMediaManager">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.media')}}">Danh mục media</a></li>
-                        </ul>
-                    </div>
-                </li>
-                {{--Hết menu quản lý--}
-                {{--Menu KOL--}}
-                <li class="menu-title mt-2">Menu cấp KOL</li>
-                <li>
-                    <a href="#sidebarTaskKOL" data-bs-toggle="collapse">
-                        <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
-                        <span>Danh sách yêu cầu</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarTaskKOL">
-                        <ul class="nav-second-level">
-                            <li><a href="#">Tạo yêu cầu</a></li>
-                            <li><a href="#">Danh sách yêu cầu</a></li>
-                            <li><a href="#">Phân công nhiệm vụ</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#sidebarDepartmentKOL" data-bs-toggle="collapse">
-                        <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>
-                        <span>Danh sách phòng ban</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarDepartmentKOL">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.department')}}">List nhân sự</a></li>
-                            <li><a href="#">Thêm mới nhân sự</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#sidebarMediaKOL" data-bs-toggle="collapse">
-                        <i class="uil uil-film" data-feather="uil uil-film"></i>
-                        <span>Kho media</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarMediaKOL">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.media')}}">Danh mục media</a></li>
-                        </ul>
-                    </div>
-                </li>
-                {{--Hết menu KOL--}}
-                {{--Menu nhân viên--}}
-                <li class="menu-title mt-2">Menu cấp nhân viên</li>
-                <li>
-                    <a href="#sidebarTaskStaff" data-bs-toggle="collapse">
-                        <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
-                        <span>Danh sách công việc</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarTaskStaff">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.task')}}">Công việc phòng tôi</a></li>
-                            <li><a href="#">Công việc được giao</a></li>
-                            <li><a href="#">Công việc cần kiểm tra</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#sidebarDepartmentStaff" data-bs-toggle="collapse">
-                        <i class="uil uil-film" data-feather="uil uil-film"></i>
-                        <span>Kho media</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarDepartmentStaff">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.media')}}">Danh mục media</a></li>
-                        </ul>
-                    </div>
-                </li>
-                {{--Hết menu nhân viên--}}
-
-            </ul>
-        </div>
-        <!-- End Sidebar -->
-
-        <div class="clearfix"></div>
-    </div>
-    <!-- Sidebar -left -->
-@endsection
-
 @section('content-page')
     <div class="content">
 
@@ -223,8 +33,8 @@
                                     <!-- cta -->
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <a href="#" class="btn btn-primary">
-                                                <i class='uil uil-plus me-1'></i>Add New
+                                            <a href="{{route('create.taskOrder')}}" class="btn btn-primary">
+                                                <i class='uil uil-plus me-1'></i>Thêm mới yêu cầu
                                             </a>
                                         </div>
                                         <div class="col-sm-9">
@@ -266,353 +76,31 @@
                                             <div class="collapse show" id="todayTasks">
                                                 <div class="card mb-0 border-0">
                                                     <div class="card-body">
-                                                        <!-- task -->
-                                                        <div class="row justify-content-sm-between border-bottom">
-                                                            <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input" id="task1">
-                                                                    <label class="form-check-label" for="task1">
-                                                                        Draft the new contract document for sales team
-                                                                    </label>
-                                                                </div> <!-- end checkbox -->
-                                                            </div> <!-- end col -->
-                                                            <div class="col-lg-6">
-                                                                <div class="d-sm-flex justify-content-between">
-                                                                    <div>
-                                                                        <img src="assets/images/users/avatar-9.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Arya S" />
-                                                                    </div>
-                                                                    <div class="mt-3 mt-sm-0">
-                                                                        <ul class="list-inline text-sm-end">
-                                                                            <li class="list-inline-item pe-1">
-                                                                                <i class='uil uil-schedule me-1'></i>Today 10am
-                                                                            </li>
-                                                                            <li class="list-inline-item pe-1">
-                                                                                <i class='uil uil-align-alt me-1'></i>3/7
-                                                                            </li>
-                                                                            <li class="list-inline-item pe-2">
-                                                                                <i class='uil uil-comment-message me-1'></i>21
-                                                                            </li>
-                                                                            <li class="list-inline-item">
-                                                                                <span class="badge badge-soft-danger p-1">High</span>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div> <!-- end .d-flex-->
-                                                            </div> <!-- end col -->
-                                                        </div>
-                                                        <!-- end task -->
-
-                                                        <!-- task -->
-                                                        <div class="row justify-content-sm-between mt-2 border-bottom pt-1">
-                                                            <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input" id="task2">
-                                                                    <label class="form-check-label" for="task2">
-                                                                        iOS App home page
-                                                                    </label>
-                                                                </div> <!-- end checkbox -->
-                                                            </div> <!-- end col -->
-                                                            <div class="col-lg-6">
-                                                                <div class="d-sm-flex justify-content-between">
-                                                                    <div>
-                                                                        <img src="assets/images/users/avatar-2.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to James B" />
-                                                                    </div>
-                                                                    <div class="mt-3 mt-sm-0">
-                                                                        <ul
-                                                                            class="list-inline text-sm-end">
-                                                                            <li class="list-inline-item pe-1">
-                                                                                <i class='uil uil-schedule me-1'></i>Today 4pm
-                                                                            </li>
-                                                                            <li class="list-inline-item pe-1">
-                                                                                <i class='uil uil-align-alt me-1'></i>2/7
-                                                                            </li>
-                                                                            <li class="list-inline-item pe-2">
-                                                                                <i class='uil uil-comment-message me-1'></i>48
-                                                                            </li>
-                                                                            <li class="list-inline-item">
-                                                                                <span class="badge badge-soft-danger p-1">High</span>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div> <!-- end .d-flex-->
-                                                            </div> <!-- end col -->
-                                                        </div>
-                                                        <!-- end task -->
-
-                                                        <!-- task -->
-                                                        <div class="row justify-content-sm-between mt-2 pt-1">
-                                                            <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input" id="task3">
-                                                                    <label class="form-check-label" for="task3">
-                                                                        Write a release note
-                                                                    </label>
-                                                                </div> <!-- end checkbox -->
-                                                            </div> <!-- end col -->
-                                                            <div class="col-lg-6">
-                                                                <div class="d-sm-flex justify-content-between">
-                                                                    <div>
-                                                                        <img src="assets/images/users/avatar-4.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Kevin C" />
-                                                                    </div>
-                                                                    <div class="mt-3 mt-sm-0">
-                                                                        <ul
-                                                                            class="list-inline text-sm-end mb-0">
-                                                                            <li class="list-inline-item pe-1">
-                                                                                <i class='uil uil-schedule me-1'></i>Today 6pm
-                                                                            </li>
-                                                                            <li class="list-inline-item pe-1">
-                                                                                <i class='uil uil-align-alt me-1'></i>18/21
-                                                                            </li>
-                                                                            <li class="list-inline-item pe-2">
-                                                                                <i class='uil uil-comment-message me-1'></i>73
-                                                                            </li>
-                                                                            <li class="list-inline-item">
-                                                                                <span class="badge badge-soft-info p-1">Medium</span>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div> <!-- end .d-flex-->
-                                                            </div> <!-- end col -->
-                                                        </div>
-                                                        <!-- end task -->
-                                                    </div> <!-- end card-body-->
-                                                </div> <!-- end card -->
-                                            </div> <!-- end .collapse-->
-
-                                            <!-- upcoming tasks -->
-                                            <div class="mt-4">
-                                                <a class="text-dark" data-bs-toggle="collapse" href="#upcomingTasks" aria-expanded="false" aria-controls="upcomingTasks">
-                                                    <h5 class="mb-0">
-                                                        <i class='uil uil-angle-down'></i>Upcoming
-                                                        <span class="text-muted fs-14">(5)</span>
-                                                    </h5>
-                                                </a>
-
-                                                <div class="collapse show" id="upcomingTasks">
-                                                    <div class="card mb-0 border-0">
-                                                        <div class="card-body">
+{{--                                                        @dd($data)--}}
+                                                        @foreach($datas as $data)
                                                             <!-- task -->
                                                             <div class="row justify-content-sm-between border-bottom">
                                                                 <div class="col-lg-6 mb-2 mb-lg-0">
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task4">
-                                                                        <label class="form-check-label" for="task4">
-                                                                            Invite user to a project
+                                                                        <input type="checkbox" class="form-check-input" id="task1">
+                                                                        <label class="form-check-label" for="task1">
+                                                                            @if((Auth::user()->getRoleNames())[0]=='editor')
+                                                                                <a href="{{route('get.task.id',$data->id)}}">{{$data->name}}</a>
+                                                                            @else
+                                                                                <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
+                                                                            @endif
                                                                         </label>
                                                                     </div> <!-- end checkbox -->
                                                                 </div> <!-- end col -->
                                                                 <div class="col-lg-6">
                                                                     <div class="d-sm-flex justify-content-between">
                                                                         <div>
-                                                                            <img src="assets/images/users/avatar-2.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to James B" />
-                                                                        </div>
-                                                                        <div class="mt-3 mt-sm-0">
-                                                                            <ul
-                                                                                class="list-inline text-sm-end">
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i> Tomorrow 7am
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i> 1/12
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i> 36
-                                                                                </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-danger p-1">High</span>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div> <!-- end .d-flex-->
-                                                                </div> <!-- end col -->
-                                                            </div>
-                                                            <!-- end task -->
-
-                                                            <!-- task -->
-                                                            <div class="row justify-content-sm-between mt-2 pt-1 border-bottom">
-                                                                <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task5">
-                                                                        <label class="form-check-label" for="task5">
-                                                                            Enable analytics tracking
-                                                                        </label>
-                                                                    </div> <!-- end checkbox -->
-                                                                </div> <!-- end col -->
-                                                                <div class="col-lg-6">
-                                                                    <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            <img src="assets/images/users/avatar-2.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to James B" />
+{{--                                                                            <img src="assets/images/users/avatar-9.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Arya S" />--}}
                                                                         </div>
                                                                         <div class="mt-3 mt-sm-0">
                                                                             <ul class="list-inline text-sm-end">
                                                                                 <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i>27 Aug 10am
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>13/72
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>211
-                                                                                </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-success p-1">Low</span>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div> <!-- end .d-flex-->
-                                                                </div> <!-- end col -->
-                                                            </div>
-                                                            <!-- end task -->
-
-                                                            <!-- task -->
-                                                            <div class="row justify-content-sm-between mt-2 pt-1">
-                                                                <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task6">
-                                                                        <label class="form-check-label" for="task6">
-                                                                            Code HTML email template
-                                                                        </label>
-                                                                    </div> <!-- end checkbox -->
-                                                                </div> <!-- end col -->
-                                                                <div class="col-lg-6">
-                                                                    <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            <img src="assets/images/users/avatar-7.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Edward S" />
-                                                                        </div>
-                                                                        <div class="mt-3 mt-sm-0">
-                                                                            <ul
-                                                                                class="list-inline text-sm-end mb-0">
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i> No Due Date
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>0/7
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>0
-                                                                                </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-info p-1">Medium</span>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div> <!-- end .d-flex-->
-                                                                </div> <!-- end col -->
-                                                            </div>
-                                                            <!-- end task -->
-                                                        </div> <!-- end card-body-->
-                                                    </div> <!-- end card -->
-                                                </div> <!-- end collapse-->
-                                            </div>
-                                            <!-- end upcoming tasks -->
-
-                                            <!-- start other tasks -->
-                                            <div class="mt-4 mb-4">
-                                                <a class="text-dark" data-bs-toggle="collapse" href="#otherTasks" aria-expanded="false" aria-controls="otherTasks">
-                                                    <h5>
-                                                        <i class='uil uil-angle-down'></i>Other
-                                                        <span class="text-muted fs-14">(5)</span>
-                                                    </h5>
-                                                </a>
-
-                                                <div class="collapse show" id="otherTasks">
-                                                    <div class="card mb-0 border-0">
-                                                        <div class="card-body">
-                                                            <!-- task -->
-                                                            <div class="row justify-content-sm-between border-bottom">
-                                                                <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task7">
-                                                                        <label class="form-check-label" for="task7">
-                                                                            Coordinate with business development
-                                                                        </label>
-                                                                    </div> <!-- end checkbox -->
-                                                                </div> <!-- end col -->
-                                                                <div class="col-lg-6">
-                                                                    <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            <img src="assets/images/users/avatar-9.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Arya S" />
-                                                                        </div>
-                                                                        <div class="mt-3 mt-sm-0">
-                                                                            <ul
-                                                                                class="list-inline text-sm-end">
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i>Today 10am
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>5/14
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>71
-                                                                                </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-info p-1">Medium</span>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div> <!-- end .d-flex-->
-                                                                </div> <!-- end col -->
-                                                            </div>
-                                                            <!-- end task -->
-
-                                                            <!-- task -->
-                                                            <div class="row justify-content-sm-between mt-2 border-bottom pt-1">
-                                                                <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task8">
-                                                                        <label class="form-check-label" for="task8">
-                                                                            Kanban board design
-                                                                        </label>
-                                                                    </div> <!-- end checkbox -->
-                                                                </div> <!-- end col -->
-                                                                <div class="col-lg-6">
-                                                                    <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            <img src="assets/images/users/avatar-2.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to James B" />
-                                                                        </div>
-                                                                        <div class="mt-3 mt-sm-0">
-                                                                            <ul
-                                                                                class="list-inline text-sm-end">
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i>No Due Date
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>0/8
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>0
-                                                                                </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-info p-1">Medium</span>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div> <!-- end .d-flex-->
-                                                                </div> <!-- end col -->
-                                                            </div>
-                                                            <!-- end task -->
-
-                                                            <!-- task -->
-                                                            <div class="row justify-content-sm-between mt-2 border-bottom pt-1">
-                                                                <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task11">
-                                                                        <label class="form-check-label" for="task11">
-                                                                            Draft the new contract document for sales team
-                                                                        </label>
-                                                                    </div> <!-- end checkbox -->
-                                                                </div> <!-- end col -->
-                                                                <div class="col-lg-6">
-                                                                    <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            <img src="assets/images/users/avatar-9.jpg"
-                                                                                 alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Arya S" />
-                                                                        </div>
-                                                                        <div class="mt-3 mt-sm-0">
-                                                                            <ul
-                                                                                class="list-inline text-sm-end">
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i>Today 10am
+                                                                                    <i class='uil uil-schedule me-1'></i>{{$data->created_at}}
                                                                                 </li>
                                                                                 <li class="list-inline-item pe-1">
                                                                                     <i class='uil uil-align-alt me-1'></i>3/7
@@ -621,7 +109,17 @@
                                                                                     <i class='uil uil-comment-message me-1'></i>21
                                                                                 </li>
                                                                                 <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-danger p-1">High</span>
+                                                                                    <span class="badge badge-soft-danger p-1">
+                                                                                        @if($data->status_code=1)
+                                                                                            Đang chờ nhận
+                                                                                        @elseif ($data->status_code=2)
+                                                                                            Đang thực hiện
+                                                                                        @elseif ($data->status_code=3)
+                                                                                            Đã hoàn thành
+                                                                                        @else
+                                                                                            Cần làm lại
+                                                                                        @endif
+                                                                                    </span>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -629,84 +127,11 @@
                                                                 </div> <!-- end col -->
                                                             </div>
                                                             <!-- end task -->
+                                                        @endforeach
+                                                    </div> <!-- end card-body-->
+                                                </div> <!-- end card -->
+                                            </div> <!-- end .collapse-->
 
-                                                            <!-- task -->
-                                                            <div class="row justify-content-sm-between mt-2 border-bottom pt-1">
-                                                                <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task12">
-                                                                        <label class="form-check-label" for="task12">
-                                                                            iOS App home page
-                                                                        </label>
-                                                                    </div> <!-- end checkbox -->
-                                                                </div> <!-- end col -->
-                                                                <div class="col-lg-6">
-                                                                    <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            <img src="assets/images/users/avatar-2.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to James B" />
-                                                                        </div>
-                                                                        <div class="mt-3 mt-sm-0">
-                                                                            <ul
-                                                                                class="list-inline text-sm-end">
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i>Today 4pm
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>2/7
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>48
-                                                                                </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-danger p-1">High</span>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div> <!-- end .d-flex-->
-                                                                </div> <!-- end col -->
-                                                            </div>
-                                                            <!-- end task -->
-
-                                                            <!-- task -->
-                                                            <div class="row justify-content-sm-between mt-2 pt-1">
-                                                                <div class="col-lg-6 mb-2 mb-lg-0">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task13">
-                                                                        <label class="form-check-label" for="task13">
-                                                                            Write a release note
-                                                                        </label>
-                                                                    </div> <!-- end checkbox -->
-                                                                </div> <!-- end col -->
-                                                                <div class="col-lg-6">
-                                                                    <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            <img src="assets/images/users/avatar-4.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Kevin C" />
-                                                                        </div>
-                                                                        <div class="mt-3 mt-sm-0">
-                                                                            <ul
-                                                                                class="list-inline text-sm-end mb-0">
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i>Today 6pm
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>18/21
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>73
-                                                                                </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-info p-1">Medium</span>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div> <!-- end .d-flex-->
-                                                                </div> <!-- end col -->
-                                                            </div>
-                                                            <!-- end task -->
-                                                        </div> <!-- end card-body-->
-                                                    </div> <!-- end card -->
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -714,7 +139,7 @@
                                         <div class="col-12">
                                             <div class="text-center">
                                                 <a href="javascript:void(0);" class="btn btn-white mb-3">
-                                                    <i data-feather="loader" class="icon-dual icon-xs me-2"></i>Load more
+                                                    <i data-feather="loader" class="icon-dual icon-xs me-2"></i>Tải thêm
                                                 </a>
                                             </div>
                                         </div> <!-- end col-->
