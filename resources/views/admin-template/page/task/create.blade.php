@@ -60,12 +60,12 @@
                             <form class="form-horizontal" method="POST" action="{{route('store.taskOrder')}}">
                                 @csrf
                                 <div class="mb-2 row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
                                         <input name="name" type="text" class="form-control" aria-describedby="emailHelp"
                                                placeholder="">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
                                         <select name="source" class="form-select">
                                             <option selected="" disabled>Chọn nguồn</option>
@@ -74,23 +74,32 @@
                                             <option value="Youtube">Youtube</option>
                                         </select>
                                     </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
+                                        <select class="form-select" name="type">
+                                            <option selected value="Normal">Thường</option>
+                                            <option value="Sponsor">Được tài trợ</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                    <input name="content" type="text" class="form-control" aria-describedby="emailHelp"
-                                           placeholder="">
-                                    <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
-                                        tầm 3' để up facebook)</small>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                    <input name="url_source" type="text" class="form-control"
-                                           aria-describedby="emailHelp" placeholder="">
-                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
-                                        link google driver)</small>
-                                </div>
-                                <div class="row mb-2">
+                                <div class="mb-2 row">
                                     <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
+                                        <input name="content" type="text" class="form-control" aria-describedby="emailHelp"
+                                               placeholder="">
+                                        <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
+                                            tầm 3' để up facebook)</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
+                                        <input name="url_source" type="text" class="form-control"
+                                               aria-describedby="emailHelp" placeholder="">
+                                        <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
+                                            link google driver)</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2 row">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
                                         <select class="form-select" name="department_id">
                                             @foreach($departments as $department)
@@ -98,7 +107,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-2">
                                         <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
                                             {{--                                            <input type="text" id="datetime-datepicker" class="form-control flatpickr-input active" placeholder="Thời hạn" readonly="readonly">--}}
@@ -108,32 +117,9 @@
                                         <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời hạn,
                                         chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
-                                        <select class="form-select" name="type">
-                                            <option selected value="Normal">Normal</option>
-                                            <option value="Sponsor">Sponsor</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
-                                        <input name="product_length" type="number" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Ghi chút quản lý</label>
-                                        <input name="cof_note" type="text" class="form-text form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Ghi chút KoL</label>
-                                        <input name="kol_note" type="text" class="form-text form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Ghi chút Editor</label>
-                                        <input name="editor_note" type="text" class="form-text form-control">
+                                        <input type="text" id="24hours-timepicker" class="form-control flatpickr-input active" placeholder="00:30" readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="float-end">
@@ -144,40 +130,23 @@
                     </div> <!-- end card-->
                 </div>
                 {{--                <!-- comments -->--}}
-                {{--                <div class="col-xl-4">--}}
-                {{--                    <div class="card">--}}
-                {{--                        <div class="card-body">--}}
-                {{--                            <h4 class="mb-4 fs-16">Bình luận về yêu cầu này</h4>--}}
-                {{--                            <div class="row mt-1">--}}
-                {{--                                <div class="col">--}}
-                {{--                                    <div class="border rounded">--}}
-                {{--                                        <form action="#" class="comment-area-box">--}}
-                {{--                                            <textarea rows="3" class="form-control border-0 resize-none"--}}
-                {{--                                                      placeholder="Your comment..."></textarea>--}}
-                {{--                                            <div class="p-2 bg-light">--}}
-                {{--                                                <div class="float-end">--}}
-                {{--                                                    <button type="submit" class="btn btn-sm btn-success">--}}
-                {{--                                                        Gửi bình luận--}}
-                {{--                                                    </button>--}}
-                {{--                                                </div>--}}
-                {{--                                                <div>--}}
-                {{--                                                    --}}{{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                {{--                                                    --}}{{--                                                        <i class="uil uil-cloud-upload"></i>--}}
-                {{--                                                    --}}{{--                                                    </a>--}}
-                {{--                                                    --}}{{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                {{--                                                    <i class="uil uil-message me-1"></i>--}}
-                {{--                                                    --}}{{--                                                    </a>--}}
-                {{--                                                </div>--}}
-                {{--                                            </div>--}}
-                {{--                                        </form>--}}
-                {{--                                    </div> <!-- end .border-->--}}
-                {{--                                </div> <!-- end col-->--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
+                <div class="col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-4 fs-16">Vui lòng tạo yêu cầu để mở khóa tính năng bình luận</h4>
+                            <div class="row mt-1">
+                                <div class="col">
+                                    <div class="border rounded">
+                                        <form action="#" class="comment-area-box">
+                                        </form>
+                                    </div> <!-- end .border-->
+                                </div> <!-- end col-->
+                            </div>
+                        </div>
 
-                {{--                    </div>--}}
-                {{--                </div>--}}
-                {{--                <!-- end col -->--}}
+                    </div>
+                </div>
+                {{--                <!-- end comments -->--}}
             </div>
             <!-- end row -->
 
@@ -242,18 +211,14 @@
 
     <!-- App js -->
     <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
 
     <!-- Data table neccessary -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap4.min.css">
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
@@ -262,4 +227,19 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
     <script src="{{ asset('admin-asset/assets/js/pages/datatables.init.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/js/pages/form-advanced.init.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/js/pages/jquery.multi-select.js') }}"></script>
+
+    <!-- Plugins Js -->
+    <script src="{{ asset('admin-asset/assets/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
+{{--    <script src="assets/libs/flatpickr/flatpickr.min.js"></script>--}}
+{{--    <script src="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>--}}
+{{--    <!--Color picker-->--}}
+{{--    <script src="assets/libs/spectrum-colorpicker2/spectrum.min.js"></script>--}}
+{{--    <!-- Init js-->--}}
+{{--    <script src="assets/js/pages/form-advanced.init.js"></script>--}}
+{{----}}
+{{--    <!-- App js -->--}}
+{{--    <script src="assets/js/app.min.js"></script>--}}
 @endsection

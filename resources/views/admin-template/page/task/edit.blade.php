@@ -81,13 +81,13 @@
                                   method="POST">
                                 @csrf
                                 <div class="mb-2 row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
                                         <input value="{{ $task->name }}" type="text" class="form-control"
                                                style="background-color: #e2e3e5" aria-describedby="emailHelp"
                                                placeholder="Thiết kế video cho KOL Tùng Hoàng" disabled>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
                                         <select class="form-select" disabled style="background-color: #e2e3e5">
                                             <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
@@ -99,6 +99,13 @@
                                             <option value="Youtube @if($task->source === 'Youtube') selected @endif">
                                                 Youtube
                                             </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
+                                        <select class="form-select" name="type">
+                                            <option selected value="Normal">Thường</option>
+                                            <option value="Sponsor">Được tài trợ</option>
                                         </select>
                                     </div>
                                 </div>
@@ -119,16 +126,7 @@
                                         link google driver)</small>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
-                                        <select name="department_id" class="form-select">
-                                            @foreach($departments as $department)
-                                                <option value="{{$department->id}}"
-                                                        @if($task->department_id === $department->id) selected @endif>{{ $department->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Thành viên phụ trách</label>
                                         <select name="member_id" class="form-select">
                                             @foreach($members as $member)
@@ -137,9 +135,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-2">
                                             <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
                                             <input value="{{$task->deadline}}" name="deadline"
@@ -148,27 +144,16 @@
                                         <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời
                                             hạn, chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
                                         <select name="status_code" class="form-select">
                                             <option disabled selected value="1">Đang chờ nhận</option>
                                             <option value="2">Đang thực hiện</option>
                                             <option value="3">Đã hoàn thành</option>
                                             <option value="4">Cần làm lại</option>
+                                            <option value="5">Đóng</option>
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
-                                        <select class="form-select" name="type">
-                                            <option selected value="Normal">Normal</option>
-                                            <option value="Sponsor">Sponsor</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
-                                        <input name="product_length" type="number" class="form-control">
+
                                     </div>
                                 </div>
                                 <div class="float-end">
@@ -211,7 +196,7 @@
                                           method="POST">
                                         @csrf
                                         <textarea name="comment" rows="3" class="form-control border-0 resize-none"
-                                                  placeholder="Your comment..."></textarea>
+                                                  placeholder="Your comment..." required></textarea>
                                         <div class="p-2 bg-light">
                                             <div class="float-end">
                                                 <button type="submit" class="btn btn-sm btn-success">
@@ -219,12 +204,7 @@
                                                 </button>
                                             </div>
                                             <div>
-                                                {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                                                {{--                                                        <i class="uil uil-cloud-upload"></i>--}}
-                                                {{--                                                    </a>--}}
-                                                {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
                                                 <i class="uil uil-message me-1"></i>
-                                                {{--                                                    </a>--}}
                                             </div>
                                         </div>
                                     </form>

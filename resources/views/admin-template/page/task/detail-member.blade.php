@@ -217,7 +217,7 @@
                                     <form action="{{route('comment-task', $task->id)}}" class="comment-area-box" method="POST">
                                         @csrf
                                         <textarea name="comment" rows="3" class="form-control border-0 resize-none"
-                                                  placeholder="Your comment..."></textarea>
+                                                  placeholder="Your comment..." required></textarea>
                                         <div class="p-2 bg-light">
                                             <div class="float-end">
                                                 <button type="submit" class="btn btn-sm btn-success">
@@ -225,12 +225,7 @@
                                                 </button>
                                             </div>
                                             <div>
-                                                {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                                                {{--                                                        <i class="uil uil-cloud-upload"></i>--}}
-                                                {{--                                                    </a>--}}
-                                                {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
                                                 <i class="uil uil-message me-1"></i>
-                                                {{--                                                    </a>--}}
                                             </div>
                                         </div>
                                     </form>
