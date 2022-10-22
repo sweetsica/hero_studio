@@ -120,6 +120,7 @@
                                         <input name="product_length" type="number" class="form-control">
                                     </div>
                                 </div>
+                                <input type="hidden" name="creator_id" value="{{\Illuminate\Support\Facades\Auth::id()}}">
                                 <div class="float-end">
                                     <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
                                 </div>

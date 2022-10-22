@@ -63,13 +63,11 @@
                                 <div class="mb-2 row">
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
-                                        <input value="{{ $task->name }}" type="text" class="form-control"
-                                               style="background-color: #e2e3e5" aria-describedby="emailHelp"
-                                               placeholder="Thiết kế video cho KOL Tùng Hoàng" disabled>
+                                        <input value="{{ $task->name }}" style="background-color: #f6f6f7" type="text" class="form-control" aria-describedby="emailHelp" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
-                                        <select class="form-select">
+                                        <select class="form-select"  @if((Auth::user()->getRoleNames())[0]=='chief of department') disabled @endif>
                                             <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
                                                 Facebook
                                             </option>
@@ -139,6 +137,9 @@
                                         <input value="{{{$task->product_length}}}" name="product_length" type="number" class="form-control">
                                     </div>
                                 </div>
+                                <div class="md-3">
+                                    <a href="#">Xóa yêu cầu</a>
+                                </div>
                                 <div class="float-end">
                                     <button type="submit" class="btn btn-primary">Xác nhận yêu cầu</button>
                                 </div>
@@ -206,35 +207,35 @@
                         <div class="card-body">
                             <h4 class="header-title mt-0 mb-1">Danh sách task</h4>
                             <p class="sub-header">
-
                             </p>
-
                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
+                                    <th>Ngày tạo</th>
                                     <th>Tên yêu cầu</th>
                                     <th>Nhân viên phụ trách</th>
                                     <th>Phòng ban phụ trách</th>
-                                    <th>Mô tả</th>
+
                                     <th>Nguồn</th>
                                     <th>Loại yêu cầu</th>
-                                    <th>Link video nguồn</th>
                                     <th>Thời hạn</th>
-                                    <th>Ngày tạo</th>
+                                    <th>Link video nguồn</th>
+                                    <th>Mô tả</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($tasks as $task)
                                     <tr>
+                                        <td>{{ $task->created_at->format('d/m - h:i') }}</td>
                                         <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
                                         <td>{{ $task->member?->name }}</td>
                                         <td>{{ $task->department->name }}</td>
-                                        <td>{{ $task->content }}</td>
+
                                         <td>{{ $task->source }}</td>
                                         <td>{{ $task->type }}</td>
+                                        <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
                                         <td>{{ $task->url_source }}</td>
-                                        <td>{{ $task->deadline }}</td>
-                                        <td>{{ $task->created_at }}</td>
+                                        <td>{{ $task->content }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

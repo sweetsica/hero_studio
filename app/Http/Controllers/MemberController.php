@@ -30,10 +30,8 @@ class MemberController extends Controller
             return redirect()->back()->withErrors(['user' => 'Email or password wrong']);
         }
         $user = User::with('member')->where('email', '=', $request->email)->first();
-
         session()->put('user', $user);
-
-        return redirect()->route('get.task');
+        return redirect()->route('get.taskOrder.list');
     }
 
     public function registerMember(Request $request) {

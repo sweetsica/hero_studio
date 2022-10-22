@@ -39,6 +39,17 @@
                 </a>
             </li>
 
+            {{--Menu super admin --}}
+            @if((Auth::user()->hasRole('super admin')))
+                <li class="menu-title mt-2">Menu cấp admin</li>
+                <li>
+                    <a href="{{route('create.member')}}">
+                        <i data-feather="users"></i>
+                        <span>Tạo mới người dùng</span>
+                    </a>
+                </li>
+            @endif
+
             {{--Menu quản lý--}}
 
             @if((Auth::user()->getRoleNames())[0]=='chief of department')

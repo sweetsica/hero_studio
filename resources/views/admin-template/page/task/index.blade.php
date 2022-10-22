@@ -84,11 +84,7 @@
                                                                     <div class="form-check">
                                                                         <input type="checkbox" class="form-check-input" id="task1">
                                                                         <label class="form-check-label" for="task1">
-                                                                            @if((Auth::user()->getRoleNames())[0]=='editor')
-                                                                                <a href="{{route('get.task.id',$data->id)}}">{{$data->name}}</a>
-                                                                            @else
-                                                                                <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
-                                                                            @endif
+                                                                            <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                                         </label>
                                                                     </div> <!-- end checkbox -->
                                                                 </div> <!-- end col -->
@@ -109,15 +105,22 @@
                                                                                     <i class='uil uil-comment-message me-1'></i>21
                                                                                 </li>
                                                                                 <li class="list-inline-item">
-                                                                                    <span class="badge badge-soft-danger p-1">
-                                                                                        @if($data->status_code=1)
+                                                                                        @if($data->status_code==1)
+                                                                                        <span class="badge badge badge-soft-secondary p-1">
                                                                                             Đang chờ nhận
-                                                                                        @elseif ($data->status_code=2)
+                                                                                        </span>
+                                                                                        @elseif ($data->status_code==2)
+                                                                                        <span class="badge badge-soft-info p-1">
                                                                                             Đang thực hiện
-                                                                                        @elseif ($data->status_code=3)
+                                                                                        </span>
+                                                                                        @elseif ($data->status_code==3)
+                                                                                        <span class="badge badge-soft-success p-1">
                                                                                             Đã hoàn thành
+                                                                                        </span>
                                                                                         @else
+                                                                                        <span class="badge badge-soft-primary p-1">
                                                                                             Cần làm lại
+                                                                                        </span>
                                                                                         @endif
                                                                                     </span>
                                                                                 </li>
@@ -154,229 +157,62 @@
                 <!-- task details -->
                 <div class="col-xl-4">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="dropdown float-end">
-                                        <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class='uil uil-ellipsis-h'></i>
+                        <div class="card-body p-0">
+                            <div class="p-3">
+                                <div class="dropdown float-end">
+                                    <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="uil uil-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item">
+                                            <i class="uil uil-refresh me-2"></i>Refresh
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">
-                                                <i class='uil uil-file-upload me-1'></i>Attachment
-                                            </a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">
-                                                <i class='uil uil-edit me-1'></i>Edit
-                                            </a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">
-                                                <i class='uil uil-file-copy-alt me-1'></i>Mark as Duplicate
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item text-danger">
-                                                <i class='uil uil-trash-alt me-1'></i>Delete
-                                            </a>
-                                        </div> <!-- end dropdown menu-->
-                                    </div> <!-- end dropdown-->
-
-                                    <div class="form-check float-start">
-                                        <input type="checkbox" class="form-check-input" id="completedCheck">
-                                        <label class="form-check-label" for="completedCheck">
-                                            Mark as completed
-                                        </label>
-                                    </div> <!-- end form-checkbox-->
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item">
+                                            <i class="uil uil-user-plus me-2"></i>Add New
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item text-danger">
+                                            <i class="uil uil-exit me-2"></i>Exit
+                                        </a>
+                                    </div>
                                 </div>
+
+                                <h5 class="card-title header-title mb-0">Overview</h5>
                             </div>
 
-                            <hr class="my-2" />
+                            <!-- stat 1 -->
+                            <div class="d-flex p-3 border-bottom">
+                                <div class="flex-grow-1">
+                                    <h4 class="mt-0 mb-1 fs-22">121,000</h4>
+                                    <span class="text-muted">Total Visitors</span>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users align-self-center icon-dual icon-md"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <h4 class="mt-0">Draft the new contract document for sales team</h4>
+                            <!-- stat 2 -->
+                            <div class="d-flex p-3 border-bottom">
+                                <div class="flex-grow-1">
+                                    <h4 class="mt-0 mb-1 fs-22">21,000</h4>
+                                    <span class="text-muted">Total Product Views</span>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image align-self-center icon-dual icon-md"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            </div>
 
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <!-- assignee -->
-                                            <p class="mt-2 mb-1 text-muted">Assigned To</p>
-                                            <div class="d-flex">
-                                                <img src="assets/images/users/avatar-9.jpg" alt="Arya S" class="rounded-circle me-2" height="24" />
-                                                <div class="flex-grow-1">
-                                                    <h5 class="mt-1 fs-14">Arya Stark</h5>
-                                                </div>
-                                            </div>
-                                            <!-- end assignee -->
-                                        </div> <!-- end col -->
+                            <!-- stat 3 -->
+                            <div class="d-flex p-3 border-bottom">
+                                <div class="flex-grow-1">
+                                    <h4 class="mt-0 mb-1 fs-22">$21.5</h4>
+                                    <span class="text-muted">Revenue Per Visitor</span>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag align-self-center icon-dual icon-md"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                            </div>
 
-                                        <div class="col-6">
-                                            <!-- start due date -->
-                                            <p class="mt-2 mb-1 text-muted">Due Date</p>
-                                            <div class="d-flex">
-                                                <i class='uil uil-schedule text-success me-1'></i>
-                                                <div class="flex-grow-1">
-                                                    <h5 class="mt-1 fs-14">Today 10am</h5>
-                                                </div>
-                                            </div>
-                                            <!-- end due date -->
-                                        </div> <!-- end col -->
-                                    </div> <!-- end row -->
-
-                                    <!-- task description -->
-                                    <div class="row mt-3">
-                                        <div class="col">
-                                            <div id="bubble-editor" style="height: 150px;">
-                                                <p>This is a task description with markup support</p>
-                                                <p><br></p>
-                                                <ul>
-                                                    <li>Select a text to reveal the toolbar.</li>
-                                                    <li>Edit rich document on-the-fly, so elastic!</li>
-                                                </ul>
-                                                <p><br></p>
-                                                <p>End of air-mode area</p>
-                                            </div> <!-- end Snow-editor-->
-                                        </div> <!-- end col -->
-                                    </div>
-                                    <!-- end task description -->
-
-                                    <!-- start sub tasks/checklists -->
-                                    <h5 class="mt-4 mb-2 fs-15">Checklists/Sub-tasks</h5>
-                                    <div class="form-check mt-1">
-                                        <input type="checkbox" class="form-check-input" id="checklist1">
-                                        <label class="form-check-label strikethrough" for="checklist1">
-                                            Find out the old contract documents
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check mt-1">
-                                        <input type="checkbox" class="form-check-input" id="checklist2">
-                                        <label class="form-check-label strikethrough" for="checklist2">
-                                            Organize meeting sales associates to understand need in detail
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check mt-1">
-                                        <input type="checkbox" class="form-check-input" id="checklist3">
-                                        <label class="form-check-label strikethrough" for="checklist3">
-                                            Make sure to cover every small details
-                                        </label>
-                                    </div>
-                                    <!-- end sub tasks/checklists -->
-
-                                    <!-- start attachments -->
-                                    <h5 class="mt-4 mb-2 fs-16">Attachments</h5>
-                                    <div class="card mb-2 shadow-none border">
-                                        <div class="p-1 px-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <img src="assets/images/projects/project-1.jpg" class="avatar-sm rounded" alt="file-image">
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">sales-assets.zip</a>
-                                                    <p class="mb-0">2.3 MB</p>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <!-- Button -->
-                                                    <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Download" class="btn btn-link text-muted btn-lg p-0">
-                                                        <i class='uil uil-cloud-download fs-14'></i>
-                                                    </a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn btn-link text-danger btn-lg p-0">
-                                                        <i class='uil uil-multiply fs-14'></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card mb-2 shadow-none border">
-                                        <div class="p-1 px-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <img src="assets/images/projects/project-2.jpg" class="avatar-sm rounded" alt="file-image">
-                                                </div>
-                                                <div class="col ps-0">
-                                                    <a href="javascript:void(0);" class="text-muted fw-bold">new-contarcts.docx</a>
-                                                    <p class="mb-0">1.25 MB</p>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <!-- Button -->
-                                                    <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Download" class="btn btn-link text-muted btn-lg p-0">
-                                                        <i class='uil uil-cloud-download fs-14'></i>
-                                                    </a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn btn-link text-danger btn-lg p-0">
-                                                        <i class='uil uil-multiply fs-14'></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end attachments -->
-
-                                    <!-- comments -->
-                                    <div class="row mt-3">
-                                        <div class="col">
-                                            <h5 class="mb-2 fs-16">Comments</h5>
-
-                                            <div class="d-flex mt-3 p-1">
-                                                <img src="assets/images/users/avatar-9.jpg" class="me-2 rounded-circle" height="36" alt="Arya Stark" />
-                                                <div class="flex-grow-1">
-                                                    <h5 class="mt-0 mb-0 fs-14">
-                                                        <span class="float-end text-muted fs-12">4:30am</span>Arya Stark
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted">
-                                                        Should I review the last 3 years legal documents as well?
-                                                    </p>
-                                                </div>
-                                            </div> <!-- end comment -->
-
-                                            <hr />
-
-                                            <div class="d-flex p-1">
-                                                <img src="assets/images/users/avatar-5.jpg" class="me-2 rounded-circle" height="36" alt="Dominc B" />
-                                                <div class="flex-grow-1">
-                                                    <h5 class="mt-0 mb-0 fs-14">
-                                                        <span class="float-end text-muted fs-12">3:30am</span>Gary Somya
-                                                    </h5>
-                                                    <p class="mt-1 mb-0 text-muted">
-                                                        @Arya FYI..I have created some general guidelines last year.
-                                                    </p>
-                                                </div>
-                                            </div> <!-- end comment-->
-
-                                            <hr />
-
-                                        </div> <!-- end col -->
-                                    </div> <!-- end row -->
-
-                                    <div class="row mt-1">
-                                        <div class="col">
-                                            <div class="border rounded">
-                                                <form action="#" class="comment-area-box">
-                                                    <textarea rows="3" class="form-control border-0 resize-none" placeholder="Your comment..."></textarea>
-                                                    <div class="p-2 bg-light">
-                                                        <div class="float-end">
-                                                            <button type="submit" class="btn btn-sm btn-success">
-                                                                <i class='uil uil-message me-1'></i>Submit
-                                                            </button>
-                                                        </div>
-                                                        <div>
-                                                            <a href="#" class="btn btn-sm px-1 btn-light">
-                                                                <i class='uil uil-cloud-upload'></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-sm px-1 btn-light">
-                                                                <i class='uil uil-at'></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div> <!-- end .border-->
-                                        </div> <!-- end col-->
-                                    </div> <!-- end row-->
-                                    <!-- end comments -->
-                                </div> <!-- end col -->
-                            </div> <!-- end row-->
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card-->
+                            <a href="" class="p-2 d-block text-end">View All <i class="uil-arrow-right"></i></a>
+                        </div>
+                    </div>
                 </div> <!-- end col -->
             </div>
 
