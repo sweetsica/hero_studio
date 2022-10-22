@@ -49,6 +49,7 @@ class TaskSeeder extends Seeder
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
+                'creator_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -74,6 +75,7 @@ class TaskSeeder extends Seeder
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
+                'creator_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -99,6 +101,7 @@ class TaskSeeder extends Seeder
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
+                'creator_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -124,6 +127,7 @@ class TaskSeeder extends Seeder
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
+                'creator_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -148,6 +152,7 @@ class TaskSeeder extends Seeder
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
+                'creator_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -174,6 +179,7 @@ class TaskSeeder extends Seeder
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
+                'creator_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -198,6 +204,7 @@ class TaskSeeder extends Seeder
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
+                'creator_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

@@ -12,7 +12,7 @@ class TaskController extends Controller
 {
     public function getTaskOrder()
     {
-        $infos = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $infos = Task::where('creator_id','=', Auth::id())->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
         return view('admin-template.page.task.index', compact('infos'));
     }
     public function getTaskOrderKOL($kol_id){
@@ -53,9 +53,8 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $task->update($request->all());
-        dd($request);
 //        $validKey = ['member_id', 'department_id', 'deadline', 'status_code'];
-//        $task->update($request->only($validKey));
+//        $task->update($request->all());
 
         return redirect()->route('get.taskOrder.list');
     }
@@ -70,8 +69,8 @@ class TaskController extends Controller
 
     public function getTaskList()
     {
-        $datas = Task::all(); // Lấy danh sách toàn bộ Task
-        return view('admin-template.page.task.index', compact('datas'));
+        $infos = Task::all(); // Lấy danh sách toàn bộ Task
+        return view('admin-template.page.task.index', compact('infos'));
     }
 
 
@@ -94,7 +93,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $validKey = ['url_others', 'status_code'];
-        $task->update($request->only($validKey));
+        $task->update($request->all());
 
         return redirect()->back();
     }

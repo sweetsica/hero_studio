@@ -57,8 +57,9 @@
                         <div class="card-body">
                             <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
                             <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}"
-                                  method="PUT">
+                                  method="POST">
                                 @csrf
+                                @method('PUT')
                                 <div class="mb-2 row">
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
@@ -68,7 +69,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
-                                        <select class="form-select" style="background-color: #e2e3e5">
+                                        <select class="form-select">
                                             <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
                                                 Facebook
                                             </option>
@@ -83,10 +84,10 @@
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
                                         <select name="status_code" class="form-select">
-                                            <option selected value="1">Đang chờ nhận</option>
-                                            <option value="2">Đang thực hiện</option>
-                                            <option value="3">Đã hoàn thành</option>
-                                            <option value="4">Cần làm lại</option>
+                                            <option @if($task->status_code === 1) selected @endif value="1">Đang chờ nhận</option>
+                                            <option @if($task->status_code === 2) selected @endif value="2">Đang thực hiện</option>
+                                            <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn thành</option>
+                                            <option @if($task->status_code === 4) selected @endif value="4">Cần làm lại</option>
                                         </select>
                                     </div>
                                 </div>
@@ -103,15 +104,27 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
-                                        <select name="department_id" class="form-select">
-                                            @foreach($departments as $department)
-                                                <option value="{{$department->id}}"
-                                                        @if($task->department_id === $department->id) selected @endif>{{ $department->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    @if((Auth::user()->getRoleNames())[0]=='key opinion leaders')
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
+                                            <select name="department_id" class="form-select">
+                                                @foreach($departments as $department)
+                                                    <option value="{{$department->id}}"
+                                                            @if($task->department_id === $department->id) selected @endif>{{ $department->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @elseif((Auth::user()->getRoleNames())[0]=='chief of department')
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="exampleInputEmail1">Thành viên phụ trách</label>
+                                            <select name="member_id" class="form-select">
+                                                @foreach($members as $member)
+                                                    <option value="{{$member->id}}"
+                                                            @if($task->member_id === $member->id) selected @endif>{{ $member->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
                                     <div class="col-md-4">
                                         <div class="mb-2">
                                             <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
@@ -123,7 +136,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
-                                        <input name="product_length" type="number" class="form-control">
+                                        <input value="{{{$task->product_length}}}" name="product_length" type="number" class="form-control">
                                     </div>
                                 </div>
                                 <div class="float-end">

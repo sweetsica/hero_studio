@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function () {
 //        Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
 
 //        Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
-//        Route::post('luu', [TaskController::class, 'store'])->name('store.taskOrder'); //Lưu yêu cầu (nhiệm vụ dạng đang chờ)
+        Route::post('luu', [TaskController::class, 'store'])->name('store.taskOrder'); //Lưu yêu cầu (nhiệm vụ dạng đang chờ)
 
 //        Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
 //        Route::post('chinh-sua/{task_id}', [TaskController::class, 'updateTask'])->name('edit.updateTaskOrder'); // Update route bên trên
