@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Trần Lâm Editor',
                 'email' => 'editor@user.com',
-                'password' => bcrypt('testpass'),
+                'password' => bcrypt('editor@user.com'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
