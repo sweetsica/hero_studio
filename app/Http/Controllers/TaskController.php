@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Member;
+use App\Models\Role;
 use App\Models\Task;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,28 +13,154 @@ class TaskController extends Controller
 {
     public function getTaskOrder()
     {
-        $infos = Task::where('creator_id','=', Auth::id())->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $query = Task::query();
 
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $query = $query->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $query = $query->where('member_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $query = $query->whereIn('department_id', $authUserDepartments);
+        }
+
+
+        $infos = $query->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+
+        $totalTask = Task::count();
+        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+
+
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone'));
+    }
+
+    public function getPendingTaskOrder()
+    {
+        $query = Task::query();
+
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $query = $query->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $query = $query->where('member_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $query = $query->whereIn('department_id', $authUserDepartments);
+        }
+
+        $infos = $query->where('status_code', Task::TASK_STATUS['SENT'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+
+        $totalTask = Task::count();
+        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+
+
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone'));
+    }
+
+    public function getInprogressTaskOrder()
+    {
+        $query = Task::query();
+
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $query = $query->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $query = $query->where('member_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $query = $query->whereIn('department_id', $authUserDepartments);
+        }
+
+        $infos = $query->where('status_code', Task::TASK_STATUS['IN_PROGRESS'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+
+        $totalTask = Task::count();
+        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+
+
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone'));
+    }
+
+    public function getDoneTaskOrder()
+    {
+        $query = Task::query();
+
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $query = $query->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $query = $query->where('member_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $query = $query->whereIn('department_id', $authUserDepartments);
+        }
+
+        $infos = $query->where('status_code', Task::TASK_STATUS['DONE'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+
+        $totalTask = Task::count();
+        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+
+
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone'));
+    }
+
+    public function getRedoTaskOrder()
+    {
+        $query = Task::query();
+
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $query = $query->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $query = $query->where('member_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $query = $query->whereIn('department_id', $authUserDepartments);
+        }
+
+        $infos = $query->where('status_code', Task::TASK_STATUS['REDO'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+
+        $totalTask = Task::count();
+        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+
+
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone'));
+    }
+
+
+    public function getTaskOrderKOL($kol_id)
+    {
+        $infos = Task::where('creator_id', '=', $kol_id)->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
         return view('admin-template.page.task.index', compact('infos'));
     }
-    public function getTaskOrderKOL($kol_id){
-        $infos = Task::where('creator_id','=',$kol_id)->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
-        return view('admin-template.page.task.index', compact('infos'));
-    }
+
     public function createTaskOrder()
     {
         $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
-        $departments = Department::all();
-        $members = Member::all();
+        $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+        $departmentQuery = Department::query();
+        if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $departmentQuery = $departmentQuery->whereIn('id', $authUserDepartments);
+        }
+
+        $departments = $departmentQuery->get();
+        $memberQuery = Member::query();
+        if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $memberQuery = $memberQuery->whereHas('departments', function ($query) use ($authUserDepartments) {
+                return $query->whereIn('department_id', $authUserDepartments);
+            });
+        }
+        $members = $memberQuery->get();
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
     }
+
     public function store(Request $request)
     {
         $validKeys = [
             'name', 'type', 'department_id', 'deadline',
             'source', 'url_source', 'content', 'product_length',
-            'cof_note', 'kol_note', 'editor_note','creator_id'
+            'cof_note', 'kol_note', 'editor_note', 'creator_id'
         ];
 
         Task::create($request->only($validKeys));
@@ -44,12 +170,13 @@ class TaskController extends Controller
 
     public function getTaskListByDepartmentId($phong_ban_id)
     {
-        $infos = Task::where('department_id','=',$phong_ban_id); //Lấy danh sách Task theo department_id
+        $infos = Task::where('department_id', '=', $phong_ban_id); //Lấy danh sách Task theo department_id
         return view('admin-template.page.task.index-manage', compact('infos'));
     }
+
     public function getTaskListByUserId($user_id)
     {
-        $infos = Task::where('member_id','=',$user_id); //Lấy danh sách Task theo department_id
+        $infos = Task::where('member_id', '=', $user_id); //Lấy danh sách Task theo department_id
         return view('admin-template.page.task.index-manage', compact('infos'));
     }
 
@@ -59,53 +186,51 @@ class TaskController extends Controller
         $task = Task::with(['comments' => function ($query) {
             $query->orderBy('created_at', 'desc')->with('member');
         }])->find($id);
-        $departments = Department::all();
-        $members = Member::all();
+        $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
 
-        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task'));
+        $departmentQuery = Department::query();
+        if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $departmentQuery = $departmentQuery->whereIn('id', $authUserDepartments);
+        }
+
+        $departments = $departmentQuery->get();
+        $memberQuery = Member::query();
+        if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $memberQuery = $memberQuery->whereHas('departments', function ($query) use ($authUserDepartments) {
+                return $query->whereIn('department_id', $authUserDepartments);
+            });
+        }
+        $members = $memberQuery->get();
+        $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
+
+        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete'));
     }
+
     public function updateTask($id, Request $request)
     {
         $task = Task::find($id);
         $task->update($request->all());
 //        $validKey = ['member_id', 'department_id', 'deadline', 'status_code'];
 //        $task->update($request->all());
-        if (Auth::user()->hasRole('chief of department') || Auth::user()->hasRole('editor')) {
-            return redirect()->route('get.task');
-        }
 
         return redirect()->route('get.taskOrder.list');
     }
 
 
-
-
-
-
-
-
-
-    public function getTaskList()
+    // getTaskCof
+    public function getTaskListCOF()
     {
-        $infos = Task::all(); // Lấy danh sách toàn bộ Task
-        return view('admin-template.page.task.index', compact('infos'));
+        $infos = Task::orderByDesc('updated_at')->get(); // Lấy danh sách toàn bộ Task
+
+        $totalTask = Task::count();
+        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+
+//        dd($totalTask,$totalTaskInprogress,$totalTaskDone);
+
+
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone'));
     }
-
-
-
-
-
-//    public function getTaskDetail($id)
-//    {
-//        $tasks = Task::all();
-//        $task = Task::with(['comments' => function ($query) {
-//            $query->orderBy('created_at', 'desc')->with('member');
-//        }])->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
-//        $departments = Department::all();
-//        $members = Member::all();
-//
-//        return view('admin-template.page.task.detail-member', compact('tasks', 'departments', 'members', 'task'));
-//    }
 
     public function updateTaskDetail(Request $request, $id)
     {
@@ -116,7 +241,7 @@ class TaskController extends Controller
         return redirect()->back();
     }
 
-    public function updateTaskOrder(Request $request,$id)
+    public function updateTaskOrder(Request $request, $id)
     {
         $task = Task::find($id);
         $task->update($request->all());
@@ -125,7 +250,8 @@ class TaskController extends Controller
 
     public function deleteTaskOrder($taskOrder_id)
     {
-        // Xóa Yêu cầu theo id
+        Task::find($taskOrder_id)->delete();
+        return redirect()->route('get.taskOrder.list');
     }
 
     // tao moi task

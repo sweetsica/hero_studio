@@ -31,13 +31,13 @@
     <div id="sidebar-menu">
         <ul id="side-menu">
             <!-- <li class="menu-title">Navigation</li> -->
-            <li>
-                <a href="{{route('get.taskOrder.list')}}" data-bs-toggle="collapse">
-                    <span class="badge bg-success float-end">03</span>
-                    <i data-feather="home"></i>
-                    <span> Trang chủ </span>
-                </a>
-            </li>
+{{--            <li>--}}
+{{--                <a href="{{route('get.taskOrder.list')}}" data-bs-toggle="collapse">--}}
+{{--                    <span class="badge bg-success float-end">03</span>--}}
+{{--                    <i data-feather="home"></i>--}}
+{{--                    <span> Trang chủ </span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
 
             {{--Menu super admin --}}
             @if((Auth::user()->hasRole('super admin')))
@@ -45,7 +45,19 @@
                 <li>
                     <a href="{{route('create.member')}}">
                         <i data-feather="users"></i>
-                        <span>Tạo mới người dùng</span>
+                        <span>Danh sách người dùng</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('get.department')}}">
+                        <i class="uil uil-sitemap" data-feather="uil uil-users-alt"></i>
+                        <span>Danh sách phòng ban</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('get.taskOrder.list')}}">
+                        <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
+                        <span>Danh sách nhiệm vụ</span>
                     </a>
                 </li>
             @endif
@@ -62,34 +74,9 @@
                     </a>
                     <div class="collapse" id="sidebarTaskManage">
                         <ul class="nav-second-level">
-                            <li><a href="{{route('get.task')}}">Danh sách nhiệm vụ</a></li>
-                            <li><a href="{{route('get.task.department','1')}}">Nhiệm vụ theo id phòng</a></li>
-                            <li><a href="{{route('edit.taskOrder','1')}}">Phân công nhiệm vụ</a></li>
-
-                            <li><a href="{{route('get.taskOrder.list')}}">Danh sách yêu cầu</a></li>
-                            <li><a href="{{route('get.taskOrder.byDepartmentId','1')}}">Yêu cầu theo id phòng</a></li>
+                            <li><a href="{{route('get.taskOrder.list')}}">Danh sách nhiệm vụ</a></li>
                         </ul>
                     </div>
-                </li>
-{{--                <li>--}}
-{{--                    <a href="#sidebarDepartmentManager" data-bs-toggle="collapse">--}}
-{{--                        <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>--}}
-{{--                        <span>Danh sách phòng ban</span>--}}
-{{--                        <span class="menu-arrow"></span>--}}
-{{--                    </a>--}}
-{{--                    <div class="collapse" id="sidebarDepartmentManager">--}}
-{{--                        <ul class="nav-second-level">--}}
-{{--                            <li><a href="{{route('get.department')}}">List phòng ban</a></li>--}}
-{{--                            <li><a href="{{route('create.department')}}">Tạo phòng ban</a></li>--}}
-{{--                            <li><a href="{{route('edit.department','1')}}">Phân bổ nhân sự</a></li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </li>--}}
-                <li>
-                    <a href="{{route('get.department')}}">
-                        <i class="uil uil-sitemap" data-feather="uil uil-users-alt"></i>
-                        <span>Danh sách phòng ban</span>
-                    </a>
                 </li>
                 <li>
                     <a href="#sidebarStaffManager" data-bs-toggle="collapse">
@@ -100,7 +87,6 @@
                     <div class="collapse" id="sidebarStaffManager">
                         <ul class="nav-second-level">
                             <li><a href="{{route('get.member')}}">List nhân sự</a></li>
-                            <li><a href="#">Thêm mới nhân sự</a></li>
                         </ul>
                     </div>
                 </li>
@@ -130,8 +116,8 @@
                     <div class="collapse" id="sidebarTaskManage">
                         <ul class="nav-second-level">
                             <li><a href="{{route('get.taskOrder.list')}}">Yêu cầu của tôi</a></li>
-                            <li><a href="{{route('get.taskOrder.list')}}">Yêu cầu chờ xử lý</a></li>
-                            <li><a href="{{route('get.taskOrder.list')}}">Yêu cầu đã hoàn thành</a></li>
+                            <li><a href="{{route('get.taskOrder.pendingList')}}">Yêu cầu chờ xử lý</a></li>
+                            <li><a href="{{route('get.taskOrder.doneList')}}">Yêu cầu đã hoàn thành</a></li>
                         </ul>
                     </div>
                 </li>
@@ -150,7 +136,7 @@
             @endif
             {{--Hết menu KOL--}}
             {{--Menu nhân viên--}}
-{{--            @if((Auth::user()->getRoleNames())[0]=='editor')--}}
+            {{--            @if((Auth::user()->getRoleNames())[0]=='editor')--}}
             @if(Auth::user()->hasRole('editor'))
                 <li class="menu-title mt-2">Menu cấp nhân viên</li>
                 <li>
@@ -161,9 +147,8 @@
                     </a>
                     <div class="collapse" id="sidebarTaskStaff">
                         <ul class="nav-second-level">
-                            <li><a href="{{route('get.task')}}">Công việc phòng tôi</a></li>
-                            <li><a href="#">Công việc được giao</a></li>
-                            <li><a href="#">Công việc cần kiểm tra</a></li>
+                            <li><a href="{{route('get.taskOrder.list')}}">Công việc được giao</a></li>
+                            <li><a href="{{route('get.taskOrder.redoList')}}">Công việc cần kiểm tra</a></li>
                         </ul>
                     </div>
                 </li>

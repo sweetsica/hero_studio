@@ -37,4 +37,8 @@ class User extends Authenticatable
     public function member() {
         return $this->hasOne(Member::class);
     }
+
+    public function departments() {
+        return $this->hasMany(Department::class, 'department_head_id');
+    }
 }

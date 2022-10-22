@@ -18,4 +18,8 @@ class Member extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function departments() {
+        return $this->belongsToMany(Department::class, 'department_member');
+    }
 }

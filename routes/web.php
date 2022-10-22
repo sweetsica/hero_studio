@@ -42,9 +42,16 @@ Route::get('nguoi-dung/dang-ky', [MemberController::class, 'getRegisterView'])->
 Route::post('nguoi-dung/dang-ky', [MemberController::class, 'registerUser']); // Đăng ký tài khoản bởi người dùng
 
 Route::middleware('auth')->group(function () {
+
     Route::prefix('nhiem-vu')->group(function (){
         //Danh sách yêu cầu theo KOL
         Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list');
+
+        Route::get('danh-sach-dang-cho-xu-ly', [TaskController::class, 'getPendingTaskOrder'])->name('get.taskOrder.pendingList');
+        Route::get('danh-sach-dang-thuc-hien', [TaskController::class, 'getInprogressTaskOrder'])->name('get.taskOrder.inprogressList');
+        Route::get('danh-sach-hoan-thanh', [TaskController::class, 'getDoneTaskOrder'])->name('get.taskOrder.doneList');
+         Route::get('danh-sach-xem-lai', [TaskController::class, 'getRedoTaskOrder'])->name('get.taskOrder.redoList');
+
         Route::get('danh-sach/kol/{kol_id}', [TaskController::class, 'getTaskOrderKOL'])->name('get.taskOrderKOL.list');
         //KOL- Tạo yêu cầu
         Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
@@ -52,6 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
         Route::put('chinh-sua/{task_id}', [TaskController::class, 'updateTask'])->name('edit.updateTaskOrder'); // Update route bên trên
 
+        Route::get('xoa/{task_id}', [TaskController::class, 'deleteTaskOrder'])->name('delete.task');
 
         //Danh sách yêu cầu theo COF
         Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId');
@@ -61,6 +69,7 @@ Route::middleware('auth')->group(function () {
 //        Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTask'])->name('update.taskOrder');
         //Editor - Nhận yêu cầu -> Sửa yêu cầu
         Route::get('danh-sach/{user_id}', [TaskController::class, 'getTaskListByUserId'])->name('get.taskOrder.byUserId');
+
     });
 
 
@@ -88,17 +97,6 @@ Route::middleware('auth')->group(function () {
         Route::post('comment/{taskId}', [TaskController::class, 'comment'])->name('comment-task');
     });
 
-    Route::prefix('cong-viec')->group(function () {
-        Route::get('danh-sach', [TaskController::class, 'getTaskList'])->name('get.task'); //Lấy danh sách nhiệm vụ
-        Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskListByDepartmentId'])->name('get.task.department'); //Lấy danh sách nhiệm vụ theo phòng ban
-
-//        Route::get('chi-tiet/{task_id}', [TaskController::class, 'getTaskDetail'])->name('get.task.id'); //Lấy thông tin nhiệm vụ theo id
-//        Route::put('chi-tiet/cap-nhat/{task_id}', [TaskController::class, 'updateTaskDetail'])->name('update.task.id'); //Cập nhật thông tin nhiệm vụ theo id
-//        Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTaskOrder'])->name('update.task'); //Cập nhật thông tin nhiệm vụ theo id
-//        Route::post('chi-tiet/{task_id}', [TaskController::class, 'updateTaskDetail'])->name('update.task.id'); //Lấy thông tin nhiệm vụ theo id
-        //Cập nhật thông tin nhiệm vụ theo id - Gắn người phụ trách vào nhiệm vụ theo id
-    });
-
     Route::prefix('phong-ban')->group(function () {
         Route::get('danh-sach', [DepartmentController::class, 'createDepartment'])->name('get.department'); // Lấy danh sách phòng ban
 //        Route::get('them-moi', [DepartmentController::class, 'createDepartment'])->name('create.department'); // Màn thêm mới phòng ban
@@ -114,11 +112,11 @@ Route::middleware('auth')->group(function () {
 Route::get('/post/danh-sach', [PostController::class, 'index'])->name('post');
 
 Route::get('/post/tao-moi', [PostController::class, 'create'])->name('post.create');
-Route::post('/post/luu', [PostController::class, 'store']);
+Route::post('/post/tao-moi', [PostController::class, 'store']);
 
 Route::get('/post/chi-tiet/{id}', [PostController::class, 'detail'])->name('post.detail');
 Route::get('/post/chinh-sua/{id}', [PostController::class, 'edit'])->name('post.edit');
-Route::post('/post/cap-nhat/{id}', [PostController::class, 'update']);
+Route::post('/post/chinh-sua/{id}', [PostController::class, 'update']);
 
 Route::get('logout', function () {
     Auth::logout();

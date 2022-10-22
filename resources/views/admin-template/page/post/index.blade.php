@@ -8,12 +8,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">Compose Email</h4>
+                        <h4 class="page-title">Danh mục kho</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Shreyu</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Email</a></li>
-                                <li class="breadcrumb-item active">Compose Email</li>
+                                <li class="breadcrumb-item active">Danh mục kho</li>
                             </ol>
                         </div>
                     </div>

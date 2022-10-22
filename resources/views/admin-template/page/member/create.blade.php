@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">TẠO MỚI THÀNH VIÊN</h4>
+                        <h4 class="page-title">DANH SÁCH THÀNH VIÊN</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Thành viên</a></li>

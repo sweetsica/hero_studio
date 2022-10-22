@@ -40,49 +40,48 @@
                                         <div class="col-sm-9">
                                             <div class="float-sm-end mt-3 mt-sm-0">
 
-                                                <div class="task-search d-inline-block mb-3 mb-sm-0 me-sm-1">
-                                                    <form>
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control search-input" placeholder="Search..." />
-                                                            <span class="uil uil-search icon-search"></span>
-                                                            <button class="btn btn-soft-primary input-group-text" type="button">
-                                                                <i class='uil uil-file-search-alt'></i>
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="dropdown d-inline-block">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class='uil uil-sort-amount-down'></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="#">Due Date</a>
-                                                        <a class="dropdown-item" href="#">Added Date</a>
-                                                        <a class="dropdown-item" href="#">Assignee</a>
-                                                    </div>
-                                                </div>
+{{--                                                <div class="task-search d-inline-block mb-3 mb-sm-0 me-sm-1">--}}
+{{--                                                    <form>--}}
+{{--                                                        <div class="input-group">--}}
+{{--                                                            <input type="text" class="form-control search-input"--}}
+{{--                                                                   placeholder="Search..."/>--}}
+{{--                                                            <span class="uil uil-search icon-search"></span>--}}
+{{--                                                            <button class="btn btn-soft-primary input-group-text"--}}
+{{--                                                                    type="button">--}}
+{{--                                                                <i class='uil uil-file-search-alt'></i>--}}
+{{--                                                            </button>--}}
+{{--                                                        </div>--}}
+{{--                                                    </form>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="dropdown d-inline-block">--}}
+{{--                                                    <button class="btn btn-secondary dropdown-toggle" type="button"--}}
+{{--                                                            data-bs-toggle="dropdown" aria-haspopup="true"--}}
+{{--                                                            aria-expanded="false">--}}
+{{--                                                        <i class='uil uil-sort-amount-down'></i>--}}
+{{--                                                    </button>--}}
+{{--                                                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                                                        <a class="dropdown-item" href="#">Due Date</a>--}}
+{{--                                                        <a class="dropdown-item" href="#">Added Date</a>--}}
+{{--                                                        <a class="dropdown-item" href="#">Assignee</a>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row mt-3">
                                         <div class="col">
-                                            <a class="text-dark" data-bs-toggle="collapse" href="#todayTasks" aria-expanded="false" aria-controls="todayTasks">
-                                                <h5 class="mb-0"><i class='uil uil-angle-down'></i>Today
-                                                    <span class="text-muted fs-14">(10)</span>
-                                                </h5>
-                                            </a>
-
                                             <div class="collapse show" id="todayTasks">
                                                 <div class="card mb-0 border-0">
                                                     <div class="card-body">
-{{--                                                        @dd($data)--}}
-                                                        @foreach($infos as $data)
-                                                            <!-- task -->
+                                                    {{--                                                        @dd($data)--}}
+                                                    @foreach($infos as $data)
+                                                        <!-- task -->
                                                             <div class="row justify-content-sm-between border-bottom">
                                                                 <div class="col-lg-6 mb-2 mb-lg-0">
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="task1">
+                                                                        <input type="checkbox" class="form-check-input"
+                                                                               id="task1">
                                                                         <label class="form-check-label" for="task1">
                                                                             <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                                         </label>
@@ -91,7 +90,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="d-sm-flex justify-content-between">
                                                                         <div>
-{{--                                                                            <img src="assets/images/users/avatar-9.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Arya S" />--}}
+                                                                            {{--                                                                            <img src="assets/images/users/avatar-9.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Arya S" />--}}
                                                                         </div>
                                                                         <div class="mt-3 mt-sm-0">
                                                                             <ul class="list-inline text-sm-end">
@@ -105,24 +104,28 @@
                                                                                     <i class='uil uil-comment-message me-1'></i>21
                                                                                 </li>
                                                                                 <li class="list-inline-item">
-                                                                                        @if($data->status_code==1)
-                                                                                        <span class="badge badge badge-soft-secondary p-1">
+                                                                                    @if($data->status_code==1)
+                                                                                        <span
+                                                                                            class="badge badge badge-soft-secondary p-1">
                                                                                             Đang chờ nhận
                                                                                         </span>
-                                                                                        @elseif ($data->status_code==2)
-                                                                                        <span class="badge badge-soft-info p-1">
+                                                                                    @elseif ($data->status_code==2)
+                                                                                        <span
+                                                                                            class="badge badge-soft-info p-1">
                                                                                             Đang thực hiện
                                                                                         </span>
-                                                                                        @elseif ($data->status_code==3)
-                                                                                        <span class="badge badge-soft-success p-1">
+                                                                                    @elseif ($data->status_code==3)
+                                                                                        <span
+                                                                                            class="badge badge-soft-success p-1">
                                                                                             Đã hoàn thành
                                                                                         </span>
-                                                                                        @else
-                                                                                        <span class="badge badge-soft-primary p-1">
+                                                                                    @else
+                                                                                        <span
+                                                                                            class="badge badge-soft-primary p-1">
                                                                                             Cần làm lại
                                                                                         </span>
                                                                                         @endif
-                                                                                    </span>
+                                                                                        </span>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -138,15 +141,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3 mt-4">
-                                        <div class="col-12">
-                                            <div class="text-center">
-                                                <a href="javascript:void(0);" class="btn btn-white mb-3">
-                                                    <i data-feather="loader" class="icon-dual icon-xs me-2"></i>Tải thêm
-                                                </a>
-                                            </div>
-                                        </div> <!-- end col-->
-                                    </div>
+{{--                                    <div class="row mb-3 mt-4">--}}
+{{--                                        <div class="col-12">--}}
+{{--                                            <div class="text-center">--}}
+{{--                                                <a href="javascript:void(0);" class="btn btn-white mb-3">--}}
+{{--                                                    <i data-feather="loader" class="icon-dual icon-xs me-2"></i>Tải thêm--}}
+{{--                                                </a>--}}
+{{--                                            </div>--}}
+{{--                                        </div> <!-- end col-->--}}
+{{--                                    </div>--}}
                                     <!-- end row -->
                                 </div>
                             </div>
@@ -160,7 +163,8 @@
                         <div class="card-body p-0">
                             <div class="p-3">
                                 <div class="dropdown float-end">
-                                    <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown"
+                                       aria-expanded="false">
                                         <i class="uil uil-ellipsis-v"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
@@ -186,31 +190,26 @@
                             <!-- stat 1 -->
                             <div class="d-flex p-3 border-bottom">
                                 <div class="flex-grow-1">
-                                    <h4 class="mt-0 mb-1 fs-22">121,000</h4>
-                                    <span class="text-muted">Total Visitors</span>
+                                    <h4 class="mt-0 mb-1 fs-22">{{ $totalTask }}</h4>
+                                    <span class="text-muted">Tổng số nhiệm vụ</span>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users align-self-center icon-dual icon-md"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                             </div>
 
                             <!-- stat 2 -->
                             <div class="d-flex p-3 border-bottom">
                                 <div class="flex-grow-1">
-                                    <h4 class="mt-0 mb-1 fs-22">21,000</h4>
-                                    <span class="text-muted">Total Product Views</span>
+                                    <h4 class="mt-0 mb-1 fs-22">{{ $totalTaskInprogress }}</h4>
+                                    <span class="text-muted">Tổng số nhiệm vụ đang làm</span>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image align-self-center icon-dual icon-md"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                             </div>
 
                             <!-- stat 3 -->
                             <div class="d-flex p-3 border-bottom">
                                 <div class="flex-grow-1">
-                                    <h4 class="mt-0 mb-1 fs-22">$21.5</h4>
-                                    <span class="text-muted">Revenue Per Visitor</span>
+                                    <h4 class="mt-0 mb-1 fs-22">{{ $totalTaskDone }}</h4>
+                                    <span class="text-muted"> Tổng số nhiệm vụ hoàn thành </span>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag align-self-center icon-dual icon-md"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                             </div>
-
-                            <a href="" class="p-2 d-block text-end">View All <i class="uil-arrow-right"></i></a>
                         </div>
                     </div>
                 </div> <!-- end col -->

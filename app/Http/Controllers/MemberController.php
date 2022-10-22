@@ -34,7 +34,8 @@ class MemberController extends Controller
         return redirect()->route('get.taskOrder.list');
     }
 
-    public function registerMember(Request $request) {
+    public function registerMember(Request $request)
+    {
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -73,11 +74,26 @@ class MemberController extends Controller
         return redirect()->route('get.user.login');
     }
 
-    public function createMember() {
+    public function createMember()
+    {
         $members = Member::with('user')->get();
         $departments = Department::all();
         $roles = Role::all();
 
-        return view('admin-template.page.member.create', compact('members','departments', 'roles'));
+        return view('admin-template.page.member.create', compact('members', 'departments', 'roles'));
+    }
+
+    public function getUserList()
+    {
+        $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+        $memberQuery = Member::query();
+        if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $memberQuery = $memberQuery->whereHas('departments', function ($query) use ($authUserDepartments) {
+                return $query->whereIn('department_id', $authUserDepartments);
+            });
+        }
+        $members = $memberQuery->get();
+
+        return view('admin-template.page.member.index', compact('members'));
     }
 }

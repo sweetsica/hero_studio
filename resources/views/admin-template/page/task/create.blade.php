@@ -105,6 +105,16 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    @if(!Auth::user()->hasRole('key opinion leaders'))
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="exampleInputEmail1">Thành viên phụ trách</label>
+                                        <select class="form-select" name="member_id">
+                                            @foreach($members as $member)
+                                                <option value="{{$member->id}}">{{ $member->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @endif
                                     <div class="col-md-4">
                                         <div class="mb-2">
                                             <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
@@ -115,10 +125,10 @@
                                         <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời hạn,
                                             chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
-                                        <input name="product_length" type="number" class="form-control">
-                                    </div>
+{{--                                    <div class="col-md-4">--}}
+{{--                                        <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>--}}
+{{--                                        <input name="product_length" type="number" class="form-control">--}}
+{{--                                    </div>--}}
                                 </div>
                                 <input type="hidden" name="creator_id" value="{{\Illuminate\Support\Facades\Auth::id()}}">
                                 <div class="float-end">
@@ -155,35 +165,35 @@
                         <div class="card-body">
                             <h4 class="header-title mt-0 mb-1">Danh sách task</h4>
                             <p class="sub-header">
-
                             </p>
-
                             <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>Tên yêu cầu</th>
-                                    <th>Nhân viên</th>
-                                    <th>Phòng ban</th>
-                                    <th>Mô tả</th>
-                                    <th>Nguồn</th>
-                                    <th>Loại</th>
-                                    <th>Nguồn</th>
-                                    <th>Thời hạn</th>
                                     <th>Ngày tạo</th>
+                                    <th>Tên yêu cầu</th>
+                                    <th>Nhân viên phụ trách</th>
+                                    <th>Phòng ban phụ trách</th>
+
+                                    <th>Nguồn</th>
+                                    <th>Loại yêu cầu</th>
+                                    <th>Thời hạn</th>
+                                    <th>Link video nguồn</th>
+                                    <th>Mô tả</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($tasks as $task)
                                     <tr>
+                                        <td>{{ $task->created_at->format('d/m - h:i') }}</td>
                                         <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
                                         <td>{{ $task->member?->name }}</td>
                                         <td>{{ $task->department->name }}</td>
-                                        <td>{{ $task->content }}</td>
+
                                         <td>{{ $task->source }}</td>
                                         <td>{{ $task->type }}</td>
+                                        <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
                                         <td>{{ $task->url_source }}</td>
-                                        <td>{{ $task->deadline }}</td>
-                                        <td>{{ $task->created_at->format('d/m - h:i') }}</td>
+                                        <td>{{ $task->content }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -199,6 +209,7 @@
 @endsection
 
 @section('content-js')
+    <!-- Vendor js -->
     <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
 
     <!-- optional plugins -->
@@ -214,10 +225,12 @@
     <!-- Data table neccessary -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap4.min.css">
 
-
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
@@ -226,19 +239,4 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
     <script src="{{ asset('admin-asset/assets/js/pages/datatables.init.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/js/pages/form-advanced.init.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/js/pages/jquery.multi-select.js') }}"></script>
-
-    <!-- Plugins Js -->
-    <script src="{{ asset('admin-asset/assets/libs/select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
-    {{--    <script src="assets/libs/flatpickr/flatpickr.min.js"></script>--}}
-    {{--    <script src="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>--}}
-    {{--    <!--Color picker-->--}}
-    {{--    <script src="assets/libs/spectrum-colorpicker2/spectrum.min.js"></script>--}}
-    {{--    <!-- Init js-->--}}
-    {{--    <script src="assets/js/pages/form-advanced.init.js"></script>--}}
-    {{----}}
-    {{--    <!-- App js -->--}}
-    {{--    <script src="assets/js/app.min.js"></script>--}}
 @endsection

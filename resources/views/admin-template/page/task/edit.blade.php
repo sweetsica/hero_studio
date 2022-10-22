@@ -63,11 +63,14 @@
                                 <div class="mb-2 row">
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
-                                        <input value="{{ $task->name }}" style="background-color: #f6f6f7" type="text" class="form-control" aria-describedby="emailHelp" disabled>
+                                        <input value="{{ $task->name }}" style="background-color: #f6f6f7" type="text"
+                                               class="form-control" aria-describedby="emailHelp" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
-                                        <select class="form-select"  @if((Auth::user()->getRoleNames())[0]=='chief of department') disabled @endif>
+                                        <select class="form-select"
+                                                @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
+                                                style="background-color: #f6f6f7"@endif>
                                             <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
                                                 Facebook
                                             </option>
@@ -81,30 +84,40 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
-                                        <select name="status_code" class="form-select">
-                                            <option @if($task->status_code === 1) selected @endif value="1">Đang chờ nhận</option>
-                                            <option @if($task->status_code === 2) selected @endif value="2">Đang thực hiện</option>
-                                            <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn thành</option>
-                                            <option @if($task->status_code === 4) selected @endif value="4">Cần làm lại</option>
+                                        <select class="form-select" name="type"
+                                                @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
+                                                style="background-color: #f6f6f7"@endif>
+                                            <option @if($task->type === 'Normal') selected @endif value="Normal">
+                                                Thường
+                                            </option>
+                                            <option @if($task->type === 'Normal') selected @endif value="Sponsor">Được
+                                                tài trợ
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mb-2 row">
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                        <textarea class="form-control"name="content">{{$task->content}}</textarea>
-                                        <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
+                                        <textarea class="form-control" name="content"
+                                                  @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
+                                                  style="background-color: #f6f6f7"@endif>{{$task->content}}</textarea>
+                                        <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ
+                                            dài
                                             tầm 3' để up facebook)</small>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                        <textarea class="form-control"name="content">{{$task->url_source}}</textarea>
+                                        <textarea class="form-control" name="content"
+                                                  @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
+                                                  style="background-color: #f6f6f7"@endif>{{$task->url_source}}</textarea>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     @if((Auth::user()->getRoleNames())[0]=='key opinion leaders')
                                         <div class="col-md-4">
-                                            <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
+                                            <label class="form-label" for="exampleInputEmail1">Phòng ban phụ
+                                                trách</label>
                                             <select name="department_id" class="form-select">
                                                 @foreach($departments as $department)
                                                     <option value="{{$department->id}}"
@@ -114,7 +127,8 @@
                                         </div>
                                     @elseif((Auth::user()->getRoleNames())[0]=='chief of department')
                                         <div class="col-md-4">
-                                            <label class="form-label" for="exampleInputEmail1">Thành viên phụ trách</label>
+                                            <label class="form-label" for="exampleInputEmail1">Thành viên phụ
+                                                trách</label>
                                             <select name="member_id" class="form-select">
                                                 @foreach($members as $member)
                                                     <option value="{{$member->id}}"
@@ -127,21 +141,54 @@
                                         <div class="mb-2">
                                             <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
                                             <input value="{{$task->deadline}}" name="deadline"
+                                                   @if((Auth::user()->getRoleNames())[0]=='editor') disabled
+                                                   style="background-color: #f6f6f7" @endif
                                                    class="form-control flatpickr-input active" type="datetime-local">
                                         </div>
                                         <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời
                                             hạn, chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
-                                        <input value="{{{$task->product_length}}}" name="product_length" type="number" class="form-control">
-                                    </div>
+                                    @if((Auth::user()->getRoleNames())[0]=='editor')
+                                        <div class="col-md-4">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="exampleInputEmail1">Link sản phẩm</label>
+                                                <textarea class="form-control"
+                                                          name="content">{{$task->product_description}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="exampleInputEmail1">Thời lượng</label>
+                                                <input value="{{$task->product_length}}" name="product_length"
+                                                       class="form-control active" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
+                                            <select name="status_code" class="form-select">
+                                                <option @if($task->status_code === 1) selected @endif value="1">Đang chờ
+                                                    nhận
+                                                </option>
+                                                <option @if($task->status_code === 2) selected @endif value="2">Đang
+                                                    thực hiện
+                                                </option>
+                                                <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn
+                                                    thành
+                                                </option>
+                                                <option @if($task->status_code === 4) selected @endif value="4">Cần làm
+                                                    lại
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                    @endif
                                 </div>
-                                <div class="md-3">
-                                    <a href="#">Xóa yêu cầu</a>
-                                </div>
-                                <div class="float-end">
+                                <div class="md-3" style="justify-content: space-between;display: flex">
                                     <button type="submit" class="btn btn-primary">Xác nhận yêu cầu</button>
+                                    @if($allowDelete)
+                                        <a href="{{route('delete.task', $task->id)}}" class="btn btn-danger">Xóa yêu
+                                            cầu</a>
+                                    @endif
                                 </div>
                             </form>
                         </div>

@@ -105,7 +105,7 @@
                             </div>
                             <div class="col-md-12 mt-2">
                                 <label class="form-label">Mô tả phòng ban</label>
-                                <textarea class="form-control" name="description" id="" cols="30" rows="10"></textarea>
+                                <input class="form-control" name="description">
                             </div>
                             <div class="col-md-12 mt-2">
                                 <label class="form-label">Trưởng phòng ban</label>
