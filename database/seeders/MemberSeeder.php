@@ -17,6 +17,16 @@ class MemberSeeder extends Seeder
     {
         $memberInfo = [
             [
+                'user_id' => 1,
+                'name' => 'Admin',
+                'code' => '',
+                'date_of_birth' => Carbon::now(),
+                'position_id' => 1,
+                'status' => Member::MEMBER_STATUS['ACTIVE'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
                 'user_id' => 2,
                 'name' => 'Thành viên demo 1',
                 'code' => 'NV1',
@@ -42,16 +52,6 @@ class MemberSeeder extends Seeder
                 'code' => 'NV3',
                 'date_of_birth' => Carbon::now(),
                 'position_id' => 3,
-                'status' => Member::MEMBER_STATUS['ACTIVE'],
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'user_id' => 1,
-                'name' => 'Admin',
-                'code' => '',
-                'date_of_birth' => Carbon::now(),
-                'position_id' => 1,
                 'status' => Member::MEMBER_STATUS['ACTIVE'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

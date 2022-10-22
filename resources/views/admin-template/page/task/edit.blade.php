@@ -165,17 +165,20 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
+
                                             <select name="status_code" class="form-select">
-                                                <option @if($task->status_code === 1) selected @endif value="1">Đang chờ
+                                                <option @if(Auth::user()->hasRole('editor')) disabled @if($task->status_code === 1) selected @endif @elseif($task->status_code === 1) selected @endif value="1">Đang chờ
                                                     nhận
                                                 </option>
+
                                                 <option @if($task->status_code === 2) selected @endif value="2">Đang
                                                     thực hiện
                                                 </option>
                                                 <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn
                                                     thành
                                                 </option>
-                                                <option @if($task->status_code === 4) selected @endif value="4">Cần làm
+
+                                                <option @if(Auth::user()->hasRole('editor')) disabled @if($task->status_code === 4) selected @endif @elseif($task->status_code === 4) selected @endif value="4">Cần làm
                                                     lại
                                                 </option>
                                             </select>

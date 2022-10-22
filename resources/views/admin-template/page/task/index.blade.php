@@ -90,12 +90,14 @@
                                                                                 <li class="list-inline-item pe-1">
                                                                                     <i class='uil uil-schedule me-1'></i>{{$data->created_at}}
                                                                                 </li>
+                                                                                @if(isset($data->product_length))
                                                                                 <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>3/7
+                                                                                        <i class='uil uil-align-alt me-1'></i>Độ dài {{$data->product_length}} Phút
                                                                                 </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>21
-                                                                                </li>
+                                                                                @endif
+{{--                                                                                <li class="list-inline-item pe-2">--}}
+{{--                                                                                    <i class='uil uil-comment-message me-1'></i>21--}}
+{{--                                                                                </li>--}}
                                                                                 <li class="list-inline-item">
                                                                                     @if($data->status_code==1)
                                                                                         <span

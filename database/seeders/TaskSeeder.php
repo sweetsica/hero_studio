@@ -29,7 +29,7 @@ class TaskSeeder extends Seeder
         return [
             [
                 'name' => 'Nhiệm vụ demo 1',
-                'member_id' => 3,
+                'member_id' => 4,
                 'department_id' => 1,
 
                 'content' => 'Nội dung demo',
@@ -55,7 +55,7 @@ class TaskSeeder extends Seeder
             ],
             [
                 'name' => 'Nhiệm vụ demo 2',
-                'member_id' => 3,
+                'member_id' => 4,
                 'department_id' => 1,
 
                 'content' => Lorem::text(),
@@ -81,7 +81,7 @@ class TaskSeeder extends Seeder
             ],
             [
                 'name' => 'Nhiệm vụ phòng ban 2',
-                'member_id' => 3,
+                'member_id' => 4,
                 'department_id' => 2,
 
                 'content' => 'Nội dung demo',
