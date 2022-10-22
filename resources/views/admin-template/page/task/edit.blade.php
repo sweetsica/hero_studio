@@ -55,41 +55,20 @@
                 <div class="col-xl-8">
                     <div class="card">
                         <div class="card-body">
-                            <div class="dropdown float-end">
-                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    <i class="uil uil-ellipsis-v"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="uil uil-refresh me-2"></i>Refresh
-                                    </a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="uil uil-user-plus me-2"></i>Add New
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item text-danger">
-                                        <i class="uil uil-exit me-2"></i>Exit
-                                    </a>
-                                </div>
-                            </div>
                             <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
                             <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}"
-                                  method="POST">
+                                  method="PUT">
                                 @csrf
                                 <div class="mb-2 row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
                                         <input value="{{ $task->name }}" type="text" class="form-control"
                                                style="background-color: #e2e3e5" aria-describedby="emailHelp"
                                                placeholder="Thiết kế video cho KOL Tùng Hoàng" disabled>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
-                                        <select class="form-select" disabled style="background-color: #e2e3e5">
+                                        <select class="form-select" style="background-color: #e2e3e5">
                                             <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
                                                 Facebook
                                             </option>
@@ -101,25 +80,30 @@
                                             </option>
                                         </select>
                                     </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
+                                        <select name="status_code" class="form-select">
+                                            <option selected value="1">Đang chờ nhận</option>
+                                            <option value="2">Đang thực hiện</option>
+                                            <option value="3">Đã hoàn thành</option>
+                                            <option value="4">Cần làm lại</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                    <input value="{{ $task->content }}" type="text" class="form-control"
-                                           style="background-color: #e2e3e5" aria-describedby="emailHelp" disabled
-                                           placeholder="Video dài 2 phút, cần gắn logo vào">
-                                    <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
-                                        tầm 3' để up facebook)</small>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                    <input value="{{ $task->url_source }}" type="text" class="form-control"
-                                           style="background-color: #e2e3e5" aria-describedby="emailHelp" disabled
-                                           placeholder="https://www.facebook.com">
-                                    <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
-                                        link google driver)</small>
+                                <div class="mb-2 row">
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
+                                        <textarea class="form-control"name="content">{{$task->content}}</textarea>
+                                        <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
+                                            tầm 3' để up facebook)</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
+                                        <textarea class="form-control"name="content">{{$task->url_source}}</textarea>
+                                    </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
                                         <select name="department_id" class="form-select">
                                             @foreach($departments as $department)
@@ -128,18 +112,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Thành viên phụ trách</label>
-                                        <select name="member_id" class="form-select">
-                                            @foreach($members as $member)
-                                                <option value="{{$member->id}}"
-                                                        @if($task->member_id === $member->id) selected @endif>{{ $member->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-2">
                                             <label class="form-label" for="exampleInputEmail1">Thời hạn</label>
                                             <input value="{{$task->deadline}}" name="deadline"
@@ -148,25 +121,7 @@
                                         <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời
                                             hạn, chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
-                                        <select name="status_code" class="form-select">
-                                            <option disabled selected value="1">Đang chờ nhận</option>
-                                            <option value="2">Đang thực hiện</option>
-                                            <option value="3">Đã hoàn thành</option>
-                                            <option value="4">Cần làm lại</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
-                                        <select class="form-select" name="type">
-                                            <option selected value="Normal">Normal</option>
-                                            <option value="Sponsor">Sponsor</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
                                         <input name="product_length" type="number" class="form-control">
                                     </div>
@@ -219,12 +174,7 @@
                                                 </button>
                                             </div>
                                             <div>
-                                                {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                                                {{--                                                        <i class="uil uil-cloud-upload"></i>--}}
-                                                {{--                                                    </a>--}}
-                                                {{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
                                                 <i class="uil uil-message me-1"></i>
-                                                {{--                                                    </a>--}}
                                             </div>
                                         </div>
                                     </form>

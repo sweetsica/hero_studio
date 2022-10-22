@@ -42,35 +42,47 @@ Route::get('nguoi-dung/dang-ky', [MemberController::class, 'getRegisterView'])->
 Route::post('nguoi-dung/dang-ky', [MemberController::class, 'registerUser']); // Đăng ký tài khoản bởi người dùng
 
 Route::middleware('auth')->group(function () {
+    Route::prefix('nhiem-vu')->group(function (){
+        //Danh sách yêu cầu theo KOL
+        Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list');
+        Route::get('danh-sach/kol/{kol_id}', [TaskController::class, 'getTaskOrderKOL'])->name('get.taskOrderKOL.list');
+        //KOL- Tạo yêu cầu
+        Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
+        //KOL- Sửa yêu cầu
+        Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
+        Route::put('chinh-sua/{task_id}', [TaskController::class, 'updateTask'])->name('edit.updateTaskOrder'); // Update route bên trên
+
+
+        //Danh sách yêu cầu theo COF
+        Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId');
+        //COF -> Nhận yêu cầu
+        Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
+        //COF -> Sửa yêu cầu
+//        Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTask'])->name('update.taskOrder');
+        //Editor - Nhận yêu cầu -> Sửa yêu cầu
+        Route::get('danh-sach/{user_id}', [TaskController::class, 'getTaskListByUserId'])->name('get.taskOrder.byUserId');
+    });
+
+
     Route::prefix('nguoi-dung')->group(function () {
         Route::get('danh-sach', [MemberController::class, 'getUserList'])->name('get.member'); // Lấy danh sách người dùng
         Route::get('them-moi', [MemberController::class, 'createMember'])->name('create.member'); // Thêm người dùng (admin)
         Route::post('them-moi', [MemberController::class, 'registerMember']); // Thêm người dùng (admin)
-//    Route::post('luu',[MemberController::class,'storeUser'])->name('store.member');
-//    Route::get('cap-nhat/{user-id}',[MemberController::class,'editUserById'])->name('edit.member');
-//    Route::put('cap-nhat/{user-id}',[MemberController::class,'updateUserById'])->name('update.member');
-//    Route::delete('xoa/{user-id}',[MemberController::class,'deleteUserById'])->name('destroy.member');
-//    Route::get('dang-xuat',[MemberController::class,'getUserList'])->name('get.user.logout');
     });
     Route::prefix('yeu-cau')->group(function () {
-        Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
-        Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
+//        Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
+//        Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
 
-        Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
-        Route::post('luu', [TaskController::class, 'store'])->name('store.taskOrder'); //Lưu yêu cầu (nhiệm vụ dạng đang chờ)
+//        Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
+//        Route::post('luu', [TaskController::class, 'store'])->name('store.taskOrder'); //Lưu yêu cầu (nhiệm vụ dạng đang chờ)
 
-        Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
-        Route::post('chinh-sua/{task_id}', [TaskController::class, 'updateTask'])->name('edit.updateTaskOrder'); // Update route bên trên
-
-//    Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTaskOrder'])->name('edit.taskOrder'); //Màn cập nhật yêu cầu (nhiệm vụ)
-        Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTaskOrderById'])->name('update.taskOrder'); //Dùng để cập nhật yêu cầu: Gồm cập nhật trạng thái, cập nhật người phụ trách
+//        Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
+//        Route::post('chinh-sua/{task_id}', [TaskController::class, 'updateTask'])->name('edit.updateTaskOrder'); // Update route bên trên
+//        Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTaskOrderById'])->name('update.taskOrder'); //Dùng để cập nhật yêu cầu: Gồm cập nhật trạng thái, cập nhật người phụ trách
         Route::delete('xoa/{task_id}', [TaskController::class, 'deleteTaskOrderById'])->name('destroy.taskOrder'); //Xóa yêu cầu (nhiệm vụ)
 
         Route::prefix('media')->group(function () {
             Route::get('danh-sach', [MediaController::class, 'getViewMediaStorage'])->name('get.media'); // Màn upload media kèm tên file, người up, danh mục media
-//    Route::get('them-moi',[MediaController::class,'createUser'])->name('create.user');
-//    Route::post('luu',[MediaController::class,'storeUser'])->name('store.user');
-//    Route::delete('xoa/{user-id}',[MediaController::class,'deleteUserById'])->name('destroy.user');
         });
 
         Route::post('comment/{taskId}', [TaskController::class, 'comment'])->name('comment-task');
@@ -80,8 +92,10 @@ Route::middleware('auth')->group(function () {
         Route::get('danh-sach', [TaskController::class, 'getTaskList'])->name('get.task'); //Lấy danh sách nhiệm vụ
         Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskListByDepartmentId'])->name('get.task.department'); //Lấy danh sách nhiệm vụ theo phòng ban
 
-        Route::get('chi-tiet/{task_id}', [TaskController::class, 'getTaskDetail'])->name('get.task.id'); //Lấy thông tin nhiệm vụ theo id
-        Route::post('chi-tiet/{task_id}', [TaskController::class, 'updateTaskDetail'])->name('update.task.id'); //Lấy thông tin nhiệm vụ theo id
+//        Route::get('chi-tiet/{task_id}', [TaskController::class, 'getTaskDetail'])->name('get.task.id'); //Lấy thông tin nhiệm vụ theo id
+//        Route::put('chi-tiet/cap-nhat/{task_id}', [TaskController::class, 'updateTaskDetail'])->name('update.task.id'); //Cập nhật thông tin nhiệm vụ theo id
+//        Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTaskOrder'])->name('update.task'); //Cập nhật thông tin nhiệm vụ theo id
+//        Route::post('chi-tiet/{task_id}', [TaskController::class, 'updateTaskDetail'])->name('update.task.id'); //Lấy thông tin nhiệm vụ theo id
         //Cập nhật thông tin nhiệm vụ theo id - Gắn người phụ trách vào nhiệm vụ theo id
     });
 
@@ -97,12 +111,13 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/post/danh-sach', [PostController::class, 'index'])->name('post');
-Route::get('/post/tao-moi', [PostController::class, 'create'])->name('post.create');
-Route::post('/post/tao-moi', [PostController::class, 'store']);
 
-Route::get('/post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
-Route::get('/post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
-Route::post('/post/edit/{id}', [PostController::class, 'update']);
+Route::get('/post/tao-moi', [PostController::class, 'create'])->name('post.create');
+Route::post('/post/luu', [PostController::class, 'store']);
+
+Route::get('/post/chi-tiet/{id}', [PostController::class, 'detail'])->name('post.detail');
+Route::get('/post/chinh-sua/{id}', [PostController::class, 'edit'])->name('post.edit');
+Route::post('/post/cap-nhat/{id}', [PostController::class, 'update']);
 
 Route::get('logout', function () {
     Auth::logout();

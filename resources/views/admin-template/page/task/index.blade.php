@@ -77,7 +77,7 @@
                                                 <div class="card mb-0 border-0">
                                                     <div class="card-body">
 {{--                                                        @dd($data)--}}
-                                                        @foreach($datas as $data)
+                                                        @foreach($infos as $data)
                                                             <!-- task -->
                                                             <div class="row justify-content-sm-between border-bottom">
                                                                 <div class="col-lg-6 mb-2 mb-lg-0">

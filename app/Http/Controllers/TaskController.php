@@ -10,36 +10,37 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    public function getTaskList()
-    {
-        $datas = Task::all(); // Lấy danh sách toàn bộ Task
-        return view('admin-template.page.task.index', compact('datas'));
-    }
-
-    public function getTaskListByDepartmentId($phong_ban_id)
-    {
-        $info = Task::all();//->where('department_id','=',$phong_ban_id) Lấy danh sách Task theo department_id
-        return view('admin-template.page.task.index-manage', compact('info'));
-    }
-
     public function getTaskOrder()
     {
-        $info = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
-        return view('admin-template.page.request.index', compact('info'));
+        $infos = Task::all();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        return view('admin-template.page.task.index', compact('infos'));
     }
-
+    public function getTaskOrderKOL($kol_id){
+        $infos = Task::where('creator_id','=',$kol_id)->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        return view('admin-template.page.task.index', compact('infos'));
+    }
     public function createTaskOrder()
     {
-        $tasks = Task::with(['member', 'department', 'comments'])->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
+        $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
         $departments = Department::all();
         $members = Member::all();
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
     }
+    public function getTaskListByDepartmentId($phong_ban_id)
+    {
+        $infos = Task::where('department_id','=',$phong_ban_id); //Lấy danh sách Task theo department_id
+        return view('admin-template.page.task.index-manage', compact('infos'));
+    }
+    public function getTaskListByUserId($user_id)
+    {
+        $infos = Task::where('member_id','=',$user_id); //Lấy danh sách Task theo department_id
+        return view('admin-template.page.task.index-manage', compact('infos'));
+    }
 
     public function editTask($id)
     {
-        $tasks = Task::all();
+        $tasks = Task::all()->sortByDesc("created_at");
         $task = Task::with(['comments' => function ($query) {
             $query->orderBy('created_at', 'desc')->with('member');
         }])->find($id);
@@ -48,29 +49,48 @@ class TaskController extends Controller
 
         return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task'));
     }
-
     public function updateTask($id, Request $request)
     {
         $task = Task::find($id);
-        $validKey = ['member_id', 'department_id', 'deadline', 'status_code'];
-        $task->update($request->only($validKey));
+        $task->update($request->all());
+        dd($request);
+//        $validKey = ['member_id', 'department_id', 'deadline', 'status_code'];
+//        $task->update($request->only($validKey));
 
-        return redirect()->back();
+        return redirect()->route('get.taskOrder.list');
     }
 
-    public function getTaskDetail($id)
+
+
+
+
+
+
+
+
+    public function getTaskList()
     {
-        $tasks = Task::all();
-        $task = Task::with(['comments' => function ($query) {
-            $query->orderBy('created_at', 'desc')->with('member');
-        }])->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
-        $departments = Department::all();
-        $members = Member::all();
-
-        return view('admin-template.page.task.detail-member', compact('tasks', 'departments', 'members', 'task'));
+        $datas = Task::all(); // Lấy danh sách toàn bộ Task
+        return view('admin-template.page.task.index', compact('datas'));
     }
 
-    public function updateTaskDetail($id, Request $request)
+
+
+
+
+//    public function getTaskDetail($id)
+//    {
+//        $tasks = Task::all();
+//        $task = Task::with(['comments' => function ($query) {
+//            $query->orderBy('created_at', 'desc')->with('member');
+//        }])->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
+//        $departments = Department::all();
+//        $members = Member::all();
+//
+//        return view('admin-template.page.task.detail-member', compact('tasks', 'departments', 'members', 'task'));
+//    }
+
+    public function updateTaskDetail(Request $request, $id)
     {
         $task = Task::find($id);
         $validKey = ['url_others', 'status_code'];
@@ -79,9 +99,11 @@ class TaskController extends Controller
         return redirect()->back();
     }
 
-    public function updateTaskOrder(Request $request)
+    public function updateTaskOrder(Request $request,$id)
     {
-        // Cập nhật Yêu cầu theo id
+        $task = Task::find($id);
+        $task->update($request->all());
+        return redirect()->route('task.index');
     }
 
     public function deleteTaskOrder($taskOrder_id)

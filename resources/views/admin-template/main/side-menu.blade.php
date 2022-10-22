@@ -32,19 +32,11 @@
         <ul id="side-menu">
             <!-- <li class="menu-title">Navigation</li> -->
             <li>
-                <a href="#sidebarDashboard" data-bs-toggle="collapse">
+                <a href="{{route('get.taskOrder.list')}}" data-bs-toggle="collapse">
                     <span class="badge bg-success float-end">03</span>
                     <i data-feather="home"></i>
                     <span> Trang chủ </span>
-                    <!-- <span class="menu-arrow"></span> -->
                 </a>
-                <div class="collapse" id="sidebarDashboard">
-                    <ul class="nav-second-level">
-                        <li><a href="#">KOL</a></li>
-                        <li><a href="#">Quản lý</a></li>
-                        <li><a href="#">Nhân viên</a></li>
-                    </ul>
-                </div>
             </li>
 
             {{--Menu quản lý--}}
@@ -113,15 +105,16 @@
             @if((Auth::user()->getRoleNames())[0]=='key opinion leaders')
                 <li class="menu-title mt-2">Menu cấp KOL</li>
                 <li>
-                    <a href="#sidebarDepartmentKOL" data-bs-toggle="collapse">
-                        <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>
-                        <span>Danh sách phòng ban</span>
+                    <a href="#sidebarTaskManage" data-bs-toggle="collapse">
+                        <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
+                        <span>Danh sách yêu cầu</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarDepartmentKOL">
+                    <div class="collapse" id="sidebarTaskManage">
                         <ul class="nav-second-level">
-                            <li><a href="{{route('get.department')}}">List nhân sự</a></li>
-                            <li><a href="#">Thêm mới nhân sự</a></li>
+                            <li><a href="{{route('get.taskOrder.list')}}">Yêu cầu của tôi</a></li>
+                            <li><a href="{{route('get.taskOrder.list')}}">Yêu cầu chờ xử lý</a></li>
+                            <li><a href="{{route('get.taskOrder.list')}}">Yêu cầu đã hoàn thành</a></li>
                         </ul>
                     </div>
                 </li>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('member_id')->nullable(); // member phu trach
+            $table->unsignedBigInteger('creator_id')->nullable(); // người tạo
             $table->unsignedBigInteger('department_id');  // task cua department nao
             $table->text('content');
             $table->dateTime('deadline');
