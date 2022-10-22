@@ -47,7 +47,7 @@ class TaskSeeder extends Seeder
                 'url_youtube' => Image::imageUrl(),
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
-
+                'creator_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -71,7 +71,7 @@ class TaskSeeder extends Seeder
                 'url_youtube' => Image::imageUrl(),
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
-
+                'creator_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -95,7 +95,7 @@ class TaskSeeder extends Seeder
                 'url_youtube' => Image::imageUrl(),
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
-
+                'creator_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -119,7 +119,7 @@ class TaskSeeder extends Seeder
                 'url_youtube' => Image::imageUrl(),
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
-
+                'creator_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -143,7 +143,7 @@ class TaskSeeder extends Seeder
                 'url_youtube' => Image::imageUrl(),
                 'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
-
+                'creator_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

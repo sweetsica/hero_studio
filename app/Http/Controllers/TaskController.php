@@ -42,7 +42,7 @@ class TaskController extends Controller
         $tasks = Task::all();
         $task = Task::with(['comments' => function ($query) {
             $query->orderBy('created_at', 'desc')->with('member');
-        }])->find($id);
+        }, 'creator'])->find($id);
         $departments = Department::all();
         $members = Member::all();
 
@@ -52,8 +52,8 @@ class TaskController extends Controller
     public function updateTask($id, Request $request)
     {
         $task = Task::find($id);
-        $validKey = ['member_id', 'department_id', 'deadline', 'status_code'];
-        $task->update($request->only($validKey));
+        $validKey = ['member_id', 'department_id', 'deadline', 'status_code', 'member_id', 'product_length', 'type'];
+        $task->update($request->all());
 
         return redirect()->back();
     }
@@ -63,7 +63,7 @@ class TaskController extends Controller
         $tasks = Task::all();
         $task = Task::with(['comments' => function ($query) {
             $query->orderBy('created_at', 'desc')->with('member');
-        }])->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
+        }, 'creator'])->find($id);//->where('task_id','=',$id)->where('status','=','onHold')  Màn sửa task
         $departments = Department::all();
         $members = Member::all();
 
@@ -74,7 +74,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $validKey = ['url_others', 'status_code'];
-        $task->update($request->only($validKey));
+        $task->update($request->all());
 
         return redirect()->back();
     }

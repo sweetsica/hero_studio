@@ -151,10 +151,10 @@
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
                                         <select name="status_code" class="form-select">
-                                            <option disabled selected value="1">Đang chờ nhận</option>
-                                            <option value="2">Đang thực hiện</option>
-                                            <option value="3">Đã hoàn thành</option>
-                                            <option value="4">Cần làm lại</option>
+                                            <option disabled  @if($task->status_code === 1) selected @endif value="1">Đang chờ nhận</option>
+                                            <option value="2" @if($task->status_code === 2) selected @endif>Đang thực hiện</option>
+                                            <option value="3" @if($task->status_code === 3) selected @endif>Đã hoàn thành</option>
+                                            <option value="4" @if($task->status_code === 4) selected @endif>Cần làm lại</option>
                                         </select>
                                     </div>
                                 </div>
@@ -162,13 +162,13 @@
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
                                         <select class="form-select" name="type">
-                                            <option selected value="Normal">Normal</option>
-                                            <option value="Sponsor">Sponsor</option>
+                                            <option selected value="Normal" @if($task->type === 'Normal') selected @endif>Normal</option>
+                                            <option value="Sponsor" @if($task->type === 'Sponsor') selected @endif>Sponsor</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Độ dài sản phẩm (Số phút)</label>
-                                        <input name="product_length" type="number" class="form-control">
+                                        <input value="{{$task->product_length}}" name="product_length" type="number" class="form-control">
                                     </div>
                                 </div>
                                 <div class="float-end">

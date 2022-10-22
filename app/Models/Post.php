@@ -8,17 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
-    public function hashTags() {
+    public function hashTags()
+    {
         return $this->belongsToMany(HashTag::class, 'post_hash_tag');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function member() {
+    public function member()
+    {
         return $this->belongsTo(Member::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(Member::class, 'creator_id');
     }
 }

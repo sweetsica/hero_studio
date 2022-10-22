@@ -42,8 +42,11 @@ return new class extends Migration
             $table->string('url_tiktok')->nullable();
             $table->text('url_others')->nullable();
 
+            $table->unsignedBigInteger('creator_id')->nullable();
+
             $table->timestamps();
 
+            $table->foreign('creator_id')->references('id')->on('members');
             $table->foreign('member_id')->references('id')->on('members');
             $table->foreign('department_id')->references('id')->on('departments');
         });
