@@ -19,6 +19,24 @@ class Member extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getUserRoleAttribute() {
+        $role = $this->user->getRoleNames()[0];
+        switch ($role) {
+            case 'chief of department':
+                return 'Quản lý';
+            case 'key opinion leaders':
+                return 'Kol';
+            case 'editor':
+                return 'Editor';
+            default:
+                return 'Admin';
+        }
+    }
+
+    public function getPrimitiveUserRoleAttribute() {
+        return $this->user->getRoleNames()[0];
+    }
+
     public function departments() {
         return $this->belongsToMany(Department::class, 'department_member');
     }

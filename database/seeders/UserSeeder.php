@@ -22,29 +22,29 @@ class UserSeeder extends Seeder
 
         $userInfo = [
             [
-                'name' => 'admin',
+                'name' => 'Admin',
                 'email' => 'admin@admin.com',
-                'password' => bcrypt('admin@2022'),
+                'password' => bcrypt('admin@admin.com'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'cof',
+                'name' => 'Anh Sơn',
                 'email' => 'cof@user.com',
-                'password' => bcrypt('testpass'),
+                'password' => bcrypt('cof@user.com'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'kol',
+                'name' => 'Mèo Hồng KOL',
                 'email' => 'kol@user.com',
-                'password' => bcrypt('testpass'),
+                'password' => bcrypt('kol@user.com'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'member',
-                'email' => 'member@user.com',
+                'name' => 'Trần Lâm Editor',
+                'email' => 'editor@user.com',
                 'password' => bcrypt('testpass'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

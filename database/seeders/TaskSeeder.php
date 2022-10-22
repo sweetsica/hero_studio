@@ -28,7 +28,7 @@ class TaskSeeder extends Seeder
     {
         return [
             [
-                'name' => 'Creating web task',
+                'name' => 'Nhiệm vụ demo 1',
                 'member_id' => 1,
                 'department_id' => 1,
 
@@ -54,7 +54,7 @@ class TaskSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Creating Seeding Data',
+                'name' => 'Nhiệm vụ demo 2',
                 'member_id' => 1,
                 'department_id' => 1,
 
@@ -80,113 +80,10 @@ class TaskSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Creating Seeding Data',
-                'member_id' => 1,
-                'department_id' => 1,
-
-                'content' => Lorem::text(),
-                'deadline' => Carbon::now(),
-                'status_code' => Task::TASK_STATUS['IN_PROGRESS'],
-
-                'product_length' => '20',
-                'product_name' => 'Convitcon Hello',
-                'product_description' => Lorem::text(),
-
-                'source' => 'Other',
-                'url_source' => Image::imageUrl(),  // example with image
-
-                'url_fanpage' => Image::imageUrl(),
-                'url_facebook' => Image::imageUrl(),
-                'url_youtube' => Image::imageUrl(),
-                'url_tiktok' => Image::imageUrl(),
-                'url_others' => Image::imageUrl(),
-
-                'creator_id' => 3,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'Creating Migration For Data',
-                'member_id' => 2,
-                'department_id' => 1,
-
-                'content' => Lorem::text(),
-                'deadline' => Carbon::now(),
-                'status_code' => Task::TASK_STATUS['REDO'],
-
-                'product_length' => '20',
-                'product_name' => 'This is new Era',
-                'product_description' => Lorem::text(),
-
-                'source' => 'Other',
-                'url_source' => Image::imageUrl(),  // example with image
-
-                'url_fanpage' => Image::imageUrl(),
-                'url_facebook' => Image::imageUrl(),
-                'url_youtube' => Image::imageUrl(),
-                'url_tiktok' => Image::imageUrl(),
-                'url_others' => Image::imageUrl(),
-
-                'creator_id' => 3,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'Creating Seeder For Data',
-                'member_id' => 3,
-                'department_id' => 2,
-                'content' => Lorem::text(),
-                'deadline' => Carbon::now(),
-                'status_code' => Task::TASK_STATUS['REDO'],
-
-                'product_length' => '20',
-                'product_name' => 'Youtube viet cetera rhymastic',
-                'product_description' => Lorem::text(),
-
-                'source' => 'Other',
-                'url_source' => Image::imageUrl(),  // example with image
-
-                'url_fanpage' => Image::imageUrl(),
-                'url_facebook' => Image::imageUrl(),
-                'url_youtube' => Image::imageUrl(),
-                'url_tiktok' => Image::imageUrl(),
-                'url_others' => Image::imageUrl(),
-
-                'creator_id' => 3,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-
-            [
                 'name' => 'Nhiệm vụ phòng ban 2',
                 'member_id' => 1,
                 'department_id' => 2,
 
-                'content' => 'Nội dung demo',
-                'deadline' => Carbon::now(),
-                'status_code' => Task::TASK_STATUS['SENT'],
-
-                'product_length' => '20',
-                'product_name' => 'Hero Studio Product Data',
-                'product_description' => Lorem::text(),
-
-                'source' => 'Other',
-                'url_source' => Image::imageUrl(),  // example with image
-
-                'url_fanpage' => Image::imageUrl(),
-                'url_facebook' => Image::imageUrl(),
-                'url_youtube' => Image::imageUrl(),
-                'url_tiktok' => Image::imageUrl(),
-                'url_others' => Image::imageUrl(),
-
-                'creator_id' => 3,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'Nhiệm vụ tạo bởi KOL 2',
-                'member_id' => 1,
-                'department_id' => 1,
                 'content' => 'Nội dung demo',
                 'deadline' => Carbon::now(),
                 'status_code' => Task::TASK_STATUS['SENT'],

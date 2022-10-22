@@ -10,14 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">Tasks List</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Shreyu</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Tasks</a></li>
-                                <li class="breadcrumb-item active">List</li>
-                            </ol>
-                        </div>
+                        <h4 class="page-title">Danh sách nhiệm vụ</h4>
                     </div>
                 </div>
             </div>
@@ -77,7 +70,7 @@
                                                     {{--                                                        @dd($data)--}}
                                                     @foreach($infos as $data)
                                                         <!-- task -->
-                                                            <div class="row justify-content-sm-between border-bottom">
+                                                            <div class="row justify-content-sm-between border-bottom pt-2">
                                                                 <div class="col-lg-6 mb-2 mb-lg-0">
                                                                     <div class="form-check">
                                                                         <input type="checkbox" class="form-check-input"
@@ -162,29 +155,7 @@
                     <div class="card">
                         <div class="card-body p-0">
                             <div class="p-3">
-                                <div class="dropdown float-end">
-                                    <a href="#" class="dropdown-toggle arrow-none text-muted" data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                        <i class="uil uil-ellipsis-v"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item">
-                                            <i class="uil uil-refresh me-2"></i>Refresh
-                                        </a>
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item">
-                                            <i class="uil uil-user-plus me-2"></i>Add New
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item text-danger">
-                                            <i class="uil uil-exit me-2"></i>Exit
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <h5 class="card-title header-title mb-0">Overview</h5>
+                                <h5 class="card-title header-title mb-0">Tổng quan</h5>
                             </div>
 
                             <!-- stat 1 -->

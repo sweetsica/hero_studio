@@ -53,36 +53,36 @@
                              class="rounded-circle"/>
                         <span class="pro-user-name ms-1">
                                 {{ Auth::user()->member->name }}
-                                <i class="uil uil-angle-down"></i>
+{{--                                <i class="uil uil-angle-down"></i>--}}
                         </span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end profile-dropdown">
-                        <!-- item-->
-                        <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome !</h6>
-                        </div>
+{{--                    <div class="dropdown-menu dropdown-menu-end profile-dropdown">--}}
+{{--                        <!-- item-->--}}
+{{--                        <div class="dropdown-header noti-title">--}}
+{{--                            <h6 class="text-overflow m-0">Welcome !</h6>--}}
+{{--                        </div>--}}
 
-                        <a href="pages-profile.html" class="dropdown-item notify-item">
-                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>
-                        </a>
+{{--                        <a href="pages-profile.html" class="dropdown-item notify-item">--}}
+{{--                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>--}}
+{{--                        </a>--}}
 
-                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">
-                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>
-                        </a>
+{{--                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">--}}
+{{--                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>--}}
+{{--                        </a>--}}
 
-                        <div class="dropdown-divider"></div>
+{{--                        <div class="dropdown-divider"></div>--}}
 
-                        <a href="{{route('logout')}}" class="dropdown-item notify-item">
-                            <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Logout</span>
-                        </a>
-                    </div>
+{{--                        <a href="{{route('logout')}}" class="dropdown-item notify-item">--}}
+{{--                            <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Logout</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                 </li>
 
-                <li class="dropdown notification-list">
-                    <a href="javascript:void(0);" class="nav-link right-bar-toggle">
-                        <i data-feather="settings"></i>
-                    </a>
-                </li>
+{{--                <li class="dropdown notification-list">--}}
+{{--                    <a href="javascript:void(0);" class="nav-link right-bar-toggle">--}}
+{{--                        <i data-feather="settings"></i>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
             </ul>
 
             <!-- LOGO -->

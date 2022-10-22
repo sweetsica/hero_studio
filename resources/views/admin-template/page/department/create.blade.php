@@ -110,6 +110,7 @@
                             <div class="col-md-12 mt-2">
                                 <label class="form-label">Trưởng phòng ban</label>
                                 <select name="department_head_id" class="form-control">
+                                    <option value="0">- Chưa chọn -</option>
                                     @foreach($members as $member)
                                         <option value="{{$member->id}}">
                                             {{$member->name}}
