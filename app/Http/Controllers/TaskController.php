@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Member;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,6 +14,7 @@ class TaskController extends Controller
     public function getTaskOrder()
     {
         $infos = Task::where('creator_id','=', Auth::id())->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+
         return view('admin-template.page.task.index', compact('infos'));
     }
     public function getTaskOrderKOL($kol_id){
@@ -27,6 +29,19 @@ class TaskController extends Controller
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
     }
+    public function store(Request $request)
+    {
+        $validKeys = [
+            'name', 'type', 'department_id', 'deadline',
+            'source', 'url_source', 'content', 'product_length',
+            'cof_note', 'kol_note', 'editor_note','creator_id'
+        ];
+
+        Task::create($request->only($validKeys));
+
+        return redirect()->route('get.taskOrder.list');
+    }
+
     public function getTaskListByDepartmentId($phong_ban_id)
     {
         $infos = Task::where('department_id','=',$phong_ban_id); //Lấy danh sách Task theo department_id
@@ -55,6 +70,9 @@ class TaskController extends Controller
         $task->update($request->all());
 //        $validKey = ['member_id', 'department_id', 'deadline', 'status_code'];
 //        $task->update($request->all());
+        if (Auth::user()->hasRole('chief of department') || Auth::user()->hasRole('editor')) {
+            return redirect()->route('get.task');
+        }
 
         return redirect()->route('get.taskOrder.list');
     }
@@ -111,25 +129,14 @@ class TaskController extends Controller
     }
 
     // tao moi task
-    public function store(Request $request)
-    {
-        $validKeys = [
-            'name', 'type', 'department_id', 'deadline',
-            'source', 'url_source', 'content', 'product_length',
-            'cof_note', 'kol_note', 'editor_note'
-        ];
 
-        Task::create($request->only($validKeys));
-
-        return redirect()->back();
-    }
 
     public function comment(Request $request, $id)
     {
         $task = Task::find($id);
         $task->comments()->create([
             'content' => $request->comment,
-            'member_id' => Auth::id()
+            'member_id' => Auth::user()->member->id
         ]);
 
         return redirect()->back();

@@ -46,6 +46,16 @@ class MemberSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'user_id' => 1,
+                'name' => 'Admin profile',
+                'code' => '',
+                'date_of_birth' => Carbon::now(),
+                'position_id' => 1,
+                'status' => Member::MEMBER_STATUS['ACTIVE'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ];
 
         Member::insert($memberInfo);
