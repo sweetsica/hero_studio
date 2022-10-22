@@ -22,7 +22,7 @@ class DepartmentSeeder extends Seeder
             [
                 'name' => 'Web Department',
                 'description' => Lorem::text(50),
-                'department_head' => Person::firstNameMale(),
+                'department_head_id' => 1,
                 'status' => Department::STATUS['READY'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -30,7 +30,7 @@ class DepartmentSeeder extends Seeder
             [
                 'name' => 'Solution Department',
                 'description' => Lorem::text(50),
-                'department_head' => 'Ben',
+                'department_head_id' => 2,
                 'status' => Department::STATUS['READY'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -38,7 +38,7 @@ class DepartmentSeeder extends Seeder
             [
                 'name' => 'Mobile Department',
                 'description' => Lorem::text(50),
-                'department_head' => 'Daniel',
+                'department_head_id' => 2,
                 'status' => Department::STATUS['READY'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

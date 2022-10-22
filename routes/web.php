@@ -100,12 +100,13 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('phong-ban')->group(function () {
-        Route::get('danh-sach', [DepartmentController::class, 'getDepartmentList'])->name('get.department'); // Lấy danh sách phòng ban
-        Route::get('them-moi', [DepartmentController::class, 'createDepartment'])->name('create.department'); // Màn thêm mới phòng ban
-        Route::post('luu', [DepartmentController::class, 'storeDepartment'])->name('store.department'); // Lưu thông tin phòng ban
+        Route::get('danh-sach', [DepartmentController::class, 'createDepartment'])->name('get.department'); // Lấy danh sách phòng ban
+//        Route::get('them-moi', [DepartmentController::class, 'createDepartment'])->name('create.department'); // Màn thêm mới phòng ban
+        Route::post('them-moi', [DepartmentController::class, 'storeDepartment'])->name('store.department'); // Lưu thông tin phòng ban
         Route::get('cap-nhat/{department_id}', [DepartmentController::class, 'editDepartmentById'])->name('edit.department'); // Màn sửa thông tin phòng ban
-        Route::put('cap-nhat/{department_id}', [DepartmentController::class, 'updateDepartmentById'])->name('update.department'); // Cập nhật thông tin phòng ban, thành viên của phòng ban
+        Route::put('cap-nhat/{department_id}', [DepartmentController::class, 'updateDepartment'])->name('update.department'); // Cập nhật thông tin phòng ban, thành viên của phòng ban
         Route::delete('xoa/{department_id}', [DepartmentController::class, 'deleteTaskById'])->name('destroy.department'); // Xóa phòng ban
+        Route::post('cap-nhat-member/{department_id}', [DepartmentController::class, 'updateMemberDepartment'] )->name('update.department.member');
     });
 });
 

@@ -17,4 +17,8 @@ class Department extends Model
     public function members() {
         return $this->belongsToMany(Member::class, 'department_member');
     }
+
+    public function departmentHead() {
+        return $this->belongsTo(Member::class);
+    }
 }

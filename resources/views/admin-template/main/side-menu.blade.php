@@ -60,19 +60,25 @@
                         </ul>
                     </div>
                 </li>
+{{--                <li>--}}
+{{--                    <a href="#sidebarDepartmentManager" data-bs-toggle="collapse">--}}
+{{--                        <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>--}}
+{{--                        <span>Danh sách phòng ban</span>--}}
+{{--                        <span class="menu-arrow"></span>--}}
+{{--                    </a>--}}
+{{--                    <div class="collapse" id="sidebarDepartmentManager">--}}
+{{--                        <ul class="nav-second-level">--}}
+{{--                            <li><a href="{{route('get.department')}}">List phòng ban</a></li>--}}
+{{--                            <li><a href="{{route('create.department')}}">Tạo phòng ban</a></li>--}}
+{{--                            <li><a href="{{route('edit.department','1')}}">Phân bổ nhân sự</a></li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
                 <li>
-                    <a href="#sidebarDepartmentManager" data-bs-toggle="collapse">
-                        <i class="uil uil-sitemap" data-feather="uil uil-sitemap"></i>
+                    <a href="{{route('get.department')}}">
+                        <i class="uil uil-sitemap" data-feather="uil uil-users-alt"></i>
                         <span>Danh sách phòng ban</span>
-                        <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarDepartmentManager">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('get.department')}}">List phòng ban</a></li>
-                            <li><a href="{{route('create.department')}}">Tạo phòng ban</a></li>
-                            <li><a href="{{route('edit.department','1')}}">Phân bổ nhân sự</a></li>
-                        </ul>
-                    </div>
                 </li>
                 <li>
                     <a href="#sidebarStaffManager" data-bs-toggle="collapse">

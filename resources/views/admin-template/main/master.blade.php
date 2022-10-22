@@ -32,6 +32,7 @@
         <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css"/>
     @endif
+    @stack('custom-css')
 </head>
 
 <body class="loading"

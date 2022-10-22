@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable(); //Tên phòng
             $table->string('description')->nullable(); //Mô tả phòng
-            $table->string('department_head')->nullable(); //Trưởng phòng
+
+            $table->unsignedBigInteger('department_head_id')->nullable(); //Trưởng phòng
+            $table->foreign('department_head_id')->references('id')->on('members');
+
             $table->integer('status')->default('1'); //Trạng thái phòng   /  1 - active , 0 - deactivate
             $table->dateTime('deleted_at')->nullable(); //Thời gian xóa phòng
             $table->timestamps();
