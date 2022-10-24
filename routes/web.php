@@ -122,7 +122,7 @@ Route::post('/post/chinh-sua/{id}', [PostController::class, 'update']);
 
 Route::get('logout', function () {
     Auth::logout();
-    return redirect()->route('get.user.login')->with('messenger','Đăng xuất thành công!');
+    return redirect()->route('get.user.login')->with('success','Đăng xuất thành công!');
 })->name('logout');
 
 

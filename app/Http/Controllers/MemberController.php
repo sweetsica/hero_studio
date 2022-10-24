@@ -27,7 +27,8 @@ class MemberController extends Controller
     public function loginUser(Request $request)
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            return redirect()->back()->withErrors(['user' => 'Email or password wrong']);
+//            return redirect()->back()->flash('error','Sai tài khoản hoặc mật khẩu!');
+            return redirect()->back()->with('error','Sai tài khoản hoặc mật khẩu!');
         }
         $user = User::with('member')->where('email', '=', $request->email)->first();
         session()->put('user', $user);
