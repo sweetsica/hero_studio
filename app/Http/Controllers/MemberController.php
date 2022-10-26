@@ -27,7 +27,8 @@ class MemberController extends Controller
     public function loginUser(Request $request)
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            return redirect()->back()->withErrors(['user' => 'Email or password wrong']);
+//            return redirect()->back()->flash('error','Sai tài khoản hoặc mật khẩu!');
+            return redirect()->back()->with('error','Sai tài khoản hoặc mật khẩu!');
         }
         $user = User::with('member')->where('email', '=', $request->email)->first();
         session()->put('user', $user);
@@ -81,6 +82,36 @@ class MemberController extends Controller
         $roles = Role::all();
 
         return view('admin-template.page.member.create', compact('members', 'departments', 'roles'));
+    }
+
+    public function editMember(Request $request, $id) {
+        $member = Member::find($id);
+        $departments = Department::all();
+        $roles = Role::all();
+
+        return view('admin-template.page.member.edit', compact('member', 'departments', 'roles'));
+    }
+
+    public function updateMember(Request $request, $id) {
+        $member = Member::find($id);
+        $user = $member->user;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+            $user->update();
+        }
+        $user->update($request->only(['name', 'email']));
+        $user->syncRoles([$request->role]);
+
+        if ($request->date_of_birth) {
+            $member->date_of_birth = $request->date_of_birth;
+        }
+
+
+        $member->name = $request->name;
+        $member->code = $request->code;
+        $member->update();
+
+        return redirect()->route('create.member');
     }
 
     public function getUserList()

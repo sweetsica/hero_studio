@@ -48,6 +48,7 @@
                                     <th>Ngày sinh</th>
                                     <th>Mã nhân viên</th>
                                     <th>Vị trí</th>
+{{--                                    <th>Vai trò</th>--}}
                                     <th>Trạng thái</th>
                                     <th>Ngày tạo</th>
                                 </tr>
@@ -55,11 +56,12 @@
                                 <tbody>
                                 @foreach($members as $member)
                                     <tr>
-                                        <td>{{ $member->name }}</td>
+                                        <td><a href="{{route('edit.member', $member->id)}}">{{ $member->name }}</a></td>
                                         <td>{{ $member->user->email }}</td>
                                         <td>{{ $member->date_of_birth }}</td>
                                         <td>{{ $member->code }}</td>
-                                        <td> Nhân Viên</td>
+                                        <td>{{ $member->userRole }}</td>
+{{--                                        <td>{{ $member->user->getRoleNames()[0] }}</td>--}}
                                         <td> Hoạt động</td>
                                         <td> {{ $member->created_at }} </td>
                                     </tr>
@@ -120,14 +122,6 @@
                             <div class="col-md-12 mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Mật khẩu mặc định</label>
                                 <input name="password" type="password" class="form-control" required>
-                            </div>
-                            <div class="col-md-12  mt-2">
-                                <label class="form-label" for="exampleInputEmail1">Phòng ban</label>
-                                <select name="department_id" class="form-select">
-                                    @foreach($departments as $department)
-                                        <option value="{{$department->id}}">{{ $department->name }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                             <div class="col-md-12  mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Vai trò</label>

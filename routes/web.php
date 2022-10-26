@@ -76,6 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('nguoi-dung')->group(function () {
         Route::get('danh-sach', [MemberController::class, 'getUserList'])->name('get.member'); // Lấy danh sách người dùng
         Route::get('them-moi', [MemberController::class, 'createMember'])->name('create.member'); // Thêm người dùng (admin)
+        Route::get('chinh-sua/{id}', [MemberController::class, 'editMember'])->name('edit.member'); // Thêm người dùng (admin)
+        Route::post('chinh-sua/{id}', [MemberController::class, 'updateMember'])->name('update.member'); // Thêm người dùng (admin)
         Route::post('them-moi', [MemberController::class, 'registerMember']); // Thêm người dùng (admin)
     });
     Route::prefix('yeu-cau')->group(function () {
@@ -120,7 +122,7 @@ Route::post('/post/chinh-sua/{id}', [PostController::class, 'update']);
 
 Route::get('logout', function () {
     Auth::logout();
-    return redirect()->route('get.user.login')->with('messenger','Đăng xuất thành công!');
+    return redirect()->route('get.user.login')->with('success','Đăng xuất thành công!');
 })->name('logout');
 
 Route::get('/test/chat', function () {

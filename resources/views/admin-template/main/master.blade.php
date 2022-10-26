@@ -45,7 +45,7 @@
         <div class="container-fluid">
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
-
+                <li></li>
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#"
                        role="button" aria-haspopup="false" aria-expanded="false">
@@ -53,7 +53,7 @@
                              class="rounded-circle"/>
                         <span class="pro-user-name ms-1">
                                 {{ Auth::user()->member->name }}
-                                <i class="uil uil-angle-down"></i>
+{{--                                <i class="uil uil-angle-down"></i>--}}
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end profile-dropdown">
@@ -78,11 +78,11 @@
                     </div>
                 </li>
 
-                <li class="dropdown notification-list">
-                    <a href="javascript:void(0);" class="nav-link right-bar-toggle">
-                        <i data-feather="settings"></i>
-                    </a>
-                </li>
+{{--                <li class="dropdown notification-list">--}}
+{{--                    <a href="javascript:void(0);" class="nav-link right-bar-toggle">--}}
+{{--                        <i data-feather="settings"></i>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
             </ul>
 
             <!-- LOGO -->

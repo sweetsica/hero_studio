@@ -40,9 +40,15 @@
                                         <input name="password" type="password" class="form-control" id="password" placeholder="Chú ý phím caplock">
                                     </div>
                                 </div>
-                                @if(session('messenger'))
+                                @if(session('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         {{ session('messenger') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                @endif
+                                @if(session('error'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{ session('error') }}
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 @endif

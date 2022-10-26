@@ -19,12 +19,11 @@ class TaskController extends Controller
         if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
             $query = $query->where('creator_id', '=', Auth::id());
         } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
-            $query = $query->where('member_id', '=', Auth::id());
+            $query = $query->where('member_id', '=', Auth::user()->member->id);
         } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
             $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
             $query = $query->whereIn('department_id', $authUserDepartments);
         }
-
 
         $infos = $query->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
 
@@ -43,7 +42,7 @@ class TaskController extends Controller
         if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
             $query = $query->where('creator_id', '=', Auth::id());
         } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
-            $query = $query->where('member_id', '=', Auth::id());
+            $query = $query->where('member_id', '=', Auth::user()->member->id);
         } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
             $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
             $query = $query->whereIn('department_id', $authUserDepartments);
@@ -66,7 +65,7 @@ class TaskController extends Controller
         if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
             $query = $query->where('creator_id', '=', Auth::id());
         } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
-            $query = $query->where('member_id', '=', Auth::id());
+            $query = $query->where('member_id', '=', Auth::user()->member->id);
         } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
             $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
             $query = $query->whereIn('department_id', $authUserDepartments);
@@ -89,7 +88,7 @@ class TaskController extends Controller
         if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
             $query = $query->where('creator_id', '=', Auth::id());
         } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
-            $query = $query->where('member_id', '=', Auth::id());
+            $query = $query->where('member_id', '=', Auth::user()->member->id);
         } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
             $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
             $query = $query->whereIn('department_id', $authUserDepartments);
@@ -112,7 +111,7 @@ class TaskController extends Controller
         if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
             $query = $query->where('creator_id', '=', Auth::id());
         } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
-            $query = $query->where('member_id', '=', Auth::id());
+            $query = $query->where('member_id', '=', Auth::user()->member->id);
         } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
             $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
             $query = $query->whereIn('department_id', $authUserDepartments);
