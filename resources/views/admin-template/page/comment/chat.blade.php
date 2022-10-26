@@ -66,9 +66,12 @@
                             >
                                 <i class="far fa-smile"></i>
                             </a>
-                            <a id="sticker-select" tabindex="0" class="btn btn-sm btn-danger" role="button"
-                               data-bs-toggle="popover"
-                            >Sending emo</a>
+                            <a
+                                id="sticker-select"
+                                class="btn btn-sm btn-danger"
+                                role="button"
+                                data-bs-toggle="popover"
+                            >Send sticker</a>
                             <button id="chat-submit" type="submit" class="btn btn-sm btn-success">
                                 Gửi bình luận
                             </button>

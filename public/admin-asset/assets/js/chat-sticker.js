@@ -1,4 +1,3 @@
-console.log('check exist')
 $(document).ready(function () {
     var options = {
         html: true,
