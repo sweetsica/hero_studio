@@ -127,6 +127,11 @@ Route::get('/test/chat', function () {
     return view('admin-template.page.comment.chat');
 });
 
+Route::get('download',function (\Illuminate\Http\Request $request) {
+    $file = \Illuminate\Support\Facades\Storage::disk('public')->path($request->file);
+
+    return response()->download($file);
+})->name('download');
 
 
 

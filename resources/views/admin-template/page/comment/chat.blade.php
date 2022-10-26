@@ -32,11 +32,15 @@
                         <div class="flex-grow-1">
                             @switch($comment->type)
                                 @case('media')
-                                <img src="{{$comment->content}}">
+                                @case('media_upload')
+                                <img style="max-width: 150px; max-height: 150px" src="{{$comment->content}}">
+                                @break
+                                @case('file')
+                                <a href="{{route('download', ['file' => $comment->content])}}">{{route('download', ['file' => $comment->content])}}</a>
                                 @break
                                 @default
                                 <p class="mt-1 mb-0 text-muted">
-                                    {{ $comment->content }}
+                                    {{ $comment->content }} 123
                                 </p>
                                 @break
                             @endswitch
@@ -57,6 +61,9 @@
                               placeholder="Your comment..."></textarea>
                     <div class="p-2 bg-light">
                         <div class="float-end">
+                            <a class="btn btn-primary" style="padding: 2px 12px" type="button" data-bs-toggle="modal"
+                               data-bs-target="#myModal"> <i class="far fa-file"></i> Upload
+                            </a>
                             <a
                                 id="emoji-select"
                                 class="btn border-1"
@@ -425,7 +432,50 @@
             </div>
         </div>
     </div>
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Thông tin thành viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="chat-form" action="{{route('comment-task', $task->id)}}" class="comment-area-box"
+                          method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="comment" onchange="loadFile(event)" required>
+                        <input id="file_type" name="type" value="file" hidden>
+                        <input id="file_media_type" name="media_type" value="file" hidden>
+                        <img id="output" style="width: 200px; height: 200px"/>
 
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Gửi</button>
+                        </div>
+                    </form>
+                    <script>
+                        const loadFile = function (event) {
+                            const files = event.target.files;
+                            const extension = files[0].type
+                            const fileExtension = extension.split('/')[1];
+
+                            const validFilePath = ['jpeg', 'jpg', 'png', 'gif']
+                            if (validFilePath.includes(fileExtension)) {
+                                $("#file_type").val('media_upload')
+                            }
+                            $("#file_media_type").val(fileExtension)
+
+                            const output = document.getElementById('output');
+                            output.src = URL.createObjectURL(files[0]);
+                            output.onload = function () {
+                                URL.revokeObjectURL(output.src) // free memory
+                            }
+                        };
+                    </script>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </section>
 
 {{-- Chart sticker js --}}

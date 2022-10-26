@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -259,14 +260,28 @@ class TaskController extends Controller
 
     public function comment(Request $request, $id)
     {
+        $comment = $request->comment;
+        if ($request->type === 'file') {
+            $comment = Storage::disk('public')->put('files', $request->comment);
+        } else if ($request->type === 'media_upload') {
+            $path = Storage::disk('public')->put('files', $request->comment);
+            $comment = Storage::url($path);
+        }
+
         $task = Task::find($id);
         $task->comments()->create([
-            'content' => $request->comment,
+            'content' => $comment,
             'type' => $request->type,
             'media_type' => $request->get('media_type'),
             'member_id' => Auth::user()->member->id
         ]);
 
         return redirect()->back();
+    }
+
+    public function downloadFile(Request $request) {
+        $file = Storage::disk('public')->path($request->file);
+
+        return response()->download($file);
     }
 }
