@@ -262,6 +262,8 @@ class TaskController extends Controller
         $task = Task::find($id);
         $task->comments()->create([
             'content' => $request->comment,
+            'type' => $request->type,
+            'media_type' => $request->get('media_type'),
             'member_id' => Auth::user()->member->id
         ]);
 

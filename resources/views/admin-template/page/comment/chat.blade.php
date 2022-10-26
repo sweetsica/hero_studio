@@ -18,17 +18,28 @@
         @foreach($task->comments as $comment)
             <div class="row mt-1">
                 <div class="col">
-                    <div class="d-flex">
-                        <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}"
-                             class="me-2 rounded-circle" height="36" alt="Arya Stark">
+                    <div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <div class="d-flex align-items-center">
+                                <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}"
+                                     class="me-2 rounded-circle" height="36" alt="Arya Stark">
+                                <h5 class="mt-0 mb-0 fs-14">
+                                    {{ $comment->member->name }}
+                                </h5>
+                            </div>
+                            <span class="float-end text-muted fs-12">{{ $comment->created_at }} </span>
+                        </div>
                         <div class="flex-grow-1">
-                            <h5 class="mt-0 mb-0 fs-14">
-                                                    <span
-                                                        class="float-end text-muted fs-12">{{ $comment->created_at }} </span> {{ $comment->member->name }}
-                            </h5>
-                            <p class="mt-1 mb-0 text-muted">
-                                {{ $comment->content }}
-                            </p>
+                            @switch($comment->type)
+                                @case('media')
+                                <img src="{{$comment->content}}">
+                                @break
+                                @default
+                                <p class="mt-1 mb-0 text-muted">
+                                    {{ $comment->content }}
+                                </p>
+                                @break
+                            @endswitch
                         </div>
                     </div> <!-- end comment -->
                     <hr>
@@ -39,17 +50,26 @@
     <div class="row mt-1">
         <div class="col">
             <div class="border rounded">
-                <form action="{{route('comment-task', $task->id)}}" class="comment-area-box"
+                <form id="chat-form" action="{{route('comment-task', $task->id)}}" class="comment-area-box"
                       method="POST">
                     @csrf
                     <textarea name="comment" rows="3" class="form-control border-0 resize-none"
                               placeholder="Your comment..."></textarea>
                     <div class="p-2 bg-light">
                         <div class="float-end">
-                            <a id="example" tabindex="0" class="btn btn-sm btn-danger" role="button"
+                            <a
+                                id="emoji-select"
+                                class="btn border-1"
+                                style="padding-block: 0"
+                                role="button"
+                                data-bs-toggle="popover-emo"
+                            >
+                                <i class="far fa-smile"></i>
+                            </a>
+                            <a id="sticker-select" tabindex="0" class="btn btn-sm btn-danger" role="button"
                                data-bs-toggle="popover"
                             >Sending emo</a>
-                            <button type="submit" class="btn btn-sm btn-success">
+                            <button id="chat-submit" type="submit" class="btn btn-sm btn-success">
                                 Gửi bình luận
                             </button>
                         </div>
@@ -57,6 +77,8 @@
                             <i class="uil uil-message me-1"></i>
                         </div>
                     </div>
+                    <input name="type" value="text" hidden>
+                    <input name="media_type" value="text" hidden>
                 </form>
             </div> <!-- end .border-->
         </div> <!-- end col-->
@@ -65,30 +87,162 @@
 
 <section class="center">
     <div hidden>
-        <div data-name="popover-content" style="width: 200px;height: 200px">
-            <div class="sticker-category">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                                type="button" role="tab" aria-controls="home" aria-selected="true"><i
-                                class="far fa-smile"></i>
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                                type="button" role="tab" aria-controls="profile" aria-selected="false">
-                            <i class="fas fa-sticky-note"></i>
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="gif-tab" data-bs-toggle="tab" data-bs-target="#gif" type="button"
-                                role="tab" aria-controls="profile" aria-selected="false">
-                            GIF
-                        </button>
-                    </li>
-                </ul>
+        <div data-name="popover-emoji">
+            <div id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="d-flex flex-wrap" role="row">
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t6/1/30/1f600.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😀"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t6/1/30/1f600.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t89/1/30/1f603.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😃"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t89/1/30/1f603.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/ta/1/30/1f604.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😄"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta/1/30/1f604.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t87/1/30/1f601.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😁"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t87/1/30/1f601.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tc/1/30/1f606.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😆"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc/1/30/1f606.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tab/1/30/1f979.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="🥹"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/tab/1/30/1f979.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8b/1/30/1f605.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😅"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8b/1/30/1f605.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8/1/30/1f602.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😂"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8/1/30/1f602.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8a/1/30/1f923.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="🤣"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8a/1/30/1f923.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t24/1/30/1f972.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="🥲"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t24/1/30/1f972.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tc3/1/30/263a.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="☺️"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc3/1/30/263a.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tb7/1/30/1f60a.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😊"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb7/1/30/1f60a.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8d/1/30/1f607.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😇"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8d/1/30/1f607.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t84/1/30/1f642.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="🙂"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t84/1/30/1f642.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t5/1/30/1f643.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="🙃"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5/1/30/1f643.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 p-0 chat-event" data-type="emoji"
+                         data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8f/1/30/1f609.png">
+                        <div role="button" tabindex="0">
+                            <div><span> <img height="30" width="30" alt="😉"
+                                             referrerpolicy="origin-when-cross-origin"
+                                             src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8f/1/30/1f609.png"> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="tab-content" id="myTabContent">
+        </div>
+    </div>
+
+    <div hidden>
+        <div data-name="popover-sticker" style="width: 200px;height: 200px">
+            <div id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="d-flex flex-wrap">
                         <div class="col-3 p-0 chat-event"
@@ -264,29 +418,6 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="tab-pane fade" id="gif" role="tabpanel" aria-labelledby="gif-tab">
-                    <div class="d-flex flex-wrap">
-                        <div class="col-12 p-0 chat-event"
-                             data-type="gif"
-                             data-url="https://media1.tenor.co/images/b72d1c6f639d9d3aa288ed59723745e1/tenor.gif?c=VjFfZmFjZWJvb2tfd2ViY29tbWVudHM&itemid=5173989"
-                        >
-                            <img width="200"
-                                 src="https://media1.tenor.co/images/b72d1c6f639d9d3aa288ed59723745e1/tenor.gif?c=VjFfZmFjZWJvb2tfd2ViY29tbWVudHM&itemid=5173989">
-                        </div>
-                        {{--                        <div class="col-3 p-0 chat-event"--}}
-                        {{--                        >--}}
-
-                        {{--                        </div>--}}
-                        {{--                        <div class="col-3 p-0 chat-event"--}}
-                        {{--                        >--}}
-
-                        {{--                        </div>--}}
-                        {{--                        <div class="col-3 p-0 chat-event">--}}
-                        {{--                            <img src="https://media1.tenor.co/images/b72d1c6f639d9d3aa288ed59723745e1/tenor.gif?c=VjFfZmFjZWJvb2tfd2ViY29tbWVudHM&itemid=5173989">--}}
-                        {{--                        </div>--}}
-                    </div>
                 </div>
             </div>
         </div>
@@ -294,7 +425,7 @@
 
 </section>
 
- {{-- Chart sticker js --}}
+{{-- Chart sticker js --}}
 {{--<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>--}}
 {{--<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>--}}
 {{--<script type='text/javascript' src='{{asset('admin-asset/assets/js/chat-sticker.js')}}'></script>--}}
