@@ -29,9 +29,12 @@ function getDataUrl(dom) {
 
     $("input[name='type']").val('media');
     $("input[name='media_type']").val(mediaType);
-    $("textarea[name='comment']").val(url);
+
+    $("textarea#chat-textarea").removeAttr('name')
+    $("textarea#chat-textarea-hidden").attr('name', 'comment');
+    $("textarea#chat-textarea-hidden").val(url);
+
     $("#chat-form").submit();
-    console.log(url)
 }
 
 

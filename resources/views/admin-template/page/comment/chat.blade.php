@@ -1,4 +1,4 @@
-<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css' rel='stylesheet'>
+{{--<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css' rel='stylesheet'>--}}
 <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
 <style>
     .chat-event {
@@ -57,8 +57,11 @@
                 <form id="chat-form" action="{{route('comment-task', $task->id)}}" class="comment-area-box"
                       method="POST">
                     @csrf
-                    <textarea name="comment" rows="3" class="form-control border-0 resize-none"
+                    <textarea id="chat-textarea" name="comment" rows="3" class="form-control border-0 resize-none"
                               placeholder="Your comment..."></textarea>
+
+                    <textarea id="chat-textarea-hidden" rows="3" class="form-control border-0 resize-none"
+                              placeholder="Your comment..." hidden></textarea>
                     <div class="p-2 bg-light">
                         <div class="float-end">
                             <a class="btn btn-primary" style="padding: 2px 12px" type="button" data-bs-toggle="modal"
@@ -67,7 +70,7 @@
                             <a
                                 id="emoji-select"
                                 class="btn border-1"
-                                style="padding-block: 0"
+                                style="padding-block: 0; color: black"
                                 role="button"
                                 data-bs-toggle="popover-emo"
                             >
