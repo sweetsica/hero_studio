@@ -123,7 +123,9 @@ Route::get('logout', function () {
     return redirect()->route('get.user.login')->with('messenger','Đăng xuất thành công!');
 })->name('logout');
 
-
+Route::get('/test/chat', function () {
+    return view('admin-template.page.comment.chat');
+});
 
 
 

@@ -196,53 +196,7 @@
                 </div>
                 <!-- comments -->
                 <div class="col-xl-4">
-                    <div class="card">
-                        <div class="card-body" style="height: 418px;overflow-y: scroll">
-                            <h4 class="mb-4 fs-16">Bình luận về yêu cầu này</h4>
-                            @foreach($task->comments as $comment)
-                                <div class="row mt-1">
-                                    <div class="col">
-                                        <div class="d-flex">
-                                            <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}"
-                                                 class="me-2 rounded-circle" height="36" alt="Arya Stark">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mt-0 mb-0 fs-14">
-                                                    <span
-                                                        class="float-end text-muted fs-12">{{ $comment->created_at }} </span> {{ $comment->member->name }}
-                                                </h5>
-                                                <p class="mt-1 mb-0 text-muted">
-                                                    {{ $comment->content }}
-                                                </p>
-                                            </div>
-                                        </div> <!-- end comment -->
-                                        <hr>
-                                    </div> <!-- end col -->
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col">
-                                <div class="border rounded">
-                                    <form action="{{route('comment-task', $task->id)}}" class="comment-area-box"
-                                          method="POST">
-                                        @csrf
-                                        <textarea name="comment" rows="3" class="form-control border-0 resize-none"
-                                                  placeholder="Your comment..."></textarea>
-                                        <div class="p-2 bg-light">
-                                            <div class="float-end">
-                                                <button type="submit" class="btn btn-sm btn-success">
-                                                    Gửi bình luận
-                                                </button>
-                                            </div>
-                                            <div>
-                                                <i class="uil uil-message me-1"></i>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div> <!-- end .border-->
-                            </div> <!-- end col-->
-                        </div>
-                    </div>
+                    @include('admin-template.page.comment.chat')
                 </div>
                 <!-- end col -->
             </div>
@@ -328,5 +282,11 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
     <script src="{{ asset('admin-asset/assets/js/pages/datatables.init.js') }}"></script>
+
+    <!-- Script for picking emo -->
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript'
+            src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
+    <script type='text/javascript' src='{{asset('admin-asset/assets/js/chat-sticker.js')}}'></script>
 
 @endsection
