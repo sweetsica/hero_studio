@@ -171,11 +171,9 @@
                                                     nhận
                                                 </option>
 
-                                                <option @if($task->status_code === 2) selected @endif value="2">Đang
-                                                    thực hiện
+                                                <option @if($task->status_code === 2) selected @endif value="2">Đang thực hiện
                                                 </option>
-                                                <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn
-                                                    thành
+                                                <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn thành
                                                 </option>
 
                                                 <option @if(Auth::user()->hasRole('editor')) disabled @if($task->status_code === 4) selected @endif @elseif($task->status_code === 4) selected @endif value="4">Cần làm

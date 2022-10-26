@@ -30,4 +30,37 @@ class Task extends Model
     public function comments() {
         return $this->hasMany(Comment::class);
     }
+
+    public function getStatusCodeAttribute($value)
+    {
+        switch ($value){
+            case "1":
+                return $this->attributes['status_code'] = 'Đang chờ nhận';
+            case "2":
+                return $this->attributes['status_code'] = 'Đang thực hiện';
+            case "3":
+                return $this->attributes['status_code'] = 'Đã hoàn thành';
+            case "4":
+                return $this->attributes['status_code'] = 'Cần làm lại';
+            default:
+                return $value;
+        }
+    }
+
+//    public function setStatusCodeAttribute($value)
+//    {
+//        switch ($value){
+//            case "Đang chờ nhận":
+//                return $this->attributes['status_code'] = '1';
+//            case "Đang thực hiện":
+//                return $this->attributes['status_code'] = '2';
+//            case "Đã hoàn thành":
+//                return $this->attributes['status_code'] = '3';
+//            case "Cần làm lại":
+//                return $this->attributes['status_code'] = '4';
+//            default:
+//                return $value;
+//        }
+//    }
+
 }

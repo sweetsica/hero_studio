@@ -45,7 +45,7 @@
         <div class="container-fluid">
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
-
+                <li></li>
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#"
                        role="button" aria-haspopup="false" aria-expanded="false">
@@ -56,26 +56,26 @@
 {{--                                <i class="uil uil-angle-down"></i>--}}
                         </span>
                     </a>
-{{--                    <div class="dropdown-menu dropdown-menu-end profile-dropdown">--}}
-{{--                        <!-- item-->--}}
-{{--                        <div class="dropdown-header noti-title">--}}
-{{--                            <h6 class="text-overflow m-0">Welcome !</h6>--}}
-{{--                        </div>--}}
+                    <div class="dropdown-menu dropdown-menu-end profile-dropdown">
+                        <!-- item-->
+                        <div class="dropdown-header noti-title">
+                            <h6 class="text-overflow m-0">Welcome !</h6>
+                        </div>
 
-{{--                        <a href="pages-profile.html" class="dropdown-item notify-item">--}}
-{{--                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>--}}
-{{--                        </a>--}}
+                        <a href="pages-profile.html" class="dropdown-item notify-item">
+                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>
+                        </a>
 
-{{--                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">--}}
-{{--                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>--}}
-{{--                        </a>--}}
+                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">
+                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>
+                        </a>
 
-{{--                        <div class="dropdown-divider"></div>--}}
+                        <div class="dropdown-divider"></div>
 
-{{--                        <a href="{{route('logout')}}" class="dropdown-item notify-item">--}}
-{{--                            <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Logout</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
+                        <a href="{{route('logout')}}" class="dropdown-item notify-item">
+                            <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Logout</span>
+                        </a>
+                    </div>
                 </li>
 
 {{--                <li class="dropdown notification-list">--}}
