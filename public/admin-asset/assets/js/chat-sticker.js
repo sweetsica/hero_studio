@@ -6,7 +6,6 @@ $(document).ready(function () {
     var exampleEl = document.getElementById('sticker-select')
     var popover = new bootstrap.Popover(exampleEl, options)
 
-
     var optionEmojis = {
         html: true,
         content: $('[data-name="popover-emoji"]')

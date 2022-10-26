@@ -274,4 +274,9 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
     <script src="{{ asset('admin-asset/assets/js/pages/datatables.init.js') }}"></script>
+
+    <!-- Script for picking emo -->
+    <script type='text/javascript'
+            src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
+    <script type='text/javascript' src='{{asset('admin-asset/assets/js/chat-sticker.js')}}'></script>
 @endsection

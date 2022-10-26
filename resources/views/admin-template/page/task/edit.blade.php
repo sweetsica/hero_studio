@@ -247,7 +247,6 @@
                 </div><!-- end col-->
             </div>
         </div> <!-- content -->
-
     </div> <!-- content -->
 @endsection
 
