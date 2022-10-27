@@ -55,7 +55,9 @@
                 <div class="col-xl-8">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title mb-4">Thông tin yêu cầu</h4>
+                            <h4 class="header-title mb-4 pt-2">Thông tin yêu cầu</h4>
+                            <p>Người yêu cầu: {{$info->name}}</p>
+                            <p>Ngày tạo: {{$task->created_at->format('d-m h:i A')}}</p>
                             <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}"
                                   method="POST">
                                 @csrf

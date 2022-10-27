@@ -30,9 +30,16 @@ class TaskController extends Controller
         $totalTask = Task::count();
         $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
         $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+        $count['task_today'] = Task::whereDate('created_at', date('Y-m-d'))->get()->count();
+        $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
+        $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
+        $count['task_sum_lenght_today'] = 0;
+        foreach ($count['task_lenght_today'] as $task_lenght){
+            $count['task_sum_lenght_today'] = $task_lenght['product_length'] + $count['task_sum_lenght_today'];
+        }
+        $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
-
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone'));
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone','count'));
     }
 
     public function getPendingTaskOrder()
@@ -202,8 +209,8 @@ class TaskController extends Controller
         }
         $members = $memberQuery->get();
         $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
-
-        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete'));
+        $info = $task->member('creator_id')->first();
+        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete','info'));
     }
 
     public function updateTask($id, Request $request)

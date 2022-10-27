@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notify;
 use Illuminate\Http\Request;
 
 class NotifyController extends Controller
@@ -13,7 +14,7 @@ class NotifyController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -23,7 +24,7 @@ class NotifyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin-template.page.notify.create');
     }
 
     /**
@@ -34,7 +35,8 @@ class NotifyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Notify::create($request->all());
+        return redirect()->back();
     }
 
     /**

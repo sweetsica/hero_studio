@@ -43,9 +43,8 @@
     <!-- Topbar Start -->
     <div class="navbar-custom">
         <div class="container-fluid">
-            <ul class="list-unstyled topnav-menu float-end mb-0">
 
-                <li></li>
+            <ul class="list-unstyled topnav-menu float-end mb-0">
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#"
                        role="button" aria-haspopup="false" aria-expanded="false">
@@ -117,7 +116,11 @@
                         <i data-feather="menu"></i>
                     </button>
                 </li>
-
+                <li class="dropdown d-none d-xl-block">
+                    <a class="nav-link dropdown-toggle" disabled data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+                        {{$notify->content}}
+                    </a>
+                </li>
                 <li>
                     <!-- Mobile menu toggle (Horizontal Layout)-->
                     <a class="navbar-toggle nav-link" data-bs-toggle="collapse"

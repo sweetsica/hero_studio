@@ -120,11 +120,6 @@ Route::get('/post/chi-tiet/{id}', [PostController::class, 'detail'])->name('post
 Route::get('/post/chinh-sua/{id}', [PostController::class, 'edit'])->name('post.edit');
 Route::post('/post/chinh-sua/{id}', [PostController::class, 'update']);
 
-Route::get('logout', function () {
-    Auth::logout();
-    return redirect()->route('get.user.login')->with('success','Đăng xuất thành công!');
-})->name('logout');
-
 Route::get('/test/chat', function () {
     return view('admin-template.page.comment.chat');
 });
@@ -135,7 +130,13 @@ Route::get('download',function (\Illuminate\Http\Request $request) {
     return response()->download($file);
 })->name('download');
 
+Route::get('/thong-bao',[\App\Http\Controllers\NotifyController::class,'create'])->name('noti.create');
+Route::post('/thong-bao',[\App\Http\Controllers\NotifyController::class,'store'])->name('noti.save');
 
+Route::get('logout', function () {
+    Auth::logout();
+    return redirect()->route('get.user.login')->with('success','Đăng xuất thành công!');
+})->name('logout');
 
 //Route::get('/', function () {
 //    return view('upload');
