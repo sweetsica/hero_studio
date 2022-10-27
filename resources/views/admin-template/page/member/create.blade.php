@@ -108,6 +108,10 @@
                     <form class="form-horizontal" method="POST">
                         @csrf
                         <div class="mb-2 row">
+                            <div class="col-md-12 mt-2">
+                                <label class="form-label" for="exampleInputEmail1">Mã nhân viên</label>
+                                <input name="code" type="text" class="form-control">
+                            </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="exampleInputEmail1">Tên thành viên</label>
                                 <input name="name" type="text" class="form-control"
@@ -124,6 +128,9 @@
                                 <input name="password" type="password" class="form-control" required>
                             </div>
                             <div class="col-md-12  mt-2">
+                                <label class="form-label" for="exampleInputEmail1">Phòng ban</label>
+                            </div>
+                            <div class="col-md-12  mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Vai trò</label>
                                 <select name="role" class="form-select">
                                     <option value="chief of department">Quản lý</option>
@@ -135,10 +142,7 @@
                                 <label class="form-label" for="exampleInputEmail1">Ngày sinh</label>
                                 <input name="date_of_birth" type="date" class="form-control">
                             </div>
-                            <div class="col-md-12 mt-2">
-                                <label class="form-label" for="exampleInputEmail1">Mã nhân viên</label>
-                                <input name="code" type="text" class="form-control">
-                            </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>

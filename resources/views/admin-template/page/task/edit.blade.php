@@ -56,7 +56,11 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title mb-4 pt-2">Thông tin yêu cầu</h4>
-                            <p>Người yêu cầu: {{$info->name}}</p>
+                            <p>Người yêu cầu:
+                                @if(isset($info->name))
+                                {{$info->name}}
+                                @endif
+                            </p>
                             <p>Ngày tạo: {{$task->created_at->format('d-m h:i A')}}</p>
                             <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}"
                                   method="POST">
