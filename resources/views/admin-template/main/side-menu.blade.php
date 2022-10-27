@@ -95,7 +95,7 @@
                         </ul>
                     </div>
                 </li>
-
+                @if((Auth::user()->member()->first()['special_access']==1))
                 <li>
                     <a href="#sidebarMediaManager" data-bs-toggle="collapse">
                         <i class="uil uil-film" data-feather="uil uil-film"></i>
@@ -108,6 +108,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
             @endif
             {{--Hết menu quản lý--}
             {{--Menu KOL--}}
@@ -127,6 +128,7 @@
                         </ul>
                     </div>
                 </li>
+                @if((Auth::user()->member()->first()['special_access']==1))
                 <li>
                     <a href="#sidebarMediaKOL" data-bs-toggle="collapse">
                         <i class="uil uil-film" data-feather="uil uil-film"></i>
@@ -139,6 +141,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
             @endif
             {{--Hết menu KOL--}}
             {{--Menu nhân viên--}}
