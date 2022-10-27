@@ -118,7 +118,9 @@
                 </li>
                 <li class="dropdown d-none d-xl-block">
                     <a class="nav-link dropdown-toggle" disabled data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                        {{$notify->content}}
+                        @if(isset($notify->content))
+                            {{$notify->content}}
+                        @endif
                     </a>
                 </li>
                 <li>
