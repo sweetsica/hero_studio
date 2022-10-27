@@ -31,13 +31,12 @@
     <div id="sidebar-menu">
         <ul id="side-menu">
             <!-- <li class="menu-title">Navigation</li> -->
-{{--            <li>--}}
-{{--                <a href="{{route('get.taskOrder.list')}}" data-bs-toggle="collapse">--}}
-{{--                    <span class="badge bg-success float-end">03</span>--}}
-{{--                    <i data-feather="home"></i>--}}
-{{--                    <span> Trang chủ </span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
+            <li>
+                <a href="{{route('dashboard')}}">
+                    <i data-feather="home"></i>
+                    <span> Trang chủ </span>
+                </a>
+            </li>
 
             {{--Menu super admin --}}
             @if((Auth::user()->hasRole('super admin')))
@@ -96,6 +95,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <li>
                     <a href="#sidebarMediaManager" data-bs-toggle="collapse">
                         <i class="uil uil-film" data-feather="uil uil-film"></i>
@@ -158,6 +158,7 @@
                         </ul>
                     </div>
                 </li>
+                @if((Auth::user()->member()->first()['special_access']==1))
                 <li>
                     <a href="#sidebarDepartmentStaff" data-bs-toggle="collapse">
                         <i class="uil uil-film" data-feather="uil uil-film"></i>
@@ -170,6 +171,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
                 {{--Hết menu nhân viên--}}
             @endif
             <li>

@@ -108,9 +108,6 @@
                                         <textarea class="form-control" name="content"
                                                   @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
                                                   style="background-color: #f6f6f7"@endif>{{$task->content}}</textarea>
-                                        <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ
-                                            dài
-                                            tầm 3' để up facebook)</small>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
@@ -151,8 +148,6 @@
                                                    style="background-color: #f6f6f7" @endif
                                                    class="form-control flatpickr-input active" type="datetime-local">
                                         </div>
-                                        <small id="emailHelp" class="form-text text-muted">(Để trống nếu không đặt thời
-                                            hạn, chỉ quản lý mới thay đổi được thời hạn)</small>
                                     </div>
                                     @if((Auth::user()->getRoleNames())[0]=='editor')
                                         <div class="col-md-4">
@@ -169,6 +164,7 @@
                                                        class="form-control active" type="number">
                                             </div>
                                         </div>
+                                    @endif
                                         <div class="col-md-4">
                                             <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
 
@@ -176,7 +172,6 @@
                                                 <option @if(Auth::user()->hasRole('editor')) disabled @if($task->status_code === 1) selected @endif @elseif($task->status_code === 1) selected @endif value="1">Đang chờ
                                                     nhận
                                                 </option>
-
                                                 <option @if($task->status_code === 2) selected @endif value="2">Đang thực hiện
                                                 </option>
                                                 <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn thành
@@ -187,8 +182,6 @@
                                                 </option>
                                             </select>
                                         </div>
-
-                                    @endif
                                 </div>
                                 <div class="md-3" style="justify-content: space-between;display: flex">
                                     <button type="submit" class="btn btn-primary">Xác nhận yêu cầu</button>

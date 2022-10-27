@@ -15,6 +15,7 @@ class Task extends Model
         'DONE' => 3,        // Task được báo hoàn thành
         'REDO' => 4,        // Task bị yêu cầu làm lại
         'CLOSE' => 5,       // Task kết thúc
+        'RECEIVED' => 6,    // Task đã được nhận
     ];
 
     protected $guarded = [];
@@ -31,7 +32,7 @@ class Task extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function getStatusCodeAttribute($value)
+    public function getStatusCodeTextAttribute($value)
     {
         switch ($value){
             case "1":
@@ -45,6 +46,10 @@ class Task extends Model
             default:
                 return $value;
         }
+    }
+
+    public function getRawStatusCodeAttribute() {
+        return $this->status_code;
     }
 
 //    public function setStatusCodeAttribute($value)

@@ -124,11 +124,12 @@
                                 <input name="email" type="email" class="form-control" required>
                             </div>
                             <div class="col-md-12 mt-2">
+                                <label class="form-label" for="exampleInputEmail1">Truy cập kho media?</label>
+                                <input name="special_access" type="checkbox" class="form-check-input">
+                            </div>
+                            <div class="col-md-12 mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Mật khẩu mặc định</label>
                                 <input name="password" type="password" class="form-control" required>
-                            </div>
-                            <div class="col-md-12  mt-2">
-                                <label class="form-label" for="exampleInputEmail1">Phòng ban</label>
                             </div>
                             <div class="col-md-12  mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Vai trò</label>

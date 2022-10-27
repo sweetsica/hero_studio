@@ -42,8 +42,19 @@
                                         <input name="email" type="email" class="form-control" required value="{{$member->user->email}}">
                                     </div>
                                     <div class="col-md-12 mt-2">
+                                        <label class="form-label" for="special_access">Truy cập kho media?</label>
+                                        <input type="hidden" id="test6" value="0" ng-model="isFull" name="special_access" checked>
+                                        <input name="special_access" type="checkbox" id="special_access" class="form-check-input"
+                                            @if($member->special_access)
+                                                checked  value="{{$member->user->special_access}}"
+                                            @else()
+                                                value="1"
+                                            @endif
+                                        >
+                                    </div>
+                                    <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Mật khẩu</label>
-                                        <input name="password" type="password" class="form-control" required>
+                                        <input name="password" type="password" class="form-control">
                                         <small >(Bỏ trống nếu giữ nguyên)</small>
                                     </div>
                                     <div class="col-md-12  mt-2">
@@ -66,7 +77,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary">Tạo thành viên</button>
+                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
                                 </div>
                             </form>
                         </div>

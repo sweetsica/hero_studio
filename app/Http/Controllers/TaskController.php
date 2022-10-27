@@ -33,9 +33,9 @@ class TaskController extends Controller
         $count['task_today'] = Task::whereDate('created_at', date('Y-m-d'))->get()->count();
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
-        $count['task_sum_lenght_today'] = 0;
+        $count['task_sum_length_today'] = 0;
         foreach ($count['task_lenght_today'] as $task_lenght){
-            $count['task_sum_lenght_today'] = $task_lenght['product_length'] + $count['task_sum_lenght_today'];
+            $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 

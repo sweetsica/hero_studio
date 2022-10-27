@@ -51,11 +51,11 @@
                                                     <!-- task -->
                                                     <div class="card-body">
                                                         @foreach($infos as $data)
-                                                            @if($data->status_code == "Đang chờ nhận")
+                                                            @if($data->status_code_text == "Đang chờ nhận")
                                                                 <div class="alert alert-secondary row" role="alert">
-                                                            @elseif($data->status_code == "Đang thực hiện")
+                                                            @elseif($data->status_code_text == "Đang thực hiện")
                                                                 <div class="alert alert-info row" role="alert">
-                                                            @elseif($data->status_code == "Đã hoàn thành")
+                                                            @elseif($data->status_code_text == "Đã hoàn thành")
                                                                 <div class="alert alert-success row" role="alert">
                                                             @else
                                                                 <div class="alert alert-warning row" role="alert">
@@ -68,11 +68,11 @@
                                                                     <li class="list-inline-item pe-1"><i class='uil uil-stopwatch'></i>{{$data->product_length}} phút</li>
                                                                     <li class="list-inline-item pe-1"><i class='uil uil-schedule me-1'></i>Ngày tạo: {{$data->created_at->format('d-m-Y'.'#'.'h:i A')}}</li>
                                                                     <li class="list-inline-item">
-                                                                        @if($data->status_code == "Đang chờ nhận")
+                                                                        @if($data->status_code_text == "Đang chờ nhận")
                                                                             <span class="badge bg-secondary">
-                                                                        @elseif($data->status_code == "Đang thực hiện")
+                                                                        @elseif($data->status_code_text == "Đang thực hiện")
                                                                             <div class="badge bg-info" role="alert">
-                                                                        @elseif($data->status_code == "Đã hoàn thành")
+                                                                        @elseif($data->status_code_text == "Đã hoàn thành")
                                                                             <div class="badge bg-success" role="alert">
                                                                         @else
                                                                             <div class="badge bg-warning" role="alert">
@@ -903,7 +903,7 @@
                             <div class="row border-bottom justify-content-between align-items-end py-3">
                                 <div class="col-6 col-md-5">
                                     <h6 class="text-muted mt-0 fs-14">Tổng thời lượng hôm nay</h6>
-                                    <h3 class="my-2">{{$count['task_sum_lenght_today']}}</h3>
+                                    <h3 class="my-2">{{$count['task_sum_length_today']}}</h3>
 {{--                                    <h6 class="text-success mb-0">+24.98%</h6>--}}
                                 </div>
                                 <div class="col-5 col-md-3">

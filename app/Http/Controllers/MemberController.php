@@ -32,7 +32,7 @@ class MemberController extends Controller
         }
         $user = User::with('member')->where('email', '=', $request->email)->first();
         session()->put('user', $user);
-        return redirect()->route('get.taskOrder.list');
+        return redirect()->route('dashboard');
     }
 
     public function registerMember(Request $request)
@@ -106,8 +106,8 @@ class MemberController extends Controller
             $member->date_of_birth = $request->date_of_birth;
         }
 
-
         $member->name = $request->name;
+        $member->special_access = $request->special_access;
         $member->code = $request->code;
         $member->update();
 
