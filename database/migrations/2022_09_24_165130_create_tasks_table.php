@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->unsignedBigInteger('member_id')->nullable(); // member phu trach
             $table->unsignedBigInteger('creator_id')->nullable(); // người tạo
             $table->unsignedBigInteger('department_id')->nullable();  // task cua department nao
@@ -29,8 +29,8 @@ return new class extends Migration
             $table->string('product_description')->nullable();
             $table->string('product_length')->nullable();
 
-            $table->string('source');
-            $table->string('url_source');
+            $table->string('source')->nullable();
+            $table->string('url_source')->nullable();
 
             // Notes
             $table->string('cof_note')->nullable();
