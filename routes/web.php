@@ -28,15 +28,6 @@ use Illuminate\Support\Facades\Session;
 //});
 
 
-Route::get('/', function () {
-    if(!Auth::user()==null){
-        return view('admin-template.page.dashboard.index');
-    }else{
-        return redirect()->route('get.user.login');
-    }
-});
-
-
 Route::get('nguoi-dung/dang-nhap', [MemberController::class, 'getLoginView'])->name('get.user.login');
 Route::post('nguoi-dung/dang-nhap', [MemberController::class, 'loginUser']);
 //    Route::get('kiem-tra',[MemberController::class,'getUserList'])->name('post.user.check');
@@ -44,6 +35,7 @@ Route::get('nguoi-dung/dang-ky', [MemberController::class, 'getRegisterView'])->
 Route::post('nguoi-dung/dang-ky', [MemberController::class, 'registerUser']); // Đăng ký tài khoản bởi người dùng
 
 Route::middleware('auth')->group(function () {
+    Route::get('', [DashboardController::class, 'index']);
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('nhiem-vu')->group(function (){
