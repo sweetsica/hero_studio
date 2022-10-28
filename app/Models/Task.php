@@ -32,9 +32,9 @@ class Task extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function getStatusCodeTextAttribute($value)
+    public function getStatusCodeTextAttribute()
     {
-        switch ($value){
+        switch ($this->status_code){
             case "1":
                 return $this->attributes['status_code'] = 'Đang chờ nhận';
             case "2":
@@ -44,7 +44,7 @@ class Task extends Model
             case "4":
                 return $this->attributes['status_code'] = 'Cần làm lại';
             default:
-                return $value;
+                return $this->status_code;
         }
     }
 
