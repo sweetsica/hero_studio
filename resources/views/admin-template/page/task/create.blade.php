@@ -63,12 +63,12 @@
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Tên yêu cầu</label>
                                         <input name="name" type="text" class="form-control" aria-describedby="emailHelp"
-                                               placeholder="">
+                                               placeholder="" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
-                                        <select name="source" class="form-select">
-                                            <option selected="" disabled>Chọn nguồn</option>
+                                        <select name="source" class="form-select" required>
+                                            <option selected value="" disabled>Chọn nguồn</option>
                                             <option value="Facebook">Facebook</option>
                                             <option value="Tiktok">Tiktok</option>
                                             <option value="Youtube">Youtube</option>
@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
-                                        <select class="form-select" name="type">
+                                        <select class="form-select" name="type" required>
                                             <option selected value="Normal">Thường</option>
                                             <option value="Sponsor">Được tài trợ</option>
                                         </select>
@@ -85,13 +85,13 @@
                                 <div class="mb-2 row">
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Mô tả yêu cầu</label>
-                                        <textarea class="form-control"name="content"></textarea>
+                                        <textarea class="form-control"name="content" required></textarea>
                                         <small id="emailHelp" class="form-text text-muted">(VD: Video từ lúc 2:30', độ dài
                                             tầm 3' để up facebook)</small>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                        <textarea class="form-control" name="url_source"></textarea>
+                                        <textarea class="form-control" name="url_source" required></textarea>
                                         <small id="emailHelp" class="form-text text-muted">(Kiểm tra lại quyền chia sẻ với
                                             link google driver)</small>
                                     </div>
@@ -99,7 +99,7 @@
                                 <div class="mb-2 row">
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
-                                        <select class="form-select" name="department_id">
+                                        <select class="form-select" name="department_id" required>
                                             @foreach($departments as $department)
                                                 <option value="{{$department->id}}">{{ $department->name }}</option>
                                             @endforeach
