@@ -21,7 +21,19 @@
                 </div>
             </div>
             <!-- end page title -->
-
+            <div class="row">
+                @if($errors->any())
+                    @foreach($errors->all() as $error)
+                        <div class="col-12">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ $error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
             <div class="row">
                 <div class="col-6">
                     <div class="card">
@@ -39,36 +51,57 @@
                                     </div>
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Email thành viên</label>
-                                        <input name="email" type="email" class="form-control" required value="{{$member->user->email}}">
+                                        <input name="email" type="email" class="form-control" required
+                                               value="{{$member->user->email}}">
                                     </div>
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="special_access">Truy cập kho media?</label>
-                                        <input type="hidden" id="test6" value="0" ng-model="isFull" name="special_access" checked>
-                                        <input name="special_access" type="checkbox" id="special_access" class="form-check-input"
-                                            @if($member->special_access)
-                                                checked  value="{{$member->user->special_access}}"
-                                            @else()
-                                                value="1"
+                                        <input type="hidden" id="test6" value="0" ng-model="isFull"
+                                               name="special_access" checked>
+                                        <input name="special_access" type="checkbox" id="special_access"
+                                               class="form-check-input"
+                                               @if($member->special_access)
+                                               checked
+                                               @else()
                                             @endif
                                         >
                                     </div>
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Mật khẩu</label>
                                         <input name="password" type="password" class="form-control">
-                                        <small >(Bỏ trống nếu giữ nguyên)</small>
+                                        <small>(Bỏ trống nếu giữ nguyên)</small>
                                     </div>
                                     <div class="col-md-12  mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Vai trò</label>
                                         <select name="role" class="form-select">
-                                            <option @if($member->primitiveUserRole === 'chief of department') selected @endif value="chief of department">Quản lý</option>
-                                            <option @if($member->primitiveUserRole === 'key opinion leaders') selected @endif value="key opinion leaders">Kol</option>
-                                            <option @if($member->primitiveUserRole === 'editor') selected @endif value="editor">Thành viên</option>
+                                            <option @if($member->primitiveUserRole === 'chief of department') selected
+                                                    @endif value="chief of department">Quản lý
+                                            </option>
+                                            <option @if($member->primitiveUserRole === 'key opinion leaders') selected
+                                                    @endif value="key opinion leaders">Kol
+                                            </option>
+                                            <option @if($member->primitiveUserRole === 'editor') selected
+                                                    @endif value="editor">Thành viên
+                                            </option>
                                         </select>
                                     </div>
+
                                     <div class="col-md-12 mt-2">
-                                        <label class="form-label" for="exampleInputEmail1">Ngày sinh : {{\Carbon\Carbon::parse($member->date_of_birth)->format('d/m/Y')}}</label>
+                                        <label class="form-label" for="exampleInputEmail1">Thuộc phòng ban</label>
+                                        <select multiple="multiple" class="multi-select" id="my_multi_select1"
+                                                name="departments[]" data-plugin="multiselect">
+                                            @foreach($departments as $department)
+                                                <option value="{{$department->id}}"
+                                                        @if(in_array($department->id, $memberDepartmentIds)) selected @endif> {{$department->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-12 mt-2">
+                                        <label class="form-label" for="exampleInputEmail1">Ngày sinh
+                                            : {{\Carbon\Carbon::parse($member->date_of_birth)->format('d/m/Y')}}</label>
                                         <input name="date_of_birth" type="date" class="form-control">
-                                        <small >(Bỏ trống nếu giữ nguyên)</small>
+                                        <small>(Bỏ trống nếu giữ nguyên)</small>
                                     </div>
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Mã nhân viên</label>
@@ -108,4 +141,50 @@
             </div>
         </div>
     </div>
+@endsection
+
+@push('custom-css')
+    <link href="{{asset('admin-asset/assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/multiselect/css/multi-select.css')}}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}"
+          rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/spectrum-colorpicker2/spectrum.min.css')}}" rel="stylesheet">
+@endpush
+
+@section('content-js')
+    <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
+    <!-- optional plugins -->
+    <script src="{{ asset('admin-asset/assets/libs/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+
+    <!-- App js -->
+    <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
+
+    <script src="{{ asset('admin-asset/assets/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/js/pages/form-advanced.init.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            const table = $('#basic-datatable').DataTable({
+                scrollCollapse: true,
+                paging: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print', 'colvis'
+                ],
+                fixedColumns: {
+                    left: 2
+                }
+            });
+            table.buttons().container()
+                .appendTo('#basic-datatable .col-md-6:eq(0)');
+
+            // them class vào các btn của datatable cho giống theme
+            $('.dt-buttons').children().addClass('btn btn-secondary')
+        })
+    </script>
 @endsection

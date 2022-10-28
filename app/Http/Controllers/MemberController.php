@@ -37,6 +37,10 @@ class MemberController extends Controller
 
     public function registerMember(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email|unique:users'
+        ]);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -49,8 +53,10 @@ class MemberController extends Controller
             'user_id' => $user->id,
             'name' => $request->name,
             'date_of_birth' => $request->date_of_birth,
-            'code' => $request->code
+            'code' => $request->code,
+            'special_access' => $request->get('special_access', 'off')  === 'on' ? 1 : 0
         ]);
+        $member->departments()->sync($request->departments);
 
         //Màn đăng kí người dùng
         return redirect()->back();
@@ -88,11 +94,16 @@ class MemberController extends Controller
         $member = Member::find($id);
         $departments = Department::all();
         $roles = Role::all();
+        $memberDepartmentIds = $member->departments->pluck('id')->toArray();
 
-        return view('admin-template.page.member.edit', compact('member', 'departments', 'roles'));
+        return view('admin-template.page.member.edit', compact('member', 'departments', 'roles', 'memberDepartmentIds'));
     }
 
     public function updateMember(Request $request, $id) {
+        $this->validate($request, [
+            'email' => 'required|email|unique:users,email,'.$id
+        ]);
+
         $member = Member::find($id);
         $user = $member->user;
         if ($request->password) {
@@ -109,6 +120,8 @@ class MemberController extends Controller
         $member->name = $request->name;
         $member->special_access = $request->special_access;
         $member->code = $request->code;
+        $member->special_access = $request->get('special_access', 'off')  === 'on' ? 1 : 0;
+        $member->departments()->sync($request->departments);
         $member->update();
 
         return redirect()->route('create.member');

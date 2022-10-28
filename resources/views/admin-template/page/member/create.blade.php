@@ -30,7 +30,19 @@
                 </div>
         @endif
         <!-- end row -->
-
+            <div class="row">
+                @if($errors->any())
+                    @foreach($errors->all() as $error)
+                        <div class="col-12">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ $error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -48,7 +60,7 @@
                                     <th>Ngày sinh</th>
                                     <th>Mã nhân viên</th>
                                     <th>Vị trí</th>
-{{--                                    <th>Vai trò</th>--}}
+                                    {{--                                    <th>Vai trò</th>--}}
                                     <th>Trạng thái</th>
                                     <th>Ngày tạo</th>
                                 </tr>
@@ -61,7 +73,7 @@
                                         <td>{{ $member->date_of_birth }}</td>
                                         <td>{{ $member->code }}</td>
                                         <td>{{ $member->userRole }}</td>
-{{--                                        <td>{{ $member->user->getRoleNames()[0] }}</td>--}}
+                                        {{--                                        <td>{{ $member->user->getRoleNames()[0] }}</td>--}}
                                         <td> Hoạt động</td>
                                         <td> {{ $member->created_at }} </td>
                                     </tr>
@@ -96,7 +108,6 @@
             </div>
         </div>
     </div>
-
     <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -139,6 +150,17 @@
                                     <option value="editor">Thành viên</option>
                                 </select>
                             </div>
+
+                            <div class="col-md-12 mt-2">
+                                <label class="form-label" for="exampleInputEmail1">Thuộc phòng ban</label>
+                                <select multiple="multiple" class="multi-select" id="my_multi_select1"
+                                        name="departments[]" data-plugin="multiselect">
+                                    @foreach($departments as $department)
+                                        <option value="{{$department->id}}"> {{$department->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="col-md-12 mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Ngày sinh</label>
                                 <input name="date_of_birth" type="date" class="form-control">
@@ -156,6 +178,16 @@
     </div><!-- /.modal -->
 @endsection
 
+@push('custom-css')
+    <link href="{{asset('admin-asset/assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/multiselect/css/multi-select.css')}}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}"
+          rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-asset/assets/libs/spectrum-colorpicker2/spectrum.min.css')}}" rel="stylesheet">
+@endpush
+
 @section('content-js')
     <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
     <!-- optional plugins -->
@@ -164,7 +196,11 @@
 
     <!-- App js -->
     <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
-    <script src="{{ asset('admin-asset/assets/js/vendor.min.js') }}"></script>
+
+    <script src="{{ asset('admin-asset/assets/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
+    <script src="{{ asset('admin-asset/assets/js/pages/form-advanced.init.js') }}"></script>
 
 
 
