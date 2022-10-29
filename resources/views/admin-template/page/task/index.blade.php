@@ -60,27 +60,32 @@
                                                             @else
                                                                 <div class="alert alert-warning row" role="alert">
                                                             @endif
-                                                            <div class="col-lg-6 mb-2 mb-lg-0" style="padding-top: 0.75rem;">
+                                                            <div class="col-lg-5 mb-2 mb-lg-0" style="padding-top: 0.75rem;">
                                                                 <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                             </div>
-                                                            <div class="col-lg-6 mb-2 mb-lg-0 d-sm-flex justify-content-between" style="padding-top: 0.75rem;">
-                                                                <ul class="list-inline text-sm-end">
-                                                                    <li class="list-inline-item pe-1"><i class='uil uil-stopwatch'></i>{{$data->product_length}} phút</li>
-                                                                    <li class="list-inline-item pe-1"><i class='uil uil-schedule me-1'></i>Ngày tạo: {{$data->created_at->format('d-m-Y'.'#'.'h:i A')}}</li>
-                                                                    <li class="list-inline-item">
-                                                                        @if($data->status_code_text == "Đang chờ nhận")
-                                                                            <span class="badge bg-secondary">
-                                                                        @elseif($data->status_code_text == "Đang thực hiện")
-                                                                            <div class="badge bg-info" role="alert">
-                                                                        @elseif($data->status_code_text == "Đã hoàn thành")
-                                                                            <div class="badge bg-success" role="alert">
-                                                                        @else
-                                                                            <div class="badge bg-warning" role="alert">
-                                                                        @endif
-                                                                            {{$data->status_code}}
-                                                                        </span>
-                                                                    </li>
-                                                                </ul>
+                                                            <div class="col-lg-7 mb-2 d-sm-flex justify-content-between" style="padding-top: 0.75rem;">
+                                                                <div class="row">
+                                                                    <ul class="list-inline px-0 text-sm-end">
+                                                                        <li class="list-inline-item pe-1">Người nhận: {{$data->member->name}}</li>
+                                                                        <li class="list-inline-item pe-1"><i class='uil uil-stopwatch'></i>{{$data->product_length}} phút</li>
+                                                                        <li class="list-inline-item pe-1"><i class='uil uil-schedule me-1'></i>Ngày tạo: {{$data->created_at->format('d-m-Y'.'#'.'h:i A')}}</li>
+                                                                    </ul>
+                                                                    <ul class="list-inline text-sm-end">
+                                                                        <li class="list-inline-item">
+                                                                            @if($data->status_code_text == "Đang chờ nhận")
+                                                                                <span class="badge bg-secondary">
+                                                                            @elseif($data->status_code_text == "Đang thực hiện")
+                                                                                <div class="badge bg-info" role="alert">
+                                                                            @elseif($data->status_code_text == "Đã hoàn thành")
+                                                                                <div class="badge bg-success" role="alert">
+                                                                            @else
+                                                                                <div class="badge bg-warning" role="alert">
+                                                                            @endif
+                                                                                {{$data->status_code}}
+                                                                            </span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
 
                                                         </div>

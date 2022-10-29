@@ -25,9 +25,11 @@ return new class extends Migration
 
             $table->string('type')->default('Normal');
 
+
             $table->string('product_name')->nullable();
             $table->string('product_description')->nullable();
             $table->string('product_length')->nullable();
+            $table->integer('product_rate')->nullable();
 
             $table->string('source')->nullable();
             $table->string('url_source')->nullable();

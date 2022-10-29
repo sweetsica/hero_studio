@@ -167,19 +167,34 @@
                                     @endif
                                         <div class="col-md-4">
                                             <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
-
-                                            <select name="status_code" class="form-select">
-                                                <option @if(Auth::user()->hasRole('editor')) disabled @if($task->status_code === 1) selected @endif @elseif($task->status_code === 1) selected @endif value="1">Đang chờ
-                                                    nhận
+                                            <select name="status_code" class="form-select" onchange="">
+                                                <option value="1" @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR) ) disabled style="background: #c7c3c3" @if($task->status_code === 1) selected @endif @elseif($task->status_code === 1) selected @endif>
+                                                    Đang chờ nhận
                                                 </option>
-                                                <option @if($task->status_code === 2) selected @endif value="2">Đang thực hiện
+                                                <option value="2" @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled style="background: #c7c3c3" @if($task->status_code === 2) selected @endif @elseif($task->status_code === 2) selected @endif>
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) Đã nhận @else Đang thực hiện @endif
                                                 </option>
-                                                <option @if($task->status_code === 3) selected @endif value="3">Đã hoàn thành
+                                                <option value="3"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled style="background: #c7c3c3" @if($task->status_code === 3) selected @endif @elseif($task->status_code === 3) selected @endif>
+                                                    Đã hoàn thành
                                                 </option>
-
-                                                <option @if(Auth::user()->hasRole('editor')) disabled @if($task->status_code === 4) selected @endif @elseif($task->status_code === 4) selected @endif value="4">Cần làm
-                                                    lại
+                                                <option value="4"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled style="background: #c7c3c3" @if($task->status_code === 4) selected @endif @elseif($task->status_code === 4) selected @endif>
+                                                    Yêu cầu làm lại
                                                 </option>
+                                                <option value="5"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled style="background: #c7c3c3" @if($task->status_code === 5) selected @endif @elseif($task->status_code === 5) selected @endif>
+                                                    Đóng
+                                                </option>
+                                                <option value="6"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled style="background: #c7c3c3" @if($task->status_code === 5) selected @endif @elseif($task->status_code === 5) selected @endif>
+                                                    Chờ xác nhận
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            Đánh giá yêu cầu
+                                            <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
+                                            <select name="product_rate" class="form-select">
+                                                @for($i = 1; $i < 6; $i++)
+                                                    <option value="{{$i}}" @if($task->product_rate === $i) selected @endif>{{$i}} Sao</option>
+                                                @endfor
                                             </select>
                                         </div>
                                 </div>

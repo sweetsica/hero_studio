@@ -103,47 +103,30 @@ Route::middleware('auth')->group(function () {
         Route::delete('xoa/{department_id}', [DepartmentController::class, 'deleteTaskById'])->name('destroy.department'); // Xóa phòng ban
         Route::post('cap-nhat-member/{department_id}', [DepartmentController::class, 'updateMemberDepartment'] )->name('update.department.member');
     });
+
+    Route::get('/post/danh-sach', [PostController::class, 'index'])->name('post');
+    Route::get('/post/tao-moi', [PostController::class, 'create'])->name('post.create');
+    Route::post('/post/tao-moi', [PostController::class, 'store']);
+    Route::get('/post/chi-tiet/{id}', [PostController::class, 'detail'])->name('post.detail');
+    Route::get('/post/chinh-sua/{id}', [PostController::class, 'edit'])->name('post.edit');
+    Route::post('/post/chinh-sua/{id}', [PostController::class, 'update']);
+
+    Route::get('/test/chat', function () {
+        return view('admin-template.page.comment.chat');
+    });
+
+    Route::get('download', function (\Illuminate\Http\Request $request) {
+        $file = \Illuminate\Support\Facades\Storage::disk('public')->path($request->file);
+
+        return response()->download($file);
+    })->name('download');
+
+    Route::get('/thong-bao', [\App\Http\Controllers\NotifyController::class, 'create'])->name('noti.create');
+    Route::post('/thong-bao', [\App\Http\Controllers\NotifyController::class, 'store'])->name('noti.save');
+    Route::post('/thong-bao/{id}', [\App\Http\Controllers\NotifyController::class, 'update'])->name('noti.update');
+
+    Route::get('logout', function () {
+        Auth::logout();
+        return redirect()->route('get.user.login')->with('success', 'Đăng xuất thành công!');
+    })->name('logout');
 });
-
-
-Route::get('/post/danh-sach', [PostController::class, 'index'])->name('post');
-
-Route::get('/post/tao-moi', [PostController::class, 'create'])->name('post.create');
-Route::post('/post/tao-moi', [PostController::class, 'store']);
-
-Route::get('/post/chi-tiet/{id}', [PostController::class, 'detail'])->name('post.detail');
-Route::get('/post/chinh-sua/{id}', [PostController::class, 'edit'])->name('post.edit');
-Route::post('/post/chinh-sua/{id}', [PostController::class, 'update']);
-
-Route::get('/test/chat', function () {
-    return view('admin-template.page.comment.chat');
-});
-
-Route::get('download',function (\Illuminate\Http\Request $request) {
-    $file = \Illuminate\Support\Facades\Storage::disk('public')->path($request->file);
-
-    return response()->download($file);
-})->name('download');
-
-Route::get('/thong-bao',[\App\Http\Controllers\NotifyController::class,'create'])->name('noti.create');
-Route::post('/thong-bao',[\App\Http\Controllers\NotifyController::class,'store'])->name('noti.save');
-
-Route::get('logout', function () {
-    Auth::logout();
-    return redirect()->route('get.user.login')->with('success','Đăng xuất thành công!');
-})->name('logout');
-
-//Route::get('/', function () {
-//    return view('upload');
-//});
-
-//Route::post('/', function (\Illuminate\Http\Request $request) {
-//    $file = $request->image;
-//    // TODO:: add validation file type if can
-////    $request->validate([
-////        'image' => 'file'
-////    ]);
-//    $file = $request->image;
-//    $fileUrl = \Illuminate\Support\Facades\Storage::put('file', $request->image);
-//    dd($fileUrl, $file->extension(), $file);
-//});

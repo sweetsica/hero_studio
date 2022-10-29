@@ -26,8 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Nguyên nhân đây
-        $noti=Notify::paginate(5)->sortByDesc("created_at")->first();
-        View::share('notify',$noti);
+        $notifies= Notify::where('active', '=', '1')->orderByDesc("created_at")->take(5)->get();
+        View::share('notifies', $notifies);
     }
 }

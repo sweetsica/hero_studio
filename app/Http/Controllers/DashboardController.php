@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -21,20 +22,56 @@ class DashboardController extends Controller
         $endDate = $request->end_date ? Carbon::parse($request->end_date)->startOfDay() : Carbon::now()->startOfDay()->addDays(1);
 
         $userRole = Auth::user()->getRoleNames()[0];
-//        $userId = Auth::id();
-//
-//        $userRole = Role::ROLE_KOLS;
-//        $userId = 4;
 
         $params['startDate'] = $startDate;
         $params['endDate'] = $endDate;
         $params['userRole'] = $userRole;
 
+        $highestProductRankingMember = Member::query()
+            ->withAvg('lastMonthTasks', 'product_rate')
+            ->withCount('lastMonthTasks', 'lastMonthDoneTasks')
+            ->orderByDesc('last_month_tasks_avg_product_rate')
+            ->take(10)
+            ->get();
+
+
         if ($params['userRole'] === Role::ROLE_COF || $params['userRole'] === Role::ROLE_SUPER_ADMIN) {
-            return $this->returnViewAdminCof($params);
+            $totalTask = $this->getTotalTask($params);
+
+            $data['groupTaskByMember'] = $this->groupDataByMember($totalTask);
+            $data['groupTaskByDepartment'] = $this->groupDataByDepartment($totalTask);
+
+            $startDate = ($params['startDate'])->format('Y-m-d');
+            $endDate = ($params['endDate'])->format('Y-m-d');
+
+            $passingData = [
+                'data' => $data,
+                'startDate' => $startDate,
+                'endDate' => $endDate
+            ];
+
         } else {
-            return $this->returnViewEditorKol($params);
+            $totalTask = $this->formatDataReturn($this->getTotalTask($params), $params);
+            $totalDoneTask = $this->formatDataReturn($this->getDoneTask($params), $params);
+            $totalRedoTask = $this->formatDataReturn($this->getRedoTask($params), $params);
+            $totalTaskLength = $this->formatDataReturn($this->getRedoTask($params), $params, true);
+
+            $startDate = ($params['startDate'])->format('Y-m-d');
+            $endDate = ($params['endDate'])->format('Y-m-d');
+
+            $passingData = [
+                'totalTask' => $totalTask,
+                'totalDoneTask' => $totalDoneTask,
+                'totalRedoTask' => $totalRedoTask,
+                'totalTaskLength' => $totalTaskLength,
+                'startDate' => $startDate,
+                'endDate' => $endDate
+            ];
+
         }
+        $passingData['highestProductRankingMember'] = $highestProductRankingMember;
+
+        return view('admin-template.page.dashboard.index', $passingData);
     }
 
     public function groupDataByDepartment($totalTask)
@@ -95,39 +132,6 @@ class DashboardController extends Controller
                 ];
             });
         return $tasks;
-    }
-
-    public function returnViewAdminCof($params)
-    {
-        // By member
-        $totalTask = $this->getTotalTask($params);
-        $totalDoneTask = $this->getDoneTask($params);
-        $totalRedoTask = $this->getRedoTask($params);
-        $totalTaskLength = $this->getRedoTask($params);
-
-        $data['groupTaskByMember'] = $this->groupDataByMember($totalTask);
-        $data['groupTaskByDepartment'] = $this->groupDataByDepartment($totalTask);
-
-        $startDate = ($params['startDate'])->format('Y-m-d');
-        $endDate = ($params['endDate'])->format('Y-m-d');
-        return view('admin-template.page.dashboard.index', compact('data', 'startDate', 'endDate'));
-    }
-
-    public function groupData()
-    {
-
-    }
-
-    public function returnViewEditorKol($params)
-    {
-        $totalTask = $this->formatDataReturn($this->getTotalTask($params), $params);
-        $totalDoneTask = $this->formatDataReturn($this->getDoneTask($params), $params);
-        $totalRedoTask = $this->formatDataReturn($this->getRedoTask($params), $params);
-        $totalTaskLength = $this->formatDataReturn($this->getRedoTask($params), $params, true);
-
-        $startDate = ($params['startDate'])->format('Y-m-d');
-        $endDate = ($params['endDate'])->format('Y-m-d');
-        return view('admin-template.page.dashboard.index', compact('totalTask', 'totalDoneTask', 'totalRedoTask', 'totalTaskLength', 'startDate', 'endDate'));
     }
 
     public function filterByDate($query, $params)

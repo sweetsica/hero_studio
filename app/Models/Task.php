@@ -4,18 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
     use HasFactory;
 
     const TASK_STATUS = [
-        'SENT' => 1,        // Trạng thái khi tạo task
-        'IN_PROGRESS' => 2, // Task đang được làm
-        'DONE' => 3,        // Task được báo hoàn thành
-        'REDO' => 4,        // Task bị yêu cầu làm lại
-        'CLOSE' => 5,       // Task kết thúc
-        'RECEIVED' => 6,    // Task đã được nhận
+        'SENT' => 1,            // Trạng thái khi tạo task
+        'IN_PROGRESS' => 2,     // Task đang được làm
+        'DONE' => 3,            // Task được báo hoàn thành
+        'REDO' => 4,            // Task bị yêu cầu làm lại
+        'CLOSE' => 5,           // Task kết thúc
+        'WAITING_CONFIRM' => 6, // Chờ xác nhận task
     ];
 
     protected $guarded = [];
@@ -67,5 +68,11 @@ class Task extends Model
 //                return $value;
 //        }
 //    }
+
+    public function getTaskOption() {
+        $options = self::OPTION_STATUS;
+
+        return ;
+    }
 
 }

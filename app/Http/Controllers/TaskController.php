@@ -210,6 +210,7 @@ class TaskController extends Controller
         $members = $memberQuery->get();
         $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
         $info = $task->member('creator_id')->first();
+
         return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete','info'));
     }
 

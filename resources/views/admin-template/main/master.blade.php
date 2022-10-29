@@ -34,6 +34,41 @@
         <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css"/>
     @endif
     @stack('custom-css')
+    <style>
+        .marquee {
+            height: 25px;
+            position: absolute;
+            width: 50%;
+            left: 50%;
+            transform: translate(-50%, 100%);
+            overflow: hidden;
+        }
+
+        .marquee > div {
+            display: block;
+            width: 200%;
+            height: 30px;
+
+            position: absolute;
+            overflow: hidden;
+
+            animation: marquee 10s linear infinite;
+        }
+
+        .marquee span {
+            float: left;
+            width: 50%;
+        }
+
+        @keyframes marquee {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: -100%;
+            }
+        }
+    </style>
 </head>
 
 <body class="loading"
@@ -42,6 +77,17 @@
 <div id="wrapper">
     <!-- Topbar Start -->
     <div class="navbar-custom">
+        @if(isset($notifies))
+            @foreach($notifies as $notify)
+                <div class="marquee @if($loop->first) @else d-none @endif">
+                    <div>
+                        <span>{{$notify->content}}</span>
+                        <span>{{$notify->content}}</span>
+                    </div>
+                </div>
+            @endforeach
+        @endif
+
         <div class="container-fluid">
 
             <ul class="list-unstyled topnav-menu float-end mb-0">
@@ -52,7 +98,7 @@
                              class="rounded-circle"/>
                         <span class="pro-user-name ms-1">
                                 {{ Auth::user()->member->name }}
-{{--                                <i class="uil uil-angle-down"></i>--}}
+                            {{--                                <i class="uil uil-angle-down"></i>--}}
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end profile-dropdown">
@@ -77,11 +123,11 @@
                     </div>
                 </li>
 
-{{--                <li class="dropdown notification-list">--}}
-{{--                    <a href="javascript:void(0);" class="nav-link right-bar-toggle">--}}
-{{--                        <i data-feather="settings"></i>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+                {{--                <li class="dropdown notification-list">--}}
+                {{--                    <a href="javascript:void(0);" class="nav-link right-bar-toggle">--}}
+                {{--                        <i data-feather="settings"></i>--}}
+                {{--                    </a>--}}
+                {{--                </li>--}}
             </ul>
 
             <!-- LOGO -->
@@ -110,18 +156,21 @@
                 </a>
             </div>
 
+            <div>
+                <a class="navbar-toggle nav-link" data-bs-toggle="collapse"
+                   data-bs-target="#topnav-menu-content">
+                    <div class="lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
+            </div>
             <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
                 <li>
                     <button class="button-menu-mobile">
                         <i data-feather="menu"></i>
                     </button>
-                </li>
-                <li class="dropdown d-none d-xl-block">
-                    <a class="nav-link dropdown-toggle" disabled data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                        @if(isset($notify->content))
-                            {{$notify->content}}
-                        @endif
-                    </a>
                 </li>
                 <li>
                     <!-- Mobile menu toggle (Horizontal Layout)-->
@@ -172,7 +221,6 @@
                 {{--                    </div>--}}
                 {{--                </li>--}}
             </ul>
-            <div class="clearfix"></div>
         </div>
     </div>
     <!-- end Topbar -->
@@ -229,7 +277,38 @@
     <script src="{{ asset('admin-asset/assets/js/app.min.js') }}"></script>
 @endif
 @stack('custom-js')
+<script>
+    let prevDiv = null;
 
+    const divs = document.querySelectorAll('.marquee');
+    const length = divs.length;
+
+    let i = 1;
+
+    const delay = function () {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                for (let j = 0; j < length; j++) {
+                    divs[j].classList.remove('active');
+                    divs[j].classList.add('d-none');
+                }
+                i = i < divs.length ? i : 0;
+                divs[i].classList.remove('d-none');
+                divs[i].classList.add('active');
+                prevDiv = divs[i];
+                i++;
+                delay();
+                resolve();
+            }, 10000);
+        });
+    }
+
+    async function calc() {
+        await delay();
+    }
+
+    calc();
+</script>
 </body>
 
 </html>

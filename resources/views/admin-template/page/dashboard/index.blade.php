@@ -175,7 +175,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-{{--                                <a href="" class="p-0 float-end">Export <i class="uil uil-export ms-1"></i></a>--}}
+                                {{--                                <a href="" class="p-0 float-end">Export <i class="uil uil-export ms-1"></i></a>--}}
                                 <h4 class="card-title header-title">Theo phòng ban</h4>
                                 <div class="table-responsive table-nowrap mt-3">
                                     <table class="table table-sm table-centered mb-0 fs-13">
@@ -207,10 +207,129 @@
                 </div>
             @endif
 
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title header-title">Xếp hạng thành viên</h4>
+                            <div class="my-2 ">
+{{--                            {{dd($highestProductRankingMember->toArray())}}--}}
+                                @foreach($highestProductRankingMember as $member)
+                                    <div class="d-flex border-top pt-2">
+                                        <div class="col-9">
+                                            <div class="flex-grow-1">
+                                                <h5>{{ $member->name }}</h5>
+                                            </div>
+                                            <div class="row">
+                                                <h6>Tổng số nhiệm vụ : <span>{{ $member->tasks_count }}</span></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6>Tổng số nhiệm vụ hoàn thành :
+                                                    <span>{{ $member->done_tasks_count }}</span></h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 text-end">
+                                            @for($i = 0; $i < 5; $i++)
+                                                <i style="color: orange"
+                                                   class="bi @if($i < $member->last_month_tasks_avg_product_rate && intval($member->last_month_tasks_avg_product_rate) == $i) bi-star-half @elseif($i < $member->last_month_tasks_avg_product_rate) bi-star-fill @else bi-star @endif"
+                                                ></i>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mt-0 mb-3">Basic Column Chart</h4>
+
+                            <div id="apex-column-1" class="apex-charts" dir="ltr"></div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card-->
+
+                </div>
+            </div>
+
         </div> <!-- container -->
 
     </div> <!-- content -->
 @endsection
 
+@push('custom-js')
+    <script>
+        var options = {
+            chart: {
+                height: 380,
+                type: 'bar',
+                toolbar: {
+                    show: false
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    endingShape: 'rounded',
+                    columnWidth: '55%',
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [
+                {
+                    name: 'Net Profit',
+                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+                },
+                {
+                    name: 'Revenue',
+                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+                },
+                {
+                    name: 'Free Cash Flow',
+                    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+                }
+            ],
+            xaxis: {
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
+            yaxis: {
+                title: {
+                    text: '$ (thousands)'
+                }
+            },
+            legend: {
+                offsetY: 7,
+            },
+            grid: {
+                row: {
+                    colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.2
+                },
+                borderColor: '#f1f3fa'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val + " thousands"
+                    }
+                }
+            }
+        }
 
+        var chart = new ApexCharts(
+            document.querySelector("#apex-column-1"),
+            options
+        );
+
+        chart.render();
+    </script>
+@endpush
 

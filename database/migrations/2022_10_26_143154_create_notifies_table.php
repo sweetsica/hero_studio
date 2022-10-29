@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
+            $table->string('active')->default(1);
             $table->text('format')->nullable();
             $table->string('creator')->nullable();
             $table->timestamps();

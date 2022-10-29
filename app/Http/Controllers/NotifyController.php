@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notify;
 use Illuminate\Http\Request;
+use Mockery\Matcher\Not;
 
 class NotifyController extends Controller
 {
@@ -17,14 +18,15 @@ class NotifyController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('admin-template.page.notify.create');
+        $nofifies = Notify::query()->orderByDesc('created_at')->get();
+        $returnData = [
+            'notifies' => $nofifies
+        ];
+
+
+        return view('admin-template.page.notify.create', $returnData);
     }
 
     /**
@@ -70,7 +72,11 @@ class NotifyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $notify = Notify::find($id);
+        $notify->active = $request->get('active', 'on') === 'on' ? true : false;
+        $notify->update();
+
+        return response()->json('success');
     }
 
     /**
