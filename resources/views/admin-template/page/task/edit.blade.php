@@ -58,7 +58,7 @@
                             <h4 class="header-title mb-4 pt-2">Thông tin yêu cầu</h4>
                             <p>Người yêu cầu:
                                 @if(isset($info->name))
-                                {{$info->name}}
+                                    {{$info->name}}
                                 @endif
                             </p>
                             <p>Ngày tạo: {{$task->created_at->format('d-m h:i A')}}</p>
@@ -165,38 +165,61 @@
                                             </div>
                                         </div>
                                     @endif
-                                        <div class="col-md-4">
-                                            <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
-                                            <select name="status_code" class="form-select" onchange="">
-                                                <option value="1" @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR) ) disabled style="background: #c7c3c3" @if($task->status_code === 1) selected @endif @elseif($task->status_code === 1) selected @endif>
-                                                    Đang chờ nhận
+                                    <div class="col-md-4">
+                                        <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
+                                        <select id="status_code" name="status_code" class="form-select" onchange="">
+                                            <option value="1"
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR) ) disabled
+                                                    style="background: #c7c3c3" @if($task->status_code === 1) selected
+                                                    @endif @elseif($task->status_code === 1) selected @endif>
+                                                Đang chờ nhận
+                                            </option>
+                                            <option value="2"
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled
+                                                    style="background: #c7c3c3" @if($task->status_code === 2) selected
+                                                    @endif @elseif($task->status_code === 2) selected @endif>
+                                                @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) Đã nhận @else
+                                                    Đang thực hiện @endif
+                                            </option>
+                                            <option value="3"
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled
+                                                    style="background: #c7c3c3" @if($task->status_code === 3) selected
+                                                    @endif @elseif($task->status_code === 3) selected @endif>
+                                                Đã hoàn thành
+                                            </option>
+                                            <option value="4"
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled
+                                                    style="background: #c7c3c3" @if($task->status_code === 4) selected
+                                                    @endif @elseif($task->status_code === 4) selected @endif>
+                                                Yêu cầu làm lại
+                                            </option>
+                                            <option value="5"
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled
+                                                    style="background: #c7c3c3" @if($task->status_code === 5) selected
+                                                    @endif @elseif($task->status_code === 5) selected @endif>
+                                                Đóng
+                                            </option>
+                                            <option value="6"
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled
+                                                    style="background: #c7c3c3" @if($task->status_code === 5) selected
+                                                    @endif @elseif($task->status_code === 5) selected @endif>
+                                                Chờ xác nhận
+                                            </option>
+                                        </select>
+                                    </div>
+                                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
+                                    <div class="col-3" id="product_rate_div">
+                                        Đánh giá yêu cầu
+                                        <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
+                                        <select id="product_rate" name="product_rate" class="form-select">
+                                            @for($i = 1; $i < 6; $i++)
+                                                <option value="{{$i}}"
+                                                        @if($task->product_rate === $i) selected @endif>{{$i}} Sao
                                                 </option>
-                                                <option value="2" @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled style="background: #c7c3c3" @if($task->status_code === 2) selected @endif @elseif($task->status_code === 2) selected @endif>
-                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) Đã nhận @else Đang thực hiện @endif
-                                                </option>
-                                                <option value="3"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled style="background: #c7c3c3" @if($task->status_code === 3) selected @endif @elseif($task->status_code === 3) selected @endif>
-                                                    Đã hoàn thành
-                                                </option>
-                                                <option value="4"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled style="background: #c7c3c3" @if($task->status_code === 4) selected @endif @elseif($task->status_code === 4) selected @endif>
-                                                    Yêu cầu làm lại
-                                                </option>
-                                                <option value="5"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled style="background: #c7c3c3" @if($task->status_code === 5) selected @endif @elseif($task->status_code === 5) selected @endif>
-                                                    Đóng
-                                                </option>
-                                                <option value="6"  @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled style="background: #c7c3c3" @if($task->status_code === 5) selected @endif @elseif($task->status_code === 5) selected @endif>
-                                                    Chờ xác nhận
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="col-3">
-                                            Đánh giá yêu cầu
-                                            <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
-                                            <select name="product_rate" class="form-select">
-                                                @for($i = 1; $i < 6; $i++)
-                                                    <option value="{{$i}}" @if($task->product_rate === $i) selected @endif>{{$i}} Sao</option>
-                                                @endfor
-                                            </select>
-                                        </div>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="md-3" style="justify-content: space-between;display: flex">
                                     <button type="submit" class="btn btn-primary">Xác nhận yêu cầu</button>
@@ -302,4 +325,29 @@
             src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
     <script type='text/javascript' src='{{asset('admin-asset/assets/js/chat-sticker.js')}}'></script>
 
+    @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
+        <script>
+            const statusCode = $('#status_code');
+
+            statusCode.change(function () {
+                checkInput()
+            })
+
+            $(document).ready(function () {
+                checkInput();
+            })
+
+            function checkInput() {
+                const val = statusCode.val();
+
+                if (val == 3) {
+                    $('#product_rate_div').show();
+                    $('#product_rate').val(5);
+                } else {
+                    $('#product_rate_div').hide();
+                    $('#product_rate').val(null)
+                }
+            }
+        </script>
+    @endif
 @endsection

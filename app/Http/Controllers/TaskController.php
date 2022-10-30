@@ -285,9 +285,8 @@ class TaskController extends Controller
     public function updateTask($id, Request $request)
     {
         $task = Task::find($id);
+        if (!isset($request->product_rate)) $task->product_rate = null;
         $task->update($request->all());
-//        $validKey = ['member_id', 'department_id', 'deadline', 'status_code'];
-//        $task->update($request->all());
 
         return redirect()->route('get.taskOrder.list');
     }
