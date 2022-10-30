@@ -17,92 +17,72 @@
             <!-- end page title -->
             <!-- tasks panel -->
             <div class="row">
-                <div class="col-xl-8">
+                <div class="col-xl-9">
                     <div class="row">
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <!-- cta -->
-                                    <div class="row" style="padding: 1%">
-                                        <div class="col-sm-3 col-md-3">
-                                            <a href="{{route('create.taskOrder')}}" class="btn btn-primary">
-                                                <i class='uil uil-plus me-1'></i>Thêm mới yêu cầu
-                                            </a>
-                                        </div>
-                                        <div class="col-sm-9 col-md-9">
-                                            <div class="float-sm-end mt-3 mt-sm-0">
-                                                <div class="dropdown d-inline-block">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="uil uil-sort-amount-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-end" style="">
-                                                        <a class="dropdown-item" href="#">Tuần này</a>
-                                                        <a class="dropdown-item" href="#">Tháng này</a>
-                                                        <a class="dropdown-item" href="#">3 Tháng gần đây</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col">
-                                            <div class="collapse show" id="todayTasks">
-                                                <div class="card mb-0 border-0">
-                                                    <!-- task -->
-                                                    <div class="card-body">
-                                                        @foreach($infos as $data)
-                                                            @if($data->status_code_text == "Đang chờ nhận")
-                                                                <div class="alert alert-secondary row" role="alert">
-                                                            @elseif($data->status_code_text == "Đang thực hiện")
-                                                                <div class="alert alert-info row" role="alert">
-                                                            @elseif($data->status_code_text == "Đã hoàn thành")
-                                                                <div class="alert alert-success row" role="alert">
-                                                            @else
-                                                                <div class="alert alert-warning row" role="alert">
-                                                            @endif
-                                                            <div class="col-lg-5 mb-2 mb-lg-0" style="padding-top: 0.75rem;">
-                                                                <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
-                                                            </div>
-                                                            <div class="col-lg-7 mb-2 d-sm-flex justify-content-between" style="padding-top: 0.75rem;">
-                                                                <div class="row">
-                                                                    <ul class="list-inline px-0 text-sm-end">
-                                                                        <li class="list-inline-item pe-1">Người nhận: {{$data->member->name}}</li>
-                                                                        <li class="list-inline-item pe-1"><i class='uil uil-stopwatch'></i>{{$data->product_length}} phút</li>
-                                                                        <li class="list-inline-item pe-1"><i class='uil uil-schedule me-1'></i>Ngày tạo: {{$data->created_at->format('d-m-Y'.'#'.'h:i A')}}</li>
-                                                                    </ul>
-                                                                    <ul class="list-inline text-sm-end">
-                                                                        <li class="list-inline-item">
-                                                                            @if($data->status_code_text == "Đang chờ nhận")
-                                                                                <span class="badge bg-secondary">
-                                                                            @elseif($data->status_code_text == "Đang thực hiện")
-                                                                                <div class="badge bg-info" role="alert">
-                                                                            @elseif($data->status_code_text == "Đã hoàn thành")
-                                                                                <div class="badge bg-success" role="alert">
-                                                                            @else
-                                                                                <div class="badge bg-warning" role="alert">
-                                                                            @endif
-                                                                                {{$data->status_code}}
-                                                                            </span>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
+                                    <h4 class="header-title mt-0 mb-1">Responsive tables</h4>
+                                    <p class="sub-header">
+                                        Create responsive tables by wrapping any <code>.table</code> in <code>.table-responsive</code>
+                                        to make them scroll horizontally on small devices (under 768px).
+                                    </p>
 
-                                                        </div>
-                                                        @endforeach
-                                                    </div><!-- endtask -->
-                                                </div> <!-- end card -->
-                                            </div> <!-- end .collapse-->
-                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table m-0">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Task</th>
+                                                <th>Người nhận</th>
+                                                <th>Thời lượng</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hạn chót</th>
+                                                <th>Đánh giá</th>
+                                                <th>Ngày tạo</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($infos as $data)
+                                                @if($data->status_code_text == "Đang chờ nhận")
+                                                <tr class="table-active">
+                                                @elseif($data->status_code_text == "Đang thực hiện")
+                                                <tr class="table-info">
+                                                @elseif($data->status_code_text == "Đã hoàn thành")
+                                                <tr class="table-success">
+                                                @else
+                                                <tr class="table-warning">
+                                                @endif
+                                                    <th scope="row">{{$data->id}}</th>
+                                                    <td><a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a></td>
+                                                    <td>{{$data->member->name}}</td>
+                                                    <td>{{$data->product_length}} phút</td>
+                                                    <td>{{$data->status_code_text}}</td>
+                                                    <td>{{$data->deadline}}</td>
+                                                    <td>{{$data->product_rate}} sao</td>
+                                                    <td>{{$data->created_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Table cell</td>
+                                                <td>Table cell</td>
+                                                <td>Table cell</td>
+                                                <td>Table cell</td>
+                                                <td>Table cell</td>
+                                                <td>Table cell</td>
+                                                <td>Table cell</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <!-- end row -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- task details -->
-                <div class="col-xl-4">
+                <div class="col-xl-3">
                     <div class="card row">
                         <div class="card-body">
                             <h4 class="card-title header-title">Tổng quan</h4>
