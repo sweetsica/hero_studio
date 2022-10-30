@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
-    public function getTaskOrder()
+    public function getTaskOrder(Request $request)
     {
         $query = Task::query();
 
@@ -25,7 +25,10 @@ class TaskController extends Controller
             $query = $query->whereIn('department_id', $authUserDepartments);
         }
 
-        $infos = $query->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $filterBy = $request->get('filter_by', 'created_at');
+        $order = $request->get('order', 'desc');
+        $query = $query->orderBy($filterBy, $order);
+        $infos = $query->get();
 
         $totalTask = Task::count();
         $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
@@ -42,7 +45,7 @@ class TaskController extends Controller
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
-    public function getPendingTaskOrder()
+    public function getPendingTaskOrder(Request $request)
     {
         $query = Task::query();
 
@@ -55,38 +58,12 @@ class TaskController extends Controller
             $query = $query->whereIn('department_id', $authUserDepartments);
         }
 
-        $infos = $query->where('status_code', Task::TASK_STATUS['SENT'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $filterBy = $request->get('filter_by', 'created_at');
+        $order = $request->get('order', 'desc');
 
-        $totalTask = Task::count();
-        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
-        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
-        $count['task_today'] = Task::whereDate('created_at', date('Y-m-d'))->get()->count();
-        $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
-        $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
-        $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
-            $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
-        }
-        $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $query = $query->orderBy($filterBy, $order);
 
-
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
-    }
-
-    public function getInprogressTaskOrder()
-    {
-        $query = Task::query();
-
-        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
-            $query = $query->where('creator_id', '=', Auth::id());
-        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
-            $query = $query->where('member_id', '=', Auth::user()->member->id);
-        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
-            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
-            $query = $query->whereIn('department_id', $authUserDepartments);
-        }
-
-        $infos = $query->where('status_code', Task::TASK_STATUS['IN_PROGRESS'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $infos = $query->where('status_code', Task::TASK_STATUS['SENT'])->get();
 
         $totalTask = Task::count();
         $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
@@ -104,7 +81,7 @@ class TaskController extends Controller
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
-    public function getDoneTaskOrder()
+    public function getInprogressTaskOrder(Request $request)
     {
         $query = Task::query();
 
@@ -117,7 +94,12 @@ class TaskController extends Controller
             $query = $query->whereIn('department_id', $authUserDepartments);
         }
 
-        $infos = $query->where('status_code', Task::TASK_STATUS['DONE'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $filterBy = $request->get('filter_by', 'created_at');
+        $order = $request->get('order', 'desc');
+
+        $query = $query->orderBy($filterBy, $order);
+
+        $infos = $query->where('status_code', Task::TASK_STATUS['IN_PROGRESS'])->get();
 
         $totalTask = Task::count();
         $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
@@ -135,7 +117,7 @@ class TaskController extends Controller
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
-    public function getRedoTaskOrder()
+    public function getDoneTaskOrder(Request $request)
     {
         $query = Task::query();
 
@@ -148,7 +130,47 @@ class TaskController extends Controller
             $query = $query->whereIn('department_id', $authUserDepartments);
         }
 
-        $infos = $query->where('status_code', Task::TASK_STATUS['REDO'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $filterBy = $request->get('filter_by', 'created_at');
+        $order = $request->get('order', 'desc');
+        $query = $query->orderBy($filterBy, $order);
+
+        $infos = $query->where('status_code', Task::TASK_STATUS['DONE'])->get()->sortByDesc('created_at');
+
+        $totalTask = Task::count();
+        $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $totalTaskDone = Task::where('status_code', Task::TASK_STATUS["DONE"])->count();
+        $count['task_today'] = Task::whereDate('created_at', date('Y-m-d'))->get()->count();
+        $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
+        $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
+        $count['task_sum_length_today'] = 0;
+        foreach ($count['task_lenght_today'] as $task_lenght){
+            $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
+        }
+        $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+
+
+        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+    }
+
+    public function getRedoTaskOrder(Request $request)
+    {
+        $query = Task::query();
+
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $query = $query->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $query = $query->where('member_id', '=', Auth::user()->member->id);
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $query = $query->whereIn('department_id', $authUserDepartments);
+        }
+
+
+        $filterBy = $request->get('filter_by', 'created_at');
+        $order = $request->get('order', 'desc');
+        $query = $query->orderBy($filterBy, $order);
+
+        $infos = $query->where('status_code', Task::TASK_STATUS['REDO'])->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
 
         $totalTask = Task::count();
         $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
@@ -167,9 +189,14 @@ class TaskController extends Controller
     }
 
 
-    public function getTaskOrderKOL($kol_id)
+    public function getTaskOrderKOL(Request $request, $kol_id)
     {
-        $infos = Task::where('creator_id', '=', $kol_id)->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
+        $query = Task::query();
+        $filterBy = $request->get('filter_by', 'created_at');
+        $order = $request->get('order', 'desc');
+        $query = $query->orderBy($filterBy, $order);
+
+        $infos = $query->where('creator_id', '=', $kol_id)->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
         $count['task_today'] = Task::whereDate('created_at', date('Y-m-d'))->get()->count();
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
@@ -267,9 +294,13 @@ class TaskController extends Controller
 
 
     // getTaskCof
-    public function getTaskListCOF()
+    public function getTaskListCOF(Request $request)
     {
-        $infos = Task::orderByDesc('updated_at')->get(); // Lấy danh sách toàn bộ Task
+        $query = Task::query();
+        $filterBy = $request->get('filter_by', 'created_at');
+        $order = $request->get('order', 'desc');
+        $query = $query->orderBy($filterBy, $order);
+        $infos = $query->get(); // Lấy danh sách toàn bộ Task
 
         $totalTask = Task::count();
         $totalTaskInprogress = Task::where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();

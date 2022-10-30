@@ -221,11 +221,11 @@
                                                 <h5>{{ $member->name }}</h5>
                                             </div>
                                             <div class="row">
-                                                <h6>Tổng số nhiệm vụ : <span>{{ $member->tasks_count }}</span></h6>
+                                                <h6>Tổng số nhiệm vụ : <span>{{ $member->last_month_tasks_count }}</span></h6>
                                             </div>
                                             <div class="row">
                                                 <h6>Tổng số nhiệm vụ hoàn thành :
-                                                    <span>{{ $member->done_tasks_count }}</span></h6>
+                                                    <span>{{ $member->last_month_done_tasks_count }}</span></h6>
                                             </div>
                                         </div>
                                         <div class="col-3 text-end">
@@ -241,16 +241,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title mt-0 mb-3">Basic Column Chart</h4>
+{{--                <div class="col-md-5">--}}
+{{--                    <div class="card">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h4 class="header-title mt-0 mb-3">Basic Column Chart</h4>--}}
 
-                            <div id="apex-column-1" class="apex-charts" dir="ltr"></div>
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card-->
-
-                </div>
+{{--                            <div id="apex-column-1" class="apex-charts" dir="ltr"></div>--}}
+{{--                        </div> <!-- end card-body -->--}}
+{{--                    </div> <!-- end card-->--}}
+{{--                </div>--}}
             </div>
 
         </div> <!-- container -->

@@ -98,10 +98,7 @@
                                     </div>
 
                                     <div class="col-md-12 mt-2">
-                                        <label class="form-label" for="exampleInputEmail1">Ngày sinh
-                                            : {{\Carbon\Carbon::parse($member->date_of_birth)->format('d/m/Y')}}</label>
-                                        <input name="date_of_birth" type="date" class="form-control">
-                                        <small>(Bỏ trống nếu giữ nguyên)</small>
+                                        <input name="date_of_birth" type="date" class="form-control" value="{{\Carbon\Carbon::parse($member->date_of_birth)->format('Y-m-d')}}">
                                     </div>
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Mã nhân viên</label>

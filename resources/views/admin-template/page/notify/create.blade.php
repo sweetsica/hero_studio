@@ -71,13 +71,13 @@
                                                     type="checkbox"
                                                     class="form-check-input"
                                                     id="customSwitch1"
-                                                    onchange="updateNotify({{$notify->id}}, this.value)"
-                                                    {{ $notify->active === 1 ? 'checked' : '' }}
+                                                    onchange="updateNotify({{$notify->id}}, this)"
+                                                    {{ $notify->active == 1 ? 'checked' : '' }}
                                                 >
                                             </div>
                                         </td>
                                         <td>{{$notify->title}}</td>
-                                        <td>{{$notify->active === 1 ? 'Kích hoạt' : 'Đã tắt'}}</td>
+                                        <td>{{$notify->active == 1 ? 'Kích hoạt' : 'Đã tắt'}}</td>
                                         <td>{{$notify->content}}</td>
                                     </tr>
                                 @endforeach
@@ -180,9 +180,6 @@
             const router = "{{route('noti.update', 'id')}}";
             const response = await fetch(router.replace('id', id), {
                 method: 'POST',
-                body: JSON.stringify({
-                    active: value
-                }), // string or object
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -191,7 +188,6 @@
                 },
             });
             const myJson = await response.json();
-            console.log(myJson)
         }
     </script>
     <script>

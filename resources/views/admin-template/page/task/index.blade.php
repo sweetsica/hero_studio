@@ -22,14 +22,48 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title mt-0 mb-1">Responsive tables</h4>
-                                    <p class="sub-header">
-                                        Create responsive tables by wrapping any <code>.table</code> in <code>.table-responsive</code>
-                                        to make them scroll horizontally on small devices (under 768px).
-                                    </p>
+                                    <form class="row my-2" action="">
+                                        @csrf
+                                        <div class="col-3">
+                                            @php
+                                                $requestFilterBy = request()->input('filter_by', 'created_at');
+                                                $requestOrder = request()->input('order', 'desc');
+                                            @endphp
 
+                                            <select class="form-control" name="filter_by" id="filter_by">
+                                                <option
+                                                    value="created_at" {{$requestFilterBy === 'created_at' ? 'selected' : ''}}>
+                                                    Ngày tạo
+                                                </option>
+                                                <option value="name" {{$requestFilterBy === 'name' ? 'selected' : ''}}>
+                                                    Tên yêu cầu
+                                                </option>
+                                                <option
+                                                    value="product_length" {{$requestFilterBy === 'product_length' ? 'selected' : ''}}>
+                                                    Thời lượng
+                                                </option>
+                                                <option
+                                                    value="product_rate" {{$requestFilterBy === 'product_length' ? 'selected' : ''}}>
+                                                    Đánh giá
+                                                </option>
+                                                <option
+                                                    value="deadline" {{$requestFilterBy === 'deadline' ? 'selected' : ''}}>
+                                                    Hạn chót
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="form-control" name="order">
+                                                <option value="desc" {{$requestOrder === 'desc' ? 'selected' : '' }}>Giảm dần</option>
+                                                <option value="asc" {{$requestOrder === 'asc' ? 'selected' : '' }}>Tăng dần</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-2">
+                                            <button class="btn btn-primary"> Lọc</button>
+                                        </div>
+                                    </form>
                                     <div class="table-responsive">
-                                        <table class="table m-0">
+                                        <table class="table m-0" id="basic-datatable">
                                             <thead>
                                             <tr>
                                                 <th>#</th>
@@ -45,34 +79,26 @@
                                             <tbody>
                                             @foreach($infos as $data)
                                                 @if($data->status_code_text == "Đang chờ nhận")
-                                                <tr class="table-active">
+                                                    <tr class="table-active">
                                                 @elseif($data->status_code_text == "Đang thực hiện")
-                                                <tr class="table-info">
+                                                    <tr class="table-info">
                                                 @elseif($data->status_code_text == "Đã hoàn thành")
-                                                <tr class="table-success">
+                                                    <tr class="table-success">
                                                 @else
-                                                <tr class="table-warning">
-                                                @endif
-                                                    <th scope="row">{{$data->id}}</th>
-                                                    <td><a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a></td>
-                                                    <td>{{$data->member->name}}</td>
-                                                    <td>{{$data->product_length}} phút</td>
-                                                    <td>{{$data->status_code_text}}</td>
-                                                    <td>{{$data->deadline}}</td>
-                                                    <td>{{$data->product_rate}} sao</td>
-                                                    <td>{{$data->created_at}}</td>
-                                                </tr>
-                                            @endforeach
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                            </tr>
+                                                    <tr class="table-warning">
+                                                        @endif
+                                                        <th scope="row">{{$data->id}}</th>
+                                                        <td>
+                                                            <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
+                                                        </td>
+                                                        <td>{{$data->member->name}}</td>
+                                                        <td>{{$data->product_length}} phút</td>
+                                                        <td>{{$data->status_code_text}}</td>
+                                                        <td>{{$data->deadline}}</td>
+                                                        <td>{{$data->product_rate ? "$data->product_rate sao" : 'Chưa có'}}</td>
+                                                        <td>{{$data->created_at}}</td>
+                                                    </tr>
+                                                    @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -90,7 +116,7 @@
                                 <div class="col-6 col-md-5">
                                     <h6 class="text-muted mt-0 fs-14">Số yêu cầu hôm nay</h6>
                                     <h3 class="my-2">{{$count['task_today']}}</h3>
-{{--                                    <h6 class="text-success mb-0">+17.98%</h6>--}}
+                                    {{--                                    <h6 class="text-success mb-0">+17.98%</h6>--}}
                                 </div>
                                 <div class="col-5 col-md-3">
                                     <div id="chart1"
@@ -602,11 +628,13 @@
                                 <div class="col-6 col-md-5">
                                     <h6 class="text-muted mt-0 fs-14">Đã hoàn thành hôm nay</h6>
                                     <h3 class="my-2">{{$count['task_done_today']}}</h3>
-{{--                                    <h6 class="text-success mb-0">+24.98%</h6>--}}
+                                    {{--                                    <h6 class="text-success mb-0">+24.98%</h6>--}}
                                 </div>
                                 <div class="col-5 col-md-3">
                                     <div id="chart2" data-colors="#ff5c75" style="min-height: 60px;">
-                                        <div d="apexchartsba0my24b" class="apexcharts-canvas apexchartsba0my24b apexcharts-theme-light" style="width: 83px; height: 60px;">
+                                        <div d="apexchartsba0my24b"
+                                             class="apexcharts-canvas apexchartsba0my24b apexcharts-theme-light"
+                                             style="width: 83px; height: 60px;">
                                             <svg
                                                 id="SvgjsSvg1714"
                                                 width="83"
@@ -853,8 +881,10 @@
                                             <div class="apexcharts-legend" style="max-height: 30px;"></div>
                                             <div class="apexcharts-tooltip apexcharts-theme-light">
                                                 <div class="apexcharts-tooltip-series-group" style="order: 1;">
-                                                    <span class="apexcharts-tooltip-marker" style="background-color: rgb(255, 92, 117);"></span>
-                                                    <div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
+                                                    <span class="apexcharts-tooltip-marker"
+                                                          style="background-color: rgb(255, 92, 117);"></span>
+                                                    <div class="apexcharts-tooltip-text"
+                                                         style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
                                                         <div class="apexcharts-tooltip-y-group">
                                                             <span class="apexcharts-tooltip-text-label"></span>
                                                             <span class="apexcharts-tooltip-text-value"></span>
@@ -889,11 +919,13 @@
                                 <div class="col-6 col-md-5">
                                     <h6 class="text-muted mt-0 fs-14">Tổng thời lượng hôm nay</h6>
                                     <h3 class="my-2">{{$count['task_sum_length_today']}}</h3>
-{{--                                    <h6 class="text-success mb-0">+24.98%</h6>--}}
+                                    {{--                                    <h6 class="text-success mb-0">+24.98%</h6>--}}
                                 </div>
                                 <div class="col-5 col-md-3">
                                     <div id="chart2" data-colors="#ff5c75" style="min-height: 60px;">
-                                        <div d="apexchartsba0my24b" class="apexcharts-canvas apexchartsba0my24b apexcharts-theme-light" style="width: 83px; height: 60px;">
+                                        <div d="apexchartsba0my24b"
+                                             class="apexcharts-canvas apexchartsba0my24b apexcharts-theme-light"
+                                             style="width: 83px; height: 60px;">
                                             <svg
                                                 id="SvgjsSvg1714"
                                                 width="83"
@@ -1140,8 +1172,10 @@
                                             <div class="apexcharts-legend" style="max-height: 30px;"></div>
                                             <div class="apexcharts-tooltip apexcharts-theme-light">
                                                 <div class="apexcharts-tooltip-series-group" style="order: 1;">
-                                                    <span class="apexcharts-tooltip-marker" style="background-color: rgb(255, 92, 117);"></span>
-                                                    <div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
+                                                    <span class="apexcharts-tooltip-marker"
+                                                          style="background-color: rgb(255, 92, 117);"></span>
+                                                    <div class="apexcharts-tooltip-text"
+                                                         style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
                                                         <div class="apexcharts-tooltip-y-group">
                                                             <span class="apexcharts-tooltip-text-label"></span>
                                                             <span class="apexcharts-tooltip-text-value"></span>
@@ -1172,15 +1206,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row border-bottom justify-content-between align-items-end py-3" style="border-bottom: 0px!important;">
+                            <div class="row border-bottom justify-content-between align-items-end py-3"
+                                 style="border-bottom: 0px!important;">
                                 <div class="col-6 col-md-5">
                                     <h6 class="text-muted mt-0 fs-14">Số task đang thực hiện hôm nay</h6>
                                     <h3 class="my-2">{{$count['task_inprocess_today']}}</h3>
-{{--                                    <h6 class="text-success mb-0">+24.98%</h6>--}}
+                                    {{--                                    <h6 class="text-success mb-0">+24.98%</h6>--}}
                                 </div>
                                 <div class="col-5 col-md-3">
                                     <div id="chart2" data-colors="#ff5c75" style="min-height: 60px;">
-                                        <div d="apexchartsba0my24b" class="apexcharts-canvas apexchartsba0my24b apexcharts-theme-light" style="width: 83px; height: 60px;">
+                                        <div d="apexchartsba0my24b"
+                                             class="apexcharts-canvas apexchartsba0my24b apexcharts-theme-light"
+                                             style="width: 83px; height: 60px;">
                                             <svg
                                                 id="SvgjsSvg1714"
                                                 width="83"
@@ -1427,8 +1464,10 @@
                                             <div class="apexcharts-legend" style="max-height: 30px;"></div>
                                             <div class="apexcharts-tooltip apexcharts-theme-light">
                                                 <div class="apexcharts-tooltip-series-group" style="order: 1;">
-                                                    <span class="apexcharts-tooltip-marker" style="background-color: rgb(255, 92, 117);"></span>
-                                                    <div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
+                                                    <span class="apexcharts-tooltip-marker"
+                                                          style="background-color: rgb(255, 92, 117);"></span>
+                                                    <div class="apexcharts-tooltip-text"
+                                                         style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
                                                         <div class="apexcharts-tooltip-y-group">
                                                             <span class="apexcharts-tooltip-text-label"></span>
                                                             <span class="apexcharts-tooltip-text-value"></span>
