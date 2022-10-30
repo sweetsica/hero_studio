@@ -58,6 +58,8 @@
         .marquee span {
             float: left;
             width: 50%;
+            font-weight: bold;
+            font-style: italic;
         }
 
         @keyframes marquee {

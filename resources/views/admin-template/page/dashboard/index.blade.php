@@ -211,7 +211,10 @@
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title header-title">Xếp hạng thành viên</h4>
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title header-title">Xếp hạng thành viên</h4>
+                                <h4 class="card-title header-title">Số sao trung bình</h4>
+                            </div>
                             <div class="my-2 ">
                                 @foreach($highestProductRankingMember as $member)
                                     <div class="d-flex border-top pt-2">
@@ -220,20 +223,15 @@
                                                 <h5>{{ $member->name }}</h5>
                                             </div>
                                             <div class="row">
-                                                <h6>Tổng số nhiệm vụ : <span>{{ $member->tasks_count }}</span></h6>
+                                                <h6>Tổng số nhiệm vụ : <span>{{ $member->last_month_tasks_count }}</span></h6>
                                             </div>
                                             <div class="row">
                                                 <h6>Tổng số nhiệm vụ hoàn thành :
-                                                    <span>{{ $member->done_tasks_count }}</span></h6>
+                                                    <span>{{ $member->last_month_done_tasks_count }}</span></h6>
                                             </div>
                                         </div>
                                         <div class="col-3 text-end">
-                                            @for($i = 0; $i < 5; $i++)
-                                                <i style="color: orange"
-                                                   class="bi @if($i < $member->last_month_tasks_avg_product_rate && intval($member->last_month_tasks_avg_product_rate) == $i) bi-star-fill @elseif($i < $member->last_month_tasks_avg_product_rate) bi-star-fill @else bi-star @endif"
-                                                ></i>
-
-                                            @endfor
+                                            <span>{{ $member->last_month_tasks_sum_product_rate ? $member->last_month_tasks_sum_product_rate : 0 }}</span></h6> <i style="color: orange" class="bi  bi-star-fill "></i>
                                         </div>
                                     </div>
                                 @endforeach
@@ -252,13 +250,13 @@
                                 <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                                     <thead>
                                     <tr>
-                                        <th>Ngày tạo</th>
-                                        <th>Tên yêu cầu</th>
-                                        <th>Nhân viên phụ trách</th>
-                                        <th>Phòng ban phụ trách</th>
-                                        <th>Thời hạn</th>
-                                        <th>Đánh giá</th>
-                                        <th>Mô tả</th>
+                                        <th width="85px">Ngày tạo</th>
+                                        <th width="104px">Tên yêu cầu</th>
+                                        <th width="158px">Nhân viên phụ trách</th>
+                                        <th width="19%">Phòng ban phụ trách</th>
+                                        <th width="10%">Thời hạn</th>
+                                        <th width="15%">Đánh giá</th>
+{{--                                        <th>Mô tả</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -272,11 +270,11 @@
                                             <td>
                                                 @for($i = 0; $i < 5; $i++)
                                                     <i style="color: orange"
-                                                       class="bi @if($i < $member->last_month_tasks_avg_product_rate && intval($member->last_month_tasks_avg_product_rate) == $i) bi-star-fill @elseif($i < $member->last_month_tasks_avg_product_rate) bi-star-fill @else bi-star @endif"
+                                                       class="bi @if($i < $task->product_rate && intval($task->product_rate) == $i) bi-star-fill @elseif($i < $task->product_rate) bi-star-fill @else bi-star @endif"
                                                     ></i>
                                                 @endfor
                                             </td>
-                                            <td>{{ $task->content }}</td>
+{{--                                            <td>{{ $task->content }}</td>--}}
                                         </tr>
                                     @endforeach
                                     </tbody>

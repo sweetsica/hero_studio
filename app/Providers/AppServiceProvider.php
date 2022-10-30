@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $notifies= Notify::where('active', '=', '1')->orderByDesc("created_at")->take(5)->get();
-        View::share('notifies', $notifies);
+//        $notifies= Notify::where('active', '=', '1')->orderByDesc("created_at")->take(5)->get();
+//        View::share('notifies', $notifies);
     }
 }

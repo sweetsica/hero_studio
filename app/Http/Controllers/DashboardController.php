@@ -29,6 +29,7 @@ class DashboardController extends Controller
 
         $highestProductRankingMember = Member::query()
             ->withAvg('lastMonthTasks', 'product_rate')
+            ->withSum('lastMonthTasks', 'product_rate')
             ->withCount('lastMonthTasks', 'lastMonthDoneTasks')
             ->orderByDesc('last_month_tasks_avg_product_rate')
             ->take(10)
@@ -70,7 +71,17 @@ class DashboardController extends Controller
 
         }
         $passingData['highestProductRankingMember'] = $highestProductRankingMember;
-        $passingData['tasks'] = Task::get()->sortByDesc('created_at');
+        $taskQuery = Task::query();
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $taskQuery = $taskQuery->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $taskQuery = $taskQuery->where('member_id', '=', Auth::user()->member->id);
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $taskQuery = $taskQuery->whereIn('department_id', $authUserDepartments);
+        }
+        $passingData['tasks'] = $taskQuery->orderByDesc('created_at')->get();
+
         return view('admin-template.page.dashboard.index', $passingData);
     }
 

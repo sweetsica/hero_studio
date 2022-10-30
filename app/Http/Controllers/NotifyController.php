@@ -73,7 +73,7 @@ class NotifyController extends Controller
     public function update(Request $request, $id)
     {
         $notify = Notify::find($id);
-        $notify->active = $request->get('active', 'on') === 'on' ? true : false;
+        $notify->active = !$notify->active;
         $notify->update();
 
         return response()->json('success');
