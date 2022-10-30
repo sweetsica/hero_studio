@@ -208,12 +208,11 @@
             @endif
 
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title header-title">Xếp hạng thành viên</h4>
                             <div class="my-2 ">
-{{--                            {{dd($highestProductRankingMember->toArray())}}--}}
                                 @foreach($highestProductRankingMember as $member)
                                     <div class="d-flex border-top pt-2">
                                         <div class="col-9">
@@ -231,25 +230,61 @@
                                         <div class="col-3 text-end">
                                             @for($i = 0; $i < 5; $i++)
                                                 <i style="color: orange"
-                                                   class="bi @if($i < $member->last_month_tasks_avg_product_rate && intval($member->last_month_tasks_avg_product_rate) == $i) bi-star-half @elseif($i < $member->last_month_tasks_avg_product_rate) bi-star-fill @else bi-star @endif"
+                                                   class="bi @if($i < $member->last_month_tasks_avg_product_rate && intval($member->last_month_tasks_avg_product_rate) == $i) bi-star-fill @elseif($i < $member->last_month_tasks_avg_product_rate) bi-star-fill @else bi-star @endif"
                                                 ></i>
+
                                             @endfor
                                         </div>
                                     </div>
                                 @endforeach
+                                (Đây sẽ hiển thị tổng sao của tổng task mỗi thành viên)
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title mt-0 mb-3">Basic Column Chart</h4>
+                <div class="col-md-7">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title mt-0 mb-1">Danh sách task</h4>
+                                <p class="sub-header">
+                                </p>
+                                <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                                    <thead>
+                                    <tr>
+                                        <th>Ngày tạo</th>
+                                        <th>Tên yêu cầu</th>
+                                        <th>Nhân viên phụ trách</th>
+                                        <th>Phòng ban phụ trách</th>
+                                        <th>Thời hạn</th>
+                                        <th>Đánh giá</th>
+                                        <th>Mô tả</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($tasks as $task)
+                                        <tr>
+                                            <td>{{ $task->created_at->format('d/m - h:i') }}</td>
+                                            <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
+                                            <td>{{ $task->member?->name }}</td>
+                                            <td>{{ $task->department->name }}</td>
+                                            <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
+                                            <td>
+                                                @for($i = 0; $i < 5; $i++)
+                                                    <i style="color: orange"
+                                                       class="bi @if($i < $member->last_month_tasks_avg_product_rate && intval($member->last_month_tasks_avg_product_rate) == $i) bi-star-fill @elseif($i < $member->last_month_tasks_avg_product_rate) bi-star-fill @else bi-star @endif"
+                                                    ></i>
+                                                @endfor
+                                            </td>
+                                            <td>{{ $task->content }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
 
-                            <div id="apex-column-1" class="apex-charts" dir="ltr"></div>
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card-->
-
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
                 </div>
             </div>
 

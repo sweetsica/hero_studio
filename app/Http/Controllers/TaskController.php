@@ -38,8 +38,9 @@ class TaskController extends Controller
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
+        $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');
 
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        return view('admin-template.page.task.index', compact('infos', 'tasks','totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function getPendingTaskOrder()

@@ -22,10 +22,9 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title mt-0 mb-1">Responsive tables</h4>
+                                    <h4 class="header-title mt-0 mb-1">Danh sách nhiệm vụ</h4>
                                     <p class="sub-header">
-                                        Create responsive tables by wrapping any <code>.table</code> in <code>.table-responsive</code>
-                                        to make them scroll horizontally on small devices (under 768px).
+                                        Chức năng lọc theo danh mục và phân loại theo thời gian đang cập nhật
                                     </p>
 
                                     <div class="table-responsive">
@@ -63,16 +62,6 @@
                                                     <td>{{$data->created_at}}</td>
                                                 </tr>
                                             @endforeach
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>

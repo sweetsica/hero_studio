@@ -70,7 +70,7 @@ class DashboardController extends Controller
 
         }
         $passingData['highestProductRankingMember'] = $highestProductRankingMember;
-
+        $passingData['tasks'] = Task::get()->sortByDesc('created_at');
         return view('admin-template.page.dashboard.index', $passingData);
     }
 
