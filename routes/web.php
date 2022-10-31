@@ -26,21 +26,6 @@ use Illuminate\Support\Facades\Session;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::get('tes23', function () {
-    $departmentTaskQuery = \Illuminate\Support\Facades\DB::table('tasks')
-        ->whereDate('created_at','>', now()->subYear())
-        ->selectRaw('department_id, MONTH(created_at) as month, count(id) as number_of_tasks')
-        ->leftJoin('departments', 'tasks.id', '=', '')
-        ->groupByRaw('MONTH(created_at), department_id')
-    ;
-
-//    $departmentTaskQuery = \Illuminate\Support\Facades\DB::table('tasks');
-//    $departmentTaskQuery->selectRaw('count(*) as number_of_tasks, department_id, departments.name');
-//    $departmentTaskQuery->leftJoin('departments','tasks.department_id','=','departments.id');
-//    $departmentTaskQuery->groupBy('department_id', 'departments.name');
-
-    dd($departmentTaskQuery->get(), now()->subYear());
-});
 
 
 Route::get('nguoi-dung/dang-nhap', [MemberController::class, 'getLoginView'])->name('get.user.login');
