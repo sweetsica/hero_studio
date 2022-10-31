@@ -48,7 +48,18 @@ class PostController extends Controller
             ->where('id', '!=', $id)
             ->take(5)->orderBy('created_at', 'desc')->get();
 
-        return view('admin-template.page.post.detail', compact('categories', 'post', 'postSameCategory'));
+
+        $postHashTagIds = $post->hashTags->pluck('id');
+
+        $postHaveSameTags = Post::query()
+            ->whereHas('hashTags', function ($query)  use ($postHashTagIds){
+                $query->whereIn('hash_tag_id', $postHashTagIds);
+            })
+            ->where('id', '!=', $id)
+            ->take(5)->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin-template.page.post.detail', compact('categories', 'post', 'postSameCategory', 'postHaveSameTags'));
     }
 
     public function edit(Request $request, $id)

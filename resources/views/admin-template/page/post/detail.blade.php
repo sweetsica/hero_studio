@@ -107,11 +107,12 @@
                                             <div class="text-center me-3 flex-shrink-0">
                                                 <div class="avatar-sm">
                                                     @if($post->thumbnail)
-                                                    <img src="{{ "/storage/$post->thumbnail" }}"
-                                                         style="width: 100%;aspect-ratio: 1 / 1;" alt="Post Thumbnail">
+                                                        <img src="{{ "/storage/$post->thumbnail" }}"
+                                                             style="width: 100%;aspect-ratio: 1 / 1;"
+                                                             alt="Post Thumbnail">
                                                     @else
-                                                    <span
-                                                        class="avatar-title bg-soft-primary text-primary">{{ substr($post->subject, 0, 1) }}</span>
+                                                        <span
+                                                            class="avatar-title bg-soft-primary text-primary">{{ substr($post->subject, 0, 1) }}</span>
                                                     @endif
                                                 </div>
                                             </div>
@@ -124,6 +125,35 @@
                                         </div>
                                     @endforeach
                                 </div>
+
+                                <div style="border-bottom: 1px solid"></div>
+
+                                <h4 class="mt-2 mb-4 fs-16">Các bài viết giống hashtag</h4>
+                                <div class="row">
+                                    @foreach($postHaveSameTags as $post)
+                                        <div class="d-flex my-1">
+                                            <div class="text-center me-3 flex-shrink-0">
+                                                <div class="avatar-sm">
+                                                    @if($post->thumbnail)
+                                                        <img src="{{ "/storage/$post->thumbnail" }}"
+                                                             style="width: 100%;aspect-ratio: 1 / 1;"
+                                                             alt="Post Thumbnail">
+                                                    @else
+                                                        <span
+                                                            class="avatar-title bg-soft-primary text-primary">{{ substr($post->subject, 0, 1) }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="fs-15 my-1"><a href="{{ route('post.detail', $post->id) }}"
+                                                                          class="text-dark"> {{ $post->subject }}</a>
+                                                </h5>
+                                                <p class="text-muted fs-13 text-truncate mb-0"> {{$post->content }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
                             </div>
 
                         </div>
