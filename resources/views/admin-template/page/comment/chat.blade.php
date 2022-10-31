@@ -63,31 +63,29 @@
                     <textarea id="chat-textarea-hidden" rows="3" class="form-control border-0 resize-none"
                               placeholder="Your comment..." hidden></textarea>
                     <div class="p-2 bg-light">
-                        <div class="float-end">
-                            <a class="btn btn-primary" style="padding: 2px 12px" type="button" data-bs-toggle="modal"
-                               data-bs-target="#myModal"> <i class="far fa-file"></i> Upload
+                        <div class="float-end" style="margin-bottom: 1%">
+                            <a class="btn btn-primary" style="padding: 5px 10px;" type="button" data-bs-toggle="modal"
+                               data-bs-target="#myModal"> <i class="far fa-file"></i> Tải tệp
                             </a>
                             <a
                                 id="emoji-select"
-                                class="btn border-1"
-                                style="padding-block: 0; color: black"
+                                class="btn btn-warning border-1"
+                                style="padding: 5px 10px;"
+                                type="button"
                                 role="button"
                                 data-bs-toggle="popover-emo"
-                            >
-                                <i class="far fa-smile"></i>
+                            ><i class="far fa-smile"></i> Emoji
                             </a>
                             <a
                                 id="sticker-select"
                                 class="btn btn-sm btn-danger"
                                 role="button"
+                                style="padding: 5px 10px;"
                                 data-bs-toggle="popover"
-                            >Send sticker</a>
-                            <button id="chat-submit" type="submit" class="btn btn-sm btn-success">
-                                Gửi bình luận
+                            ><i class="uil-comment-image"></i> Đính sticker</a>
+                            <button id="chat-submit" type="submit" class="btn btn-sm btn-success" style="padding: 5px 10px;">
+                                <i class="uil uil-message me-1"></i> Gửi bình luận
                             </button>
-                        </div>
-                        <div>
-                            <i class="uil uil-message me-1"></i>
                         </div>
                     </div>
                     <input name="type" value="text" hidden>
