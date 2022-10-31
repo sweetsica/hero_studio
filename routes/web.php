@@ -26,6 +26,21 @@ use Illuminate\Support\Facades\Session;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+Route::get('tes23', function () {
+    $departmentTaskQuery = \Illuminate\Support\Facades\DB::table('tasks')
+        ->whereDate('created_at','>', now()->subYear())
+        ->selectRaw('department_id, MONTH(created_at) as month, count(id) as number_of_tasks')
+        ->leftJoin('departments', 'tasks.id', '=', '')
+        ->groupByRaw('MONTH(created_at), department_id')
+    ;
+
+//    $departmentTaskQuery = \Illuminate\Support\Facades\DB::table('tasks');
+//    $departmentTaskQuery->selectRaw('count(*) as number_of_tasks, department_id, departments.name');
+//    $departmentTaskQuery->leftJoin('departments','tasks.department_id','=','departments.id');
+//    $departmentTaskQuery->groupBy('department_id', 'departments.name');
+
+    dd($departmentTaskQuery->get(), now()->subYear());
+});
 
 
 Route::get('nguoi-dung/dang-nhap', [MemberController::class, 'getLoginView'])->name('get.user.login');
@@ -38,14 +53,14 @@ Route::middleware('auth')->group(function () {
     Route::get('', [DashboardController::class, 'index']);
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('nhiem-vu')->group(function (){
+    Route::prefix('nhiem-vu')->group(function () {
         //Danh sách yêu cầu theo KOL
         Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list');
 
         Route::get('danh-sach-dang-cho-xu-ly', [TaskController::class, 'getPendingTaskOrder'])->name('get.taskOrder.pendingList');
         Route::get('danh-sach-dang-thuc-hien', [TaskController::class, 'getInprogressTaskOrder'])->name('get.taskOrder.inprogressList');
         Route::get('danh-sach-hoan-thanh', [TaskController::class, 'getDoneTaskOrder'])->name('get.taskOrder.doneList');
-         Route::get('danh-sach-xem-lai', [TaskController::class, 'getRedoTaskOrder'])->name('get.taskOrder.redoList');
+        Route::get('danh-sach-xem-lai', [TaskController::class, 'getRedoTaskOrder'])->name('get.taskOrder.redoList');
 
         Route::get('danh-sach/kol/{kol_id}', [TaskController::class, 'getTaskOrderKOL'])->name('get.taskOrderKOL.list');
         //KOL- Tạo yêu cầu
@@ -101,7 +116,7 @@ Route::middleware('auth')->group(function () {
         Route::get('cap-nhat/{department_id}', [DepartmentController::class, 'editDepartmentById'])->name('edit.department'); // Màn sửa thông tin phòng ban
         Route::put('cap-nhat/{department_id}', [DepartmentController::class, 'updateDepartment'])->name('update.department'); // Cập nhật thông tin phòng ban, thành viên của phòng ban
         Route::delete('xoa/{department_id}', [DepartmentController::class, 'deleteTaskById'])->name('destroy.department'); // Xóa phòng ban
-        Route::post('cap-nhat-member/{department_id}', [DepartmentController::class, 'updateMemberDepartment'] )->name('update.department.member');
+        Route::post('cap-nhat-member/{department_id}', [DepartmentController::class, 'updateMemberDepartment'])->name('update.department.member');
     });
 
     Route::get('/post/danh-sach', [PostController::class, 'index'])->name('post');

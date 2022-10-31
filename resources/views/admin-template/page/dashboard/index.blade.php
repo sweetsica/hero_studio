@@ -223,7 +223,8 @@
                                                 <h5>{{ $member->name }}</h5>
                                             </div>
                                             <div class="row">
-                                                <h6>Tổng số nhiệm vụ : <span>{{ $member->last_month_tasks_count }}</span></h6>
+                                                <h6>Tổng số nhiệm vụ :
+                                                    <span>{{ $member->last_month_tasks_count }}</span></h6>
                                             </div>
                                             <div class="row">
                                                 <h6>Tổng số nhiệm vụ hoàn thành :
@@ -231,7 +232,8 @@
                                             </div>
                                         </div>
                                         <div class="col-3 text-end">
-                                            <span>{{ $member->last_month_tasks_sum_product_rate ? $member->last_month_tasks_sum_product_rate : 0 }}</span></h6> <i style="color: orange" class="bi  bi-star-fill "></i>
+                                            <span>{{ $member->last_month_tasks_sum_product_rate ? $member->last_month_tasks_sum_product_rate : 0 }}</span></h6>
+                                            <i style="color: orange" class="bi  bi-star-fill "></i>
                                         </div>
                                     </div>
                                 @endforeach
@@ -256,14 +258,15 @@
                                         <th width="19%">Phòng ban phụ trách</th>
                                         <th width="10%">Thời hạn</th>
                                         <th width="15%">Đánh giá</th>
-{{--                                        <th>Mô tả</th>--}}
+                                        {{--                                        <th>Mô tả</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($tasks as $task)
                                         <tr>
                                             <td>{{ $task->created_at->format('d/m - h:i') }}</td>
-                                            <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
+                                            <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a>
+                                            </td>
                                             <td>{{ $task->member?->name }}</td>
                                             <td>{{ $task->department->name }}</td>
                                             <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
@@ -274,7 +277,7 @@
                                                     ></i>
                                                 @endfor
                                             </td>
-{{--                                            <td>{{ $task->content }}</td>--}}
+                                            {{--                                            <td>{{ $task->content }}</td>--}}
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -283,6 +286,17 @@
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mt-0 mb-3">Basic Column Chart</h4>
+
+                            <div id="task-by-department" class="apex-charts" dir="ltr"></div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card-->
                 </div>
             </div>
 
@@ -317,21 +331,15 @@
                 colors: ['transparent']
             },
             series: [
+                @foreach($departmentTasks as $departmentTask)
                 {
-                    name: 'Net Profit',
-                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+                    name: "{{$departmentTask['department_name']}}",
+                    data: @json($departmentTask['tasks'])
                 },
-                {
-                    name: 'Revenue',
-                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-                },
-                {
-                    name: 'Free Cash Flow',
-                    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-                }
+                @endforeach
             ],
             xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             },
             yaxis: {
                 title: {
@@ -358,7 +366,7 @@
         }
 
         var chart = new ApexCharts(
-            document.querySelector("#apex-column-1"),
+            document.querySelector("#task-by-department"),
             options
         );
 

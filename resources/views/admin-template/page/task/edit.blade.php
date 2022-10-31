@@ -182,7 +182,7 @@
                                                     Đang thực hiện @endif
                                             </option>
                                             <option value="3"
-                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR)) disabled
+                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled
                                                     style="background: #c7c3c3" @if($task->status_code === 3) selected
                                                     @endif @elseif($task->status_code === 3) selected @endif>
                                                 Đã hoàn thành
@@ -198,12 +198,6 @@
                                                     style="background: #c7c3c3" @if($task->status_code === 5) selected
                                                     @endif @elseif($task->status_code === 5) selected @endif>
                                                 Đóng
-                                            </option>
-                                            <option value="6"
-                                                    @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS)) disabled
-                                                    style="background: #c7c3c3" @if($task->status_code === 5) selected
-                                                    @endif @elseif($task->status_code === 5) selected @endif>
-                                                Chờ xác nhận
                                             </option>
                                         </select>
                                     </div>
