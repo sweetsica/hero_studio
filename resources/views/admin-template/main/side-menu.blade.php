@@ -7,18 +7,6 @@
             <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
                data-bs-toggle="dropdown">{{Auth::user()->name}}</a>
             <div class="dropdown-menu user-pro-dropdown">
-{{--                <a href="pages-profile.html" class="dropdown-item notify-item">--}}
-{{--                    <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>--}}
-{{--                </a>--}}
-{{--                <a href="javascript:void(0);" class="dropdown-item notify-item">--}}
-{{--                    <i data-feather="settings" class="icon-dual icon-xs me-1"></i><span>Settings</span>--}}
-{{--                </a>--}}
-{{--                <a href="javascript:void(0);" class="dropdown-item notify-item">--}}
-{{--                    <i data-feather="help-circle" class="icon-dual icon-xs me-1"></i><span>Support</span>--}}
-{{--                </a>--}}
-{{--                <a href="pages-lock-screen.html" class="dropdown-item notify-item">--}}
-{{--                    <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>--}}
-{{--                </a>--}}
                 <div class="dropdown-divider"></div>
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Logout</span>

@@ -134,7 +134,7 @@
 
             <!-- LOGO -->
             <div class="logo-box">
-                <a href="index.html" class="logo logo-dark">
+                <a href="{{route('dashboard')}}" class="logo logo-dark">
                         <span class="logo-sm">
                             <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""
                                  height="24"/>
@@ -146,7 +146,7 @@
                         <!-- <span class="logo-lg-text-light">S</span> -->
                         </span>
                 </a>
-                <a href="index.html" class="logo logo-light">
+                <a href="{{route('dashboard')}}" class="logo logo-light">
                         <span class="logo-sm">
                             <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""
                                  height="24"/>

@@ -89,28 +89,42 @@ class DashboardController extends Controller
             ->leftJoin('departments', 'tasks.department_id', '=', 'departments.id')
             ->groupByRaw('MONTH(tasks.created_at), department_id');
 
-        $departmentIds = $departmentTaskQuery->pluck('department_id')->unique()->toArray();
-
-
-        $listDepartment = Department::query()->whereIn('id', $departmentIds)->get();
-
-
         $department = Department::with(['tasks' => function ($query) {
             $query->select(['id', 'department_id', 'name', DB::raw("MONTH(created_at) as month")])->whereDate('tasks.created_at', '>', now()->subYears());
         }])->get();
-        $listMonth = $departmentTaskQuery->pluck('month')->unique()->toArray();
 
-        $test = $department->map(function ($department) {
+        $departmentTask = $department->map(function ($department) {
             $department->tasks = $department->tasks->groupBy('month')->toArray();
             return $department;
         });
 
-        $departmentTasks = $test->map(function ($item) {
+        $departmentTasks = $departmentTask->map(function ($item) {
             $taskData = [];
             for ($i = 1; $i <= 12; $i++) {
                 $taskData[] = isset($item->tasks[$i]) ? count(collect($item->tasks[$i])) : 0;
             }
-//            dd($taskData);
+
+            return [
+                'department_name' => $item->name,
+                'tasks' => $taskData,
+            ];
+        });
+
+        $departmentTaskDoneQueryData = Department::with(['tasks' => function ($query) {
+            $query->select(['id', 'department_id', 'name', DB::raw("MONTH(created_at) as month")])
+            ->whereDate('tasks.created_at', '>', now()->subYears())
+            ->where('tasks.status_code', Task::TASK_STATUS['DONE'])
+            ;
+        }])->get()->map(function ($department) {
+            $department->tasks = $department->tasks->groupBy('month')->toArray();
+            return $department;
+        });
+
+        $departmentDoneTask = $departmentTaskDoneQueryData->map(function ($item) {
+            $taskData = [];
+            for ($i = 1; $i <= 12; $i++) {
+                $taskData[] = isset($item->tasks[$i]) ? count(collect($item->tasks[$i])) : 0;
+            }
 
             return [
                 'department_name' => $item->name,
@@ -119,28 +133,8 @@ class DashboardController extends Controller
         });
 
 
-//        $departmentTasks = $departmentTaskQuery->get()->groupBy('department_id')->map(function ($item, $key) use ($listDepartment) {
-////            dd($key);
-//            $department = $departmentList->first(function ($value) use ($key) {
-//                return $value->id == $key ;
-//            });
-//
-//            return [
-//                'department_name' => $department->name,
-//                'value' => $item->toArray(),
-//            ];
-//        });
-
-//        dd($listMonth);
-
-//        $departmentTaskDoneQuery = \Illuminate\Support\Facades\DB::table('tasks')
-//            ->where('status_code', '=', Task::TASK_STATUS['DONE'])
-//            ->whereDate('created_at', '>', now()->subYear())
-//            ->selectRaw('department_id, MONTH(created_at) as month, count(id) as number_of_tasks')
-//            ->leftJoin('departments', 'tasks.department_id', '=', 'departments.id')
-//            ->groupByRaw('MONTH(created_at), department_id');
-
         $passingData['departmentTasks'] = $departmentTasks;
+        $passingData['departmentDoneTasks'] = $departmentDoneTask;
 //        $passingData['departmentTasksDone'] = $departmentTaskDoneQuery->get();
 
 

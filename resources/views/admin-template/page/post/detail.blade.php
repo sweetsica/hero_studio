@@ -58,71 +58,78 @@
                         <div class="card">
                             <div class="card-body">
                                 {{--                                        <h6 class="mt-0 header-title">About Project</h6>--}}
-                                @if(Auth::id() === $post->member_id)
-                                    <a class="btn btn-primary" href="{{route('post.edit', $post->id)}}">Edit</a>
-                                @endif
-                                <div class="text-muted mt-3">
-                                    <p>
-                                        {{ $post->content }}
-                                    </p>
-                                    <div class="tags">
-                                        <h6 class="fw-bold">Tags</h6>
-                                        <div class="text-uppercase">
-                                            @foreach($post->hashTags as $tag)
-                                                <a href="{{route('post', ['hash-tag-id' => $tag->id])}}"
-                                                   class="badge badge-soft-primary me-2"> {{$tag->name}} </a>
-                                            @endforeach
+                                <div class="row">
+                                    <div class="col-8">
+                                        @if(Auth::id() === $post->member_id)
+                                            <a class="btn btn-primary" href="{{route('post.edit', $post->id)}}">Edit</a>
+                                        @endif
+                                        <div class="text-muted mt-3">
+                                            <p>
+                                                {{ $post->content }}
+                                            </p>
+                                            <div class="tags">
+                                                <h6 class="fw-bold">Tags</h6>
+                                                <div class="text-uppercase">
+                                                    @foreach($post->hashTags as $tag)
+                                                        <a href="{{route('post', ['hash-tag-id' => $tag->id])}}"
+                                                           class="badge badge-soft-primary me-2"> {{$tag->name}} </a>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+
+                                            <div class="tags">
+                                                <h6 class="fw-bold">Phân loại : {{ $post->category->name }}</h6>
+
+                                                <h6 class="fw-bold">Link video : <a
+                                                        href="{{ $post->link_video }}">{{ $post->link_video }}</a></h6>
+
+                                                <h6 class="fw-bold">Link driver : <a
+                                                        href="{{ $post->link_driver }}">{{ $post->link_driver }}</a>
+                                                </h6>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <div class="tags">
-                                        <h6 class="fw-bold">Phân loại : {{ $post->category->name }}</h6>
-
-                                        <h6 class="fw-bold">Link video : <a
-                                                href="{{ $post->link_video }}">{{ $post->link_video }}</a></h6>
-
-                                        <h6 class="fw-bold">Link driver : <a
-                                                href="{{ $post->link_driver }}">{{ $post->link_driver }}</a></h6>
+                                    <div class="col-4">
+                                        <img src="{{ "/storage/$post->thumbnail" }}"
+                                             style="width: 100%;aspect-ratio: 1 / 1;">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mb-4 fs-16">Các bài viết chung phân loại</h4>
+                                <div class="row mt-1">
+                                    @foreach($postSameCategory as $post)
+                                        <div class="d-flex my-1">
+                                            <div class="text-center me-3 flex-shrink-0">
+                                                <div class="avatar-sm">
+                                                    @if($post->thumbnail)
+                                                    <img src="{{ "/storage/$post->thumbnail" }}"
+                                                         style="width: 100%;aspect-ratio: 1 / 1;" alt="Post Thumbnail">
+                                                    @else
+                                                    <span
+                                                        class="avatar-title bg-soft-primary text-primary">{{ substr($post->subject, 0, 1) }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="fs-15 my-1"><a href="{{ route('post.detail', $post->id) }}"
+                                                                          class="text-dark"> {{ $post->subject }}</a>
+                                                </h5>
+                                                <p class="text-muted fs-13 text-truncate mb-0"> {{$post->content }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
                 {{--                <!-- comments -->--}}
-                {{--                <div class="col-xl-4">--}}
-                {{--                    <div class="card">--}}
-                {{--                        <div class="card-body">--}}
-                {{--                            <h4 class="mb-4 fs-16">Bình luận về bài viết này</h4>--}}
-                {{--                            <div class="row mt-1">--}}
-                {{--                                <div class="col">--}}
-                {{--                                    <div class="border rounded">--}}
-                {{--                                        <form action="#" class="comment-area-box">--}}
-                {{--                                            <textarea rows="3" class="form-control border-0 resize-none"--}}
-                {{--                                                      placeholder="Your comment..."></textarea>--}}
-                {{--                                            <div class="p-2 bg-light">--}}
-                {{--                                                <div class="float-end">--}}
-                {{--                                                    <button type="submit" class="btn btn-sm btn-success">--}}
-                {{--                                                        Gửi bình luận--}}
-                {{--                                                    </button>--}}
-                {{--                                                </div>--}}
-                {{--                                                <div>--}}
-                {{--                                                    --}}{{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                {{--                                                    --}}{{--                                                        <i class="uil uil-cloud-upload"></i>--}}
-                {{--                                                    --}}{{--                                                    </a>--}}
-                {{--                                                    --}}{{--                                                    <a href="#" class="btn btn-sm px-1 btn-light">--}}
-                {{--                                                    <i class="uil uil-message me-1"></i>--}}
-                {{--                                                    --}}{{--                                                    </a>--}}
-                {{--                                                </div>--}}
-                {{--                                            </div>--}}
-                {{--                                        </form>--}}
-                {{--                                    </div> <!-- end .border-->--}}
-                {{--                                </div> <!-- end col-->--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
-
-                {{--                    </div>--}}
-                {{--                </div>--}}
                 {{--                <!-- end col -->--}}
             </div>
             <!-- end row -->

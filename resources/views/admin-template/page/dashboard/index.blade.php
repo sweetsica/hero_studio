@@ -292,14 +292,22 @@
                 <div class="col-6">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title mt-0 mb-3">Basic Column Chart</h4>
+                            <h4 class="header-title mt-0 mb-3">Thống kê số lượng task theo phòng ban</h4>
 
                             <div id="task-by-department" class="apex-charts" dir="ltr"></div>
                         </div> <!-- end card-body -->
                     </div> <!-- end card-->
                 </div>
-            </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mt-0 mb-3">Thống kê số lượng task hoàn thành theo phòng ban</h4>
 
+                            <div id="done-task-by-department" class="apex-charts" dir="ltr"></div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card-->
+                </div>
+            </div>
         </div> <!-- container -->
 
     </div> <!-- content -->
@@ -331,7 +339,7 @@
                 colors: ['transparent']
             },
             series: [
-                @foreach($departmentTasks as $departmentTask)
+                    @foreach($departmentTasks as $departmentTask)
                 {
                     name: "{{$departmentTask['department_name']}}",
                     data: @json($departmentTask['tasks'])
@@ -339,7 +347,7 @@
                 @endforeach
             ],
             xaxis: {
-                categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             },
             yaxis: {
                 title: {
@@ -367,6 +375,72 @@
 
         var chart = new ApexCharts(
             document.querySelector("#task-by-department"),
+            options
+        );
+
+        chart.render();
+    </script>
+    <script>
+        var options = {
+            chart: {
+                height: 380,
+                type: 'bar',
+                toolbar: {
+                    show: false
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    endingShape: 'rounded',
+                    columnWidth: '55%',
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [
+                    @foreach($departmentDoneTasks as $departmentTask)
+                {
+                    name: "{{$departmentTask['department_name']}}",
+                    data: @json($departmentTask['tasks'])
+                },
+                @endforeach
+            ],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            },
+            yaxis: {
+                title: {
+                    text: '$ (thousands)'
+                }
+            },
+            legend: {
+                offsetY: 7,
+            },
+            grid: {
+                row: {
+                    colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.2
+                },
+                borderColor: '#f1f3fa'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val + " thousands"
+                    }
+                }
+            }
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#done-task-by-department"),
             options
         );
 

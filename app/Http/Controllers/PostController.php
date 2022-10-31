@@ -43,7 +43,12 @@ class PostController extends Controller
         $categories = Category::all();
         $post = Post::find($id);
 
-        return view('admin-template.page.post.detail', compact('categories', 'post'));
+        $postSameCategory = Post::query()
+            ->where('category_id', $post->category_id)
+            ->where('id', '!=', $id)
+            ->take(5)->orderBy('created_at', 'desc')->get();
+
+        return view('admin-template.page.post.detail', compact('categories', 'post', 'postSameCategory'));
     }
 
     public function edit(Request $request, $id)
@@ -53,8 +58,12 @@ class PostController extends Controller
 
         if (Auth::id() !== $post->member_id) return redirect()->back();
         $categories = Category::all();
+        $postSameCategory = Post::query()
+            ->where('category_id', $post->category_id)
+            ->where('id', '!=', $id)
+            ->take(5)->orderBy('created_at', 'desc')->get();
 
-        return view('admin-template.page.post.edit', compact('categories', 'post'));
+        return view('admin-template.page.post.edit', compact('categories', 'post', 'postSameCategory'));
     }
 
     public function update(Request $request, $id)

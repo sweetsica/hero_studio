@@ -134,6 +134,37 @@
                         </div>
                     </div> <!-- end card-->
                 </div>
+                <div class="col-xl-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mb-4 fs-16">Các bài viết chung phân loại</h4>
+                                <div class="row mt-1">
+                                    @foreach($postSameCategory as $post)
+                                        <div class="d-flex my-1">
+                                            <div class="text-center me-3 flex-shrink-0">
+                                                <div class="avatar-sm">
+                                                    @if($post->thumbnail)
+                                                    <img src="{{ "/storage/$post->thumbnail" }}"
+                                                         style="width: 100%;aspect-ratio: 1 / 1;" alt="Post Thumbnail">
+                                                    @else
+                                                    <span
+                                                        class="avatar-title bg-soft-primary text-primary">{{ substr($post->subject, 0, 1) }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="fs-15 my-1"><a href="{{ route('post.detail', $post->id) }}"
+                                                                          class="text-dark"> {{ $post->subject }}</a>
+                                                </h5>
+                                                <p class="text-muted fs-13 text-truncate mb-0"> {{$post->content }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 {{--                <!-- comments -->--}}
                 {{--                <div class="col-xl-4">--}}
                 {{--                    <div class="card">--}}
