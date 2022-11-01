@@ -53,6 +53,12 @@
                         <span>Tạo thông báo</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('post')}}">
+                        <i class="uil uil-film" data-feather="uil uil-film"></i>
+                        <span>Kho media</span>
+                    </a>
+                </li>
             @endif
 
             {{--Menu quản lý--}}
@@ -84,18 +90,18 @@
                     </div>
                 </li>
                 @if((Auth::user()->member()->first()['special_access']==1))
-                <li>
-                    <a href="#sidebarMediaManager" data-bs-toggle="collapse">
-                        <i class="uil uil-film" data-feather="uil uil-film"></i>
-                        <span>Kho media</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarMediaManager">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('post')}}">Danh mục media</a></li>
-                        </ul>
-                    </div>
-                </li>
+                    <li>
+                        <a href="#sidebarMediaManager" data-bs-toggle="collapse">
+                            <i class="uil uil-film" data-feather="uil uil-film"></i>
+                            <span>Kho media</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarMediaManager">
+                            <ul class="nav-second-level">
+                                <li><a href="{{route('post')}}">Danh mục media</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 @endif
             @endif
             {{--Hết menu quản lý--}
@@ -117,18 +123,18 @@
                     </div>
                 </li>
                 @if((Auth::user()->member()->first()['special_access']==1))
-                <li>
-                    <a href="#sidebarMediaKOL" data-bs-toggle="collapse">
-                        <i class="uil uil-film" data-feather="uil uil-film"></i>
-                        <span>Kho media</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarMediaKOL">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('post')}}">Danh mục media</a></li>
-                        </ul>
-                    </div>
-                </li>
+                    <li>
+                        <a href="#sidebarMediaKOL" data-bs-toggle="collapse">
+                            <i class="uil uil-film" data-feather="uil uil-film"></i>
+                            <span>Kho media</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarMediaKOL">
+                            <ul class="nav-second-level">
+                                <li><a href="{{route('post')}}">Danh mục media</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 @endif
             @endif
             {{--Hết menu KOL--}}
@@ -150,18 +156,18 @@
                     </div>
                 </li>
                 @if((Auth::user()->member()->first()['special_access']==1))
-                <li>
-                    <a href="#sidebarDepartmentStaff" data-bs-toggle="collapse">
-                        <i class="uil uil-film" data-feather="uil uil-film"></i>
-                        <span>Kho media</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarDepartmentStaff">
-                        <ul class="nav-second-level">
-                            <li><a href="{{route('post')}}">Danh mục media</a></li>
-                        </ul>
-                    </div>
-                </li>
+                    <li>
+                        <a href="#sidebarDepartmentStaff" data-bs-toggle="collapse">
+                            <i class="uil uil-film" data-feather="uil uil-film"></i>
+                            <span>Kho media</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarDepartmentStaff">
+                            <ul class="nav-second-level">
+                                <li><a href="{{route('post')}}">Danh mục media</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 @endif
                 {{--Hết menu nhân viên--}}
             @endif

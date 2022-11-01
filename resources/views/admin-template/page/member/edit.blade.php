@@ -54,6 +54,7 @@
                                         <input name="email" type="email" class="form-control" required
                                                value="{{$member->user->email}}">
                                     </div>
+                                    @if ($member->userRole !== 'Admin')
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="special_access">Truy cập kho media?</label>
                                         <input type="hidden" id="test6" value="0" ng-model="isFull"
@@ -66,25 +67,28 @@
                                             @endif
                                         >
                                     </div>
+                                    @endif
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Mật khẩu</label>
                                         <input name="password" type="password" class="form-control">
                                         <small>(Bỏ trống nếu giữ nguyên)</small>
                                     </div>
-                                    <div class="col-md-12  mt-2">
-                                        <label class="form-label" for="exampleInputEmail1">Vai trò</label>
-                                        <select name="role" class="form-select">
-                                            <option @if($member->primitiveUserRole === 'chief of department') selected
-                                                    @endif value="chief of department">Quản lý
-                                            </option>
-                                            <option @if($member->primitiveUserRole === 'key opinion leaders') selected
-                                                    @endif value="key opinion leaders">Kol
-                                            </option>
-                                            <option @if($member->primitiveUserRole === 'editor') selected
-                                                    @endif value="editor">Thành viên
-                                            </option>
-                                        </select>
-                                    </div>
+                                    @if ($member->userRole !== 'Admin')
+                                        <div class="col-md-12  mt-2">
+                                            <label class="form-label" for="exampleInputEmail1">Vai trò</label>
+                                            <select name="role" class="form-select">
+                                                <option @if($member->primitiveUserRole === 'chief of department') selected
+                                                        @endif value="chief of department">Quản lý
+                                                </option>
+                                                <option @if($member->primitiveUserRole === 'key opinion leaders') selected
+                                                        @endif value="key opinion leaders">Kol
+                                                </option>
+                                                <option @if($member->primitiveUserRole === 'editor') selected
+                                                        @endif value="editor">Thành viên
+                                                </option>
+                                            </select>
+                                        </div>
+                                    @endif
 
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Thuộc phòng ban</label>

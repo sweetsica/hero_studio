@@ -111,14 +111,19 @@ class MemberController extends Controller
             $user->update();
         }
         $user->update($request->only(['name', 'email']));
-        $user->syncRoles([$request->role]);
+        if ($request->role) {
+            $user->syncRoles([$request->role]);
+        }
 
         if ($request->date_of_birth) {
             $member->date_of_birth = $request->date_of_birth;
         }
 
+        if ($request->special_access) {
+            $member->special_access = $request->special_access;
+        }
+
         $member->name = $request->name;
-        $member->special_access = $request->special_access;
         $member->code = $request->code;
         $member->special_access = $request->get('special_access', 'off')  === 'on' ? 1 : 0;
         $member->departments()->sync($request->departments);

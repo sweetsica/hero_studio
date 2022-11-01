@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">{{ $post->subject }}</h4>
+                        <h4 class="page-title">Kho Media</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Bài viết</a></li>
@@ -50,7 +50,16 @@
                 </div>
             </div>
             <!-- end page title -->
+            <div class="row">
+                <div class="row">
+                    <div class="col-xl-8 text-end my-2 justify-content-between d-flex">
+                        <h4>{{$post->subject}}</h4>
 
+                        @if(Auth::id() === $post->member_id || Auth::user()->hasRole('super admin'))
+                            <a class="btn btn-primary" href="{{route('post.edit', $post->id)}}">Edit</a>
+                        @endif</div>
+                </div>
+            </div>
             <div class="row">
                 <!-- form information -->
                 <div class="row">
@@ -59,10 +68,11 @@
                             <div class="card-body">
                                 {{--                                        <h6 class="mt-0 header-title">About Project</h6>--}}
                                 <div class="row">
-                                    <div class="col-8">
-                                        @if(Auth::id() === $post->member_id)
-                                            <a class="btn btn-primary" href="{{route('post.edit', $post->id)}}">Edit</a>
-                                        @endif
+                                    <div class="col-12">
+                                        <img src="{{ "/storage/$post->thumbnail" }}"
+                                             style="width: 100%;">
+                                    </div>
+                                    <div class="col-4">
                                         <div class="text-muted mt-3">
                                             <p>
                                                 {{ $post->content }}
@@ -89,10 +99,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-4">
-                                        <img src="{{ "/storage/$post->thumbnail" }}"
-                                             style="width: 100%;aspect-ratio: 1 / 1;">
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -105,10 +111,10 @@
                                     @foreach($postSameCategory as $post)
                                         <div class="d-flex my-1">
                                             <div class="text-center me-3 flex-shrink-0">
-                                                <div class="avatar-sm">
+                                                <div style="width: 9rem;aspect-ratio: 2">
                                                     @if($post->thumbnail)
                                                         <img src="{{ "/storage/$post->thumbnail" }}"
-                                                             style="width: 100%;aspect-ratio: 1 / 1;"
+                                                             style="width: 100%;;height: 100%"
                                                              alt="Post Thumbnail">
                                                     @else
                                                         <span
@@ -133,10 +139,10 @@
                                     @foreach($postHaveSameTags as $post)
                                         <div class="d-flex my-1">
                                             <div class="text-center me-3 flex-shrink-0">
-                                                <div class="avatar-sm">
+                                                <div style="width: 9rem;aspect-ratio: 2">
                                                     @if($post->thumbnail)
                                                         <img src="{{ "/storage/$post->thumbnail" }}"
-                                                             style="width: 100%;aspect-ratio: 1 / 1;"
+                                                             style="width: 100%;;height: 100%"
                                                              alt="Post Thumbnail">
                                                     @else
                                                         <span
@@ -155,7 +161,6 @@
                                 </div>
 
                             </div>
-
                         </div>
                     </div>
                 </div>
