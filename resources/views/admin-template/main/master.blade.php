@@ -83,8 +83,8 @@
             @foreach($notifies as $notify)
                 <div class="marquee @if($loop->first) @else d-none @endif">
                     <div>
-                        <span>{{$notify->content}}</span>
-                        <span>{{$notify->content}}</span>
+                        <span style="color: {{$notify->format}}">{{$notify->content}}</span>
+                        <span style="color: {{$notify->format}}">{{$notify->content}}</span>
                     </div>
                 </div>
             @endforeach

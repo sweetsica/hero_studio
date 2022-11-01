@@ -119,6 +119,14 @@
                                                    name="content" id="event-title" required/>
                                         </div>
                                     </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Màu sắc</label>
+                                            <input type="color" id="favcolor" name="format" value="#ff0000">
+                                        </div>
+                                    </div>
+
+
                                 </div>
                                 <div class="row mt-2">
                                     {{--                                    <div class="col-6">--}}
