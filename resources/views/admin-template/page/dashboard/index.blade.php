@@ -347,7 +347,7 @@
                 @endforeach
             ],
             xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                categories: @json($arrayDate),
             },
             yaxis: {
                 title: {
@@ -413,7 +413,7 @@
                 @endforeach
             ],
             xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                categories: @json($arrayDate),
             },
             yaxis: {
                 title: {

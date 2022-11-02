@@ -83,14 +83,8 @@ class DashboardController extends Controller
         $passingData['tasks'] = $taskQuery->orderByDesc('created_at')->get();
 
 
-        $departmentTaskQuery = \Illuminate\Support\Facades\DB::table('tasks')
-            ->whereDate('tasks.created_at', '>', now()->subYear())
-            ->selectRaw('department_id, MONTH(tasks.created_at) as month, count(tasks.id) as number_of_tasks')
-            ->leftJoin('departments', 'tasks.department_id', '=', 'departments.id')
-            ->groupByRaw('MONTH(tasks.created_at), department_id');
-
         $department = Department::with(['tasks' => function ($query) {
-            $query->select(['id', 'department_id', 'name', DB::raw("MONTH(created_at) as month")])->whereDate('tasks.created_at', '>', now()->subYears());
+            $query->select(['id', 'department_id', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])->whereDate('tasks.created_at', '>', now()->subYears());
         }])->get();
 
         $departmentTask = $department->map(function ($department) {
@@ -100,21 +94,26 @@ class DashboardController extends Controller
 
         $departmentTasks = $departmentTask->map(function ($item) {
             $taskData = [];
+            $taskDataObject = [];
+            $date = Carbon::now();
             for ($i = 1; $i <= 12; $i++) {
-                $taskData[] = isset($item->tasks[$i]) ? count(collect($item->tasks[$i])) : 0;
+                $dateFormat = $date->format('Y-m');
+                $taskData[] = isset($item->tasks[$dateFormat]) ? count(collect($item->tasks[$dateFormat])) : 0;
+                // this to checking data start right position
+                $taskDataObject[$dateFormat] = isset($item->tasks[$dateFormat]) ? count(collect($item->tasks[$dateFormat])) : 0;
+                $date->subMonths(1);
             }
 
             return [
                 'department_name' => $item->name,
-                'tasks' => $taskData,
+                'tasks' => array_reverse($taskData),
             ];
         });
 
         $departmentTaskDoneQueryData = Department::with(['tasks' => function ($query) {
-            $query->select(['id', 'department_id', 'name', DB::raw("MONTH(created_at) as month")])
-            ->whereDate('tasks.created_at', '>', now()->subYears())
-            ->where('tasks.status_code', Task::TASK_STATUS['DONE'])
-            ;
+            $query->select(['id', 'department_id', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])
+                ->whereDate('tasks.created_at', '>', now()->subYears())
+                ->where('tasks.status_code', Task::TASK_STATUS['DONE']);
         }])->get()->map(function ($department) {
             $department->tasks = $department->tasks->groupBy('month')->toArray();
             return $department;
@@ -122,20 +121,46 @@ class DashboardController extends Controller
 
         $departmentDoneTask = $departmentTaskDoneQueryData->map(function ($item) {
             $taskData = [];
+            $taskDataObject = [];
+            $date = Carbon::now();
             for ($i = 1; $i <= 12; $i++) {
-                $taskData[] = isset($item->tasks[$i]) ? count(collect($item->tasks[$i])) : 0;
+                $dateFormat = $date->format('Y-m');
+                $taskData[] = isset($item->tasks[$dateFormat]) ? count(collect($item->tasks[$dateFormat])) : 0;
+                // this to checking data start right position
+                $taskDataObject[$dateFormat] = isset($item->tasks[$dateFormat]) ? count(collect($item->tasks[$dateFormat])) : 0;
+                $date->subMonths(1);
             }
 
             return [
                 'department_name' => $item->name,
-                'tasks' => $taskData,
+                'tasks' => array_reverse($taskData),
             ];
         });
 
 
         $passingData['departmentTasks'] = $departmentTasks;
         $passingData['departmentDoneTasks'] = $departmentDoneTask;
-//        $passingData['departmentTasksDone'] = $departmentTaskDoneQuery->get();
+
+        $date = Carbon::now();
+        $arrayDate = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $dateFormat = $date->format('m/Y');
+            array_push($arrayDate, $dateFormat);
+            $date->subMonths(1);
+        }
+        $passingData['arrayDate'] = array_reverse($arrayDate);
+
+//        $currentMonth = (int) Carbon::now()->format('m');
+//
+//        $arrayMonth = [];
+//        while (count($arrayMonth) < 12) {
+//            if ($currentMonth > 12) {
+//                $currentMonth = 1;
+//            }
+//
+//            array_push($arrayMonth, $currentMonth);
+//            $currentMonth = $currentMonth + 1;
+//        }
 
 
         return view('admin-template.page.dashboard.index', $passingData);
