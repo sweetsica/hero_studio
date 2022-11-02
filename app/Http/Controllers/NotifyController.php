@@ -24,8 +24,6 @@ class NotifyController extends Controller
         $returnData = [
             'notifies' => $nofifies
         ];
-
-
         return view('admin-template.page.notify.create', $returnData);
     }
 
