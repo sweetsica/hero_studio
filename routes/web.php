@@ -11,6 +11,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,9 +125,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/thong-bao', [\App\Http\Controllers\NotifyController::class, 'create'])->name('noti.create');
     Route::post('/thong-bao', [\App\Http\Controllers\NotifyController::class, 'store'])->name('noti.save');
     Route::post('/thong-bao/{id}', [\App\Http\Controllers\NotifyController::class, 'update'])->name('noti.update');
+    Route::delete('/thong-bao/{id}', [\App\Http\Controllers\NotifyController::class, 'destroy'])->name('noti.delete');
 
     Route::get('logout', function () {
         Auth::logout();
         return redirect()->route('get.user.login')->with('success', 'Đăng xuất thành công!');
     })->name('logout');
+});
+
+Route::get('/test', function() {
+    $export = new \App\Exports\ReportExport();
+
+    return Excel::download($export, 'invoices.csv', \Maatwebsite\Excel\Excel::CSV);
 });

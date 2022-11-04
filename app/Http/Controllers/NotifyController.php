@@ -24,7 +24,9 @@ class NotifyController extends Controller
         $returnData = [
             'notifies' => $nofifies
         ];
-        return view('admin-template.page.notify.create', $returnData);
+        return view('admin-template.page.notify.create', [
+            'listNotifies' => $nofifies
+        ]);
     }
 
     /**
@@ -61,30 +63,25 @@ class NotifyController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $notify = Notify::find($id);
-        $notify->active = !$notify->active;
-        $notify->update();
+        $params = $request->all();
+        $params['active'] = $request->active == 'on' ? 1 : 0;
 
-        return response()->json('success');
+        $notify = Notify::find($id);
+        $notify->update($params);
+
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Request $request, $id)
     {
-        //
+        $notify = Notify::find($id);
+        $notify->delete();
+
+        return response()->json('success');
+
+        return redirect()->route('noti.create');
     }
 }

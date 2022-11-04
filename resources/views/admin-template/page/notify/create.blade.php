@@ -55,30 +55,110 @@
                             <table id="notify-table" class="table dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th></th>
                                     <th>Tiêu đề</th>
                                     <th>Trạng thái</th>
                                     <th>Nội dung</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($notifies as $notify)
+                                @foreach($listNotifies as $notify)
                                     <tr>
-                                        <td>
-                                            <div class="form-switch mb-2">
-                                                <input
-                                                    name="active"
-                                                    type="checkbox"
-                                                    class="form-check-input"
-                                                    id="customSwitch1"
-                                                    onchange="updateNotify({{$notify->id}}, this)"
-                                                    {{ $notify->active == 1 ? 'checked' : '' }}
-                                                >
-                                            </div>
-                                        </td>
                                         <td>{{$notify->title}}</td>
                                         <td>{{$notify->active == 1 ? 'Kích hoạt' : 'Đã tắt'}}</td>
                                         <td>{{$notify->content}}</td>
+                                        <td>
+                                            <button class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#edit-modal-{{$notify->id}}">
+                                                Cập nhật
+                                            </button>
+                                            <div class="modal fade" id="edit-modal-{{$notify->id}}" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header py-3 px-4 border-bottom-0 d-block">
+                                                            <button type="button" class="btn-close float-end"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-hidden="true"></button>
+                                                            <h5 class="modal-title" id="modal-title">Chỉnh sửa</h5>
+                                                        </div>
+                                                        <div class="modal-body px-4 pb-4">
+                                                            <form class="needs-validation" name="event-form"
+                                                                  id="form-event" novalidate
+                                                                  action="{{route('noti.update', $notify->id)}}"
+                                                                  method="post">
+                                                                @csrf
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Tiêu đề thông
+                                                                                báo</label>
+                                                                            <input class="form-control"
+                                                                                   placeholder="Insert Event Name"
+                                                                                   type="text"
+                                                                                   name="title" id="event-title"
+                                                                                   value="{{$notify->title}}"
+                                                                                   required/>
+                                                                            <div class="invalid-feedback">Please provide
+                                                                                a valid event name
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Nội dung thông
+                                                                                báo</label>
+                                                                            <input
+                                                                                value="{{$notify->content}}"
+                                                                                class="form-control"
+                                                                                placeholder="Insert Event Name"
+                                                                                type="text"
+                                                                                name="content" id="event-title"
+                                                                                required/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Màu sắc</label>
+                                                                            <input type="color" id="favcolor"
+                                                                                   name="format"
+                                                                                   value="{{$notify->format}}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-3 d-flex">
+                                                                            <label class="form-label">Kích
+                                                                                hoạt</label>
+                                                                            <div class="form-switch mb-2 row" style="margin-left: 1rem">
+                                                                                <input
+                                                                                    name="active"
+                                                                                    type="checkbox"
+                                                                                    class="form-check-input"
+                                                                                    id="customSwitch1"
+                                                                                    {{ $notify->active == 1 ? 'checked' : '' }}
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <div class="col-12 text-end">
+                                                                        <button type="button" class="btn btn-light me-1"
+                                                                                data-bs-dismiss="modal">Close
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-danger me-1"
+                                                                                data-bs-dismiss="modal" onclick="deleteNotify({{$notify->id}})">Delete
+                                                                        </button>
+                                                                        <button type="submit" class="btn btn-success"
+                                                                                id="btn-save-event">Save
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div> <!-- end modal-content-->
+                                                </div> <!-- end modal dialog-->
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -132,7 +212,7 @@
                                     {{--                                    <div class="col-6">--}}
                                     {{--                                        <button type="button" class="btn btn-danger" id="btn-delete-event">Delete</button>--}}
                                     {{--                                    </div>--}}
-                                    <div class="col-6 text-end">
+                                    <div class="col-12 text-end">
                                         <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal">Close
                                         </button>
                                         <button type="submit" class="btn btn-success" id="btn-save-event">Save</button>
@@ -178,16 +258,13 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
-    <style>
-        .sorting:first-child {
-            color: transparent;
-        }
-    </style>
     <script>
-        async function updateNotify(id, value) {
-            const router = "{{route('noti.update', 'id')}}";
+
+
+        async function deleteNotify(id,) {
+            const router = "{{route('noti.delete', 'id')}}";
             const response = await fetch(router.replace('id', id), {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -195,6 +272,8 @@
                     "X-CSRF-Token": "{{csrf_token()}}"
                 },
             });
+
+            window.location.reload();
             const myJson = await response.json();
         }
     </script>
