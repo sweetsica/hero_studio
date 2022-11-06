@@ -83,7 +83,8 @@
                                 style="padding: 5px 10px;"
                                 data-bs-toggle="popover"
                             ><i class="uil-comment-image"></i> Đính sticker</a>
-                            <button id="chat-submit" type="submit" class="btn btn-sm btn-success" style="padding: 5px 10px;">
+                            <button id="chat-submit" type="submit" class="btn btn-sm btn-success"
+                                    style="padding: 5px 10px;">
                                 <i class="uil uil-message me-1"></i> Gửi bình luận
                             </button>
                         </div>
@@ -255,67 +256,30 @@
         <div data-name="popover-sticker" style="width: 200px;height: 200px">
             <div id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    @php
+                        $temporySticker = [
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_1.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_2.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_3.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_4.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_5.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_6.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_7.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_8.gif?987a5e1b43002069876d10d43b85ec42',
+'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_9.gif?987a5e1b43002069876d10d43b85ec42',
+    ]
+
+                    @endphp
+
                     <div class="d-flex flex-wrap">
+                        @foreach($temporySticker as $sticker)
                         <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
+                             style="background-image: url({{$sticker}});"
                              data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
+                             data-url="{{$sticker}}"
                         >
                         </div>
-                        <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                             data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div>
-                        <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                             data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div>
-                        <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                             data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div>
-                        <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                             data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div><div class="col-3 p-0 chat-event"
-                                   style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                                   data-type="sticker"
-                                   data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div>
-                        <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                             data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div>
-                        <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                             data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div><div class="col-3 p-0 chat-event"
-                                   style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                                   data-type="sticker"
-                                   data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div>
-                        <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
-                             data-type="sticker"
-                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
-                        >
-                        </div>
-
-
+                        @endforeach
                     </div>
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
