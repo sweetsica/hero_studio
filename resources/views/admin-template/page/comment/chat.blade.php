@@ -253,11 +253,22 @@
     </div>
 
     <div hidden>
-        <div data-name="popover-sticker" style="width: 200px;height: 200px">
-            <div id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    @php
-                        $temporySticker = [
+        <div data-name="popover-sticker" style="overflow-y: auto;width: 250px;height: 200px">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-cat-tab" data-bs-toggle="tab" data-bs-target="#nav-cat"
+                            type="button" role="tab" aria-controls="nav-cat" aria-selected="true">Cat
+                    </button>
+                    <button class="nav-link" id="cat-meme-tab" data-bs-toggle="tab" data-bs-target="#cat-meme"
+                            type="button" role="tab" aria-controls="cat-meme" aria-selected="false">Cat meme
+                    </button>
+                    <button class="nav-link" id="nav-meme-2-tab" data-bs-toggle="tab" data-bs-target="#nav-meme-2"
+                            type="button" role="tab" aria-controls="nav-meme-2" aria-selected="false">Meme 2
+                    </button>
+                </div>
+            </nav>
+            @php
+                $temporySticker = [
 'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_1.gif?987a5e1b43002069876d10d43b85ec42',
 'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_2.gif?987a5e1b43002069876d10d43b85ec42',
 'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_3.gif?987a5e1b43002069876d10d43b85ec42',
@@ -267,10 +278,11 @@
 'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_7.gif?987a5e1b43002069876d10d43b85ec42',
 'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_8.gif?987a5e1b43002069876d10d43b85ec42',
 'https://s3.getstickerpack.com/storage/uploads/sticker-pack/love-kitten/sticker_9.gif?987a5e1b43002069876d10d43b85ec42',
-    ]
+]
 
-                    @endphp
-
+            @endphp
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-cat" role="tabpanel" aria-labelledby="nav-cat-tab">
                     <div class="d-flex flex-wrap">
                         @foreach($temporySticker as $sticker)
                         <div class="col-3 p-0 chat-event"
@@ -282,152 +294,28 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="d-flex flex-wrap" role="row">
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t6/1/30/1f600.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😀"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t6/1/30/1f600.png"> </span>
-                                </div>
-                            </div>
+                <div class="tab-pane fade" id="cat-meme" role="tabpanel" aria-labelledby="cat-meme-tab">
+                    <div class="d-flex flex-wrap">
+                        @for($i = 1; $i < 11; $i++)
+                        <div class="col-3 p-0 chat-event"
+                             style="background-image: url({{asset("admin-asset/assets/sticker/catmeme/sticker_$i.webp")}});"
+                             data-type="sticker"
+                             data-url="{{asset("admin-asset/assets/sticker/catmeme/sticker_$i.webp")}}"
+                        >
                         </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t89/1/30/1f603.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😃"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t89/1/30/1f603.png"> </span>
-                                </div>
-                            </div>
+                        @endfor
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-meme-2" role="tabpanel" aria-labelledby="nav-meme-2-tab">
+                    <div class="d-flex flex-wrap">
+                        @for($i = 1; $i < 31; $i++)
+                        <div class="col-3 p-0 chat-event"
+                             style="background-image: url({{asset("admin-asset/assets/sticker/memepack2/sticker_$i.webp")}});"
+                             data-type="sticker"
+                             data-url="{{asset("admin-asset/assets/sticker/memepack2/sticker_$i.webp")}}"
+                        >
                         </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/ta/1/30/1f604.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😄"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta/1/30/1f604.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t87/1/30/1f601.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😁"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t87/1/30/1f601.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tc/1/30/1f606.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😆"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc/1/30/1f606.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tab/1/30/1f979.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="🥹"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/tab/1/30/1f979.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8b/1/30/1f605.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😅"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8b/1/30/1f605.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8/1/30/1f602.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😂"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8/1/30/1f602.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8a/1/30/1f923.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="🤣"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8a/1/30/1f923.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t24/1/30/1f972.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="🥲"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t24/1/30/1f972.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tc3/1/30/263a.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="☺️"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc3/1/30/263a.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/tb7/1/30/1f60a.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😊"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb7/1/30/1f60a.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8d/1/30/1f607.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😇"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8d/1/30/1f607.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t84/1/30/1f642.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="🙂"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t84/1/30/1f642.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t5/1/30/1f643.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="🙃"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5/1/30/1f643.png"> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 chat-event" data-type="emoji"
-                             data-url="https://static.xx.fbcdn.net/images/emoji.php/v9/t8f/1/30/1f609.png">
-                            <div role="button" tabindex="0">
-                                <div><span> <img height="30" width="30" alt="😉"
-                                                 referrerpolicy="origin-when-cross-origin"
-                                                 src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8f/1/30/1f609.png"> </span>
-                                </div>
-                            </div>
-                        </div>
+                        @endfor
                     </div>
                 </div>
             </div>
