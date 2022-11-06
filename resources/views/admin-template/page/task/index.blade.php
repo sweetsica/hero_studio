@@ -61,6 +61,11 @@
                                         <div class="col-2">
                                             <button class="btn btn-primary"> Lọc</button>
                                         </div>
+                                        @if (!Auth::user()->hasRole('editor'))
+                                            <div class="col-4 text-end">
+                                                <a href="{{route('create.taskOrder')}}" class="btn btn-primary"> Tạo mới</a>
+                                            </div>
+                                        @endif
                                     </form>
                                     <div class="table-responsive">
                                         <table class="table m-0">
@@ -91,8 +96,8 @@
                                                         <td>
                                                             <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                         </td>
-                                                        <td>{{$data->member->name}}</td>
-                                                        <td>{{$data->product_length}} phút</td>
+                                                        <td>{{$data->member?->name}}</td>
+                                                        <td>{{$data->product_length ? "$data->product_length phút " : ""}}</td>
                                                         <td>{{$data->status_code_text}}</td>
                                                         <td>{{$data->deadline}}</td>
                                                         <td>{{$data->product_rate ? "$data->product_rate sao" : 'Chưa có'}}</td>

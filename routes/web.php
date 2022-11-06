@@ -1,16 +1,14 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PostController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TaskController;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 
 /*
@@ -24,14 +22,9 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 
 Route::get('nguoi-dung/dang-nhap', [MemberController::class, 'getLoginView'])->name('get.user.login');
 Route::post('nguoi-dung/dang-nhap', [MemberController::class, 'loginUser']);
-//    Route::get('kiem-tra',[MemberController::class,'getUserList'])->name('post.user.check');
 Route::get('nguoi-dung/dang-ky', [MemberController::class, 'getRegisterView'])->name('get.user.register'); // Đăng ký tài khoản bởi người dùng
 Route::post('nguoi-dung/dang-ky', [MemberController::class, 'registerUser']); // Đăng ký tài khoản bởi người dùng
 
@@ -69,23 +62,17 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::prefix('nguoi-dung')->group(function () {
+    Route::prefix('nguoi-dung')->middleware('listUserPermission')->group(function () {
         Route::get('danh-sach', [MemberController::class, 'getUserList'])->name('get.member'); // Lấy danh sách người dùng
         Route::get('them-moi', [MemberController::class, 'createMember'])->name('create.member'); // Thêm người dùng (admin)
         Route::get('chinh-sua/{id}', [MemberController::class, 'editMember'])->name('edit.member'); // Thêm người dùng (admin)
         Route::post('chinh-sua/{id}', [MemberController::class, 'updateMember'])->name('update.member'); // Thêm người dùng (admin)
         Route::post('them-moi', [MemberController::class, 'registerMember']); // Thêm người dùng (admin)
     });
+
+
     Route::prefix('yeu-cau')->group(function () {
-//        Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
-//        Route::get('danh-sach/{phong_ban_id}', [TaskController::class, 'getTaskOrderByDepartmentId'])->name('get.taskOrder.byDepartmentId'); //Sẽ có get TaskOrder theo status (Đang chờ - Đã hoàn thành - Cần chỉnh sửa)
-
-//        Route::get('them-moi', [TaskController::class, 'createTaskOrder'])->name('create.taskOrder'); //Thêm mới yêu cầu
         Route::post('luu', [TaskController::class, 'store'])->name('store.taskOrder'); //Lưu yêu cầu (nhiệm vụ dạng đang chờ)
-
-//        Route::get('chinh-sua/{task_id}', [TaskController::class, 'editTask'])->name('edit.taskOrder'); //Màn phân công yêu cầu (nhiệm vụ)
-//        Route::post('chinh-sua/{task_id}', [TaskController::class, 'updateTask'])->name('edit.updateTaskOrder'); // Update route bên trên
-//        Route::put('cap-nhat/{task_id}', [TaskController::class, 'updateTaskOrderById'])->name('update.taskOrder'); //Dùng để cập nhật yêu cầu: Gồm cập nhật trạng thái, cập nhật người phụ trách
         Route::delete('xoa/{task_id}', [TaskController::class, 'deleteTaskOrderById'])->name('destroy.taskOrder'); //Xóa yêu cầu (nhiệm vụ)
 
         Route::prefix('media')->group(function () {
@@ -97,7 +84,6 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('phong-ban')->group(function () {
         Route::get('danh-sach', [DepartmentController::class, 'createDepartment'])->name('get.department'); // Lấy danh sách phòng ban
-//        Route::get('them-moi', [DepartmentController::class, 'createDepartment'])->name('create.department'); // Màn thêm mới phòng ban
         Route::post('them-moi', [DepartmentController::class, 'storeDepartment'])->name('store.department'); // Lưu thông tin phòng ban
         Route::get('cap-nhat/{department_id}', [DepartmentController::class, 'editDepartmentById'])->name('edit.department'); // Màn sửa thông tin phòng ban
         Route::put('cap-nhat/{department_id}', [DepartmentController::class, 'updateDepartment'])->name('update.department'); // Cập nhật thông tin phòng ban, thành viên của phòng ban
@@ -133,8 +119,132 @@ Route::middleware('auth')->group(function () {
     })->name('logout');
 });
 
-Route::get('/test', function() {
-    $export = new \App\Exports\ReportExport();
+Route::get('/export/user/{id}', function (\Illuminate\Http\Request $request, $id) {
+    $user = \App\Models\User::query()->find($id);
+    $member = $user->member;
+    $tasks = $member->tasks()->whereBetween('created_at',
+        [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()]
+    )->with('creator', 'member', 'department')->with('creator')->get()->map(function ($task) {
+        return [
+            'name' => $task->name,
+            'creator' => $task->creator->name,
+            'product_length' => $task->product_length,
+            'url_others' => $task->url_others,
+            'created_at' => $task->created_at ? $task->created_at->format('d-m-Y') : '',
+            'updated_at' => $task->updated_at ? $task->updated_at->format('d-m-Y') : '',
+            'completed_at' => $task->completed_at ? $task->completed_at->format('d-m-Y') : '',
+        ];
+    });
+//    dd($tasks->toArray());
 
-    return Excel::download($export, 'invoices.csv', \Maatwebsite\Excel\Excel::CSV);
+    $params = [
+        'data' => $tasks->toArray(),
+        'title' => $user->member->name,
+        'headings' => [
+            'Tên yêu cầu',
+            'Người giao',
+            'Thời lượng',
+            'Link hoàn thành',
+            'Ngày tạo',
+            'Ngày cập nhật',
+            'Ngày hoàn thành',
+        ],
+        'rowMaps' => ['name', 'creator', 'product_length', 'url_others', 'created_at', 'updated_at', 'completed_at']
+    ];
+
+    $export = new \App\Exports\ExportData($params);
+
+    return Excel::download($export, "$user->name.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+})->name('report.user');
+
+Route::get('/export/department/{id}', function (\Illuminate\Http\Request $request, $id) {
+    $department = \App\Models\Department::query()->find($id);
+
+    $tasks = $department->tasks()->whereBetween('created_at',
+        [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()]
+    )->with('creator', 'member', 'department')->with('creator', 'member')->get()->map(function ($task) {
+        return [
+            'name' => $task->name,
+            'creator' => $task->creator->name,
+            'member' => $task->member->name,
+            'status_code' => $task->status_code,
+            'product_length' => $task->product_length,
+            'url_others' => $task->url_others,
+            'created_at' => $task->created_at ? $task->created_at->format('d-m-Y') : '',
+            'updated_at' => $task->updated_at ? $task->updated_at->format('d-m-Y') : '',
+            'completed_at' => $task->completed_at ? $task->completed_at->format('d-m-Y') : '',
+        ];
+    });
+
+    $params = [
+        'data' => $tasks->toArray(),
+        'title' => $department->name,
+        'headings' => [
+            'Tên yêu cầu',
+            'Người giao',
+            'Người thực hiện',
+            'Tình trạng',
+            'Thời lượng',
+            'Link hoàn thành',
+            'Ngày tạo',
+            'Ngày cập nhật',
+            'Ngày hoàn thành',
+        ],
+        'rowMaps' => ['name', 'creator', 'member', 'status_code', 'product_length', 'url_others', 'created_at', 'updated_at', 'completed_at']
+    ];
+
+    $export = new \App\Exports\ExportData($params);
+
+    return Excel::download($export, "$department->name.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+})->name('report.department');
+
+Route::get('/export/admin', function (\Illuminate\Http\Request $request) {
+    $tasks = \App\Models\Task::query()->whereBetween('created_at',
+        [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()]
+    )->with('creator', 'member', 'department')->get()->map(function ($task) {
+        return [
+            'name' => $task->name,
+            'creator' => $task->creator->name,
+            'member' => $task->member->name,
+            'status_code' => $task->status_code,
+            'product_length' => $task->product_length,
+            'url_others' => $task->url_others,
+            'created_at' => $task->created_at ? $task->created_at->format('d-m-Y') : '',
+            'updated_at' => $task->updated_at ? $task->updated_at->format('d-m-Y') : '',
+            'completed_at' => $task->completed_at ? $task->completed_at->format('d-m-Y') : '',
+        ];
+    });
+
+    $params = [
+        'data' => $tasks->toArray(),
+        'title' => Carbon::now()->format('d-m-Y'),
+        'headings' => [
+            'Tên yêu cầu',
+            'Người giao',
+            'Người thực hiện',
+            'Tình trạng',
+            'Thời lượng',
+            'Link hoàn thành',
+            'Ngày tạo',
+            'Ngày cập nhật',
+            'Ngày hoàn thành',
+        ],
+        'rowMaps' => ['name', 'creator', 'member', 'status_code', 'product_length', 'url_others', 'created_at', 'updated_at', 'completed_at']
+    ];
+
+    $export = new \App\Exports\ExportData($params);
+
+    return Excel::download($export, sprintf("%s.xlsx", Carbon::now()->format('d-m-Y')), \Maatwebsite\Excel\Excel::XLSX);
+})->name('report.admin');
+
+Route::get('/backup-user', function () {
+    $export = new \App\Exports\Backup\BackupExport();
+
+    return Excel::download($export, sprintf('%s.xlsx', Carbon::now()->format('d-m-Y')), \Maatwebsite\Excel\Excel::XLSX);
+});
+
+Route::post('/import-user', function (\Illuminate\Http\Request $request) {
+    Excel::import(new \App\Imports\Backup\BackupImport(), $request->file('file')->store('temp'));
+
+    return redirect()->back();
 });

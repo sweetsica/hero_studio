@@ -57,16 +57,18 @@
                                                     @foreach($members as $member)
                                                         <option
                                                             @if($department->department_head_id === $member->id) selected
-                                                            @endif value="{{$member->id}}">
-                                                            {{$member->name}}
+                                                            @endif value="{{$member->id}}"
+                                                            @if(!in_array($member->id, $memberNotHaveDepartment)) disabled @endif
+                                                        >
+                                                            {{ $member->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy
-                                            </button>
+                                            <a type="button" class="btn btn-light" data-bs-dismiss="modal" href="{{route('get.department')}}">Hủy
+                                            </a>
                                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                                         </div>
                                     </form>
@@ -79,24 +81,27 @@
 
                 <!-- task details -->
                 <div class="col-xl-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <form action="{{route('update.department.member', ['department_id' => $department->id])}}" method="POST">
-                                    @csrf
-                                    <label class="form-label">Danh sách thành viên phòng ban</label>
-                                    <select class="form-select wide" data-plugin="customselect" multiple name="members[]">
-                                        @foreach($members as $member)
-                                            <option value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) selected @endif>
-                                                {{$member->name}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <button class="btn btn-primary mt-2">Cập nhật thành viên phòng ban</button>
-                                </form>
-                            </div>
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card-->
+                    <div class="row" style="height: 100%">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <form action="{{route('update.department.member', ['department_id' => $department->id])}}" method="POST">
+                                        @csrf
+                                        <label class="form-label">Danh sách thành viên phòng ban</label>
+                                        <select multiple="multiple" class="multi-select" id="my_multi_select1"
+                                                name="members[]" data-plugin="multiselect">
+                                            @foreach($members as $member)
+                                                <option value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) selected @endif>
+                                                    {{$member->name}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-primary mt-2">Cập nhật thành viên phòng ban</button>
+                                    </form>
+                                </div>
+                            </div> <!-- end card-body -->
+                        </div> <!-- end card-->
+                    </div>
                 </div> <!-- end col -->
             </div>
 

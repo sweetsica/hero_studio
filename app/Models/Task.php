@@ -21,6 +21,10 @@ class Task extends Model
 
     protected $guarded = [];
 
+    public function creator() {
+        return $this->belongsTo(Member::class, 'creator_id');
+    }
+
     public function member() {
         return $this->belongsTo(Member::class);
     }

@@ -112,6 +112,12 @@ class MemberController extends Controller
         }
         $user->update($request->only(['name', 'email']));
         if ($request->role) {
+            if ($user->hasRole(Role::ROLE_COF)) {
+                $department = $user->departments()->first();
+                $department->department_head_id = 1;
+                $department->update();
+            }
+
             $user->syncRoles([$request->role]);
         }
 
@@ -134,7 +140,7 @@ class MemberController extends Controller
 
     public function getUserList()
     {
-        $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+        $authUserDepartments = collect(Auth::user()->member->departments)->pluck('id')->toArray();
         $memberQuery = Member::query();
         if (Auth::user()->hasRole(Role::ROLE_COF)) {
             $memberQuery = $memberQuery->whereHas('departments', function ($query) use ($authUserDepartments) {

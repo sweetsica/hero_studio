@@ -56,10 +56,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title mb-4 pt-2">Thông tin yêu cầu</h4>
-                            <p>Người yêu cầu:
-                                @if(isset($info->name))
-                                    {{$info->name}}
-                                @endif
+                            <p>Người yêu cầu: {{ $task->creator->name }} {{ $task->id }} {{ $task->status_code }}
                             </p>
                             <p>Ngày tạo: {{$task->created_at->format('d-m h:i A')}}</p>
                             <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}"
@@ -128,11 +125,12 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    @elseif((Auth::user()->getRoleNames())[0]=='chief of department')
+                                    @elseif((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='super admin')
                                         <div class="col-md-4">
                                             <label class="form-label" for="exampleInputEmail1">Thành viên phụ
                                                 trách</label>
                                             <select name="member_id" class="form-select">
+                                                <option @if(!$task->member_id) selected @endif disabled></option>
                                                 @foreach($members as $member)
                                                     <option value="{{$member->id}}"
                                                             @if($task->member_id === $member->id) selected @endif>{{ $member->name }}</option>
@@ -154,20 +152,21 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="exampleInputEmail1">Link sản phẩm</label>
                                                 <textarea class="form-control"
-                                                          name="content">{{$task->product_description}}</textarea>
+                                                          name="url_others"
+                                                id="url_others">{{$task->url_others}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="exampleInputEmail1">Thời lượng</label>
-                                                <input value="{{$task->product_length}}" name="product_length"
+                                                <input id="product_length" value="{{$task->product_length}}" name="product_length"
                                                        class="form-control active" type="number">
                                             </div>
                                         </div>
                                     @endif
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
-                                        <select id="status_code" name="status_code" class="form-select" onchange="">
+                                        <select id="status_code" name="status_code" class="form-select" >
                                             <option value="1"
                                                     @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR) ) disabled
                                                     style="background: #c7c3c3" @if($task->status_code === 1) selected
@@ -257,18 +256,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($tasks as $task)
+                                @foreach($tasks as $taskItem)
                                     <tr>
-                                        <td>{{ $task->created_at->format('d/m - h:i') }}</td>
-                                        <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
-                                        <td>{{ $task->member?->name }}</td>
-                                        <td>{{ $task->department->name }}</td>
+                                        <td>{{ $taskItem->created_at->format('d/m - h:i') }}</td>
+                                        <td><a href="{{route('edit.taskOrder',$taskItem->id)}}">{{ $taskItem->name }}</a></td>
+                                        <td>{{ $taskItem->member?->name }}</td>
+                                        <td>{{ $taskItem->department->name }}</td>
 
-                                        <td>{{ $task->source }}</td>
-                                        <td>{{ $task->type }}</td>
-                                        <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
-                                        <td>{{ $task->url_source }}</td>
-                                        <td>{{ $task->content }}</td>
+                                        <td>{{ $taskItem->source }}</td>
+                                        <td>{{ $taskItem->type }}</td>
+                                        <td>{{ \Illuminate\Support\Carbon::parse($taskItem->deadline)->format('d/m - h:i')}}</td>
+                                        <td>{{ $taskItem->url_source }}</td>
+                                        <td>{{ $taskItem->content }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -319,29 +318,39 @@
             src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
     <script type='text/javascript' src='{{asset('admin-asset/assets/js/chat-sticker.js')}}'></script>
 
-    @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
-        <script>
-            const statusCode = $('#status_code');
+    <script>
+        const statusCode = $('#status_code');
+        statusCode.change(function () {
+            checkInput()
+        })
 
-            statusCode.change(function () {
-                checkInput()
-            })
+        $(document).ready(function () {
+            checkInput();
+        })
 
-            $(document).ready(function () {
-                checkInput();
-            })
+        function checkInput() {
+            let val = statusCode.val();
+            if(val == null) {
+                val = {{$task->status_code}};
+            }
 
-            function checkInput() {
-                const val = statusCode.val();
+            if (val == 3) {
+                $('#url_others').prop('required', true);
+                $('#product_length').prop('required', true);
 
-                if (val == 3) {
+                @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
                     $('#product_rate_div').show();
                     $('#product_rate').val(5);
-                } else {
-                    $('#product_rate_div').hide();
-                    $('#product_rate').val(null)
-                }
+                @endif
+            } else {
+                $('#url_others').prop('required', false);
+                $('#product_length').prop('required', false);
+
+                @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
+                $('#product_rate_div').hide();
+                $('#product_rate').val(null);
+                @endif
             }
-        </script>
-    @endif
+        }
+    </script>
 @endsection

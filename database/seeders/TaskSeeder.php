@@ -42,11 +42,6 @@ class TaskSeeder extends Seeder
 
                 'source' => 'Other',
                 'url_source' => Image::imageUrl(),  // example with image
-
-                'url_fanpage' => Image::imageUrl(),
-                'url_facebook' => Image::imageUrl(),
-                'url_youtube' => Image::imageUrl(),
-                'url_tiktok' => Image::imageUrl(),
                 'url_others' => Image::imageUrl(),
 
                 'creator_id' => 3,

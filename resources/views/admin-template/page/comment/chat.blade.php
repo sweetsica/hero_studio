@@ -257,29 +257,65 @@
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="d-flex flex-wrap">
                         <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://scontent.fhan3-1.fna.fbcdn.net/v/t39.1997-6/16685836_1458993954132381_7157059233479917568_n.png?_nc_cat=1&ccb=1-7&_nc_sid=ac3552&_nc_ohc=C3oRipq8l0cAX9WRabo&_nc_ht=scontent.fhan3-1.fna&oh=00_AT_of-jtzHpPkEUoqgiZfhyU0j_W5bjWwZmn2YoxdzaAAw&oe=635BE9E7);"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
                              data-type="sticker"
-                             data-url="https://scontent.fhan3-1.fna.fbcdn.net/v/t39.1997-6/16685836_1458993954132381_7157059233479917568_n.png?_nc_cat=1&ccb=1-7&_nc_sid=ac3552&_nc_ohc=C3oRipq8l0cAX9WRabo&_nc_ht=scontent.fhan3-1.fna&oh=00_AT_of-jtzHpPkEUoqgiZfhyU0j_W5bjWwZmn2YoxdzaAAw&oe=635BE9E7"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
                         >
                         </div>
                         <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://scontent.xx.fbcdn.net/v/t39.1997-6/16684984_1458993974132379_8795383253092532224_n.png?stp=dst-png_s168x128&_nc_cat=1&ccb=1-7&_nc_sid=0572db&_nc_ohc=-GrL81QnCmAAX9VFs43&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=00_AT9RoUzCahT3qEq5aZ9Lg45U30j1NsmQgAZa_bKFFOgTSg&oe=635D63F1);"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
                              data-type="sticker"
-                             data-url="https://scontent.xx.fbcdn.net/v/t39.1997-6/16684984_1458993974132379_8795383253092532224_n.png?stp=dst-png_s168x128&_nc_cat=1&ccb=1-7&_nc_sid=0572db&_nc_ohc=-GrL81QnCmAAX9VFs43&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=00_AT9RoUzCahT3qEq5aZ9Lg45U30j1NsmQgAZa_bKFFOgTSg&oe=635D63F1"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
                         >
                         </div>
                         <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://scontent.xx.fbcdn.net/v/t39.1997-6/16344830_1458999190798524_1851726792633614336_n.png?stp=dst-png_s168x128&_nc_cat=1&ccb=1-7&_nc_sid=0572db&_nc_ohc=7DWfANBlg6EAX90Qurn&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=00_AT-go2Zo1DumNtAdSMt_hhU9nFL4eqiJINlmX4yK1BGF8A&oe=635D5355);"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
                              data-type="sticker"
-                             data-url="https://scontent.xx.fbcdn.net/v/t39.1997-6/16684984_1458993974132379_8795383253092532224_n.png?stp=dst-png_s168x128&_nc_cat=1&ccb=1-7&_nc_sid=0572db&_nc_ohc=-GrL81QnCmAAX9VFs43&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=00_AT9RoUzCahT3qEq5aZ9Lg45U30j1NsmQgAZa_bKFFOgTSg&oe=635D63F1"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
                         >
                         </div>
                         <div class="col-3 p-0 chat-event"
-                             style="background-image: url(https://scontent.xx.fbcdn.net/v/t39.1997-6/16685079_1458993744132402_99939301952847872_n.png?stp=dst-png_s168x128&_nc_cat=1&ccb=1-7&_nc_sid=0572db&_nc_ohc=4dURLtAkE58AX8wMr8v&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=00_AT9Mtrx03JanF0vI8e90vMpmrBFeaD3nB0GSJggdUfV8TQ&oe=635D0377);"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
                              data-type="sticker"
-                             data-url="https://scontent.xx.fbcdn.net/v/t39.1997-6/16685079_1458993744132402_99939301952847872_n.png?stp=dst-png_s168x128&_nc_cat=1&ccb=1-7&_nc_sid=0572db&_nc_ohc=4dURLtAkE58AX8wMr8v&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=00_AT9Mtrx03JanF0vI8e90vMpmrBFeaD3nB0GSJggdUfV8TQ&oe=635D0377"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
                         >
                         </div>
+                        <div class="col-3 p-0 chat-event"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
+                             data-type="sticker"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
+                        >
+                        </div><div class="col-3 p-0 chat-event"
+                                   style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
+                                   data-type="sticker"
+                                   data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
+                        >
+                        </div>
+                        <div class="col-3 p-0 chat-event"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
+                             data-type="sticker"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
+                        >
+                        </div>
+                        <div class="col-3 p-0 chat-event"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
+                             data-type="sticker"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
+                        >
+                        </div><div class="col-3 p-0 chat-event"
+                                   style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
+                                   data-type="sticker"
+                                   data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
+                        >
+                        </div>
+                        <div class="col-3 p-0 chat-event"
+                             style="background-image: url(https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200);"
+                             data-type="sticker"
+                             data-url="https://s3.getstickerpack.com/storage/uploads/sticker-pack/meme-35/sticker_2.png?056e9528efd20167a22c308152bfca75&d=200x200"
+                        >
+                        </div>
+
+
                     </div>
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">

@@ -78,7 +78,7 @@
                                             <label class="form-label" for="exampleInputEmail1">Vai trò</label>
                                             <select name="role" class="form-select">
                                                 <option @if($member->primitiveUserRole === 'chief of department') selected
-                                                        @endif value="chief of department">Quản lý
+                                                        @endif value="chief of department" disabled>Quản lý
                                                 </option>
                                                 <option @if($member->primitiveUserRole === 'key opinion leaders') selected
                                                         @endif value="key opinion leaders">Kol
@@ -92,8 +92,8 @@
 
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Thuộc phòng ban</label>
-                                        <select multiple="multiple" class="multi-select" id="my_multi_select1"
-                                                name="departments[]" data-plugin="multiselect">
+                                        <select class="form-select"
+                                                name="departments[]">
                                             @foreach($departments as $department)
                                                 <option value="{{$department->id}}"
                                                         @if(in_array($department->id, $memberDepartmentIds)) selected @endif> {{$department->name}}</option>
@@ -102,6 +102,7 @@
                                     </div>
 
                                     <div class="col-md-12 mt-2">
+                                        <label class="form-label" for="exampleInputEmail1">Ngày sinh</label>
                                         <input name="date_of_birth" type="date" class="form-control" value="{{\Carbon\Carbon::parse($member->date_of_birth)->format('Y-m-d')}}">
                                     </div>
                                     <div class="col-md-12 mt-2">
@@ -110,7 +111,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
+                                    <a type="button" class="btn btn-light" data-bs-dismiss="modal" href="{{ route('create.member') }}">Hủy</a>
                                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                                 </div>
                             </form>

@@ -162,7 +162,7 @@ class DashboardController extends Controller
 //            $currentMonth = $currentMonth + 1;
 //        }
 
-
+//    dd(Auth::user()->getRoleNames());
         return view('admin-template.page.dashboard.index', $passingData);
     }
 
@@ -192,6 +192,10 @@ class DashboardController extends Controller
     {
         $tasks = [];
         foreach ($totalTask as $task) {
+            if (!$task->member_id) {
+                continue;
+            }
+
             if (!isset($tasks[$task->member_id])) {
                 $tasks[$task->member_id] = [];
             }

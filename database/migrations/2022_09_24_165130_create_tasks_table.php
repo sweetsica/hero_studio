@@ -34,18 +34,11 @@ return new class extends Migration
             $table->string('source')->nullable();
             $table->string('url_source')->nullable();
 
-            // Notes
-            $table->string('cof_note')->nullable();
-            $table->string('kol_note')->nullable();
-            $table->string('editor_note')->nullable();
-
-            $table->string('url_fanpage')->nullable();
-            $table->string('url_facebook')->nullable();
-            $table->string('url_youtube')->nullable();
-            $table->string('url_tiktok')->nullable();
             $table->text('url_others')->nullable();
+            $table->dateTime('completed_at')->nullable();
 
             $table->timestamps();
+
 
             $table->foreign('member_id')->references('id')->on('members');
             $table->foreign('department_id')->references('id')->on('departments');

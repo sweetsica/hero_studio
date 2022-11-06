@@ -6,6 +6,8 @@ use App\Models\Department;
 use App\Models\Member;
 use App\Models\Role;
 use App\Models\Task;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -212,6 +214,10 @@ class TaskController extends Controller
 
     public function createTaskOrder()
     {
+        if (Auth::user()->hasRole('editor')) {
+            return redirect()->back();
+        }
+
         $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
         $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
         $departmentQuery = Department::query();
@@ -226,7 +232,8 @@ class TaskController extends Controller
                 return $query->whereIn('department_id', $authUserDepartments);
             });
         }
-        $members = $memberQuery->get();
+        $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
+        $members = Member::whereIn('user_id', $userHaveEditorRole)->get();
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
     }
@@ -236,7 +243,8 @@ class TaskController extends Controller
         $validKeys = [
             'name', 'type', 'department_id', 'deadline',
             'source', 'url_source', 'content', 'product_length',
-            'cof_note', 'kol_note', 'editor_note', 'creator_id'
+            'cof_note', 'kol_note', 'editor_note', 'creator_id',
+            'member_id'
         ];
 
         Task::create($request->only($validKeys));
@@ -276,7 +284,8 @@ class TaskController extends Controller
                 return $query->whereIn('department_id', $authUserDepartments);
             });
         }
-        $members = $memberQuery->get();
+        $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
+        $members = Member::whereIn('user_id', $userHaveEditorRole)->get();
         $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
         $info = $task->member('creator_id')->first();
 
@@ -287,7 +296,12 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         if (!isset($request->product_rate)) $task->product_rate = null;
-        $task->update($request->all());
+        $params = $request->all();
+        if ($request->status_code === 3) {
+            $params['completed_at'] = Carbon::now();
+        }
+
+        $task->update($params);
 
         return redirect()->route('get.taskOrder.list');
     }

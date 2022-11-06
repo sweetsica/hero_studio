@@ -70,12 +70,12 @@
                                     <tr>
                                         <td><a href="{{route('edit.member', $member->id)}}">{{ $member->name }}</a></td>
                                         <td>{{ $member->user->email }}</td>
-                                        <td>{{ $member->date_of_birth }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($member->date_of_birth)->format('d/m/Y')  }}</td>
                                         <td>{{ $member->code }}</td>
                                         <td>{{ $member->userRole }}</td>
                                         {{--                                        <td>{{ $member->user->getRoleNames()[0] }}</td>--}}
                                         <td> Hoạt động</td>
-                                        <td> {{ $member->created_at }} </td>
+                                        <td> {{  \Carbon\Carbon::parse($member->created_at)->format('d/m/Y')}} </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -145,7 +145,7 @@
                             <div class="col-md-12  mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Vai trò</label>
                                 <select name="role" class="form-select">
-                                    <option value="chief of department">Quản lý</option>
+{{--                                    <option value="chief of department">Quản lý</option>--}}
                                     <option value="key opinion leaders">Kol</option>
                                     <option value="editor">Thành viên</option>
                                 </select>
@@ -153,8 +153,8 @@
 
                             <div class="col-md-12 mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Thuộc phòng ban</label>
-                                <select multiple="multiple" class="multi-select" id="my_multi_select1"
-                                        name="departments[]" data-plugin="multiselect">
+                                <select class="form-select"
+                                        name="departments[]">
                                     @foreach($departments as $department)
                                         <option value="{{$department->id}}"> {{$department->name}}</option>
                                     @endforeach

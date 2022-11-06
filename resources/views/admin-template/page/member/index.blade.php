@@ -81,7 +81,7 @@
                                                                         <div class="mt-3 mt-sm-0">
                                                                             <ul class="list-inline text-sm-end">
                                                                                 <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-schedule me-1'></i>{{$data->created_at}}
+                                                                                    <i class='uil uil-schedule me-1'></i>{{\Carbon\Carbon::parse($data->date_of_birth)->format('d/m/Y')}}
                                                                                 </li>
                                                                                 <li class="list-inline-item pe-1">
                                                                                     <i class='uil uil-align-alt me-1'></i>3/7

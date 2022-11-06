@@ -70,6 +70,9 @@
                 left: -100%;
             }
         }
+        .dataTables_info {
+            display: none;
+        }
     </style>
 </head>
 

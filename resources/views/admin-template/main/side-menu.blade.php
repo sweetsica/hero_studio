@@ -18,7 +18,6 @@
     <!--- Sidemenu -->
     <div id="sidebar-menu">
         <ul id="side-menu">
-            <!-- <li class="menu-title">Navigation</li> -->
             <li>
                 <a href="{{route('dashboard')}}">
                     <i data-feather="home"></i>
@@ -59,10 +58,15 @@
                         <span>Kho media</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('report.admin')}}">
+                        <i class="uil uil-file-check-alt"></i>
+                        <span>Xuất báo cáo</span>
+                    </a>
+                </li>
             @endif
-
+            {{--Hết menu super admin--}}
             {{--Menu quản lý--}}
-
             @if((Auth::user()->getRoleNames())[0]=='chief of department')
                 <li class="menu-title mt-2">Menu cấp quản lý</li>
                 <li>
@@ -103,6 +107,12 @@
                         </div>
                     </li>
                 @endif
+                <li>
+                    <a href="{{route('report.department',Auth::user()->departments()->first()['id'])}}">
+                        <i class="uil uil-file-check-alt"></i>
+                        <span>Xuất báo cáo</span>
+                    </a>
+                </li>
             @endif
             {{--Hết menu quản lý--}
             {{--Menu KOL--}}
@@ -139,7 +149,6 @@
             @endif
             {{--Hết menu KOL--}}
             {{--Menu nhân viên--}}
-            {{--            @if((Auth::user()->getRoleNames())[0]=='editor')--}}
             @if(Auth::user()->hasRole('editor'))
                 <li class="menu-title mt-2">Menu cấp nhân viên</li>
                 <li>
@@ -169,8 +178,15 @@
                         </div>
                     </li>
                 @endif
+                <li>
+                    <a href="{{route('report.user',Auth::id())}}">
+                        <i class="uil uil-file-check-alt"></i>
+                        <span>Xuất báo cáo</span>
+                    </a>
+                </li>
                 {{--Hết menu nhân viên--}}
             @endif
+            {{--Hết menu nhân viên--}}
             <li>
                 <a href="{{route('logout')}}">
                     <i class="uil uil-exit"></i>
