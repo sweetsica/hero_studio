@@ -8,7 +8,6 @@ use App\Models\Role;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -84,7 +83,7 @@ class DashboardController extends Controller
 
 
         $department = Department::with(['tasks' => function ($query) {
-            $query->select(['id', 'department_id', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])->whereDate('tasks.created_at', '>', now()->subYears());
+            $query->select(['id', 'department_id', 'product_length', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])->whereDate('tasks.created_at', '>', now()->subYears());
         }])->get();
 
         $departmentTask = $department->map(function ($department) {
@@ -110,8 +109,26 @@ class DashboardController extends Controller
             ];
         });
 
+        $departmentTaskLength = $departmentTask->map(function ($item) {
+            $taskData = [];
+            $taskDataObject = [];
+            $date = Carbon::now();
+            for ($i = 1; $i <= 12; $i++) {
+                $dateFormat = $date->format('Y-m');
+                $taskData[] = isset($item->tasks[$dateFormat]) ? collect($item->tasks[$dateFormat])->sum('product_length') : 0;
+                // this to checking data start right position
+                $taskDataObject[$dateFormat] = isset($item->tasks[$dateFormat]) ? collect($item->tasks[$dateFormat])->sum('product_length') : 0;
+                $date->subMonths(1);
+            }
+
+            return [
+                'department_name' => $item->name,
+                'tasks' => array_reverse($taskData),
+            ];
+        });
+
         $departmentTaskDoneQueryData = Department::with(['tasks' => function ($query) {
-            $query->select(['id', 'department_id', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])
+            $query->select(['id', 'department_id', 'product_length', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])
                 ->whereDate('tasks.created_at', '>', now()->subYears())
                 ->where('tasks.status_code', Task::TASK_STATUS['DONE']);
         }])->get()->map(function ($department) {
@@ -137,9 +154,29 @@ class DashboardController extends Controller
             ];
         });
 
+        $departmentTaskDoneLength = $departmentTaskDoneQueryData->map(function ($item) {
+            $taskData = [];
+            $taskDataObject = [];
+            $date = Carbon::now();
+            for ($i = 1; $i <= 12; $i++) {
+                $dateFormat = $date->format('Y-m');
+                $taskData[] = isset($item->tasks[$dateFormat]) ? collect($item->tasks[$dateFormat])->sum('product_length') : 0;
+                // this to checking data start right position
+                $taskDataObject[$dateFormat] = isset($item->tasks[$dateFormat]) ? collect($item->tasks[$dateFormat])->sum('product_length') : 0;
+                $date->subMonths(1);
+            }
+
+            return [
+                'department_name' => $item->name,
+                'tasks' => array_reverse($taskData),
+            ];
+        });
+
 
         $passingData['departmentTasks'] = $departmentTasks;
         $passingData['departmentDoneTasks'] = $departmentDoneTask;
+        $passingData['departmentTaskLength'] = $departmentTaskLength;
+        $passingData['departmentTaskDoneLength'] = $departmentTaskDoneLength;
 
         $date = Carbon::now();
         $arrayDate = [];

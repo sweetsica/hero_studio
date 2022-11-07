@@ -307,6 +307,24 @@
                         </div> <!-- end card-body -->
                     </div> <!-- end card-->
                 </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task theo từng phòng ban</h4>
+
+                            <div id="department-task-length" class="apex-charts" dir="ltr"></div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card-->
+                </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task hoàn thành theo phòng ban</h4>
+
+                            <div id="department-task-done-length" class="apex-charts" dir="ltr"></div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card-->
+                </div>
             </div>
         </div> <!-- container -->
 
@@ -351,7 +369,7 @@
             },
             yaxis: {
                 title: {
-                    text: '$ (thousands)'
+                    text: 'tasks'
                 }
             },
             legend: {
@@ -367,7 +385,7 @@
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "$ " + val + " thousands"
+                        return val + " tasks"
                     }
                 }
             }
@@ -417,7 +435,7 @@
             },
             yaxis: {
                 title: {
-                    text: '$ (thousands)'
+                    text: 'tasks'
                 }
             },
             legend: {
@@ -433,7 +451,7 @@
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "$ " + val + " thousands"
+                        return val + " tasks"
                     }
                 }
             }
@@ -441,6 +459,160 @@
 
         var chart = new ApexCharts(
             document.querySelector("#done-task-by-department"),
+            options
+        );
+
+        chart.render();
+    </script>
+    <script>
+        function display(a){
+            var hours = Math.trunc(a/60);
+            var minutes = a % 60;
+
+            if (hours == 0) {
+                return  minutes + " phút"
+            }
+
+            return hours +" giờ "+ minutes + " phút"
+        }
+
+        var options = {
+            chart: {
+                height: 380,
+                type: 'bar',
+                toolbar: {
+                    show: false
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    endingShape: 'rounded',
+                    columnWidth: '55%',
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [
+                    @foreach($departmentTaskLength as $departmentTask)
+                {
+                    name: "{{$departmentTask['department_name']}}",
+                    data: @json($departmentTask['tasks'])
+                },
+                @endforeach
+            ],
+            xaxis: {
+                categories: @json($arrayDate),
+            },
+            yaxis: {
+                title: {
+                    text: 'Thời gian'
+                }
+            },
+            legend: {
+                offsetY: 7,
+            },
+            grid: {
+                row: {
+                    colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.2
+                },
+                borderColor: '#f1f3fa'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return display(val);
+                    }
+                }
+            }
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#department-task-length"),
+            options
+        );
+
+        chart.render();
+    </script>
+    <script>
+        function display(a){
+            var hours = Math.trunc(a/60);
+            var minutes = a % 60;
+
+            if (hours == 0) {
+                return  minutes + " phút"
+            }
+
+            return hours +" giờ "+ minutes + " phút"
+        }
+
+        var options = {
+            chart: {
+                height: 380,
+                type: 'bar',
+                toolbar: {
+                    show: false
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    endingShape: 'rounded',
+                    columnWidth: '55%',
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [
+                    @foreach($departmentTaskDoneLength as $departmentTask)
+                {
+                    name: "{{$departmentTask['department_name']}}",
+                    data: @json($departmentTask['tasks'])
+                },
+                @endforeach
+            ],
+            xaxis: {
+                categories: @json($arrayDate),
+            },
+            yaxis: {
+                title: {
+                    text: 'Thời gian'
+                }
+            },
+            legend: {
+                offsetY: 7,
+            },
+            grid: {
+                row: {
+                    colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.2
+                },
+                borderColor: '#f1f3fa'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return display(val);
+                    }
+                }
+            }
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#department-task-done-length"),
             options
         );
 
