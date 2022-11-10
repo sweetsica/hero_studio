@@ -27,3 +27,53 @@
     background-color: #565e64;
     border-color: #51585e;
 }
+
+/*  Custom */
+tbody tr td {
+    color: white;
+}
+
+tbody tr td a {
+    color: white;
+}
+
+.table-info {
+    --bs-table-bg: #5369f8;
+    --bs-table-striped-bg: #343a40;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #343a40;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #343a40;
+    --bs-table-hover-color: #fff;
+    color: white;
+    border-color: #c3e1e7;
+}
+
+.table-active {
+    --bs-table-accent-bg: #6c757d;
+    color: white;
+}
+
+.table-success {
+    --bs-table-bg: #25c2e3;
+    --bs-table-striped-bg: #343a40;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #343a40;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #343a40;
+    --bs-table-hover-color: #fff;
+    color: white;
+    border-color: #c9e3db;
+}
+
+.table-warning {
+    --bs-table-bg: #ffbe0b;
+    --bs-table-striped-bg: #343a40;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #343a40;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #343a40;
+    --bs-table-hover-color: #fff;
+    color: white;
+    border-color: #ebe0c0;
+}

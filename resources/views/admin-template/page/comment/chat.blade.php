@@ -40,7 +40,7 @@
                                 @break
                                 @default
                                 <p class="mt-1 mb-0 text-muted">
-                                    {{ $comment->content }} 123
+                                    {{ $comment->content }}
                                 </p>
                                 @break
                             @endswitch

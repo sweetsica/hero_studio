@@ -41,10 +41,17 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('get.taskOrder.list')}}">
+                    <a href="#sidebarTaskManage" data-bs-toggle="collapse">
                         <i class="uil uil-suitcase" data-feather="uil uil-suitcase"></i>
-                        <span>Danh sách nhiệm vụ</span>
+                        <span>Danh sách công việc</span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <div class="collapse" id="sidebarTaskManage">
+                        <ul class="nav-second-level">
+                            <li><a href="{{route('get.taskOrder.list')}}">Danh sách nhiệm vụ</a></li>
+                            <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <a href="{{route('noti.create')}}">
@@ -78,6 +85,7 @@
                     <div class="collapse" id="sidebarTaskManage">
                         <ul class="nav-second-level">
                             <li><a href="{{route('get.taskOrder.list')}}">Danh sách nhiệm vụ</a></li>
+                            <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
                         </ul>
                     </div>
                 </li>
@@ -129,6 +137,7 @@
                             <li><a href="{{route('get.taskOrder.list')}}">Yêu cầu của tôi</a></li>
                             <li><a href="{{route('get.taskOrder.pendingList')}}">Yêu cầu chờ xử lý</a></li>
                             <li><a href="{{route('get.taskOrder.doneList')}}">Yêu cầu đã hoàn thành</a></li>
+                            <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
                         </ul>
                     </div>
                 </li>
@@ -160,6 +169,7 @@
                     <div class="collapse" id="sidebarTaskStaff">
                         <ul class="nav-second-level">
                             <li><a href="{{route('get.taskOrder.list')}}">Công việc được giao</a></li>
+                            <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
                             <li><a href="{{route('get.taskOrder.redoList')}}">Công việc cần kiểm tra</a></li>
                         </ul>
                     </div>
