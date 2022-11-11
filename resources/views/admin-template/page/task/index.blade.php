@@ -79,6 +79,7 @@
                                                 <th>Hạn chót</th>
                                                 <th>Đánh giá</th>
                                                 <th>Ngày tạo</th>
+                                                <th>Loại</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -102,6 +103,11 @@
                                                         <td>{{$data->deadline}}</td>
                                                         <td>{{$data->product_rate ? "$data->product_rate sao" : 'Chưa có'}}</td>
                                                         <td>{{$data->created_at}}</td>
+                                                        @if($data->type=='Normal')
+                                                            <td> Bình thường </td>
+                                                        @else
+                                                            <td> Được tài trợ</td>
+                                                        @endif
                                                     </tr>
                                                     @endforeach
                                             </tbody>

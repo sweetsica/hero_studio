@@ -73,6 +73,9 @@
         .dataTables_info {
             display: none;
         }
+        .table-success{
+            --bs-table-bg: #43d39e!important;
+        }
     </style>
 </head>
 
