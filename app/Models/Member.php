@@ -49,7 +49,8 @@ class Member extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->memberEditorTasks->merge($this->memberCreatorTasks);
+//        return $this->hasMany(Task::class);
     }
 
     public function doneTasks()
@@ -59,23 +60,68 @@ class Member extends Model
 
     public function lastMonthTasks()
     {
-        return $this->hasMany(Task::class);
-
-        // 30 ngày trước
-//        return $this->hasMany(Task::class)->where(
-//            'created_at', '>=', Carbon::now()->subDays(30)->toDateTimeString()
-//        );
-
-        // tháng trước
-        return $this->hasMany(Task::class)->whereMonth(
-            'tasks.created_at', '=', Carbon::now()->subMonth()->month
-        );
+        return $this->lastMonthMemberEditorTasks->merge($this->lastMonthMemberCreatorTasks);
     }
 
     public function lastMonthDoneTasks()
     {
-        return $this->hasMany(Task::class)->where('status_code', Task::TASK_STATUS['DONE'])->whereMonth(
-            'tasks.created_at', '=', Carbon::now()->subMonth()->month
-        );
+        return $this->lastMonthDoneEditorTasks->merge($this->lastMonthDoneCreatorTasks);
     }
+
+    public function memberEditorTasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function memberCreatorTasks()
+    {
+        return $this->hasMany(Task::class, 'creator_id');
+    }
+
+    public function lastMonthMemberEditorTasks()
+    {
+        return $this->hasMany(Task::class);
+//        ->whereMonth(
+//            'tasks.created_at', '=', Carbon::now()->subMonth()->month
+//        );
+    }
+
+    public function lastMonthMemberCreatorTasks()
+    {
+        return $this->hasMany(Task::class, 'creator_id');
+//        ->whereMonth(
+//            'tasks.created_at', '=', Carbon::now()->subMonth()->month
+//        );
+    }
+
+    public function lastMonthDoneEditorTasks()
+    {
+        return $this->hasMany(Task::class)->where('status_code', Task::TASK_STATUS['DONE']);
+//        ->whereMonth(
+//            'tasks.created_at', '=', Carbon::now()->subMonth()->month
+//        );
+    }
+
+    public function lastMonthDoneCreatorTasks()
+    {
+        return $this->hasMany(Task::class, 'creator_id')->where('status_code', Task::TASK_STATUS['DONE']);
+//        ->whereMonth(
+//            'tasks.created_at', '=', Carbon::now()->subMonth()->month
+//        );
+    }
+
+    public function taskByYear($year) {
+        $dataEditor = $this->memberEditorTasks()->whereYear('created_at','=', $year)->get();
+        $dataCreator =  $this->memberCreatorTasks()->whereYear('created_at','=', $year)->get();
+
+        return $dataEditor->merge($dataCreator);
+    }
+
+//    public function taskEditorByCondition() {
+//        return $this->hasMany(Task::class);
+//    }
+//
+//    public function taskCreatorByCondition() {
+//        return $this->hasMany(Task::class, 'creator');
+//    }
 }

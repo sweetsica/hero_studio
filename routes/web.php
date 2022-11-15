@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::get('them-moi', [MemberController::class, 'createMember'])->name('create.member'); // Thêm người dùng (admin)
         Route::get('chinh-sua/{id}', [MemberController::class, 'editMember'])->name('edit.member'); // Thêm người dùng (admin)
         Route::post('chinh-sua/{id}', [MemberController::class, 'updateMember'])->name('update.member'); // Thêm người dùng (admin)
+        Route::get('chi-tiet/{id}', [MemberController::class, 'analytics'])->name('member.analytics'); // Thêm người dùng (admin)
         Route::post('them-moi', [MemberController::class, 'registerMember']); // Thêm người dùng (admin)
     });
 
@@ -136,7 +137,6 @@ Route::get('/export/user/{id}', function (\Illuminate\Http\Request $request, $id
             'completed_at' => $task->completed_at ? $task->completed_at->format('d-m-Y') : '',
         ];
     });
-//    dd($tasks->toArray());
 
     $params = [
         'data' => $tasks->toArray(),

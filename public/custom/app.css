@@ -29,11 +29,11 @@
 }
 
 /*  Custom */
-tbody tr td {
+.table-info td, .table-active td, .table-success td, .table-warning td {
     color: white;
 }
 
-tbody tr td a {
+.table-info td a, .table-active td a, .table-success td a, .table-warning td a {
     color: white;
 }
 

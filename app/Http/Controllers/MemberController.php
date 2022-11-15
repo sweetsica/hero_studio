@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Member;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,7 @@ class MemberController extends Controller
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
 //            return redirect()->back()->flash('error','Sai tài khoản hoặc mật khẩu!');
-            return redirect()->back()->with('error','Sai tài khoản hoặc mật khẩu!');
+            return redirect()->back()->with('error', 'Sai tài khoản hoặc mật khẩu!');
         }
         $user = User::with('member')->where('email', '=', $request->email)->first();
         session()->put('user', $user);
@@ -54,7 +55,7 @@ class MemberController extends Controller
             'name' => $request->name,
             'date_of_birth' => $request->date_of_birth,
             'code' => $request->code,
-            'special_access' => $request->get('special_access', 'off')  === 'on' ? 1 : 0
+            'special_access' => $request->get('special_access', 'off') === 'on' ? 1 : 0
         ]);
         $member->departments()->sync($request->departments);
 
@@ -90,7 +91,8 @@ class MemberController extends Controller
         return view('admin-template.page.member.create', compact('members', 'departments', 'roles'));
     }
 
-    public function editMember(Request $request, $id) {
+    public function editMember(Request $request, $id)
+    {
         $member = Member::find($id);
         $departments = Department::all();
         $roles = Role::all();
@@ -99,9 +101,10 @@ class MemberController extends Controller
         return view('admin-template.page.member.edit', compact('member', 'departments', 'roles', 'memberDepartmentIds'));
     }
 
-    public function updateMember(Request $request, $id) {
+    public function updateMember(Request $request, $id)
+    {
         $this->validate($request, [
-            'email' => 'required|email|unique:users,email,'.$id
+            'email' => 'required|email|unique:users,email,' . $id
         ]);
 
         $member = Member::find($id);
@@ -131,7 +134,7 @@ class MemberController extends Controller
 
         $member->name = $request->name;
         $member->code = $request->code;
-        $member->special_access = $request->get('special_access', 'off')  === 'on' ? 1 : 0;
+        $member->special_access = $request->get('special_access', 'off') === 'on' ? 1 : 0;
         $member->departments()->sync($request->departments);
         $member->update();
 
@@ -150,5 +153,34 @@ class MemberController extends Controller
         $members = $memberQuery->get();
 
         return view('admin-template.page.member.index', compact('members'));
+    }
+
+    public function analytics(Request $request, $id)
+    {
+        $selectedYear = $request->year ?? Carbon::now()->year;
+
+        $member = Member::query()->where('id', $id)->first();
+
+        $member->setRelation('tasks', $member->taskByYear($selectedYear)->paginate(5));
+
+        $memberTaskByMonth = $member->taskByYear($selectedYear)->groupBy(function ($item, $key) {
+            return Carbon::parse($item->created_at)->month;
+        });
+        for ($i = 1; $i < 13; $i++) {
+            $memberTaskByMonth[$i] = isset($memberTaskByMonth[$i]) ? $memberTaskByMonth[$i] : [];
+        }
+        $memberTaskByMonth = $memberTaskByMonth->sortBy(function ($item, $key) {
+            return $key;
+        })->map(function ($item) {
+            return collect($item)->count();
+        });
+
+        $passingData['taskByMonth']['value'] = $memberTaskByMonth->values()->toArray();
+        $passingData['taskByMonth']['date'] = $memberTaskByMonth->keys()->toArray();
+
+        $passingData['member'] = $member;
+        $passingData['selectedYear'] = $selectedYear;
+
+        return view('admin-template.page.member.analytics', $passingData);
     }
 }

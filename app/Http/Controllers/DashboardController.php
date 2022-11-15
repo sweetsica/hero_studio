@@ -27,13 +27,15 @@ class DashboardController extends Controller
         $params['userRole'] = $userRole;
 
         $highestProductRankingMember = Member::query()
-            ->withAvg('lastMonthTasks', 'product_rate')
-            ->withSum('lastMonthTasks', 'product_rate')
-            ->withCount('lastMonthTasks', 'lastMonthDoneTasks')
-            ->orderByDesc('last_month_tasks_avg_product_rate')
-            ->take(10)
-            ->get();
+            ->get()->map(function ($item) {
+                $lastMonthTasks = $item->lastMonthTasks();
+                $lastMonthDoneTasks = $item->lastMonthDoneTasks();
 
+                $item['last_month_tasks_avg_product_rate'] = $lastMonthTasks->count() ? $lastMonthTasks->avg('product_rate') : 0;
+                $item['last_month_done_tasks_count'] = $lastMonthDoneTasks->count();
+
+                return $item;
+            })->sortByDesc('last_month_tasks_avg_product_rate')->take(5);
 
         if ($params['userRole'] === Role::ROLE_COF || $params['userRole'] === Role::ROLE_SUPER_ADMIN) {
             $totalTask = $this->getTotalTask($params);
@@ -70,7 +72,7 @@ class DashboardController extends Controller
 
         }
         $passingData['highestProductRankingMember'] = $highestProductRankingMember;
-        $taskQuery = Task::query();
+        $taskQuery = Task::query()->select(DB::raw("DATE_FORMAT(created_at,'%d-%M-%Y') as created_at"));
         if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
             $taskQuery = $taskQuery->where('creator_id', '=', Auth::id());
         } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
@@ -79,11 +81,50 @@ class DashboardController extends Controller
             $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
             $taskQuery = $taskQuery->whereIn('department_id', $authUserDepartments);
         }
-        $passingData['tasks'] = $taskQuery->orderByDesc('created_at')->get();
+        $weekMap = [
+            0 => 'SUN',
+            1 => 'MON',
+            2 => 'TUE',
+            3 => 'WED',
+            4 => 'THU',
+            5 => 'FRI',
+            6 => 'SAT',
+        ];
+        $newData = $taskQuery->orderBy('created_at', 'asc')->whereDate('created_at', '>', now()->subMonths())->get()->groupBy('created_at');
+        $formatMapWithKey = $newData->mapWithKeys(function ($item, $key) use ($weekMap) {
+            $formattedKey = Carbon::parse($key)->dayOfWeek;
+
+            return [
+                $key => [
+                    'format' => $weekMap[$formattedKey],
+                    'value' => collect($item)->count(),
+                ]
+            ];
+        });
+        for ($i = 0; $i < 7; $i++) {
+            $todayCarbon = Carbon::now()->subDays($i);
+            $today = $todayCarbon->format('Y-m-d 00:00:00');
+
+            $dummyValue = [
+                'format' => $weekMap[$todayCarbon->dayOfWeek],
+                'value' => 0,
+            ];
+            $formatMapWithKey[$today] = isset($formatMapWithKey[$today]) ? $formatMapWithKey[$today] : $dummyValue;
+        }
+        $formatMapWithKey = $formatMapWithKey->sortBy(function ($value, $key) {
+            return $key;
+        });
+
+        $passingData['tasks']['value'] = $formatMapWithKey->map(function ($item) {
+            return $item['value'];
+        })->values()->toArray();
+        $passingData['tasks']['format'] = $formatMapWithKey->map(function ($item) {
+            return $item['format'];
+        })->values()->toArray();
 
 
         $department = Department::with(['tasks' => function ($query) {
-            $query->select(['id', 'department_id', 'product_length', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])->whereDate('tasks.created_at', '>', now()->subYears());
+            $query->select(['id', 'department_id', 'product_length', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])->whereDate('tasks.created_at', '>', now()->subDays(7));
         }])->get();
 
         $departmentTask = $department->map(function ($department) {
@@ -187,19 +228,6 @@ class DashboardController extends Controller
         }
         $passingData['arrayDate'] = array_reverse($arrayDate);
 
-//        $currentMonth = (int) Carbon::now()->format('m');
-//
-//        $arrayMonth = [];
-//        while (count($arrayMonth) < 12) {
-//            if ($currentMonth > 12) {
-//                $currentMonth = 1;
-//            }
-//
-//            array_push($arrayMonth, $currentMonth);
-//            $currentMonth = $currentMonth + 1;
-//        }
-
-//    dd(Auth::user()->getRoleNames());
         return view('admin-template.page.dashboard.index', $passingData);
     }
 
