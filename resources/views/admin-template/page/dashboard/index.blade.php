@@ -221,15 +221,20 @@
                                         <div class="col-1 text-center align-self-center">
                                             #{{$i + 1}}
                                         </div>
-                                        <div class="col-3">
-                                            <img width="100" height="100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKr5wT7rfkjkGvNeqgXjBmarC5ZNoZs-H2uMpML8O7Q4F9W-IlUQibBT6IPqyvX45NOgw&usqp=CAU">
+                                        <div class="col-2 px-1">
+                                            @if($highestProductRankingMember[$i]->avatar)
+                                                <img src="/storage/{{$highestProductRankingMember[$i]->avatar}}"
+                                                     width="100" height="100">
+                                            @endif
                                         </div>
                                         <div class="col-3">
                                             <div class="flex-grow-1">
-                                                <h5><a href="{{route('member.analytics', $highestProductRankingMember[$i]->id)}}">{{ $highestProductRankingMember[$i]->name }}</a></h5>
+                                                <h5>
+                                                    <a href="{{route('member.analytics', $highestProductRankingMember[$i]->id)}}">{{ $highestProductRankingMember[$i]->name }}</a>
+                                                </h5>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <h3>{{ isset($highestProductRankingMember[$i]->departments[0]) ? $highestProductRankingMember[$i]->departments[0]->name : '' }}</h3>
+                                                <h6>{{ isset($highestProductRankingMember[$i]->departments[0]) ? $highestProductRankingMember[$i]->departments[0]->name : '' }}</h6>
                                             </div>
 
                                         </div>
@@ -254,23 +259,23 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body" style="position: relative;">
-{{--                                <ul class="nav card-nav float-end">--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <a class="nav-link text-muted" href="#">Today</a>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <a class="nav-link text-muted" href="#">7d</a>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <a class="nav-link active" href="#">15d</a>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <a class="nav-link text-muted" href="#">1m</a>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <a class="nav-link text-muted" href="#">1y</a>--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
+                                {{--                                <ul class="nav card-nav float-end">--}}
+                                {{--                                    <li class="nav-item">--}}
+                                {{--                                        <a class="nav-link text-muted" href="#">Today</a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                    <li class="nav-item">--}}
+                                {{--                                        <a class="nav-link text-muted" href="#">7d</a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                    <li class="nav-item">--}}
+                                {{--                                        <a class="nav-link active" href="#">15d</a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                    <li class="nav-item">--}}
+                                {{--                                        <a class="nav-link text-muted" href="#">1m</a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                    <li class="nav-item">--}}
+                                {{--                                        <a class="nav-link text-muted" href="#">1y</a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                </ul>--}}
                                 <h5 class="card-title mb-0 header-title">Tổng số task</h5>
 
                                 <div id="total-task-chart" class="apex-charts mt-3" dir="ltr"

@@ -38,7 +38,7 @@
                 <div class="col-6">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-horizontal" method="POST">
+                            <form class="form-horizontal" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-2 row">
                                     <div class="col-md-12">
@@ -55,18 +55,18 @@
                                                value="{{$member->user->email}}">
                                     </div>
                                     @if ($member->userRole !== 'Admin')
-                                    <div class="col-md-12 mt-2">
-                                        <label class="form-label" for="special_access">Truy cập kho media?</label>
-                                        <input type="hidden" id="test6" value="0" ng-model="isFull"
-                                               name="special_access" checked>
-                                        <input name="special_access" type="checkbox" id="special_access"
-                                               class="form-check-input"
-                                               @if($member->special_access)
-                                               checked
-                                               @else()
-                                            @endif
-                                        >
-                                    </div>
+                                        <div class="col-md-12 mt-2">
+                                            <label class="form-label" for="special_access">Truy cập kho media?</label>
+                                            <input type="hidden" id="test6" value="0" ng-model="isFull"
+                                                   name="special_access" checked>
+                                            <input name="special_access" type="checkbox" id="special_access"
+                                                   class="form-check-input"
+                                                   @if($member->special_access)
+                                                   checked
+                                            @else()
+                                                @endif
+                                            >
+                                        </div>
                                     @endif
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Mật khẩu</label>
@@ -77,11 +77,13 @@
                                         <div class="col-md-12  mt-2">
                                             <label class="form-label" for="exampleInputEmail1">Vai trò</label>
                                             <select name="role" class="form-select">
-                                                <option @if($member->primitiveUserRole === 'chief of department') selected
-                                                        @endif value="chief of department" disabled>Quản lý
+                                                <option
+                                                    @if($member->primitiveUserRole === 'chief of department') selected
+                                                    @endif value="chief of department" disabled>Quản lý
                                                 </option>
-                                                <option @if($member->primitiveUserRole === 'key opinion leaders') selected
-                                                        @endif value="key opinion leaders">Kol
+                                                <option
+                                                    @if($member->primitiveUserRole === 'key opinion leaders') selected
+                                                    @endif value="key opinion leaders">Kol
                                                 </option>
                                                 <option @if($member->primitiveUserRole === 'editor') selected
                                                         @endif value="editor">Thành viên
@@ -103,15 +105,34 @@
 
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Ngày sinh</label>
-                                        <input name="date_of_birth" type="date" class="form-control" value="{{\Carbon\Carbon::parse($member->date_of_birth)->format('Y-m-d')}}">
+                                        <input name="date_of_birth" type="date" class="form-control"
+                                               value="{{\Carbon\Carbon::parse($member->date_of_birth)->format('Y-m-d')}}">
                                     </div>
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Mã nhân viên</label>
                                         <input name="code" type="text" class="form-control" value="{{$member->code}}">
                                     </div>
+                                    <div class="col-md-12 row mt-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="exampleInputEmail1">Ảnh chân dung</label>
+                                            <input
+                                                name="avatar"
+                                                type="file"
+                                                class="form-control"
+                                                accept="image/*"
+                                                onchange="loadFile(event)"
+                                            >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img id="output"
+                                                 style="width: 200px; height: 200px; {{ is_null($member->avatar) ? 'display: none' : ''}}"
+                                                 src="{{sprintf('/storage/%s',$member->avatar)}}"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <a type="button" class="btn btn-light" data-bs-dismiss="modal" href="{{ route('create.member') }}">Hủy</a>
+                                    <a type="button" class="btn btn-light" data-bs-dismiss="modal"
+                                       href="{{ route('create.member') }}">Hủy</a>
                                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                                 </div>
                             </form>
@@ -188,5 +209,16 @@
             // them class vào các btn của datatable cho giống theme
             $('.dt-buttons').children().addClass('btn btn-secondary')
         })
+    </script>
+
+    <script>
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.style = 'display: block;width: 200px; height: 200px;';
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
     </script>
 @endsection

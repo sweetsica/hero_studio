@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
@@ -130,6 +131,12 @@ class MemberController extends Controller
 
         if ($request->special_access) {
             $member->special_access = $request->special_access;
+        }
+
+        $thumbnail = $request->file('avatar');
+        if (isset($request->avatar)) {
+            $linkThumbnail = Storage::disk('public')->put("user", $thumbnail);
+            $member->avatar = $linkThumbnail;
         }
 
         $member->name = $request->name;
