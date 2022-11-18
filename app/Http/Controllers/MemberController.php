@@ -190,4 +190,14 @@ class MemberController extends Controller
 
         return view('admin-template.page.member.analytics', $passingData);
     }
+
+    public function deleteMember(Request $request, $id) {
+        try {
+            $member = Member::find($id);
+            $member->user->delete();
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
+        return redirect()->back();
+    }
 }

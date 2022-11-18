@@ -63,6 +63,7 @@
                                     {{--                                    <th>Vai trò</th>--}}
                                     <th>Trạng thái</th>
                                     <th>Ngày tạo</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -76,6 +77,13 @@
                                         {{--                                        <td>{{ $member->user->getRoleNames()[0] }}</td>--}}
                                         <td> Hoạt động</td>
                                         <td> {{  \Carbon\Carbon::parse($member->created_at)->format('d/m/Y')}} </td>
+                                        <td>
+                                            <form action="{{route('member.delete', $member->id)}}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

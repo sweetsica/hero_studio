@@ -23,8 +23,8 @@ return new class extends Migration
             $table->text('link_driver');
             $table->unsignedBigInteger('member_id')->nullable();
 
-            $table->foreign('member_id')->references('id')->on('members');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('member_id')->references('id')->on('members')->cascadeOnDelete();;
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();;
 
 //            $table->string('author')->nullable();//Tên tác giả bài viết
 //            $table->string('title')->nullable();

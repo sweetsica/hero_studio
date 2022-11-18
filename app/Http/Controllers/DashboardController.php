@@ -13,7 +13,27 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function rankingUser(Request $request) {
+        $sortBy = $request->get('type', 'last_month_tasks_avg_product_rate');
 
+        $highestProductRankingMember = Member::query()
+            ->get()->map(function ($item) {
+                $lastMonthTasks = $item->lastMonthTasks();
+                $lastMonthDoneTasks = $item->lastMonthDoneTasks();
+
+                $item['last_month_tasks_avg_product_rate'] = $lastMonthTasks->count() ? $lastMonthTasks->avg('product_rate') : 0;
+                $item['last_month_done_tasks_count'] = $lastMonthDoneTasks->count();
+                $item['last_month_tasks_count'] = $lastMonthTasks->count();
+                $item['last_month_tasks_total_length'] = $lastMonthTasks->count() ? $lastMonthTasks->sum('product_length') : 0;
+
+                return $item;
+            })->sortByDesc($sortBy)->take(5)->values();
+
+        $passingData['highestProductRankingMember'] = $highestProductRankingMember;
+        $passingData['sortBy'] = $sortBy;
+
+        return view('user-list', $passingData);
+    }
 
     public function index(Request $request)
     {
@@ -33,6 +53,7 @@ class DashboardController extends Controller
 
                 $item['last_month_tasks_avg_product_rate'] = $lastMonthTasks->count() ? $lastMonthTasks->avg('product_rate') : 0;
                 $item['last_month_done_tasks_count'] = $lastMonthDoneTasks->count();
+                $item['last_month_tasks_count'] = $lastMonthTasks->count();
 
                 return $item;
             })->sortByDesc('last_month_tasks_avg_product_rate')->take(5);

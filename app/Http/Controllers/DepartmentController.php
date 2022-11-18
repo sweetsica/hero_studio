@@ -50,6 +50,7 @@ class DepartmentController extends Controller
         $department->update($request->all());
         $departmentHeadId = $request->department_head_id;
 
+
         $member = Member::find($departmentHeadId);
         $member->user->syncRoles([Role::ROLE_COF]);
 

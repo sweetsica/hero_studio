@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('member_id')->nullable();;
             $table->timestamps();
 
-            $table->foreign('department_id')->references('id')->on('departments')->nullable();;
-            $table->foreign('member_id')->references('id')->on('members')->nullable();;
+            $table->foreign('department_id')->references('id')->on('departments')->nullable()->cascadeOnDelete();;
+            $table->foreign('member_id')->references('id')->on('members')->nullable()->cascadeOnDelete();;
         });
     }
 

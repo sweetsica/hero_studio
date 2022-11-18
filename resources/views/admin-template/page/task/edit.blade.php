@@ -93,7 +93,7 @@
                                             <option @if($task->type === 'Normal') selected @endif value="Normal">
                                                 Thường
                                             </option>
-                                            <option @if($task->type === 'Normal') selected @endif value="Sponsor">Được
+                                            <option @if($task->type === 'Sponsor') selected @endif value="Sponsor">Được
                                                 tài trợ
                                             </option>
                                         </select>

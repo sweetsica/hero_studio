@@ -40,8 +40,9 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('member_id')->references('id')->on('members');
-            $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('member_id')->references('id')->on('members')->cascadeOnDelete();
+            $table->foreign('creator_id')->references('id')->on('members')->cascadeOnDelete();
+            $table->foreign('department_id')->references('id')->on('departments')->cascadeOnDelete();
         });
     }
 

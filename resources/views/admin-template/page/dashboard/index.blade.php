@@ -205,125 +205,96 @@
                         </div> <!--end card-->
                     </div>
                 </div>
-            @endif
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body" style="padding-inline: unset">
-                            <div class="d-flex justify-content-between" style="padding-inline: 1.25rem">
-                                <h4 class="card-title header-title">Xếp hạng thành viên</h4>
-                                <h4 class="card-title header-title">Số sao trung bình</h4>
-                            </div>
-                            <div class="my-2 ">
-                                @for($i = 0; $i < $highestProductRankingMember->count(); $i++)
-                                    <div class="d-flex border-top py-2">
-                                        <div class="col-1 text-center align-self-center">
-                                            #{{$i + 1}}
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            @if($highestProductRankingMember[$i]->avatar)
-                                                <img src="/storage/{{$highestProductRankingMember[$i]->avatar}}"
-                                                     width="100" height="100">
-                                            @endif
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="flex-grow-1">
-                                                <h5>
-                                                    <a href="{{route('member.analytics', $highestProductRankingMember[$i]->id)}}">{{ $highestProductRankingMember[$i]->name }}</a>
-                                                </h5>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6>{{ isset($highestProductRankingMember[$i]->departments[0]) ? $highestProductRankingMember[$i]->departments[0]->name : '' }}</h6>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-4 text-end">
-                                            {{number_format($highestProductRankingMember[$i]->last_month_tasks_avg_product_rate, 1)}}
-                                            <i style="color: orange"
-                                               class="bi bi-star-fill"
-                                            ></i>
-                                            <div class="row">
-                                                <div>Đã hoàn thành:
-                                                    <span>{{ $highestProductRankingMember[$i]->last_month_done_tasks_count }} yêu cầu</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endfor
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body" style="padding-inline: unset">
+                                <div class="d-flex justify-content-between" style="padding-inline: 1.25rem">
+                                    <h4 class="card-title header-title">Xếp hạng thành viên</h4>
+                                    <select id="ranking-selection" style="width: fit-content" class="form-select" onchange="updateUserRanking()">
+                                        <option value="last_month_tasks_avg_product_rate">Số sao trung bình</option>
+                                        <option value="last_month_tasks_count">Tổng số task</option>
+                                        <option value="last_month_tasks_total_length">Thời gian</option>
+                                    </select>
+                                </div>
+                                <div id="ranking-content" class="my-2">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body" style="position: relative;">
-                                {{--                                <ul class="nav card-nav float-end">--}}
-                                {{--                                    <li class="nav-item">--}}
-                                {{--                                        <a class="nav-link text-muted" href="#">Today</a>--}}
-                                {{--                                    </li>--}}
-                                {{--                                    <li class="nav-item">--}}
-                                {{--                                        <a class="nav-link text-muted" href="#">7d</a>--}}
-                                {{--                                    </li>--}}
-                                {{--                                    <li class="nav-item">--}}
-                                {{--                                        <a class="nav-link active" href="#">15d</a>--}}
-                                {{--                                    </li>--}}
-                                {{--                                    <li class="nav-item">--}}
-                                {{--                                        <a class="nav-link text-muted" href="#">1m</a>--}}
-                                {{--                                    </li>--}}
-                                {{--                                    <li class="nav-item">--}}
-                                {{--                                        <a class="nav-link text-muted" href="#">1y</a>--}}
-                                {{--                                    </li>--}}
-                                {{--                                </ul>--}}
-                                <h5 class="card-title mb-0 header-title">Tổng số task</h5>
+                    <div class="col-md-6">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body" style="position: relative;">
+                                    {{--                                <ul class="nav card-nav float-end">--}}
+                                    {{--                                    <li class="nav-item">--}}
+                                    {{--                                        <a class="nav-link text-muted" href="#">Today</a>--}}
+                                    {{--                                    </li>--}}
+                                    {{--                                    <li class="nav-item">--}}
+                                    {{--                                        <a class="nav-link text-muted" href="#">7d</a>--}}
+                                    {{--                                    </li>--}}
+                                    {{--                                    <li class="nav-item">--}}
+                                    {{--                                        <a class="nav-link active" href="#">15d</a>--}}
+                                    {{--                                    </li>--}}
+                                    {{--                                    <li class="nav-item">--}}
+                                    {{--                                        <a class="nav-link text-muted" href="#">1m</a>--}}
+                                    {{--                                    </li>--}}
+                                    {{--                                    <li class="nav-item">--}}
+                                    {{--                                        <a class="nav-link text-muted" href="#">1y</a>--}}
+                                    {{--                                    </li>--}}
+                                    {{--                                </ul>--}}
+                                    <h5 class="card-title mb-0 header-title">Tổng số task</h5>
 
-                                <div id="total-task-chart" class="apex-charts mt-3" dir="ltr"
-                                     style="min-height: 329px;"></div>
-                            </div> <!-- end card -->
-                        </div><!-- end col-->
+                                    <div id="total-task-chart" class="apex-charts mt-3" dir="ltr"
+                                         style="min-height: 329px;"></div>
+                                </div> <!-- end card -->
+                            </div><!-- end col-->
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title mt-0 mb-3">Thống kê số lượng task theo phòng ban</h4>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title mt-0 mb-3">Thống kê số lượng task theo phòng ban</h4>
 
-                                <div id="task-by-department" class="apex-charts" dir="ltr"></div>
-                            </div> <!-- end card-body -->
-                        </div> <!-- end card-->
-                    </div>
-                    <div class="col-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title mt-0 mb-3">Thống kê số lượng task hoàn thành theo phòng ban</h4>
+                                    <div id="task-by-department" class="apex-charts" dir="ltr"></div>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title mt-0 mb-3">Thống kê số lượng task hoàn thành theo phòng
+                                        ban</h4>
 
-                                <div id="done-task-by-department" class="apex-charts" dir="ltr"></div>
-                            </div> <!-- end card-body -->
-                        </div> <!-- end card-->
-                    </div>
-                    <div class="col-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task theo từng phòng ban</h4>
+                                    <div id="done-task-by-department" class="apex-charts" dir="ltr"></div>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task theo từng phòng ban</h4>
 
-                                <div id="department-task-length" class="apex-charts" dir="ltr"></div>
-                            </div> <!-- end card-body -->
-                        </div> <!-- end card-->
-                    </div>
-                    <div class="col-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task hoàn thành theo phòng
-                                    ban</h4>
+                                    <div id="department-task-length" class="apex-charts" dir="ltr"></div>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task hoàn thành theo phòng
+                                        ban</h4>
 
-                                <div id="department-task-done-length" class="apex-charts" dir="ltr"></div>
-                            </div> <!-- end card-body -->
-                        </div> <!-- end card-->
+                                    <div id="department-task-done-length" class="apex-charts" dir="ltr"></div>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div>
                     </div>
-                </div>
-            </div> <!-- container -->
+                </div> <!-- container -->
+            @endif
+
 
         </div> <!-- content -->
         @endsection
@@ -747,6 +718,17 @@
                 );
 
                 chart.render();
+            </script>
+
+            <script>
+                function updateUserRanking() {
+                    const input = $('#ranking-selection').val() ?? 'last_month_tasks_avg_product_rate'
+                    $.get('{{route('get.user.ranking')}}', { type: input }).then(function (res) {
+                        $('#ranking-content').html(res)
+                    });
+                }
+
+                updateUserRanking();
             </script>
     @endpush
 

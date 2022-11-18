@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::get('danh-sach/{user_id}', [TaskController::class, 'getTaskListByUserId'])->name('get.taskOrder.byUserId');
 
     });
+        Route::get('danh-sach/xep-hang', [DashboardController::class, 'rankingUser'])->name('get.user.ranking');
 
 
     Route::prefix('nguoi-dung')->middleware('listUserPermission')->group(function () {
@@ -68,7 +69,8 @@ Route::middleware('auth')->group(function () {
         Route::get('them-moi', [MemberController::class, 'createMember'])->name('create.member'); // Thêm người dùng (admin)
         Route::get('chinh-sua/{id}', [MemberController::class, 'editMember'])->name('edit.member'); // Thêm người dùng (admin)
         Route::post('chinh-sua/{id}', [MemberController::class, 'updateMember'])->name('update.member'); // Thêm người dùng (admin)
-        Route::get('chi-tiet/{id}', [MemberController::class, 'analytics'])->name('member.analytics'); // Thêm người dùng (admin)
+        Route::get('chi-tiet/{id}', [MemberController::class, 'analytics'])->name('member.analytics');
+        Route::delete('xoa-thanh-vien/{id}', [MemberController::class, 'deleteMember'])->name('member.delete');
         Route::post('them-moi', [MemberController::class, 'registerMember']); // Thêm người dùng (admin)
     });
 

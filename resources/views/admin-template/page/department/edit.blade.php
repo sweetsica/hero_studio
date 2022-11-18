@@ -58,7 +58,7 @@
                                                         <option
                                                             @if($department->department_head_id === $member->id) selected
                                                             @endif value="{{$member->id}}"
-                                                            @if(!in_array($member->id, $memberNotHaveDepartment)) disabled @endif
+                                                            @if(!in_array($member->id, $memberNotHaveDepartment) && $member->id != $department->department_head_id) disabled @endif
                                                         >
                                                             {{ $member->name }}
                                                         </option>
