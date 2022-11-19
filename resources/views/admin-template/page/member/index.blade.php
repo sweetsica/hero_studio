@@ -75,9 +75,6 @@
                                                                 </div> <!-- end col -->
                                                                 <div class="col-lg-6">
                                                                     <div class="d-sm-flex justify-content-between">
-                                                                        <div>
-                                                                            {{--                                                                            <img src="assets/images/users/avatar-9.jpg" alt="image" class="avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Assigned to Arya S" />--}}
-                                                                        </div>
                                                                         <div class="mt-3 mt-sm-0">
                                                                             <ul class="list-inline text-sm-end">
                                                                                 <li class="list-inline-item pe-1">

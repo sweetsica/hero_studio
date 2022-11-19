@@ -78,11 +78,13 @@
                                         <td> Hoạt động</td>
                                         <td> {{  \Carbon\Carbon::parse($member->created_at)->format('d/m/Y')}} </td>
                                         <td>
+                                            @if($member->user->getRoleNames()[0] !== 'super admin')
                                             <form action="{{route('member.delete', $member->id)}}" method="post">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-danger">Delete</button>
+                                                <button class="btn btn-danger">Xóa</button>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
