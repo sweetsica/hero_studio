@@ -209,6 +209,9 @@ class MemberController extends Controller
     public function deleteMember(Request $request, $id) {
         try {
             $member = Member::find($id);
+            if ($member->user->getRoleNames()[0] === 'super admin') {
+                return redirect()->back();
+            }
             $member->user->delete();
         } catch (\Exception $exception) {
             dd($exception);
