@@ -58,7 +58,7 @@
                                                         <option
                                                             @if($department->department_head_id === $member->id) selected
                                                             @endif value="{{$member->id}}"
-                                                            @if(!in_array($member->id, $memberNotHaveDepartment) && $member->id != $department->department_head_id) disabled @endif
+                                                            @if(!in_array($member->id, $memberNotHaveDepartment) && $member->id != $department->department_head_id && $member->id != 1) disabled @endif
                                                         >
                                                             {{ $member->name }}
                                                         </option>
@@ -85,19 +85,27 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <form action="{{route('update.department.member', ['department_id' => $department->id])}}" method="POST">
+                                    <form id="member-form" action="{{route('update.department.member', ['department_id' => $department->id])}}" method="POST">
                                         @csrf
                                         <label class="form-label">Danh sách thành viên phòng ban</label>
-                                        <select multiple="multiple" class="multi-select" id="my_multi_select1"
-                                                name="members[]" data-plugin="multiselect">
-                                            @foreach($members as $member)
-                                                <option value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) selected @endif>
-                                                    {{$member->name}}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <button class="btn btn-primary mt-2">Cập nhật thành viên phòng ban</button>
+                                        @foreach($members as $member)
+                                            <div class="form-check">
+                                                <input name="members[]" type="checkbox" class="form-check-input"
+                                                       value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) checked @endif>
+                                                <label class="form-check-label" for="customCheck2" >{{$member->name}}</label>
+                                            </div>
+                                        @endforeach
+
+{{--                                        <select multiple="multiple" class="multi-select" id="my_multi_select1"--}}
+{{--                                                name="members[]" data-plugin="multiselect">--}}
+{{--                                            @foreach($members as $member)--}}
+{{--                                                <option value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) selected @endif>--}}
+{{--                                                    {{$member->name}}--}}
+{{--                                                </option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
                                     </form>
+                                    <button class="btn btn-primary mt-2" onclick="submitForm()">Cập nhật thành viên phòng ban</button>
                                 </div>
                             </div> <!-- end card-body -->
                         </div> <!-- end card-->
@@ -163,4 +171,9 @@
 
     <!-- App js -->
     <script src="{{asset('admin-asset/assets/js/app.min.js')}}"></script>
+    <script>
+        function submitForm() {
+            $('#member-form').submit();
+        }
+    </script>
 @endpush

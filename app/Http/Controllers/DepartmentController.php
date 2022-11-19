@@ -37,8 +37,9 @@ class DepartmentController extends Controller
     {
         $department = Department::find($department_id);
         $departmentMemberIds = collect($department->members)->pluck('id')->toArray();
-        $members = Member::get();
         $memberNotHaveDepartment = Member::doesntHave('user.departments')->pluck('id')->toArray();
+        $departmentMember = $department->members->pluck('id')->toArray();
+        $members = Member::whereIn('id', array_merge($memberNotHaveDepartment, $departmentMember))->get();
 
         // Sửa phòng ban theo id
         return view('admin-template.page.department.edit', compact('department', 'members', 'departmentMemberIds', 'memberNotHaveDepartment'));
@@ -50,9 +51,10 @@ class DepartmentController extends Controller
         $department->update($request->all());
         $departmentHeadId = $request->department_head_id;
 
-
         $member = Member::find($departmentHeadId);
-        $member->user->syncRoles([Role::ROLE_COF]);
+        if ($member->user->getRoleNames()[0] !== 'super admin') {
+            $member->user->syncRoles([Role::ROLE_COF]);
+        }
 
         // Cập nhật phòng ban theo id
         return redirect()->route('get.department');

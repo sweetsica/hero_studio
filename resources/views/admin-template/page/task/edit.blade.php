@@ -56,7 +56,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title mb-4 pt-2">Thông tin yêu cầu</h4>
-                            <p>Người yêu cầu: {{ $task->creator->name }} {{ $task->id }} {{ $task->status_code }}
+                            <p>Người yêu cầu: {{ $task->creator->name }}
                             </p>
                             <p>Ngày tạo: {{$task->created_at->format('d-m h:i A')}}</p>
                             <form class="form-horizontal" action="{{route('edit.updateTaskOrder', $task->id)}}"
@@ -114,19 +114,21 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    @if((Auth::user()->getRoleNames())[0]=='key opinion leaders')
+                                    @if((Auth::user()->getRoleNames())[0]=='key opinion leaders' || (Auth::user()->getRoleNames())[0]=='super admin')
                                         <div class="col-md-4">
                                             <label class="form-label" for="exampleInputEmail1">Phòng ban phụ
                                                 trách</label>
-                                            <select name="department_id" class="form-select">
+                                            <select id="department" name="department_id" class="form-select"
+                                                    onchange="getDepartmentMember()">
                                                 @foreach($departments as $department)
                                                     <option value="{{$department->id}}"
                                                             @if($task->department_id === $department->id) selected @endif>{{ $department->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                    @elseif((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='super admin')
-                                        <div class="col-md-4">
+                                    @endif
+                                    @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='super admin')
+                                        <div class="col-md-4" id="member-list">
                                             <label class="form-label" for="exampleInputEmail1">Thành viên phụ
                                                 trách</label>
                                             <select name="member_id" class="form-select">
@@ -153,20 +155,21 @@
                                                 <label class="form-label" for="exampleInputEmail1">Link sản phẩm</label>
                                                 <textarea class="form-control"
                                                           name="url_others"
-                                                id="url_others">{{$task->url_others}}</textarea>
+                                                          id="url_others">{{$task->url_others}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="exampleInputEmail1">Thời lượng</label>
-                                                <input id="product_length" value="{{$task->product_length}}" name="product_length"
+                                                <input id="product_length" value="{{$task->product_length}}"
+                                                       name="product_length"
                                                        class="form-control active" type="number">
                                             </div>
                                         </div>
                                     @endif
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
-                                        <select id="status_code" name="status_code" class="form-select" >
+                                        <select id="status_code" name="status_code" class="form-select">
                                             <option value="1"
                                                     @if(Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_EDITOR) ) disabled
                                                     style="background: #c7c3c3" @if($task->status_code === 1) selected
@@ -201,17 +204,17 @@
                                         </select>
                                     </div>
                                     @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
-                                    <div class="col-3" id="product_rate_div">
-                                        Đánh giá yêu cầu
-                                        <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
-                                        <select id="product_rate" name="product_rate" class="form-select">
-                                            @for($i = 1; $i < 6; $i++)
-                                                <option value="{{$i}}"
-                                                        @if($task->product_rate === $i) selected @endif>{{$i}} Sao
-                                                </option>
-                                            @endfor
-                                        </select>
-                                    </div>
+                                        <div class="col-3" id="product_rate_div">
+                                            Đánh giá yêu cầu
+                                            <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
+                                            <select id="product_rate" name="product_rate" class="form-select">
+                                                @for($i = 1; $i < 6; $i++)
+                                                    <option value="{{$i}}"
+                                                            @if($task->product_rate === $i) selected @endif>{{$i}} Sao
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="md-3" style="justify-content: space-between;display: flex">
@@ -259,7 +262,9 @@
                                 @foreach($tasks as $taskItem)
                                     <tr>
                                         <td>{{ $taskItem->created_at->format('d/m - h:i') }}</td>
-                                        <td><a href="{{route('edit.taskOrder',$taskItem->id)}}">{{ $taskItem->name }}</a></td>
+                                        <td>
+                                            <a href="{{route('edit.taskOrder',$taskItem->id)}}">{{ $taskItem->name }}</a>
+                                        </td>
                                         <td>{{ $taskItem->member?->name }}</td>
                                         <td>{{ $taskItem->department->name }}</td>
 
@@ -330,7 +335,7 @@
 
         function checkInput() {
             let val = statusCode.val();
-            if(val == null) {
+            if (val == null) {
                 val = {{$task->status_code}};
             }
 
@@ -339,8 +344,8 @@
                 $('#product_length').prop('required', true);
 
                 @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
-                    $('#product_rate_div').show();
-                    $('#product_rate').val(5);
+                $('#product_rate_div').show();
+                $('#product_rate').val(5);
                 @endif
             } else {
                 $('#url_others').prop('required', false);
@@ -351,6 +356,17 @@
                 $('#product_rate').val(null);
                 @endif
             }
+        }
+    </script>
+
+    <script>
+        function getDepartmentMember() {
+            const taskId = {{ $task->id }};
+            const departmentId = $('#department').val()
+
+            $.get("{{route('getMemberOfDepartment')}}", {taskId: taskId, departmentId}).then(function (res) {
+                $("#member-list").html(res);
+            })
         }
     </script>
 @endsection

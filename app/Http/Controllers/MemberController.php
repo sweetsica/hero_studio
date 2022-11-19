@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Member;
 use App\Models\Role;
+use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,6 +15,21 @@ use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
+    public function getUserOfDepartment(Request $request) {
+        $departmentId = $request->departmentId;
+
+        if ($request->taskId) {
+            $task = Task::find($request->taskId);
+            $passingData['member_id'] = $task->member_id;
+        }
+
+        $department = Department::find($departmentId);
+        $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
+        $passingData['members'] = $department->members()->whereIn('user_id', $userHaveEditorRole)->get();
+
+        return view('task-list-member', $passingData);
+    }
+
     public function getLoginView()
     {
         //Màn tạo người dùng
@@ -29,7 +45,6 @@ class MemberController extends Controller
     public function loginUser(Request $request)
     {
         if (!Auth::attempt($request->only(['email', 'password']))) {
-//            return redirect()->back()->flash('error','Sai tài khoản hoặc mật khẩu!');
             return redirect()->back()->with('error', 'Sai tài khoản hoặc mật khẩu!');
         }
         $user = User::with('member')->where('email', '=', $request->email)->first();

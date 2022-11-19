@@ -321,7 +321,8 @@ class TaskController extends Controller
             });
         }
         $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
-        $members = Member::whereIn('user_id', $userHaveEditorRole)->get();
+        $members = $task->department->members()->whereIn('user_id', $userHaveEditorRole)->get();
+
         $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
         $info = $task->member('creator_id')->first();
 

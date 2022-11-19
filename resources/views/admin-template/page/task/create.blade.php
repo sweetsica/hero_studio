@@ -99,7 +99,7 @@
                                 <div class="mb-2 row">
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Phòng ban phụ trách</label>
-                                        <select class="form-select" name="department_id" required>
+                                        <select id="department" class="form-select" name="department_id" onchange="getDepartmentMember()" required>
                                             @foreach($departments as $department)
                                                 <option value="{{$department->id}}">{{ $department->name }}</option>
                                             @endforeach
@@ -239,4 +239,15 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
     <script src="{{ asset('admin-asset/assets/js/pages/datatables.init.js') }}"></script>
+
+    <script>
+        function getDepartmentMember() {
+            const taskId = {{ $task->member_id }};
+            const departmentId = $('#department').val()
+
+            $.get("{{route('getMemberOfDepartment')}}", {taskId: taskId, departmentId}).then(function (res) {
+                $("#member-list").html(res);
+            })
+        }
+    </script>
 @endsection

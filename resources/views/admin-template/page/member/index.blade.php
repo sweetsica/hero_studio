@@ -89,30 +89,6 @@
                                                                                 <li class="list-inline-item pe-2">
                                                                                     <i class='uil uil-comment-message me-1'></i>21
                                                                                 </li>
-                                                                                <li class="list-inline-item">
-                                                                                    @if($data->status_code==1)
-                                                                                        <span
-                                                                                            class="badge badge badge-soft-secondary p-1">
-                                                                                            Đang chờ nhận
-                                                                                        </span>
-                                                                                    @elseif ($data->status_code==2)
-                                                                                        <span
-                                                                                            class="badge badge-soft-info p-1">
-                                                                                            Đang thực hiện
-                                                                                        </span>
-                                                                                    @elseif ($data->status_code==3)
-                                                                                        <span
-                                                                                            class="badge badge-soft-success p-1">
-                                                                                            Đã hoàn thành
-                                                                                        </span>
-                                                                                    @else
-                                                                                        <span
-                                                                                            class="badge badge-soft-primary p-1">
-                                                                                            Cần làm lại
-                                                                                        </span>
-                                                                                        @endif
-                                                                                        </span>
-                                                                                </li>
                                                                             </ul>
                                                                         </div>
                                                                     </div> <!-- end .d-flex-->

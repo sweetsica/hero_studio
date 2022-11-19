@@ -61,7 +61,8 @@ Route::middleware('auth')->group(function () {
         Route::get('danh-sach/{user_id}', [TaskController::class, 'getTaskListByUserId'])->name('get.taskOrder.byUserId');
 
     });
-        Route::get('danh-sach/xep-hang', [DashboardController::class, 'rankingUser'])->name('get.user.ranking');
+    Route::get('danh-sach/xep-hang', [DashboardController::class, 'rankingUser'])->name('get.user.ranking');
+    Route::get('danh-sach/thanh-vien-theo-phong-ban', [MemberController::class, 'getUserOfDepartment'])->name('getMemberOfDepartment');
 
 
     Route::prefix('nguoi-dung')->middleware('listUserPermission')->group(function () {
