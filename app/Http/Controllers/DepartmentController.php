@@ -28,7 +28,12 @@ class DepartmentController extends Controller
 
     public function storeDepartment(Request $request)
     {
-        Department::create($request->all());
+        $params = $request->all();
+        if (!$request->department_head_id) {
+            $params['department_head_id'] = 1;
+        }
+
+        Department::create($params);
 
         return redirect()->route('get.department');
     }
