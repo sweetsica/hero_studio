@@ -27,11 +27,11 @@ class Member extends Model
         $role = $this->user->getRoleNames()[0];
         switch ($role) {
             case 'chief of department':
-                return 'Quản lý';
+                return 'Trưởng phòng';
             case 'key opinion leaders':
-                return 'Kol';
+                return 'KOL';
             case 'editor':
-                return 'Editor';
+                return 'Nhân viên';
             default:
                 return 'Admin';
         }
