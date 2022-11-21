@@ -97,10 +97,15 @@
 
             <ul class="list-unstyled topnav-menu float-end mb-0">
                 <li class="dropdown notification-list topbar-dropdown">
-                    <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#"
+                    <a class="nav-link dropdown-toggle nav-user me-0 d-flex" data-bs-toggle="dropdown" href="#"
                        role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="{{ asset('admin-asset/assets/images/users/avatar-1.jpg') }}" alt="user-image"
-                             class="rounded-circle"/>
+                        @if(Auth::user()->member->avatar)
+                            <img src="/storage/{{ Auth::user()->member->avatar }}" alt="user-image"
+                             class="rounded-circle align-self-center"/>
+                        @else
+                            <span
+                                class="bg-soft-primary text-primary align-self-center rounded-circle" style="width: 32px;height: 32px;line-height: 32px">{{ substr(Auth::user()->member->name, 0, 1) }}</span>
+                        @endif
                         <span class="pro-user-name ms-1">
                                 {{ Auth::user()->member->name }}
                             {{--                                <i class="uil uil-angle-down"></i>--}}
@@ -112,18 +117,18 @@
                             <h6 class="text-overflow m-0">Welcome !</h6>
                         </div>
 
-                        <a href="pages-profile.html" class="dropdown-item notify-item">
-                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>
-                        </a>
+{{--                        <a href="pages-profile.html" class="dropdown-item notify-item">--}}
+{{--                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>--}}
+{{--                        </a>--}}
 
-                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">
-                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>
-                        </a>
+{{--                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">--}}
+{{--                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>--}}
+{{--                        </a>--}}
 
                         <div class="dropdown-divider"></div>
 
                         <a href="{{route('logout')}}" class="dropdown-item notify-item">
-                            <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Logout</span>
+                            <i data-feather="log-out" class="icon-dual icon-xs me-1"></i><span>Đăng xuất</span>
                         </a>
                     </div>
                 </li>
