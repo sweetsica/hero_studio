@@ -65,7 +65,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                        <span class="text-muted text-uppercase fs-12 fw-bold">Tổng số task</span>
+                                        <span class="text-muted text-uppercase fs-12 fw-bold">Tổng số yêu cầu</span>
                                         <h3 class="mb-0">{{ $totalTask }}</h3>
                                     </div>
                                     <div class="align-self-center flex-shrink-0">
@@ -594,7 +594,7 @@
                     },
                     "series": [
                         {
-                            "name": "Revenue",
+                            "name": "Yêu cầu",
                             "data": @json($tasks['value'])
                         }
                     ],

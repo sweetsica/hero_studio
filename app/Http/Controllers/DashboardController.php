@@ -13,11 +13,28 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function rankingUser(Request $request) {
+    public function rankingUser(Request $request)
+    {
         $sortBy = $request->get('type', 'last_month_tasks_avg_product_rate');
+        $authUserDepartmentMembers = collect(Auth::user()->departments)->map(function ($item) {
+            return $item->members;
+        })->flatten(1)->pluck('id')->toArray();
 
         $highestProductRankingMember = Member::query()
-            ->get()->map(function ($item) {
+            ->with('user')
+            ->get()
+            ->filter(function ($item) use ($authUserDepartmentMembers) {
+                if ($item->user->getRoleNames()[0] !== Role::ROLE_EDITOR) {
+                    return false;
+                }
+
+                if (Auth::user()->getRoleNames()[0] === Role::ROLE_COF) {
+                    return in_array($item->id, $authUserDepartmentMembers);
+                }
+
+                return true;
+            })
+            ->map(function ($item) {
                 $lastMonthTasks = $item->lastMonthTasks();
                 $lastMonthDoneTasks = $item->lastMonthDoneTasks();
 
@@ -28,7 +45,6 @@ class DashboardController extends Controller
 
                 return $item;
             })->sortByDesc($sortBy)->take(5)->values();
-
         $passingData['highestProductRankingMember'] = $highestProductRankingMember;
         $passingData['sortBy'] = $sortBy;
 
@@ -111,7 +127,7 @@ class DashboardController extends Controller
             5 => 'FRI',
             6 => 'SAT',
         ];
-        $newData = $taskQuery->orderBy('created_at', 'asc')->whereDate('created_at', '>', now()->subMonths())->get()->groupBy('created_at');
+        $newData = $taskQuery->whereNotNull('member_id')->orderBy('created_at', 'asc')->whereDate('created_at', '>', now()->subMonths())->get()->groupBy('created_at');
         $formatMapWithKey = $newData->mapWithKeys(function ($item, $key) use ($weekMap) {
             $formattedKey = Carbon::parse($key)->dayOfWeek;
 
@@ -287,12 +303,6 @@ class DashboardController extends Controller
             }
 
             array_push($tasks[$task->member_id], $task);
-            if ($task->creator_id != $task->member_id) {
-                if (!isset($tasks[$task->creator_id])) {
-                    $tasks[$task->creator_id] = [];
-                }
-                array_push($tasks[$task->creator_id], $task);
-            }
         }
         $tasks = collect($tasks)
             ->map(function ($item, $key) {

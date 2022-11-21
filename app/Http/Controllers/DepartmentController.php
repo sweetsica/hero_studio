@@ -42,7 +42,9 @@ class DepartmentController extends Controller
     {
         $department = Department::find($department_id);
         $departmentMemberIds = collect($department->members)->pluck('id')->toArray();
-        $memberNotHaveDepartment = Member::doesntHave('user.departments')->pluck('id')->toArray();
+        $memberNotHaveDepartment = Member::with('user')->doesntHave('departments')->get()->filter(function($item) {
+            return $item->user->getRoleNames()[0] === Role::ROLE_EDITOR;
+        })->pluck('id')->toArray();
         $departmentMember = $department->members->pluck('id')->toArray();
         $members = Member::whereIn('id', array_merge($memberNotHaveDepartment, $departmentMember))->get();
 
