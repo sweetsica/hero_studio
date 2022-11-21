@@ -136,30 +136,30 @@
             </ul>
 
             <!-- LOGO -->
-            <div class="logo-box">
-                <a href="{{route('dashboard')}}" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""
-                                 height="24"/>
-                            <!-- <span class="logo-lg-text-light">Shreyu</span> -->
-                        </span>
-                    <span class="logo-lg">
-                            <img src="{{ asset('admin-asset/assets/images/logo-dark.png') }}" alt=""
-                                 height="24"/>
-                        <!-- <span class="logo-lg-text-light">S</span> -->
-                        </span>
-                </a>
-                <a href="{{route('dashboard')}}" class="logo logo-light">
-                        <span class="logo-sm">
-                            <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""
-                                 height="24"/>
-                        </span>
-                    <span class="logo-lg">
-                            <img src="{{ asset('admin-asset/assets/images/logo-light.png') }}" alt=""
-                                 height="24"/>
-                        </span>
-                </a>
-            </div>
+{{--            <div class="logo-box">--}}
+{{--                <a href="{{route('dashboard')}}" class="logo logo-dark">--}}
+{{--                        <span class="logo-sm">--}}
+{{--                            <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""--}}
+{{--                                 height="24"/>--}}
+{{--                            <!-- <span class="logo-lg-text-light">Shreyu</span> -->--}}
+{{--                        </span>--}}
+{{--                    <span class="logo-lg">--}}
+{{--                            <img src="{{ asset('admin-asset/assets/images/logo-dark.png') }}" alt=""--}}
+{{--                                 height="24"/>--}}
+{{--                        <!-- <span class="logo-lg-text-light">S</span> -->--}}
+{{--                        </span>--}}
+{{--                </a>--}}
+{{--                <a href="{{route('dashboard')}}" class="logo logo-light">--}}
+{{--                        <span class="logo-sm">--}}
+{{--                            <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""--}}
+{{--                                 height="24"/>--}}
+{{--                        </span>--}}
+{{--                    <span class="logo-lg">--}}
+{{--                            <img src="{{ asset('admin-asset/assets/images/logo-light.png') }}" alt=""--}}
+{{--                                 height="24"/>--}}
+{{--                        </span>--}}
+{{--                </a>--}}
+{{--            </div>--}}
 
             <div>
                 <a class="navbar-toggle nav-link" data-bs-toggle="collapse"
