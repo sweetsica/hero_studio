@@ -106,7 +106,7 @@
                                         </select>
                                     </div>
                                     @if(!Auth::user()->hasRole('key opinion leaders'))
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" id="member-list">
                                         <label class="form-label" for="exampleInputEmail1">Thành viên phụ trách</label>
                                         <select class="form-select" name="member_id">
                                             @foreach($members as $member)
