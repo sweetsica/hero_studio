@@ -42,7 +42,7 @@
                         <h4 class="page-title">Kho Media</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Bài viết</a></li>
+                                <li class="breadcrumb-item">Bài viết</li>
                                 <li class="breadcrumb-item active">Chi tiết</li>
                             </ol>
                         </div>
@@ -69,8 +69,7 @@
                                 {{--                                        <h6 class="mt-0 header-title">About Project</h6>--}}
                                 <div class="row">
                                     <div class="col-12">
-                                        <img src="{{ "/storage/$post->thumbnail" }}"
-                                             style="width: 100%;">
+                                        <div id="container"></div>
                                     </div>
                                     <div class="col-4">
                                         <div class="text-muted mt-3">
@@ -108,25 +107,25 @@
                             <div class="card-body">
                                 <h4 class="mb-4 fs-16">Các bài viết chung phân loại</h4>
                                 <div class="row mt-1">
-                                    @foreach($postSameCategory as $post)
+                                    @foreach($postSameCategory as $postSameCate)
                                         <div class="d-flex my-1">
                                             <div class="text-center me-3 flex-shrink-0">
                                                 <div style="width: 9rem;aspect-ratio: 2">
-                                                    @if($post->thumbnail)
-                                                        <img src="{{ "/storage/$post->thumbnail" }}"
+                                                    @if($postSameCate->thumbnail)
+                                                        <img src="{{ "/storage/$postSameCate->thumbnail" }}"
                                                              style="width: 100%;;height: 100%"
                                                              alt="Post Thumbnail">
                                                     @else
                                                         <span
-                                                            class="avatar-title bg-soft-primary text-primary">{{ substr($post->subject, 0, 1) }}</span>
+                                                            class="avatar-title bg-soft-primary text-primary">{{ substr($postSameCate->subject, 0, 1) }}</span>
                                                     @endif
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="fs-15 my-1"><a href="{{ route('post.detail', $post->id) }}"
-                                                                          class="text-dark"> {{ $post->subject }}</a>
+                                                <h5 class="fs-15 my-1"><a href="{{ route('post.detail', $postSameCate->id) }}"
+                                                                          class="text-dark"> {{ $postSameCate->subject }}</a>
                                                 </h5>
-                                                <p class="text-muted fs-13 text-truncate mb-0"> {{$post->content }}</p>
+                                                <p class="text-muted fs-13 text-truncate mb-0"> {{$postSameCate->content }}</p>
                                             </div>
                                         </div>
                                     @endforeach
@@ -136,86 +135,37 @@
 
                                 <h4 class="mt-2 mb-4 fs-16">Các bài viết giống hashtag</h4>
                                 <div class="row">
-                                    @foreach($postHaveSameTags as $post)
+                                    @foreach($postHaveSameTags as $postSameTags)
                                         <div class="d-flex my-1">
                                             <div class="text-center me-3 flex-shrink-0">
                                                 <div style="width: 9rem;aspect-ratio: 2">
-                                                    @if($post->thumbnail)
-                                                        <img src="{{ "/storage/$post->thumbnail" }}"
+                                                    @if($postSameTags->thumbnail)
+                                                        <img src="{{ "/storage/$postSameTags->thumbnail" }}"
                                                              style="width: 100%;;height: 100%"
                                                              alt="Post Thumbnail">
                                                     @else
                                                         <span
-                                                            class="avatar-title bg-soft-primary text-primary">{{ substr($post->subject, 0, 1) }}</span>
+                                                            class="avatar-title bg-soft-primary text-primary">{{ substr($postSameTags->subject, 0, 1) }}</span>
                                                     @endif
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="fs-15 my-1"><a href="{{ route('post.detail', $post->id) }}"
-                                                                          class="text-dark"> {{ $post->subject }}</a>
+                                                <h5 class="fs-15 my-1"><a href="{{ route('post.detail', $postSameTags->id) }}"
+                                                                          class="text-dark"> {{ $postSameTags->subject }}</a>
                                                 </h5>
-                                                <p class="text-muted fs-13 text-truncate mb-0"> {{$post->content }}</p>
+                                                <p class="text-muted fs-13 text-truncate mb-0"> {{$postSameTags->content }}</p>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
-
+<button id="resetAnimate">Reset Animate</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{--                <!-- comments -->--}}
-                {{--                <!-- end col -->--}}
             </div>
-            <!-- end row -->
-
-            {{--            <div class="row">--}}
-            {{--                <div class="col-12">--}}
-            {{--                    <div class="card">--}}
-            {{--                        <div class="card-body">--}}
-            {{--                            <h4 class="header-title mt-0 mb-1">Danh sách task</h4>--}}
-            {{--                            <p class="sub-header">--}}
-
-            {{--                            </p>--}}
-
-            {{--                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">--}}
-            {{--                                <thead>--}}
-            {{--                                <tr>--}}
-            {{--                                    <th>Tên bài viết</th>--}}
-            {{--                                    <th>Nhân viên phụ trách</th>--}}
-            {{--                                    <th>Phòng ban phụ trách</th>--}}
-            {{--                                    <th>Mô tả</th>--}}
-            {{--                                    <th>Nguồn</th>--}}
-            {{--                                    <th>Loại bài viết</th>--}}
-            {{--                                    <th>Link video nguồn</th>--}}
-            {{--                                    <th>Thời hạn</th>--}}
-            {{--                                    <th>Ngày tạo</th>--}}
-            {{--                                </tr>--}}
-            {{--                                </thead>--}}
-            {{--                                <tbody>--}}
-            {{--                                @foreach($tasks as $task)--}}
-            {{--                                    <tr>--}}
-            {{--                                        <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>--}}
-            {{--                                        <td>{{ $task->member?->name }}</td>--}}
-            {{--                                        <td>{{ $task->department->name }}</td>--}}
-            {{--                                        <td>{{ $task->content }}</td>--}}
-            {{--                                        <td>{{ $task->source }}</td>--}}
-            {{--                                        <td>{{ $task->type }}</td>--}}
-            {{--                                        <td>{{ $task->url_source }}</td>--}}
-            {{--                                        <td>{{ $task->deadline }}</td>--}}
-            {{--                                        <td>{{ $task->created_at }}</td>--}}
-            {{--                                    </tr>--}}
-            {{--                                @endforeach--}}
-            {{--                                </tbody>--}}
-            {{--                            </table>--}}
-
-            {{--                        </div> <!-- end card body-->--}}
-            {{--                    </div> <!-- end card -->--}}
-            {{--                </div><!-- end col-->--}}
-            {{--            </div>--}}
-        </div> <!-- content -->
-
-    </div> <!-- content -->
+        </div>
+    </div>
 @endsection
 
 @section('content-js')
@@ -260,3 +210,91 @@
         };
     </script>
 @endsection
+
+@push('custom-js')
+    <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    <script type="importmap">
+			{
+                "imports": {
+                    "three": "https://threejs.org/build/three.module.js",
+                    "three/addons/": "https://threejs.org/examples/jsm/"
+                }
+            }
+
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import Stats from 'three/addons/libs/stats.module.js';
+        import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+        import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+        import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+        import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
+
+        let mixer;
+
+        const clock = new THREE.Clock();
+        const container = document.getElementById('container');
+        const innerWidth = container.clientWidth || window.innerWidth;
+        const innerHeight = container.clientWidth * 3 / 4 || window.innerHeight;
+
+
+        // const stats = new Stats();
+        // container.appendChild( stats.dom );
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(innerWidth, innerHeight);
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        container.appendChild(renderer.domElement);
+
+        const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xbfe3dd);
+        scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+        const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 1, 100);
+        camera.position.set(5, 2, 8);
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0, 0.5, 0);
+        controls.update();
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('{{asset('custom/draco/gltf')}}/');
+        const loader = new GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+        loader.load('{{ sprintf('/storage/%s', $post->thumbnail) }}', function (gltf) {
+            const model = gltf.scene;
+            model.position.set(1, 1, 0);
+            model.scale.set(0.01, 0.01, 0.01);
+            scene.add(model);
+            mixer = new THREE.AnimationMixer(model);
+            mixer.clipAction(gltf.animations[0]).play();
+            animate();
+        }, undefined, function (e) {
+            console.error(e);
+        });
+
+
+        window.onresize = function () {
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(innerWidth, innerHeight);
+        };
+
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            mixer.update(delta);
+            controls.update();
+            // stats.update();
+            renderer.render(scene, camera);
+        }
+
+        $('#resetAnimate').on('click', function() {
+            camera.position.set(5, 2 , 8);
+        })
+
+    </script>
+@endpush

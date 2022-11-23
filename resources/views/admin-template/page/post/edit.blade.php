@@ -42,7 +42,7 @@
                         <h4 class="page-title">Bài viết</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Bài viết</a></li>
+                                <li class="breadcrumb-item">Bài viết</li>
                                 <li class="breadcrumb-item active">Tạo mới</li>
                             </ol>
                         </div>
@@ -84,7 +84,6 @@
                                                 name="thumbnail"
                                                 type="file"
                                                 class="form-control"
-                                                accept="image/*"
                                                 onchange="loadFile(event)"
                                             >
                                         </div>

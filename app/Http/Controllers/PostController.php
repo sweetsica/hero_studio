@@ -8,6 +8,7 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -113,15 +114,15 @@ class PostController extends Controller
 
             $listTags = HashTag::whereIn('name', $hashTags)->get();
         }
-
-        $thumbnail = $request->file('thumbnail');
         $category = Category::find($request->category_id);
 
+        $thumbnail = $request->file('thumbnail');
         if (isset($request->thumbnail)) {
-            $linkThumbnail = Storage::disk('public')->put("$category->name", $thumbnail);
+            $filename = uniqid(). '.' .File::extension($thumbnail->getClientOriginalName());
+
+            $linkThumbnail = Storage::disk('public')->putFileAs($category->name, $thumbnail, $filename);
             $postData['thumbnail'] = $linkThumbnail;
         }
-
         $post->update($postData);
         $post->hashTags()->sync($listTags->pluck('id'));
 
