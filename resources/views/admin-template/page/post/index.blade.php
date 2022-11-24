@@ -30,7 +30,8 @@
                             <div class="mt-2">
                                 @foreach($categories as $category)
                                     <a href="javascript:updateCurrentParam('category-id', '{{$category->id}}')"
-                                       class="list-group-item border-0 fw-bold">
+                                       class="@if($category->id == request()->query('category-id')) text-primary @endif list-group-item border-0 fw-bold"
+                                       >
                                         {{ ucfirst($category->name) }}
                                     </a>
                                 @endforeach
@@ -40,7 +41,7 @@
                             <div class="list-group b-0 mail-list">
                                 @foreach($hashTags as $hashTag)
                                     <a href="javascript:updateCurrentParam('hash-tag-id', '{{$hashTag->id}}')"
-                                       class="list-group-item border-0 fw-bold">
+                                       class="list-group-item border-0 fw-bold @if($category->id == request()->query('hash-tag-id')) text-primary @endif">
                                         {{ ucfirst($hashTag->name) }}
                                     </a>
                                 @endforeach
@@ -49,6 +50,12 @@
                         </div>
                         <!-- End Left sidebar -->
                         <div class="inbox-rightbar p-4">
+                            <div class="row justify-content-end">
+                                <form class="col-12 col-md-3 d-flex" action="#" method="GET">
+                                    <input name="search" class="form-control me-2" type="text" value="{{request()->query('search')}}">
+                                    <button class="btn btn-primary">Search</button>
+                                </form>
+                            </div>
                             <div class="row">
                                 <div class="card-body">
                                     @foreach($posts as $post)
@@ -78,7 +85,6 @@
                         <div class="clearfix"></div>
                     </div>
                 </div> <!-- end Col -->
-
             </div><!-- End row -->
         </div> <!-- container -->
     </div> <!-- content -->
