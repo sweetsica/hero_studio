@@ -25,7 +25,7 @@ class PostController extends Controller
         $posts = Post::query()->with('hashTags');
         $searchKey = $request->query('search');
         if ($searchKey) {
-            $posts = $posts->where('subject', 'like', $searchKey);
+            $posts = $posts->where('subject', 'like', '%' . $searchKey . '%');
         }
 
         if (isset($query['category-id'])) {
