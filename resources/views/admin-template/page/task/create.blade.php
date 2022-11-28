@@ -240,14 +240,14 @@
 
     <script src="{{ asset('admin-asset/assets/js/pages/datatables.init.js') }}"></script>
 
-    <script>
-        function getDepartmentMember() {
-            const taskId = {{ $task->member_id }};
-            const departmentId = $('#department').val()
+{{--    <script>--}}
+{{--        function getDepartmentMember() {--}}
+{{--            const taskId = {{ $task->member_id }};--}}
+{{--            const departmentId = $('#department').val()--}}
 
-            $.get("{{route('getMemberOfDepartment')}}", {taskId: taskId, departmentId}).then(function (res) {
-                $("#member-list").html(res);
-            })
-        }
-    </script>
+{{--            $.get("{{route('getMemberOfDepartment')}}", {taskId: taskId, departmentId}).then(function (res) {--}}
+{{--                $("#member-list").html(res);--}}
+{{--            })--}}
+{{--        }--}}
+{{--    </script>--}}
 @endsection
