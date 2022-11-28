@@ -69,7 +69,13 @@
                                 <tbody>
                                 @foreach($members as $member)
                                     <tr>
-                                        <td><a href="{{route('edit.member', $member->id)}}">{{ $member->name }}</a></td>
+                                        <td>
+                                            @if($member->id != 1)
+                                                <a href="{{route('member.analytics', $member->id)}}">{{$member->name}}</a>
+                                            @else
+                                                <label>{{$member->name}}</label>
+                                            @endif
+                                        </td>
                                         <td>{{ $member->user->email }}</td>
                                         <td>{{ \Carbon\Carbon::parse($member->date_of_birth)->format('d/m/Y')  }}</td>
                                         <td>{{ $member->code }}</td>
@@ -78,13 +84,17 @@
                                         <td> Hoạt động</td>
                                         <td> {{  \Carbon\Carbon::parse($member->created_at)->format('d/m/Y')}} </td>
                                         <td>
-                                            @if($member->user->getRoleNames()[0] !== 'super admin')
-                                            <form action="{{route('member.delete', $member->id)}}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger">Xóa</button>
-                                            </form>
-                                            @endif
+                                            <div class="d-flex">
+                                                <a href="{{route('edit.member', $member->id)}}" class="btn btn-primary me-1"> Chỉnh sửa</a>
+                                                @if($member->user->getRoleNames()[0] !== 'super admin')
+                                                    <form action="{{route('member.delete', $member->id)}}"
+                                                          method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -155,7 +165,7 @@
                             <div class="col-md-12  mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Vai trò</label>
                                 <select name="role" class="form-select">
-{{--                                    <option value="chief of department">Quản lý</option>--}}
+                                    {{--                                    <option value="chief of department">Quản lý</option>--}}
                                     <option value="key opinion leaders">Kol</option>
                                     <option value="editor">Thành viên</option>
                                 </select>

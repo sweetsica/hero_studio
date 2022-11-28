@@ -164,7 +164,7 @@ class MemberController extends Controller
 
     public function getUserList()
     {
-        $authUserDepartments = collect(Auth::user()->member->departments)->pluck('id')->toArray();
+        $authUserDepartments = Department::query()->where('department_head_id', Auth::user()->member->id)->get()->pluck('id')->toArray();
         $memberQuery = Member::query();
         if (Auth::user()->hasRole(Role::ROLE_COF)) {
             $memberQuery = $memberQuery->whereHas('departments', function ($query) use ($authUserDepartments) {

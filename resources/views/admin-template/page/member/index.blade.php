@@ -69,7 +69,7 @@
                                                                 <div class="col-lg-6 mb-2 mb-lg-0">
                                                                     <div class="form-check">
                                                                         <label class="form-check-label" for="task1">
-                                                                            {{$data->name}}
+                                                                            <a href="{{route('member.analytics', $data->id)}}">{{$data->name}}</a>
                                                                         </label>
                                                                     </div> <!-- end checkbox -->
                                                                 </div> <!-- end col -->
@@ -79,12 +79,6 @@
                                                                             <ul class="list-inline text-sm-end">
                                                                                 <li class="list-inline-item pe-1">
                                                                                     <i class='uil uil-schedule me-1'></i>{{\Carbon\Carbon::parse($data->date_of_birth)->format('d/m/Y')}}
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-1">
-                                                                                    <i class='uil uil-align-alt me-1'></i>3/7
-                                                                                </li>
-                                                                                <li class="list-inline-item pe-2">
-                                                                                    <i class='uil uil-comment-message me-1'></i>21
                                                                                 </li>
                                                                             </ul>
                                                                         </div>

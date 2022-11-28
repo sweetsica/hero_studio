@@ -44,7 +44,7 @@ class DashboardController extends Controller
                 $item['last_month_tasks_total_length'] = $lastMonthTasks->count() ? $lastMonthTasks->sum('product_length') : 0;
 
                 return $item;
-            })->sortByDesc($sortBy)->take(5)->values();
+            })->sortByDesc($sortBy)->values();
         $passingData['highestProductRankingMember'] = $highestProductRankingMember;
         $passingData['sortBy'] = $sortBy;
 

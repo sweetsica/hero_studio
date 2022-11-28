@@ -219,7 +219,7 @@
                                         <option value="last_month_tasks_total_length">Thời gian</option>
                                     </select>
                                 </div>
-                                <div id="ranking-content" class="my-2">
+                                <div id="ranking-content" class="my-2" style="height: 300px; overflow-y: auto">
                                 </div>
                             </div>
                         </div>
