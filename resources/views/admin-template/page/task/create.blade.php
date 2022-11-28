@@ -242,10 +242,9 @@
 
     <script>
         function getDepartmentMember() {
-            const taskId = {{ $task->member_id }};
             const departmentId = $('#department').val()
 
-            $.get("{{route('getMemberOfDepartment')}}", {taskId: taskId, departmentId}).then(function (res) {
+            $.get("{{route('getMemberOfDepartment')}}", {departmentId}).then(function (res) {
                 $("#member-list").html(res);
             })
         }

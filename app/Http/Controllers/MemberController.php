@@ -17,8 +17,7 @@ class MemberController extends Controller
 {
     public function getUserOfDepartment(Request $request) {
         $departmentId = $request->departmentId;
-
-        if ($request->taskId) {
+        if (isset($request->taskId)) {
             $task = Task::find($request->taskId);
             $passingData['member_id'] = $task->member_id;
         }
