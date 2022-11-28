@@ -54,11 +54,10 @@
                                             <div class="col-md-12 mt-2">
                                                 <label class="form-label">Trưởng phòng ban</label>
                                                 <select name="department_head_id" class="form-control">
-                                                    @foreach($members as $member)
+                                                    @foreach($cofList as $member)
                                                         <option
-                                                            @if($department->department_head_id === $member->id) selected
-                                                            @endif value="{{$member->id}}"
-                                                            @if(!in_array($member->id, $memberNotHaveDepartment) && $member->id != $department->department_head_id && $member->id != 1) disabled @endif
+                                                            @if($department->department_head_id === $member->id) selected @endif
+                                                            value="{{ $member->id }}"
                                                         >
                                                             {{ $member->name }}
                                                         </option>
