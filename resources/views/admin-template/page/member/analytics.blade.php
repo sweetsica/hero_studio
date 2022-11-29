@@ -64,7 +64,7 @@
                                                 <td><a href="{{route('edit.taskOrder', $task->id)}}">{{ $task->name }}</a></td>
                                                 <td>{{ isset($task->department) ? $task->department->name : ''}}</td>
                                                 <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
-                                                <td>{{ $task->product_rate }} <i style="color: orange" class="bi bi-star-fill"></i></td>
+                                                <td>{{ $task->product_rate }} @if($task->product_rate) <i style="color: orange" class="bi bi-star-fill"></i> @endif</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
