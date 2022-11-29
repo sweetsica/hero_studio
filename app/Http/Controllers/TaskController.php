@@ -254,7 +254,14 @@ class TaskController extends Controller
             return redirect()->back();
         }
 
-        $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Màn tạo Task
+        $tasks = Task::query();
+        if (Auth::user()->getRoleNames()[0] === Role::ROLE_COF) {
+            $authUserDepartments = Department::query()->where('id', Auth::id())->get()->pluck('id');
+            $tasks = $tasks->whereIn('department_id', $authUserDepartments);
+        }
+
+        $tasks = $tasks->get()->sortByDesc('created_at');
+
         $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
         $departmentQuery = Department::query();
         if (Auth::user()->hasRole(Role::ROLE_COF)) {
@@ -273,6 +280,42 @@ class TaskController extends Controller
         $members = $departments->first()->members()->whereIn('user_id', $userHaveEditorRole)->get();
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
+    }
+
+    public function editTask($id)
+    {
+        $tasks = Task::query();
+        if (Auth::user()->getRoleNames()[0] === Role::ROLE_COF) {
+            $authUserDepartments = Department::query()->where('id', Auth::id())->get()->pluck('id');
+            $tasks = $tasks->whereIn('department_id', $authUserDepartments);
+        }
+
+        $tasks = $tasks->get()->sortByDesc('created_at');
+
+        $task = Task::with(['comments' => function ($query) {
+            $query->orderBy('created_at', 'desc')->with('member');
+        }])->find($id);
+        $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+
+        $departmentQuery = Department::query();
+        if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $departmentQuery = $departmentQuery->whereIn('id', $authUserDepartments);
+        }
+
+        $departments = $departmentQuery->get();
+        $memberQuery = Member::query();
+        if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $memberQuery = $memberQuery->whereHas('departments', function ($query) use ($authUserDepartments) {
+                return $query->whereIn('department_id', $authUserDepartments);
+            });
+        }
+        $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
+        $members = $task->department->members()->whereIn('user_id', $userHaveEditorRole)->get();
+
+        $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
+        $info = $task->member('creator_id')->first();
+
+        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete','info'));
     }
 
     public function store(Request $request)
@@ -299,35 +342,6 @@ class TaskController extends Controller
     {
         $infos = Task::where('member_id', '=', $user_id); //Lấy danh sách Task theo department_id
         return view('admin-template.page.task.index-manage', compact('infos'));
-    }
-
-    public function editTask($id)
-    {
-        $tasks = Task::all()->sortByDesc("created_at");
-        $task = Task::with(['comments' => function ($query) {
-            $query->orderBy('created_at', 'desc')->with('member');
-        }])->find($id);
-        $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
-
-        $departmentQuery = Department::query();
-        if (Auth::user()->hasRole(Role::ROLE_COF)) {
-            $departmentQuery = $departmentQuery->whereIn('id', $authUserDepartments);
-        }
-
-        $departments = $departmentQuery->get();
-        $memberQuery = Member::query();
-        if (Auth::user()->hasRole(Role::ROLE_COF)) {
-            $memberQuery = $memberQuery->whereHas('departments', function ($query) use ($authUserDepartments) {
-                return $query->whereIn('department_id', $authUserDepartments);
-            });
-        }
-        $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
-        $members = $task->department->members()->whereIn('user_id', $userHaveEditorRole)->get();
-
-        $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
-        $info = $task->member('creator_id')->first();
-
-        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete','info'));
     }
 
     public function updateTask($id, Request $request)

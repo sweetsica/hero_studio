@@ -159,6 +159,7 @@
             </div>
             <!-- end row -->
 
+            @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='super admin')
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -182,18 +183,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($tasks as $task)
+                                @foreach($tasks as $taskItem)
                                     <tr>
-                                        <td>{{ $task->created_at->format('d/m - h:i') }}</td>
-                                        <td><a href="{{route('edit.taskOrder',$task->id)}}">{{ $task->name }}</a></td>
-                                        <td>{{ $task->member?->name }}</td>
-                                        <td>{{ $task->department->name }}</td>
+                                        <td>{{ $taskItem->created_at->format('d/m - h:i') }}</td>
+                                        <td><a href="{{route('edit.taskOrder',$taskItem->id)}}">{{ $taskItem->name }}</a></td>
+                                        <td>{{ $taskItem->member?->name }}</td>
+                                        <td>{{ $taskItem->department->name }}</td>
 
-                                        <td>{{ $task->source }}</td>
-                                        <td>{{ $task->type }}</td>
-                                        <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
-                                        <td>{{ $task->url_source }}</td>
-                                        <td>{{ $task->content }}</td>
+                                        <td>{{ $taskItem->source }}</td>
+                                        <td>{{ $taskItem->type }}</td>
+                                        <td>{{ \Illuminate\Support\Carbon::parse($taskItem->deadline)->format('d/m - h:i')}}</td>
+                                        <td>{{ $taskItem->url_source }}</td>
+                                        <td>{{ $taskItem->content }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -203,6 +204,7 @@
                     </div> <!-- end card -->
                 </div><!-- end col-->
             </div>
+            @endif
         </div> <!-- content -->
 
     </div> <!-- content -->

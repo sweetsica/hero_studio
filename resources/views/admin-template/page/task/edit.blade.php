@@ -236,6 +236,7 @@
             </div>
             <!-- end row -->
 
+            @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='super admin')
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -282,6 +283,7 @@
                     </div> <!-- end card -->
                 </div><!-- end col-->
             </div>
+            @endif
         </div> <!-- content -->
     </div> <!-- content -->
 @endsection
