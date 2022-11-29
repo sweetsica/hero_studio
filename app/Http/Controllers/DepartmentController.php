@@ -89,8 +89,7 @@ class DepartmentController extends Controller
 
     public function deleteDepartment($department_id)
     {
-        // Xóa phòng ban theo id
-        $notice = "Xoá thành công phòng ban";
-        return view('admin-template.page.department.index', compact('notice'));
+        Department::find($department_id)->delete();
+        return redirect()->route('get.department');
     }
 }

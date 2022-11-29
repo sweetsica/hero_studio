@@ -92,7 +92,7 @@ Route::middleware('auth')->group(function () {
         Route::post('them-moi', [DepartmentController::class, 'storeDepartment'])->name('store.department'); // Lưu thông tin phòng ban
         Route::get('cap-nhat/{department_id}', [DepartmentController::class, 'editDepartmentById'])->name('edit.department'); // Màn sửa thông tin phòng ban
         Route::put('cap-nhat/{department_id}', [DepartmentController::class, 'updateDepartment'])->name('update.department'); // Cập nhật thông tin phòng ban, thành viên của phòng ban
-//        Route::delete('xoa/{department_id}', [DepartmentController::class, 'deleteTaskById'])->name('destroy.department'); // Xóa phòng ban
+        Route::delete('xoa/{department_id}', [DepartmentController::class, 'deleteDepartment'])->name('destroy.department'); // Xóa phòng ban
         Route::post('cap-nhat-member/{department_id}', [DepartmentController::class, 'updateMemberDepartment'])->name('update.department.member');
     });
 

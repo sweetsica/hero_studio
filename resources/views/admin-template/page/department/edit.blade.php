@@ -56,7 +56,8 @@
                                                 <select name="department_head_id" class="form-control">
                                                     @foreach($cofList as $member)
                                                         <option
-                                                            @if($department->department_head_id === $member->id) selected @endif
+                                                            @if($department->department_head_id === $member->id) selected
+                                                            @endif
                                                             value="{{ $member->id }}"
                                                         >
                                                             {{ $member->name }}
@@ -66,7 +67,10 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <a type="button" class="btn btn-light" data-bs-dismiss="modal" href="{{route('get.department')}}">Hủy
+                                            <button type="button" id="deleteDepartment" class="btn btn-danger">Xóa phòng ban
+                                            </button>
+                                            <a type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                               href="{{route('get.department')}}">Hủy
                                             </a>
                                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                                         </div>
@@ -76,6 +80,7 @@
                             </div>
                         </div>
                     </div>
+                    <form id="deleteDepartmentForm" action="{{route('destroy.department', $department->id)}}" method="post"> @csrf @method('DELETE')</form>
                 </div>
 
                 <!-- task details -->
@@ -84,27 +89,33 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <form id="member-form" action="{{route('update.department.member', ['department_id' => $department->id])}}" method="POST">
+                                    <form id="member-form"
+                                          action="{{route('update.department.member', ['department_id' => $department->id])}}"
+                                          method="POST">
                                         @csrf
                                         <label class="form-label">Danh sách thành viên phòng ban</label>
                                         @foreach($members as $member)
                                             <div class="form-check">
                                                 <input name="members[]" type="checkbox" class="form-check-input"
-                                                       value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) checked @endif>
-                                                <label class="form-check-label" for="customCheck2" >{{$member->name}}</label>
+                                                       value="{{$member->id}}"
+                                                       @if(in_array($member->id, $departmentMemberIds)) checked @endif>
+                                                <label class="form-check-label"
+                                                       for="customCheck2">{{$member->name}}</label>
                                             </div>
                                         @endforeach
 
-{{--                                        <select multiple="multiple" class="multi-select" id="my_multi_select1"--}}
-{{--                                                name="members[]" data-plugin="multiselect">--}}
-{{--                                            @foreach($members as $member)--}}
-{{--                                                <option value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) selected @endif>--}}
-{{--                                                    {{$member->name}}--}}
-{{--                                                </option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
+                                        {{--                                        <select multiple="multiple" class="multi-select" id="my_multi_select1"--}}
+                                        {{--                                                name="members[]" data-plugin="multiselect">--}}
+                                        {{--                                            @foreach($members as $member)--}}
+                                        {{--                                                <option value="{{$member->id}}" @if(in_array($member->id, $departmentMemberIds)) selected @endif>--}}
+                                        {{--                                                    {{$member->name}}--}}
+                                        {{--                                                </option>--}}
+                                        {{--                                            @endforeach--}}
+                                        {{--                                        </select>--}}
                                     </form>
-                                    <button class="btn btn-primary mt-2" onclick="submitForm()">Cập nhật thành viên phòng ban</button>
+                                    <button class="btn btn-primary mt-2" onclick="submitForm()">Cập nhật thành viên
+                                        phòng ban
+                                    </button>
                                 </div>
                             </div> <!-- end card-body -->
                         </div> <!-- end card-->
@@ -146,15 +157,19 @@
           rel="stylesheet" type="text/css"/>
     <link href="{{asset('admin-asset/assets/libs/spectrum-colorpicker2/spectrum.min.css')}}" rel="stylesheet"
           type="text/css"/>
-		<!-- App css -->
-		<link href="{{asset('admin-asset/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
-		<link href="{{asset('admin-asset/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
+    <!-- App css -->
+    <link href="{{asset('admin-asset/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"
+          id="bs-default-stylesheet"/>
+    <link href="{{asset('admin-asset/assets/css/app.min.css')}}" rel="stylesheet" type="text/css"
+          id="app-default-stylesheet"/>
 
-		<link href="{{asset('admin-asset/assets/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" disabled />
-		<link href="{{asset('admin-asset/assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="app-dark-stylesheet"  disabled />
+    <link href="{{asset('admin-asset/assets/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css"
+          id="bs-dark-stylesheet" disabled/>
+    <link href="{{asset('admin-asset/assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css"
+          id="app-dark-stylesheet" disabled/>
 
-		<!-- icons -->
-		<link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- icons -->
+    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush
 
 @push('custom-js')
@@ -174,5 +189,10 @@
         function submitForm() {
             $('#member-form').submit();
         }
+    </script>
+    <script>
+        $('#deleteDepartment').on('click', function() {
+            $('#deleteDepartmentForm').submit();
+        })
     </script>
 @endpush
