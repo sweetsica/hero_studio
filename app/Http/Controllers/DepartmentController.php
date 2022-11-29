@@ -31,6 +31,13 @@ class DepartmentController extends Controller
         $params = $request->all();
         if (!$request->department_head_id) {
             $params['department_head_id'] = 1;
+        } else {
+            $departmentHeadId = $request->department_head_id;
+
+            $member = Member::find($departmentHeadId);
+            if ($member->user->getRoleNames()[0] !== 'super admin') {
+                $member->user->syncRoles([Role::ROLE_COF]);
+            }
         }
 
         Department::create($params);
