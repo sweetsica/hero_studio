@@ -208,6 +208,8 @@ class MemberController extends Controller
     public function deleteMember(Request $request, $id) {
         try {
             $member = Member::find($id);
+            $departments = Department::where('department_head_id',$member->id)->update(['department_head_id' => 1]);
+
             if ($member->user->getRoleNames()[0] === 'super admin') {
                 return redirect()->back();
             }
