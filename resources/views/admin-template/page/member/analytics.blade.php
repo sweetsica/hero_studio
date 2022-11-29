@@ -50,7 +50,7 @@
                                     <table class="table table-centered mb-0">
                                         <thead>
                                         <tr>
-                                            <th>Ngày tạo</th>
+                                            <th>Ngày/Giờ tạo</th>
                                             <th>Tên yêu cầu</th>
                                             <th>Phòng ban phụ trách</th>
                                             <th>Thời hạn</th>
@@ -61,10 +61,10 @@
                                         @foreach($member->tasks as $task)
                                             <tr>
                                                 <td>{{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m - h:i')}}</td>
-                                                <td>{{ $task->name }}</td>
+                                                <td><a href="{{route('edit.taskOrder', $task->id)}}">{{ $task->name }}</a></td>
                                                 <td>{{ isset($task->department) ? $task->department->name : ''}}</td>
                                                 <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
-                                                <td>Đánh giá</td>
+                                                <td>{{ $task->product_rate }} <i style="color: orange" class="bi bi-star-fill"></i></td>
                                             </tr>
                                         @endforeach
                                         </tbody>
