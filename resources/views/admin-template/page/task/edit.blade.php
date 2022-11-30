@@ -166,7 +166,7 @@
                                                        class="form-control active" type="number">
                                             </div>
                                         </div>
-                                    @elseif((Auth::user()->getRoleNames())[0]=='super admin' || (Auth::user()->getRoleNames())[0]=='chief of department')
+                                    @elseif($task->status_code == 3)
                                         <div class="col-md-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="exampleInputEmail1">Link sản phẩm</label>
