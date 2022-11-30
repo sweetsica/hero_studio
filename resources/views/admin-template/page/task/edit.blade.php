@@ -166,6 +166,21 @@
                                                        class="form-control active" type="number">
                                             </div>
                                         </div>
+                                    @elseif((Auth::user()->getRoleNames())[0]=='super admin' || (Auth::user()->getRoleNames())[0]=='chief of department')
+                                        <div class="col-md-4">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="exampleInputEmail1">Link sản phẩm</label>
+                                                <textarea class="form-control"
+                                                          id="url_others" disabled>{{$task->url_others}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="exampleInputEmail1">Thời lượng</label>
+                                                <input id="product_length" value="{{$task->product_length}}"
+                                                       class="form-control active" type="number" disabled>
+                                            </div>
+                                        </div>
                                     @endif
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
