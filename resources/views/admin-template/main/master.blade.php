@@ -143,22 +143,6 @@
             </ul>
 
             <!-- LOGO -->
-                        <div class="logo-box">
-                <a href="{{route('dashboard')}}" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""
-                                 height="24"/>
-                            <!-- <span class="logo-lg-text-light">Shreyu</span> -->
-                        </span>
-                    <span class="logo-lg">
-                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""
-                                 height="54"
-                                 style="font-size: 20px;font-weight: bolder;color: red;"
-                            />
-                                 <span>HERO STUDIO</span>
-                        </span>
-                </a>
-            </div>
 
 {{--            <div class="logo-box">--}}
 {{--                <a href="{{route('dashboard')}}" class="logo logo-dark">--}}

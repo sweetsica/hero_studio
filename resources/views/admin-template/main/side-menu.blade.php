@@ -24,22 +24,22 @@
         }
     </style>
     <div id="sidebar-menu">
-{{--        <a href="{{route('dashboard')}}" class="logo logo-dark">--}}
-{{--                        <span class="logo-sm logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}}" alt=""/>--}}
-{{--                        </span>--}}
-{{--            <span class="logo-lg logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
-{{--                        </span>--}}
-{{--        </a>--}}
-{{--        <a href="{{route('dashboard')}}" class="logo logo-light">--}}
-{{--                        <span class="logo-sm logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}}" alt=""/>--}}
-{{--                        </span>--}}
-{{--            <span class="logo-lg logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
-{{--                        </span>--}}
-{{--        </a>--}}
+        <a href="{{route('dashboard')}}" class="logo logo-dark">
+                        <span class="logo-sm logo-style">
+                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>
+                        </span>
+            <span class="logo-lg logo-style">
+                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>
+                        </span>
+        </a>
+        <a href="{{route('dashboard')}}" class="logo logo-light">
+                        <span class="logo-sm logo-style">
+                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>
+                        </span>
+            <span class="logo-lg logo-style">
+                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>
+                        </span>
+        </a>
 
         <ul id="side-menu">
             <li>
