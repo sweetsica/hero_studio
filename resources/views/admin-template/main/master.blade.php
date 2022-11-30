@@ -290,7 +290,7 @@
     const divs = document.querySelectorAll('.marquee');
     const length = divs.length;
 
-    let i = 1;
+    let y = 1;
 
     const delay = function () {
         return new Promise((resolve) => {
@@ -299,11 +299,11 @@
                     divs[j].classList.remove('active');
                     divs[j].classList.add('d-none');
                 }
-                i = i < divs.length ? i : 0;
-                divs[i].classList.remove('d-none');
-                divs[i].classList.add('active');
-                prevDiv = divs[i];
-                i++;
+                y = y < divs.length ? y : 0;
+                divs[y].classList.remove('d-none');
+                divs[y].classList.add('active');
+                prevDiv = divs[y];
+                y++;
                 delay();
                 resolve();
             }, 10000);
