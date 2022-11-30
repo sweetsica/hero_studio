@@ -38,7 +38,7 @@
 }
 
 .table-info {
-    --bs-table-bg: #5369f8;
+    --bs-table-bg: #5cc6ee;
     --bs-table-striped-bg: #343a40;
     --bs-table-striped-color: #fff;
     --bs-table-active-bg: #343a40;
@@ -55,7 +55,7 @@
 }
 
 .table-success {
-    --bs-table-bg: #228B22;
+    --bs-table-bg: #009E60;
     --bs-table-striped-bg: #343a40;
     --bs-table-striped-color: #fff;
     --bs-table-active-bg: #343a40;
