@@ -395,8 +395,11 @@
 		.modal-content {
 		    margin: auto;
 		    display: block;
+		    width: unset;
+		    height: 80%;
 		    max-width: 75%;
-		    max-height: 100%;
+		    max-height: 80%;
+		    top: 10%;
 		}
 
 		/* Caption of Modal Image */
@@ -455,13 +458,6 @@
 		    color: #bbb;
 		    text-decoration: none;
 		    cursor: pointer;
-		}
-
-		/* 100% Image Width on Smaller Screens */
-		@media only screen and (max-width: 700px){
-		    .modal-content {
-		        width: 100%;
-		    }
 		}
     </style>
     <div id="previewModal" class="modal-preview">

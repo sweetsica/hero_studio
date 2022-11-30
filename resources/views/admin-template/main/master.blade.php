@@ -24,12 +24,12 @@
         <link href="{{ asset('admin-asset/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"
               id="app-default-stylesheet"/>
 
-{{--        <link href="{{ asset('admin-asset/assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css"--}}
-{{--              id="bs-dark-stylesheet" disabled/>--}}
-{{--        <link href="{{ asset('admin-asset/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css"--}}
-{{--              id="app-dark-stylesheet" disabled/>--}}
+        {{--        <link href="{{ asset('admin-asset/assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css"--}}
+        {{--              id="bs-dark-stylesheet" disabled/>--}}
+        {{--        <link href="{{ asset('admin-asset/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css"--}}
+        {{--              id="app-dark-stylesheet" disabled/>--}}
 
-        <!-- icons -->
+    <!-- icons -->
         <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css"/>
     @endif
@@ -70,6 +70,7 @@
                 left: -100%;
             }
         }
+
         .dataTables_info {
             display: none;
         }
@@ -101,10 +102,11 @@
                        role="button" aria-haspopup="false" aria-expanded="false">
                         @if(Auth::user()->member->avatar)
                             <img src="/storage/{{ Auth::user()->member->avatar }}" alt="user-image"
-                             class="rounded-circle align-self-center"/>
+                                 class="rounded-circle align-self-center"/>
                         @else
                             <span
-                                class="bg-soft-primary text-primary align-self-center rounded-circle" style="width: 32px;height: 32px;line-height: 32px">{{ substr(Auth::user()->member->name, 0, 1) }}</span>
+                                class="bg-soft-primary text-primary align-self-center rounded-circle"
+                                style="width: 32px;height: 32px;line-height: 32px">{{ substr(Auth::user()->member->name, 0, 1) }}</span>
                         @endif
                         <span class="pro-user-name ms-1">
                                 {{ Auth::user()->member->name }}
@@ -117,13 +119,13 @@
                             <h6 class="text-overflow m-0">Welcome !</h6>
                         </div>
 
-{{--                        <a href="pages-profile.html" class="dropdown-item notify-item">--}}
-{{--                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>--}}
-{{--                        </a>--}}
+                        {{--                        <a href="pages-profile.html" class="dropdown-item notify-item">--}}
+                        {{--                            <i data-feather="user" class="icon-dual icon-xs me-1"></i><span>My Account</span>--}}
+                        {{--                        </a>--}}
 
-{{--                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">--}}
-{{--                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>--}}
-{{--                        </a>--}}
+                        {{--                        <a href="pages-lock-screen.html" class="dropdown-item notify-item">--}}
+                        {{--                            <i data-feather="lock" class="icon-dual icon-xs me-1"></i><span>Lock Screen</span>--}}
+                        {{--                        </a>--}}
 
                         <div class="dropdown-divider"></div>
 
@@ -141,27 +143,38 @@
             </ul>
 
             <!-- LOGO -->
+                        <div class="logo-box">
+                <a href="{{route('dashboard')}}" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""
+                                 height="24"/>
+                            <!-- <span class="logo-lg-text-light">Shreyu</span> -->
+                        </span>
+                    <span class="logo-lg">
+                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""
+                                 height="54"
+                                 style="font-size: 20px;font-weight: bolder;color: red;"
+                            />
+                                 <span>HERO STUDIO</span>
+                        </span>
+                </a>
+            </div>
+
 {{--            <div class="logo-box">--}}
 {{--                <a href="{{route('dashboard')}}" class="logo logo-dark">--}}
-{{--                        <span class="logo-sm">--}}
-{{--                            <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""--}}
-{{--                                 height="24"/>--}}
-{{--                            <!-- <span class="logo-lg-text-light">Shreyu</span> -->--}}
+{{--                        <span class="logo-sm logo-style">--}}
+{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
 {{--                        </span>--}}
-{{--                    <span class="logo-lg">--}}
-{{--                            <img src="{{ asset('admin-asset/assets/images/logo-dark.png') }}" alt=""--}}
-{{--                                 height="24"/>--}}
-{{--                        <!-- <span class="logo-lg-text-light">S</span> -->--}}
+{{--                    <span class="logo-lg logo-style">--}}
+{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
 {{--                        </span>--}}
 {{--                </a>--}}
 {{--                <a href="{{route('dashboard')}}" class="logo logo-light">--}}
-{{--                        <span class="logo-sm">--}}
-{{--                            <img src="{{ asset('admin-asset/assets/images/logo-sm.png') }}" alt=""--}}
-{{--                                 height="24"/>--}}
+{{--                        <span class="logo-sm logo-style">--}}
+{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
 {{--                        </span>--}}
-{{--                    <span class="logo-lg">--}}
-{{--                            <img src="{{ asset('admin-asset/assets/images/logo-light.png') }}" alt=""--}}
-{{--                                 height="24"/>--}}
+{{--                    <span class="logo-lg logo-style">--}}
+{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
 {{--                        </span>--}}
 {{--                </a>--}}
 {{--            </div>--}}
