@@ -218,7 +218,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS))
+                                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Models\Role::ROLE_KOLS) || Auth::user()->hasRole(\App\Models\Role::ROLE_SUPER_ADMIN))
                                         <div class="col-3" id="product_rate_div">
                                             Đánh giá yêu cầu
                                             <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
