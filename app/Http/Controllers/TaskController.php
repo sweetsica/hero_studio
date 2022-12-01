@@ -414,6 +414,8 @@ class TaskController extends Controller
     public function comment(Request $request, $id)
     {
         $comment = $request->comment;
+        if (!$comment) return redirect()->back();
+
         if ($request->type === 'file') {
             $comment = Storage::disk('public')->put('files', $request->comment);
         } else if ($request->type === 'media_upload') {

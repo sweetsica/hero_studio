@@ -21,8 +21,14 @@
                     <div>
                         <div class="d-flex justify-content-between mb-2">
                             <div class="d-flex align-items-center">
-                                <img src="{{asset('admin-asset/assets/images/users/avatar-9.jpg')}}"
-                                     class="me-2 rounded-circle" height="36" alt="Arya Stark">
+                                @if($comment->member->avatar)
+                                    <img src="/storage/{{$comment->member->avatar}}"
+                                         class="me-2 rounded-circle" height="36" alt="Arya Stark">
+                                @else
+                                    <span
+                                        class="bg-soft-primary text-primary align-self-center rounded-circle"
+                                        style="width: 32px;height: 32px;line-height: 32px;text-align: center">{{ substr($comment->member->name, 0, 1) }}</span>
+                                @endif
                                 <h5 class="mt-0 mb-0 fs-14">
                                     {{ $comment->member->name }}
                                 </h5>
@@ -58,7 +64,7 @@
                       method="POST">
                     @csrf
                     <textarea id="chat-textarea" name="comment" rows="3" class="form-control border-0 resize-none"
-                              placeholder="Your comment..."></textarea>
+                              placeholder="Your comment..." required></textarea>
 
                     <textarea id="chat-textarea-hidden" rows="3" class="form-control border-0 resize-none"
                               placeholder="Your comment..." hidden></textarea>
