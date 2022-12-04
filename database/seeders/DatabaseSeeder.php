@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PositionSeeder::class,
             MemberSeeder::class,
-            DepartmentSeeder::class,
-            TaskSeeder::class,
-            CommentSeeder::class,
-            CategorySeeder::class,
-            PostSeeder::class,
+//            DepartmentSeeder::class,
+//            TaskSeeder::class,
+//            CommentSeeder::class,
+//            CategorySeeder::class,
+//            PostSeeder::class,
         ]);
     }
 }

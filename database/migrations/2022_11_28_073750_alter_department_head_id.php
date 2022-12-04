@@ -18,6 +18,13 @@ return new class extends Migration {
                 ->references('id')->on('members')
                 ->onDelete('cascade');
         });
+    }
 
+    public function down() {
+        Schema::table('departments', function (Blueprint $table) {
+            $table->dropForeign(['department_head_id']);
+            $table->foreign('department_head_id')
+                ->references('id')->on('members');
+        });
     }
 };
