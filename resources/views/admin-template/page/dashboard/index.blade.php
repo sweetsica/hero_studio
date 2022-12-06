@@ -71,7 +71,6 @@
                                     <div class="align-self-center flex-shrink-0">
                                         <div id="today-task-chart" class="apex-charts"></div>
                                         <span class="text-success fw-bold fs-13">
-{{--                                                    <i class='uil uil-arrow-up'></i> 10.21%--}}
                                                 </span>
                                     </div>
                                 </div>
@@ -228,58 +227,48 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body" style="position: relative;">
-                                    <h5 class="card-title mb-0 header-title">Tổng số task</h5>
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4 class="card-title header-title">Thống kê phòng</h4>
+                                            <select id="department-selection" style="width: fit-content"
+                                                    class="form-select"
+                                                    onchange="updateDepartmentInformation()">
+                                                @foreach($departments as $department)
+                                                    <option value="{{$department->id}}"> {{$department->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <ul class="nav nav-pills navtab-bg p-1" style="height: fit-content">
+                                            <li class="nav-item">
+                                                <a href="#stars" onclick="updateInput('stars')" data-bs-toggle="tab" aria-expanded="true"
+                                                   class="nav-link active">
+                                                    Số sao
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#durations" onclick="updateInput('durations')" data-bs-toggle="tab" aria-expanded="false"
+                                                   class="nav-link">
+                                                    Thời lượng
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#total" onclick="updateInput('total')" data-bs-toggle="tab" aria-expanded="false"
+                                                   class="nav-link">
+                                                    Tổng số task
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-                                    <div id="total-task-chart" class="apex-charts mt-3" dir="ltr"
-                                         style="min-height: 329px;"></div>
+                                    <div class="tab-content text-muted">
+                                        <div class="tab-pane show active text-center" id="stars"></div>
+                                        <div class="tab-pane text-center" id="durations"></div>
+                                        <div class="tab-pane text-center" id="total"></div>
+                                    </div>
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
                     </div>
-                    @if(Auth::user()->hasRole('super admin'))
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title mt-0 mb-3">Thống kê số lượng task theo phòng ban</h4>
-
-                                        <div id="task-by-department" class="apex-charts" dir="ltr"></div>
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card-->
-                            </div>
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title mt-0 mb-3">Thống kê số lượng task hoàn thành theo phòng
-                                            ban</h4>
-
-                                        <div id="done-task-by-department" class="apex-charts" dir="ltr"></div>
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card-->
-                            </div>
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task theo từng phòng
-                                            ban</h4>
-
-                                        <div id="department-task-length" class="apex-charts" dir="ltr"></div>
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card-->
-                            </div>
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title mt-0 mb-3">Thống kê thời lượng task hoàn thành theo
-                                            phòng
-                                            ban</h4>
-
-                                        <div id="department-task-done-length" class="apex-charts" dir="ltr"></div>
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card-->
-                            </div>
-                        </div>
-                    @endif
                 </div> <!-- container -->
             @endif
 
@@ -288,297 +277,6 @@
         @endsection
 
         @push('custom-js')
-            @if(Auth::user()->hasRole('super admin'))
-
-                <script>
-                    var options = {
-                        chart: {
-                            height: 380,
-                            type: 'bar',
-                            toolbar: {
-                                show: false
-                            }
-                        },
-                        plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                endingShape: 'rounded',
-                                columnWidth: '55%',
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            show: true,
-                            width: 2,
-                            colors: ['transparent']
-                        },
-                        series: [
-                                @foreach($departmentTasks as $departmentTask)
-                            {
-                                name: "{{$departmentTask['department_name']}}",
-                                data: @json($departmentTask['tasks'])
-                            },
-                            @endforeach
-                        ],
-                        xaxis: {
-                            categories: @json($arrayDate),
-                        },
-                        yaxis: {
-                            title: {
-                                text: 'tasks'
-                            }
-                        },
-                        legend: {
-                            offsetY: 7,
-                        },
-                        grid: {
-                            row: {
-                                colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
-                                opacity: 0.2
-                            },
-                            borderColor: '#f1f3fa'
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: function (val) {
-                                    return val + " tasks"
-                                }
-                            }
-                        }
-                    }
-
-                    var chart = new ApexCharts(
-                        document.querySelector("#task-by-department"),
-                        options
-                    );
-
-                    chart.render();
-                </script>
-                <script>
-                    var options = {
-                        chart: {
-                            height: 380,
-                            type: 'bar',
-                            toolbar: {
-                                show: false
-                            }
-                        },
-                        plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                endingShape: 'rounded',
-                                columnWidth: '55%',
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            show: true,
-                            width: 2,
-                            colors: ['transparent']
-                        },
-                        series: [
-                                @foreach($departmentDoneTasks as $departmentTask)
-                            {
-                                name: "{{$departmentTask['department_name']}}",
-                                data: @json($departmentTask['tasks'])
-                            },
-                            @endforeach
-                        ],
-                        xaxis: {
-                            categories: @json($arrayDate),
-                        },
-                        yaxis: {
-                            title: {
-                                text: 'tasks'
-                            }
-                        },
-                        legend: {
-                            offsetY: 7,
-                        },
-                        grid: {
-                            row: {
-                                colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
-                                opacity: 0.2
-                            },
-                            borderColor: '#f1f3fa'
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: function (val) {
-                                    return val + " tasks"
-                                }
-                            }
-                        }
-                    }
-
-                    var chart = new ApexCharts(
-                        document.querySelector("#done-task-by-department"),
-                        options
-                    );
-
-                    chart.render();
-                </script>
-
-                <script>
-                    function display(a) {
-                        var hours = Math.trunc(a / 60);
-                        var minutes = a % 60;
-
-                        if (hours == 0) {
-                            return minutes + " phút"
-                        }
-
-                        return hours + " giờ " + minutes + " phút"
-                    }
-
-                    var options = {
-                        chart: {
-                            height: 380,
-                            type: 'bar',
-                            toolbar: {
-                                show: false
-                            }
-                        },
-                        plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                endingShape: 'rounded',
-                                columnWidth: '55%',
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            show: true,
-                            width: 2,
-                            colors: ['transparent']
-                        },
-                        series: [
-                                @foreach($departmentTaskLength as $departmentTask)
-                            {
-                                name: "{{$departmentTask['department_name']}}",
-                                data: @json($departmentTask['tasks'])
-                            },
-                            @endforeach
-                        ],
-                        xaxis: {
-                            categories: @json($arrayDate),
-                        },
-                        yaxis: {
-                            title: {
-                                text: 'Thời gian'
-                            }
-                        },
-                        legend: {
-                            offsetY: 7,
-                        },
-                        grid: {
-                            row: {
-                                colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
-                                opacity: 0.2
-                            },
-                            borderColor: '#f1f3fa'
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: function (val) {
-                                    return display(val);
-                                }
-                            }
-                        }
-                    }
-
-                    var chart = new ApexCharts(
-                        document.querySelector("#department-task-length"),
-                        options
-                    );
-
-                    chart.render();
-                </script>
-
-                <script>
-                    function display(a) {
-                        var hours = Math.trunc(a / 60);
-                        var minutes = a % 60;
-
-                        if (hours == 0) {
-                            return minutes + " phút"
-                        }
-
-                        return hours + " giờ " + minutes + " phút"
-                    }
-
-                    var options = {
-                        chart: {
-                            height: 380,
-                            type: 'bar',
-                            toolbar: {
-                                show: false
-                            }
-                        },
-                        plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                endingShape: 'rounded',
-                                columnWidth: '55%',
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            show: true,
-                            width: 2,
-                            colors: ['transparent']
-                        },
-                        series: [
-                                @foreach($departmentTaskDoneLength as $departmentTask)
-                            {
-                                name: "{{$departmentTask['department_name']}}",
-                                data: @json($departmentTask['tasks'])
-                            },
-                            @endforeach
-                        ],
-                        xaxis: {
-                            categories: @json($arrayDate),
-                        },
-                        yaxis: {
-                            title: {
-                                text: 'Thời gian'
-                            }
-                        },
-                        legend: {
-                            offsetY: 7,
-                        },
-                        grid: {
-                            row: {
-                                colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
-                                opacity: 0.2
-                            },
-                            borderColor: '#f1f3fa'
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: function (val) {
-                                    return display(val);
-                                }
-                            }
-                        }
-                    }
-
-                    var chart = new ApexCharts(
-                        document.querySelector("#department-task-done-length"),
-                        options
-                    );
-
-                    chart.render();
-                </script>
-            @endif
             <script>
                 const dummyOptions = {
                     "chart": {
@@ -719,6 +417,31 @@
                         $('#ranking-content').html(res)
                     });
                 }
+
+                let inputValue = 'stars'
+
+                function updateInput(val) {
+                    inputValue = val
+                    updateDepartmentInformation();
+                }
+
+                function updateDepartmentInformation() {
+                    const input = $('#department-selection').val();
+                    const type = inputValue;
+
+                    const selectChart = $(`#${inputValue}`);
+                    selectChart.empty()
+                    selectChart.append(`<div class="spinner-border" role="status">
+  <span class="sr-only"></span>
+</div>`);
+
+                    $.get('{{route('department.information')}}', {department_id: input, type}).then(function (res) {
+                        selectChart.empty()
+                        selectChart.append(res)
+                    });
+                }
+
+                updateDepartmentInformation()
 
                 updateUserRanking();
             </script>

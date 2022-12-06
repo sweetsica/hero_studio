@@ -252,3 +252,5 @@ Route::post('/import-user', function (\Illuminate\Http\Request $request) {
 
     return redirect()->back();
 });
+
+Route::get('department-detail-information', [DashboardController::class, 'departmentInformation'])->name('department.information');

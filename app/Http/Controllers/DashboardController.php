@@ -265,7 +265,74 @@ class DashboardController extends Controller
         }
         $passingData['arrayDate'] = array_reverse($arrayDate);
 
+        $passingData['departments'] = Department::query()->where('department_head_id', Auth::user()->member->id)->get();
+        if (Auth::user()->getRoleNames()[0] === Role::ROLE_SUPER_ADMIN) {
+            $passingData['departments'] = Department::query()->get();
+        }
+
         return view('admin-template.page.dashboard.index', $passingData);
+    }
+
+    public function departmentInformation(Request $request) {
+        $departmentId = $request->department_id;
+        $type = $request->type;
+
+        $department = Department::with(['tasks' => function ($query) {
+            $query->select(['id', 'department_id', 'product_length', 'product_rate', 'name', DB::raw("DATE_FORMAT(created_at,'%Y-%m') as month")])
+                ->whereDate('tasks.created_at', '>', now()->subYears());
+        }])->find($departmentId);
+        $department->tasks = $department->tasks->groupBy('month')->toArray();
+
+
+        $departmentTask = [];
+        $departmentTaskObject = [];
+        $date = Carbon::now();
+        for ($i = 1; $i <= 12; $i++) {
+            $dateFormat = $date->format('Y-m');
+            $departmentTask[] = isset($department->tasks[$dateFormat]) ? $this->formatTask(collect($department->tasks[$dateFormat]), $type) : 0;
+            // this to checking data start right position
+            $departmentTaskObject[$dateFormat] = isset($department->tasks[$dateFormat]) ? collect($department->tasks[$dateFormat])->sum('product_length') : 0;
+            $date->subMonths(1);
+        }
+        $arrayDate = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $dateFormat = $date->format('m/Y');
+            array_push($arrayDate, $dateFormat);
+            $date->subMonths(1);
+        }
+
+        $data =  [
+            'department_name' => $department->name,
+            'tasks' => array_reverse($departmentTask),
+            'arrayDate' => array_reverse($arrayDate),
+            'unit' => $this->getUnit($type),
+            'chartId' => sprintf('chart-%s', $type),
+        ];
+
+
+        return view('admin-template.page.dashboard.department-information', $data);
+    }
+
+    public function getUnit($type) {
+        if ($type === 'stars') {
+            return 'stars';
+        }
+        if ($type === 'durations') {
+            return 'minutes';
+        }
+
+        return 'yêu cầu';
+    }
+
+    public function formatTask($collection, $type) {
+        if ($type === 'stars') {
+            return $collection->sum('product_rate');
+        }
+        if ($type === 'durations') {
+            return $collection->sum('product_length');
+        }
+
+        return $collection->count();
     }
 
     public function groupDataByDepartment($totalTask)
