@@ -254,3 +254,4 @@ Route::post('/import-user', function (\Illuminate\Http\Request $request) {
 });
 
 Route::get('department-detail-information', [DashboardController::class, 'departmentInformation'])->name('department.information');
+Route::get('daily-task',  [DashboardController::class, 'dailyTask'])->name('daily-task');

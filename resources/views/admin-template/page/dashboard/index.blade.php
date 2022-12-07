@@ -89,9 +89,6 @@
                                     </div>
                                     <div class="align-self-center flex-shrink-0">
                                         <div id="today-product-sold-chart" class="apex-charts"></div>
-                                        <span class="text-success fw-bold fs-13">
-{{--                                                    <i class='uil uil-arrow-down'></i> 5.05%--}}
-                                                </span>
                                     </div>
                                 </div>
                             </div>
@@ -108,9 +105,6 @@
                                     </div>
                                     <div class="align-self-center flex-shrink-0">
                                         <div id="today-new-customer-chart" class="apex-charts"></div>
-                                        <span class="text-danger fw-bold fs-13">
-{{--                                                    <i class='uil uil-arrow-up'></i> 25.16%--}}
-                                                </span>
                                     </div>
                                 </div>
                             </div>
@@ -224,6 +218,17 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body" style="padding-inline: unset">
+                                <div class="d-flex justify-content-between" style="padding-inline: 1.25rem">
+                                    <h4 class="card-title header-title">Yêu cầu được tạo gần đây</h4>
+                                </div>
+                                <div id="daily-task" class="my-2 mx-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body" style="position: relative;">
@@ -240,19 +245,22 @@
                                         </div>
                                         <ul class="nav nav-pills navtab-bg p-1" style="height: fit-content">
                                             <li class="nav-item">
-                                                <a href="#stars" onclick="updateInput('stars')" data-bs-toggle="tab" aria-expanded="true"
+                                                <a href="#stars" onclick="updateInput('stars')" data-bs-toggle="tab"
+                                                   aria-expanded="true"
                                                    class="nav-link active">
                                                     Số sao
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="#durations" onclick="updateInput('durations')" data-bs-toggle="tab" aria-expanded="false"
+                                                <a href="#durations" onclick="updateInput('durations')"
+                                                   data-bs-toggle="tab" aria-expanded="false"
                                                    class="nav-link">
                                                     Thời lượng
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="#total" onclick="updateInput('total')" data-bs-toggle="tab" aria-expanded="false"
+                                                <a href="#total" onclick="updateInput('total')" data-bs-toggle="tab"
+                                                   aria-expanded="false"
                                                    class="nav-link">
                                                     Tổng số task
                                                 </a>
@@ -444,6 +452,23 @@
                 updateDepartmentInformation()
 
                 updateUserRanking();
+            </script>
+
+            <script>
+                function getDailyTask() {
+                    const selectChart = $(`#daily-task`);
+                    selectChart.empty()
+                    selectChart.append(`<div class="spinner-border" role="status">
+  <span class="sr-only"></span>
+</div>`);
+                    $.get('{{route('daily-task')}}').then(function (res) {
+                        selectChart.empty()
+                        console.log(res)
+                        selectChart.append(res)
+                    });
+                }
+
+                getDailyTask()
             </script>
     @endpush
 

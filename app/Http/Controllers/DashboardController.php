@@ -313,6 +313,60 @@ class DashboardController extends Controller
         return view('admin-template.page.dashboard.department-information', $data);
     }
 
+    public function dailyTask(Request $request) {
+        $taskQuery = Task::query()->select(DB::raw("DATE_FORMAT(created_at,'%d-%M-%Y') as created_at"));
+        if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
+            $taskQuery = $taskQuery->where('creator_id', '=', Auth::id());
+        } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {
+            $taskQuery = $taskQuery->where('member_id', '=', Auth::user()->member->id);
+        } else if (Auth::user()->hasRole(Role::ROLE_COF)) {
+            $authUserDepartments = collect(Auth::user()->departments)->pluck('id')->toArray();
+            $taskQuery = $taskQuery->whereIn('department_id', $authUserDepartments);
+        }
+        $weekMap = [
+            0 => 'SUN',
+            1 => 'MON',
+            2 => 'TUE',
+            3 => 'WED',
+            4 => 'THU',
+            5 => 'FRI',
+            6 => 'SAT',
+        ];
+        $newData = $taskQuery->orderBy('created_at', 'asc')->whereDate('created_at', '>', now()->subMonths())->get()->groupBy('created_at');
+        $formatMapWithKey = $newData->mapWithKeys(function ($item, $key) use ($weekMap) {
+            $formattedKey = Carbon::parse($key)->dayOfWeek;
+
+            return [
+                $key => [
+                    'format' => $weekMap[$formattedKey],
+                    'value' => collect($item)->count(),
+                ]
+            ];
+        });
+        for ($i = 0; $i < 7; $i++) {
+            $todayCarbon = Carbon::now()->subDays($i);
+            $today = $todayCarbon->format('Y-m-d 00:00:00');
+
+            $dummyValue = [
+                'format' => $weekMap[$todayCarbon->dayOfWeek],
+                'value' => 0,
+            ];
+            $formatMapWithKey[$today] = isset($formatMapWithKey[$today]) ? $formatMapWithKey[$today] : $dummyValue;
+        }
+        $formatMapWithKey = $formatMapWithKey->sortBy(function ($value, $key) {
+            return $key;
+        });
+
+        $data['tasks']['value'] = $formatMapWithKey->map(function ($item) {
+            return $item['value'];
+        })->values()->toArray();
+        $data['tasks']['format'] = $formatMapWithKey->map(function ($item) {
+            return $item['format'];
+        })->values()->toArray();
+
+        return view('admin-template.page.dashboard.daily-task', $data);
+    }
+
     public function getUnit($type) {
         if ($type === 'stars') {
             return 'stars';
