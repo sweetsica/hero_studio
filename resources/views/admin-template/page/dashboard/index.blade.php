@@ -218,17 +218,6 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body" style="padding-inline: unset">
-                                <div class="d-flex justify-content-between" style="padding-inline: 1.25rem">
-                                    <h4 class="card-title header-title">Yêu cầu được tạo gần đây</h4>
-                                </div>
-                                <div id="daily-task" class="my-2 mx-2">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body" style="position: relative;">
@@ -275,6 +264,17 @@
                                     </div>
                                 </div> <!-- end card -->
                             </div><!-- end col-->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body" style="padding-inline: unset">
+                                <div class="d-flex justify-content-between" style="padding-inline: 1.25rem">
+                                    <h4 class="card-title header-title">Yêu cầu được tạo gần đây</h4>
+                                </div>
+                                <div id="daily-task" class="my-2 mx-2">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div> <!-- container -->
