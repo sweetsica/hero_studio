@@ -314,7 +314,9 @@ class DashboardController extends Controller
     }
 
     public function dailyTask(Request $request) {
-        $taskQuery = Task::query()->select(DB::raw("DATE_FORMAT(created_at,'%d-%M-%Y') as created_at"));
+        $departmentId = $request->department_id;
+        $taskQuery = Task::query()->select(DB::raw("DATE_FORMAT(created_at,'%d-%M-%Y') as created_at"))->where('department_id', $departmentId);
+
         if (Auth::user()->hasRole(Role::ROLE_KOLS)) {
             $taskQuery = $taskQuery->where('creator_id', '=', Auth::id());
         } else if (Auth::user()->hasRole(Role::ROLE_EDITOR)) {

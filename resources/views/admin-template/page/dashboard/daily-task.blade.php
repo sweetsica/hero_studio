@@ -7,7 +7,7 @@
 <script src="{{ asset('admin-asset/assets/libs/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('admin-asset/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 <script>
-    const dailyTaskOption = {
+    var dailyTaskOption = {
         "chart": {
             "height": 329,
             "type": "area"
