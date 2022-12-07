@@ -277,7 +277,8 @@ class TaskController extends Controller
         }
         $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
 
-        $members = $departments->first()->members()->whereIn('user_id', $userHaveEditorRole)->get();
+
+        $members = $departments->count()  > 0 ? $departments->first()->members()->whereIn('user_id', $userHaveEditorRole)->get() : [];
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
     }

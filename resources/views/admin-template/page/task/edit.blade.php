@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="exampleInputEmail1">Link video nguồn</label>
-                                        <textarea class="form-control" name="content"
+                                        <textarea class="form-control" name="url_source"
                                                   @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
                                                   style="background-color: #f6f6f7"@endif>{{$task->url_source}}</textarea>
                                     </div>
