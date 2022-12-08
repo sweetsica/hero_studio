@@ -224,6 +224,9 @@
                                             Đánh giá yêu cầu
                                             <label class="form-label" for="exampleInputEmail1">Trạng thái</label>
                                             <select id="product_rate" name="product_rate" class="form-select">
+                                                <option value="">
+                                                    Chưa đánh giá
+                                                </option>
                                                 @for($i = 1; $i < 6; $i++)
                                                     <option value="{{$i}}"
                                                             @if($task->product_rate === $i) selected @endif>{{$i}} Sao
@@ -253,52 +256,52 @@
             <!-- end row -->
 
             @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='super admin')
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title mt-0 mb-1">Danh sách task</h4>
-                            <p class="sub-header">
-                            </p>
-                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
-                                <thead>
-                                <tr>
-                                    <th>Ngày tạo</th>
-                                    <th>Tên yêu cầu</th>
-                                    <th>Nhân viên phụ trách</th>
-                                    <th>Phòng ban phụ trách</th>
-
-                                    <th>Nguồn</th>
-                                    <th>Loại yêu cầu</th>
-                                    <th>Thời hạn</th>
-                                    <th>Link video nguồn</th>
-                                    <th>Mô tả</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($tasks as $taskItem)
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title mt-0 mb-1">Danh sách task</h4>
+                                <p class="sub-header">
+                                </p>
+                                <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                                    <thead>
                                     <tr>
-                                        <td>{{ $taskItem->created_at->format('d/m - h:i') }}</td>
-                                        <td>
-                                            <a href="{{route('edit.taskOrder',$taskItem->id)}}">{{ $taskItem->name }}</a>
-                                        </td>
-                                        <td>{{ $taskItem->member?->name }}</td>
-                                        <td>{{ $taskItem->department->name }}</td>
+                                        <th>Ngày tạo</th>
+                                        <th>Tên yêu cầu</th>
+                                        <th>Nhân viên phụ trách</th>
+                                        <th>Phòng ban phụ trách</th>
 
-                                        <td>{{ $taskItem->source }}</td>
-                                        <td>{{ $taskItem->type }}</td>
-                                        <td>{{ \Illuminate\Support\Carbon::parse($taskItem->deadline)->format('d/m - h:i')}}</td>
-                                        <td>{{ $taskItem->url_source }}</td>
-                                        <td>{{ $taskItem->content }}</td>
+                                        <th>Nguồn</th>
+                                        <th>Loại yêu cầu</th>
+                                        <th>Thời hạn</th>
+                                        <th>Link video nguồn</th>
+                                        <th>Mô tả</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($tasks as $taskItem)
+                                        <tr>
+                                            <td>{{ $taskItem->created_at->format('d/m - h:i') }}</td>
+                                            <td>
+                                                <a href="{{route('edit.taskOrder',$taskItem->id)}}">{{ $taskItem->name }}</a>
+                                            </td>
+                                            <td>{{ $taskItem->member?->name }}</td>
+                                            <td>{{ $taskItem->department->name }}</td>
 
-                        </div> <!-- end card body-->
-                    </div> <!-- end card -->
-                </div><!-- end col-->
-            </div>
+                                            <td>{{ $taskItem->source }}</td>
+                                            <td>{{ $taskItem->type }}</td>
+                                            <td>{{ \Illuminate\Support\Carbon::parse($taskItem->deadline)->format('d/m - h:i')}}</td>
+                                            <td>{{ $taskItem->url_source }}</td>
+                                            <td>{{ $taskItem->content }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
             @endif
         </div> <!-- content -->
     </div> <!-- content -->
