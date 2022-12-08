@@ -72,6 +72,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Nơi đăng tải</label>
                                         <select class="form-select"
+                                                name="source"
                                                 @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
                                                 style="background-color: #f6f6f7"@endif>
                                             <option value="Facebook" @if($task->source === 'Facebook') selected @endif>
