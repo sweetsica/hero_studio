@@ -81,7 +81,7 @@
                                             <option value="Tiktok" @if($task->source === 'Tiktok') selected @endif>
                                                 Tiktok
                                             </option>
-                                            <option value="Youtube @if($task->source === 'Youtube') selected @endif">
+                                            <option value="Youtube" @if($task->source === 'Youtube') selected @endif">
                                                 Youtube
                                             </option>
                                         </select>
