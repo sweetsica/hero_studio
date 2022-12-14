@@ -48,6 +48,8 @@ class Task extends Model
                     return $this->attributes['status_code'] = 'Đã hoàn thành';
             case "4":
                 return $this->attributes['status_code'] = 'Cần làm lại';
+            case "5":
+                return $this->attributes['status_code'] = 'Đóng';
             default:
                 return $this->status_code;
         }

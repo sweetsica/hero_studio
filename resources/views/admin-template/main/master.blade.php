@@ -24,17 +24,20 @@
         <link href="{{ asset('admin-asset/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"
               id="app-default-stylesheet"/>
 
-        {{--        <link href="{{ asset('admin-asset/assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css"--}}
-        {{--              id="bs-dark-stylesheet" disabled/>--}}
-        {{--        <link href="{{ asset('admin-asset/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css"--}}
-        {{--              id="app-dark-stylesheet" disabled/>--}}
-
     <!-- icons -->
         <link href="{{ asset('admin-asset/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('custom/app.css') }}" rel="stylesheet" type="text/css"/>
     @endif
     @stack('custom-css')
     <style>
+        .marquee-position {
+            height: 25px;
+            position: absolute;
+            width: 50%;
+            left: 50%;
+            transform: translate(-50%, 100%);
+        }
+
         .marquee {
             height: 25px;
             position: absolute;
@@ -83,14 +86,22 @@
 <div id="wrapper">
     <!-- Topbar Start -->
     <div class="navbar-custom">
+        {{--        @if(isset($notifies))--}}
+        {{--            @foreach($notifies as $notify)--}}
+        {{--                <div class="marquee @if($loop->first) @else d-none @endif">--}}
+        {{--                    <div>--}}
+        {{--                        <span style="color: {{$notify->format}}">{{$notify->content}}</span>--}}
+        {{--                        <span style="color: {{$notify->format}}">{{$notify->content}}</span>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            @endforeach--}}
+        {{--        @endif--}}
+
         @if(isset($notifies))
             @foreach($notifies as $notify)
-                <div class="marquee @if($loop->first) @else d-none @endif">
-                    <div>
+                <marquee class="marquee-position @if($loop->first) @else d-none @endif" width="50%">
                         <span style="color: {{$notify->format}}">{{$notify->content}}</span>
-                        <span style="color: {{$notify->format}}">{{$notify->content}}</span>
-                    </div>
-                </div>
+                </marquee>
             @endforeach
         @endif
 
@@ -144,24 +155,24 @@
 
             <!-- LOGO -->
 
-{{--            <div class="logo-box">--}}
-{{--                <a href="{{route('dashboard')}}" class="logo logo-dark">--}}
-{{--                        <span class="logo-sm logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
-{{--                        </span>--}}
-{{--                    <span class="logo-lg logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
-{{--                        </span>--}}
-{{--                </a>--}}
-{{--                <a href="{{route('dashboard')}}" class="logo logo-light">--}}
-{{--                        <span class="logo-sm logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
-{{--                        </span>--}}
-{{--                    <span class="logo-lg logo-style">--}}
-{{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
-{{--                        </span>--}}
-{{--                </a>--}}
-{{--            </div>--}}
+            {{--            <div class="logo-box">--}}
+            {{--                <a href="{{route('dashboard')}}" class="logo logo-dark">--}}
+            {{--                        <span class="logo-sm logo-style">--}}
+            {{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
+            {{--                        </span>--}}
+            {{--                    <span class="logo-lg logo-style">--}}
+            {{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
+            {{--                        </span>--}}
+            {{--                </a>--}}
+            {{--                <a href="{{route('dashboard')}}" class="logo logo-light">--}}
+            {{--                        <span class="logo-sm logo-style">--}}
+            {{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
+            {{--                        </span>--}}
+            {{--                    <span class="logo-lg logo-style">--}}
+            {{--                            <img src="{{ asset('admin-asset/Hero.png') }}" alt=""/>--}}
+            {{--                        </span>--}}
+            {{--                </a>--}}
+            {{--            </div>--}}
 
             <div>
                 <a class="navbar-toggle nav-link" data-bs-toggle="collapse"
@@ -287,8 +298,9 @@
 <script>
     let prevDiv = null;
 
-    const divs = document.querySelectorAll('.marquee');
+    const divs = document.querySelectorAll('marquee');
     const length = divs.length;
+    console.log(divs);
 
     let y = 1;
 
@@ -306,7 +318,7 @@
                 y++;
                 delay();
                 resolve();
-            }, 10000);
+            }, 30000);
         });
     }
 

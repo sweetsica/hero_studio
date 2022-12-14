@@ -92,7 +92,7 @@
                                                 @else
                                                     <tr class="table-warning">
                                                         @endif
-                                                        <th scope="row">{{$data->id}}</th>
+                                                        <th scope="row">{{$loop->index + 1}}</th>
                                                         <td>
                                                             <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                         </td>

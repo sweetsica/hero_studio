@@ -14,6 +14,26 @@ use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
+    public function sortTasks($tasks)
+    {
+        $taskPriority = [
+            Task::TASK_STATUS['REDO'],
+            Task::TASK_STATUS['SENT'],
+            Task::TASK_STATUS['IN_PROGRESS'],
+            Task::TASK_STATUS['DONE'],
+            Task::TASK_STATUS['CLOSE']
+        ];
+
+        $tasks = $tasks->map(function($task) use($taskPriority) {
+            $task->priority_task = collect($taskPriority)->search(function($val, $key) use ($task) {
+                return $val === $task->status_code;
+            });
+            return $task;
+        })->sortBy('priority_task', SORT_ASC);
+
+        return $tasks;
+    }
+
     public function getTaskOrder(Request $request)
     {
         $query = Task::query();
@@ -39,13 +59,14 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
         $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');
+        $infos = $this->sortTasks($infos);
 
-        return view('admin-template.page.task.index', compact('infos', 'tasks','totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        return view('admin-template.page.task.index', compact('infos', 'tasks', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function getPendingTaskOrder(Request $request)
@@ -75,12 +96,12 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
-
+        $infos = $this->sortTasks($infos);
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
@@ -111,12 +132,12 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
-
+        $infos = $this->sortTasks($infos);
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
@@ -146,11 +167,12 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
+        $infos = $this->sortTasks($infos);
 
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
@@ -182,11 +204,12 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
+        $infos = $this->sortTasks($infos);
 
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
@@ -218,12 +241,12 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
-
+        $infos = $this->sortTasks($infos);
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
@@ -240,12 +263,13 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
-        return view('admin-template.page.task.index', compact('infos','count'));
+        $infos = $this->sortTasks($infos);
+        return view('admin-template.page.task.index', compact('infos', 'count'));
     }
 
     public function createTaskOrder()
@@ -278,7 +302,7 @@ class TaskController extends Controller
         $userHaveEditorRole = User::role('editor')->pluck('id')->toArray();
 
 
-        $members = $departments->count()  > 0 ? $departments->first()->members()->whereIn('user_id', $userHaveEditorRole)->get() : [];
+        $members = $departments->count() > 0 ? $departments->first()->members()->whereIn('user_id', $userHaveEditorRole)->get() : [];
 
         return view('admin-template.page.task.create', compact('tasks', 'departments', 'members'));
     }
@@ -316,7 +340,7 @@ class TaskController extends Controller
         $allowDelete = $task->creator_id === Auth::id() || in_array($task->department_id, $authUserDepartments);
         $info = $task->member('creator_id')->first();
 
-        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete','info'));
+        return view('admin-template.page.task.edit', compact('tasks', 'departments', 'members', 'task', 'allowDelete', 'info'));
     }
 
     public function store(Request $request)
@@ -378,11 +402,11 @@ class TaskController extends Controller
         $count['task_done_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["DONE"])->count();
         $count['task_lenght_today'] = Task::whereDate('created_at', date('Y-m-d'))->get('product_length');
         $count['task_sum_length_today'] = 0;
-        foreach ($count['task_lenght_today'] as $task_lenght){
+        foreach ($count['task_lenght_today'] as $task_lenght) {
             $count['task_sum_length_today'] = $task_lenght['product_length'] + $count['task_sum_length_today'];
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
-
+        $infos = $this->sortTasks($infos);
 
         return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
@@ -435,7 +459,8 @@ class TaskController extends Controller
         return redirect()->back();
     }
 
-    public function downloadFile(Request $request) {
+    public function downloadFile(Request $request)
+    {
         $file = Storage::disk('public')->path($request->file);
 
         return response()->download($file);
