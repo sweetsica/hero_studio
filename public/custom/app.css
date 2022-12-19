@@ -77,3 +77,9 @@
     color: white;
     border-color: #ebe0c0;
 }
+
+@media ( max-width: 992px) {
+    .auth-user-testimonial {
+        display: none;
+    }
+}

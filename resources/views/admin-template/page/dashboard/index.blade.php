@@ -44,12 +44,12 @@
                                 30 ngày trước </a>
                             <form action="">
                                 @csrf
-                                <div class="col-6 row mt-2">
-                                    <div class="col-5">
+                                <div class="col-12 col-lg-auto row mt-2">
+                                    <div class="col-12 col-sm-6 col-lg-5 mb-2">
                                         <input name="start_date" type="date" class="form-control"
                                                style="min-width: 210px;" value="{{$startDate}}"/>
                                     </div>
-                                    <div class="col-5">
+                                    <div class="col-12 col-sm-6 col-lg-5 mb-2">
                                         <input name="end_date" type="date" class="form-control"
                                                style="min-width: 210px;" value="{{$endDate}}"/>
                                     </div>
