@@ -19,7 +19,7 @@ class PostController extends Controller
         $categories = Category::all();
         $hashTags = HashTag::withCount('posts')
             ->orderBy('posts_count', 'desc')
-            ->take(5)
+            ->take(10)
             ->get();
 
         $posts = Post::query()->with('hashTags');
@@ -38,7 +38,7 @@ class PostController extends Controller
             });
         }
 
-        $posts = $posts->orderByDesc('updated_at')->paginate(5);
+        $posts = $posts->orderByDesc('updated_at')->paginate(10);
 
         return view('admin-template.page.post.index', compact('categories', 'hashTags', 'posts'));
     }
