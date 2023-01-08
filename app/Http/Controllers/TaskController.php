@@ -24,8 +24,8 @@ class TaskController extends Controller
             Task::TASK_STATUS['CLOSE']
         ];
 
-        $tasks = $tasks->map(function($task) use($taskPriority) {
-            $task->priority_task = collect($taskPriority)->search(function($val, $key) use ($task) {
+        $tasks = $tasks->map(function ($task) use ($taskPriority) {
+            $task->priority_task = collect($taskPriority)->search(function ($val, $key) use ($task) {
                 return $val === $task->status_code;
             });
             return $task;
@@ -49,7 +49,13 @@ class TaskController extends Controller
 
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
+
         $query = $query->orderBy($filterBy, $order);
+
         $infos = $query->get();
 
         $totalTask = Task::count();
@@ -65,8 +71,9 @@ class TaskController extends Controller
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
         $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');
         $infos = $this->sortTasks($infos);
+        $departments = Department::all();
 
-        return view('admin-template.page.task.index', compact('infos', 'tasks', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        return view('admin-template.page.task.index', compact('infos','departments', 'departments', 'tasks', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function getPendingTaskOrder(Request $request)
@@ -84,6 +91,10 @@ class TaskController extends Controller
 
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
 
         $query = $query->orderBy($filterBy, $order);
 
@@ -102,7 +113,8 @@ class TaskController extends Controller
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
         $infos = $this->sortTasks($infos);
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        $departments = Department::all();
+        return view('admin-template.page.task.index', compact('infos','departments', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function getInprogressTaskOrder(Request $request)
@@ -120,6 +132,10 @@ class TaskController extends Controller
 
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
 
         $query = $query->orderBy($filterBy, $order);
 
@@ -138,7 +154,8 @@ class TaskController extends Controller
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
         $infos = $this->sortTasks($infos);
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        $departments = Department::all();
+        return view('admin-template.page.task.index', compact('infos','departments', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function getDoneTaskOrder(Request $request)
@@ -156,6 +173,10 @@ class TaskController extends Controller
 
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
         $query = $query->orderBy($filterBy, $order);
 
         $infos = $query->where('status_code', Task::TASK_STATUS['DONE'])->get()->sortByDesc('created_at');
@@ -173,8 +194,9 @@ class TaskController extends Controller
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
         $infos = $this->sortTasks($infos);
+        $departments = Department::all();
 
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        return view('admin-template.page.task.index', compact('infos','departments', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function getRedoTaskOrder(Request $request)
@@ -193,6 +215,10 @@ class TaskController extends Controller
 
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
         $query = $query->orderBy($filterBy, $order);
 
         $infos = $query->where('status_code', Task::TASK_STATUS['REDO'])->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
@@ -210,8 +236,9 @@ class TaskController extends Controller
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
         $infos = $this->sortTasks($infos);
+        $departments = Department::all();
 
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        return view('admin-template.page.task.index', compact('infos','departments', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function getSponsorTaskOrder(Request $request)
@@ -230,6 +257,10 @@ class TaskController extends Controller
 
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
         $query = $query->orderBy($filterBy, $order);
 
         $infos = $query->where('type', 'Sponsor')->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
@@ -247,7 +278,8 @@ class TaskController extends Controller
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
         $infos = $this->sortTasks($infos);
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        $departments = Department::all();
+        return view('admin-template.page.task.index', compact('infos','departments', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
 
@@ -256,6 +288,10 @@ class TaskController extends Controller
         $query = Task::query();
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
         $query = $query->orderBy($filterBy, $order);
 
         $infos = $query->where('creator_id', '=', $kol_id)->get();//->where('userOrder_id','=',$user_id)->where('status','=','onHold')  Lấy các Task đang ở trạng thái "Chờ" theo id của KOL
@@ -269,7 +305,8 @@ class TaskController extends Controller
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
 
         $infos = $this->sortTasks($infos);
-        return view('admin-template.page.task.index', compact('infos', 'count'));
+        $departments = Department::all();
+        return view('admin-template.page.task.index', compact('infos','departments', 'count'));
     }
 
     public function createTaskOrder()
@@ -390,6 +427,10 @@ class TaskController extends Controller
         $query = Task::query();
         $filterBy = $request->get('filter_by', 'created_at');
         $order = $request->get('order', 'desc');
+        $departmentId = $request->get('department_id', null);
+        if (isset($departmentId)) {
+            $query = $query->where('department_id', $departmentId);
+        }
         $query = $query->orderBy($filterBy, $order);
         $infos = $query->get(); // Lấy danh sách toàn bộ Task
 
@@ -407,8 +448,9 @@ class TaskController extends Controller
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
         $infos = $this->sortTasks($infos);
+        $departments = Department::all();
 
-        return view('admin-template.page.task.index', compact('infos', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
+        return view('admin-template.page.task.index', compact('infos','departments', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
 
     public function updateTaskDetail(Request $request, $id)
