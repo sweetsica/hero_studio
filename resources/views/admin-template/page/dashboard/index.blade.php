@@ -213,12 +213,16 @@
                             <div class="card-body" style="padding-inline: unset">
                                 <div class="d-flex justify-content-between" style="padding-inline: 1.25rem">
                                     <h4 class="card-title header-title">Xếp hạng thành viên</h4>
-                                    <select id="ranking-selection" style="width: fit-content" class="form-select"
-                                            onchange="updateUserRanking()">
-                                        <option value="last_month_tasks_avg_product_rate">Số sao trung bình</option>
-                                        <option value="last_month_tasks_count">Tổng số task</option>
-                                        <option value="last_month_tasks_total_length">Thời gian</option>
-                                    </select>
+                                    <div class="row">
+                                        <input class="form-control col me-1" id="month_select" type="month" name="month"
+                                               onchange="updateUserRanking()">
+                                        <select id="ranking-selection" style="width: fit-content" class="form-select"
+                                                onchange="updateUserRanking()">
+                                            <option value="last_month_tasks_avg_product_rate">Số sao trung bình</option>
+                                            <option value="last_month_tasks_count">Tổng số task</option>
+                                            <option value="last_month_tasks_total_length">Thời gian</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div id="ranking-content" class="my-2" style="height: 300px; overflow-y: auto">
                                 </div>
@@ -435,9 +439,19 @@
             </script>
 
             <script>
+                $(document).ready(function () {
+                    const date = new Date();
+                    const initMonth = ("0" + (date.getMonth() + 1)).slice(-2)
+                    const initYear = date.getFullYear()
+                    const monthSelect = document.getElementById('month_select')
+                    monthSelect.value = `${initYear}-${initMonth}`
+                })
+
                 function updateUserRanking() {
                     const input = $('#ranking-selection').val() ?? 'last_month_tasks_avg_product_rate'
-                    $.get('{{route('get.user.ranking')}}', {type: input}).then(function (res) {
+                    const month = $('#month_select').val() ?? null
+
+                    $.get('{{route('get.user.ranking')}}', {type: input, month}).then(function (res) {
                         $('#ranking-content').html(res)
                     });
                 }

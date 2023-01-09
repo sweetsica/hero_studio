@@ -78,6 +78,21 @@ class Member extends Model
         return $this->hasMany(Task::class, 'creator_id');
     }
 
+    public function editorTaskByMonth($month, $year) {
+        return $this->hasMany(Task::class)
+        ->whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->get();
+    }
+
+    public function editorTaskDoneByMonth($month, $year) {
+        return $this->hasMany(Task::class)
+        ->where('status_code', Task::TASK_STATUS['DONE'])
+        ->whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->get();
+    }
+
     public function lastMonthMemberEditorTasks()
     {
         return $this->hasMany(Task::class);
@@ -116,12 +131,4 @@ class Member extends Model
 
         return $dataEditor->merge($dataCreator);
     }
-
-//    public function taskEditorByCondition() {
-//        return $this->hasMany(Task::class);
-//    }
-//
-//    public function taskCreatorByCondition() {
-//        return $this->hasMany(Task::class, 'creator');
-//    }
 }

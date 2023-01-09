@@ -16,6 +16,14 @@ class DashboardController extends Controller
     public function rankingUser(Request $request)
     {
         $sortBy = $request->get('type', 'last_month_tasks_avg_product_rate');
+        $monthYear  = $request->get('month', null);
+
+        $time = Carbon::now();
+        if(isset($monthYear)) {
+            try {
+                $time = Carbon::parse($monthYear);
+            } catch (\Exception $exception) {}
+        }
         $authUserDepartmentMembers = collect(Auth::user()->departments)->map(function ($item) {
             return $item->members;
         })->flatten(1)->pluck('id')->toArray();
@@ -24,6 +32,8 @@ class DashboardController extends Controller
             ->with('user')
             ->get()
             ->filter(function ($item) use ($authUserDepartmentMembers) {
+                // Chỉ thống kê các editor ( aka người nhận task )
+                // Only summarize editor role
                 if ($item->user->getRoleNames()[0] !== Role::ROLE_EDITOR) {
                     return false;
                 }
@@ -34,9 +44,10 @@ class DashboardController extends Controller
 
                 return true;
             })
-            ->map(function ($item) {
-                $lastMonthTasks = $item->lastMonthTasks();
-                $lastMonthDoneTasks = $item->lastMonthDoneTasks();
+            ->map(function ($item) use ($time) {
+
+                $lastMonthTasks = $item->editorTaskByMonth($time->month, $time->year);
+                $lastMonthDoneTasks = $item->editorTaskDoneByMonth($time->month, $time->year);
 
                 $item['last_month_tasks_avg_product_rate'] = $lastMonthTasks->count() ? $lastMonthTasks->avg('product_rate') : 0;
                 $item['last_month_done_tasks_count'] = $lastMonthDoneTasks->count();
@@ -47,6 +58,7 @@ class DashboardController extends Controller
             })->sortByDesc($sortBy)->values();
         $passingData['highestProductRankingMember'] = $highestProductRankingMember;
         $passingData['sortBy'] = $sortBy;
+        $passingData['month'] = $time->format('Y-m');
 
         return view('user-list', $passingData);
     }
