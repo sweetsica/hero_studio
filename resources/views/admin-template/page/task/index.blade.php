@@ -68,6 +68,7 @@
                                                 </option>
                                             </select>
                                         </div>
+                                        @if(Auth::user()->hasRole('super admin'))
                                         <div class="col-2">
                                             <select class="form-control" name="department_id">
                                                 <option value="">Tất cả</option>
@@ -77,6 +78,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @endif
                                         <div class="col-2">
                                             <button class="btn btn-primary"> Lọc</button>
                                         </div>
