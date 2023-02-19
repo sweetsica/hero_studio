@@ -125,10 +125,25 @@ class Member extends Model
 //        );
     }
 
+    /**
+     * @param $year
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function taskByYear($year) {
         $dataEditor = $this->memberEditorTasks()->whereYear('created_at','=', $year)->get();
         $dataCreator =  $this->memberCreatorTasks()->whereYear('created_at','=', $year)->get();
 
-        return $dataEditor->merge($dataCreator);
+        return $dataEditor->merge($dataCreator)->sortByDesc('created_at');
+    }
+
+    /**
+     * @param $year
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function taskByYearMonth($year, $month) {
+        $dataEditor = $this->memberEditorTasks()->whereYear('created_at','=', $year)->whereMonth('created_at', '=', $month)->get();
+        $dataCreator =  $this->memberCreatorTasks()->whereYear('created_at','=', $year)->whereMonth('created_at', '=', $month)->get();
+
+        return $dataEditor->merge($dataCreator)->sortByDesc('created_at');
     }
 }

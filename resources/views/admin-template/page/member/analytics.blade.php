@@ -39,15 +39,19 @@
                         <div class="card-body">
                             <h4 class="header-title mt-0 mb-1">{{ $member->name }}</h4>
                             <div class="col-2 d-flex">
-                                <select name="year" id="yearpicker" class="form-select">
-
+                                <select name="year" id="yearpicker" class="form-select"></select>
+                                 <select name="month" id="monthpicker" class="form-select mx-2">
+                                    <option value="">Cả năm</option>
+                                    @for($i = 1; $i < 13; $i++)
+                                        <option value="{{$i}}" @if($selectedMonth == $i) selected @endif>Tháng {{$i}}</option>
+                                    @endfor
                                 </select>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <h6>Danh sách task</h6>
 
-                                    <table class="table table-centered mb-0">
+                                    <table class="table table-centered" style="margin-bottom: 56px">
                                         <thead>
                                         <tr>
                                             <th>Ngày/Giờ tạo</th>
@@ -63,15 +67,15 @@
                                                 <td>{{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m - h:i')}}</td>
                                                 <td><a href="{{route('edit.taskOrder', $task->id)}}">{{ $task->name }}</a></td>
                                                 <td>{{ isset($task->department) ? $task->department->name : ''}}</td>
-                                                <td>{{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i')}}</td>
+                                                <td>{{ $task->deadline ? \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i') : ''}}</td>
                                                 <td>{{ $task->product_rate }} @if($task->product_rate) <i style="color: orange" class="bi bi-star-fill"></i> @endif</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
 
-                                    <div style="bottom: 0;position: absolute;">
-                                        {{ $member->tasks->links('vendor.pagination.bootstrap-4') }}
+                                    <div>
+                                        {{ $member->tasks->withQueryString()->links('vendor.pagination.bootstrap-4') }}
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -276,6 +280,11 @@
 
         $('#yearpicker').on('change', function () {
             searchParams.set("year", this.value);
+            window.location.search = searchParams.toString();
+        })
+
+        $('#monthpicker').on('change', function () {
+            searchParams.set("month", this.value);
             window.location.search = searchParams.toString();
         })
     </script>

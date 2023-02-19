@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
-    public function getUserOfDepartment(Request $request) {
+    public function getUserOfDepartment(Request $request)
+    {
         $departmentId = $request->departmentId;
         if (isset($request->taskId)) {
             $task = Task::find($request->taskId);
@@ -179,36 +180,63 @@ class MemberController extends Controller
     public function analytics(Request $request, $id)
     {
         $selectedYear = $request->year ?? Carbon::now()->year;
+        $selectedMonth = $request->month;
 
         $member = Member::query()->where('id', $id)->first();
 
-        $member->setRelation('tasks', $member->taskByYear($selectedYear)->paginate(5));
+        if ($selectedMonth) {
+            $carbonMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1);
 
-        $memberTaskByMonth = $member->taskByYear($selectedYear)->groupBy(function ($item, $key) {
-            return Carbon::parse($item->created_at)->month;
-        });
-        for ($i = 1; $i < 13; $i++) {
-            $memberTaskByMonth[$i] = isset($memberTaskByMonth[$i]) ? $memberTaskByMonth[$i] : [];
+            $member->setRelation('tasks', $member->taskByYearMonth($selectedYear, $selectedMonth)->paginate(10));
+            $memberTaskByMonth = $member->taskByYearMonth($selectedYear, $selectedMonth)->groupBy(function ($item, $key) {
+                return Carbon::parse($item->created_at)->day;
+            });
+
+            for ($i = 1; $i < $carbonMonth->daysInMonth; $i++) {
+                $memberTaskByMonth[$i] = isset($memberTaskByMonth[$i]) ? $memberTaskByMonth[$i] : [];
+            }
+            $memberTaskByMonth = $memberTaskByMonth->sortBy(function ($item, $key) {
+                return $key;
+            })->map(function ($item) {
+                return collect($item)->count();
+            });
+
+            $passingData['taskByMonth']['value'] = $memberTaskByMonth->values()->toArray();
+            $passingData['taskByMonth']['date'] = $memberTaskByMonth->keys()->toArray();
+
+            $passingData['member'] = $member;
+        } else {
+            $member->setRelation('tasks', $member->taskByYear($selectedYear)->paginate(10));
+
+            $memberTaskByMonth = $member->taskByYear($selectedYear)->groupBy(function ($item, $key) {
+                return Carbon::parse($item->created_at)->month;
+            });
+            for ($i = 1; $i < 13; $i++) {
+                $memberTaskByMonth[$i] = isset($memberTaskByMonth[$i]) ? $memberTaskByMonth[$i] : [];
+            }
+            $memberTaskByMonth = $memberTaskByMonth->sortBy(function ($item, $key) {
+                return $key;
+            })->map(function ($item) {
+                return collect($item)->count();
+            });
+
+            $passingData['taskByMonth']['value'] = $memberTaskByMonth->values()->toArray();
+            $passingData['taskByMonth']['date'] = $memberTaskByMonth->keys()->toArray();
+
+            $passingData['member'] = $member;
         }
-        $memberTaskByMonth = $memberTaskByMonth->sortBy(function ($item, $key) {
-            return $key;
-        })->map(function ($item) {
-            return collect($item)->count();
-        });
 
-        $passingData['taskByMonth']['value'] = $memberTaskByMonth->values()->toArray();
-        $passingData['taskByMonth']['date'] = $memberTaskByMonth->keys()->toArray();
-
-        $passingData['member'] = $member;
         $passingData['selectedYear'] = $selectedYear;
+        $passingData['selectedMonth'] = $selectedMonth;
 
         return view('admin-template.page.member.analytics', $passingData);
     }
 
-    public function deleteMember(Request $request, $id) {
+    public function deleteMember(Request $request, $id)
+    {
         try {
             $member = Member::find($id);
-            $departments = Department::where('department_head_id',$member->id)->update(['department_head_id' => 1]);
+            $departments = Department::where('department_head_id', $member->id)->update(['department_head_id' => 1]);
 
             if ($member->user->getRoleNames()[0] === 'super admin') {
                 return redirect()->back();
