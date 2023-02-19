@@ -15,28 +15,34 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('member_id'); // member phu trach
-            $table->unsignedBigInteger('department_id');  // task cua department nao
-            $table->text('content');
-            $table->dateTime('deadline');
-            $table->integer('status_code'); // 4 trang thai , SENT , INPROGRESS, REVIEW, DONE
+            $table->string('name')->nullable();
+            $table->unsignedBigInteger('member_id')->nullable(); // member phu trach
+            $table->unsignedBigInteger('creator_id')->nullable(); // người tạo
+            $table->unsignedBigInteger('department_id')->nullable();  // task cua department nao
+            $table->text('content')->nullable();
+            $table->dateTime('deadline')->nullable();
+            $table->integer('status_code')->default(\App\Models\Task::TASK_STATUS['SENT']); // 4 trang thai , SENT , INPROGRESS, REVIEW, DONE
 
-            $table->string('product_name');
-            $table->string('product_description');
+            $table->string('type')->default('Normal');
 
-            $table->string('url_source');
 
-            $table->string('url_fanpage');
-            $table->string('url_facebook');
-            $table->string('url_youtube');
-            $table->string('url_tiktok');
-            $table->text('url_others');
+            $table->string('product_name')->nullable();
+            $table->string('product_description')->nullable();
+            $table->string('product_length')->nullable();
+            $table->integer('product_rate')->nullable();
+
+            $table->string('source')->nullable();
+            $table->string('url_source')->nullable();
+
+            $table->text('url_others')->nullable();
+            $table->dateTime('completed_at')->nullable();
 
             $table->timestamps();
 
-            $table->foreign('member_id')->references('id')->on('members');
-            $table->foreign('department_id')->references('id')->on('departments');
+
+            $table->foreign('member_id')->references('id')->on('members')->cascadeOnDelete();
+            $table->foreign('creator_id')->references('id')->on('members')->cascadeOnDelete();
+            $table->foreign('department_id')->references('id')->on('departments')->cascadeOnDelete();
         });
     }
 

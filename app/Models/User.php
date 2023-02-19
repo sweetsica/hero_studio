@@ -21,7 +21,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -33,4 +32,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function member() {
+        return $this->hasOne(Member::class);
+    }
+
+    public function departments() {
+        return $this->hasMany(Department::class, 'department_head_id');
+    }
 }

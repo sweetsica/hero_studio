@@ -36,7 +36,7 @@ File: Dashboard init js
     // init
     ChatApp.prototype.init = function () {
         var $this = this;
-        //binding keypress event on chat input box - on enter we are adding the chat into chat list - 
+        //binding keypress event on chat input box - on enter we are adding the chat into chat list -
         $this.$chatInput.keypress(function (ev) {
             var p = ev.which;
             if (p == 13) {
@@ -55,13 +55,13 @@ File: Dashboard init js
             setTimeout(function() {
                 $this.$chatForm.removeClass('was-validated');
             });
-            
+
             return false;
         });
     },
     //init ChatApp
     $.ChatApp = new ChatApp, $.ChatApp.Constructor = ChatApp
-    
+
 }(window.jQuery),
 
 function ($) {
@@ -91,7 +91,7 @@ function ($) {
         };
 
 
-        // 
+        //
         // Stats
         //
 
@@ -168,7 +168,7 @@ function ($) {
 
        var now = new Date();
        var labels = getDaysInMonth(now.getMonth(), now.getFullYear());
-       
+
        var options = {
             chart: {
                 height: 329,
@@ -202,7 +202,7 @@ function ($) {
                     show: false
                 },
                 labels: {
-                    
+
                 }
             },
             yaxis: {
@@ -323,7 +323,7 @@ function ($) {
             responsive: [{
                 breakpoint: 480,
                 options: {
-                    
+
                     legend: {
                         position: 'bottom'
                     }
@@ -343,7 +343,7 @@ function ($) {
 
         chart.render();
 
-        
+
     },
 
     //initializing
@@ -367,7 +367,7 @@ function ($) {
         this.initCharts();
     },
 
-    
+
     $.Dashboard = new Dashboard, $.Dashboard.Constructor = Dashboard
 
 }(window.jQuery),

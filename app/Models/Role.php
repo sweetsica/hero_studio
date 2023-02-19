@@ -8,6 +8,7 @@ class Role extends \Spatie\Permission\Models\Role
 {
     use HasFactory;
 
+    const ROLE_SUPER_ADMIN = 'super admin';
     const ROLE_KOLS = 'key opinion leaders';
     const ROLE_COF = 'chief of department';
     const ROLE_EDITOR = 'editor';

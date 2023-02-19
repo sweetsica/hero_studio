@@ -1,0 +1,85 @@
+.calendar-widget {
+    margin-inline: unset;
+}
+
+.buttons-columnVisibility {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 0.45rem 0.9rem;
+    font-size: .875rem;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    border: none;
+}
+
+.buttons-columnVisibility.active {
+    color: #fff;
+    background-color: #565e64;
+    border-color: #51585e;
+}
+
+/*  Custom */
+.table-info td, .table-active td, .table-success td, .table-warning td {
+    color: white;
+}
+
+.table-info td a, .table-active td a, .table-success td a, .table-warning td a {
+    color: white;
+}
+
+.table-info {
+    --bs-table-bg: #5cc6ee;
+    --bs-table-striped-bg: #343a40;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #343a40;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #343a40;
+    --bs-table-hover-color: #fff;
+    color: white;
+    border-color: #c3e1e7;
+}
+
+.table-active {
+    --bs-table-accent-bg: #6c757d;
+    color: white;
+}
+
+.table-success {
+    --bs-table-bg: #009E60;
+    --bs-table-striped-bg: #343a40;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #343a40;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #343a40;
+    --bs-table-hover-color: #fff;
+    color: white;
+    border-color: #c9e3db;
+}
+
+.table-warning {
+    --bs-table-bg: #ffbe0b;
+    --bs-table-striped-bg: #343a40;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #343a40;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #343a40;
+    --bs-table-hover-color: #fff;
+    color: white;
+    border-color: #ebe0c0;
+}
+
+@media ( max-width: 992px) {
+    .auth-user-testimonial {
+        display: none;
+    }
+}

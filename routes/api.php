@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,3 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return 'ok';
     });
 });
+
+//Route::post('/import-user', function (\Illuminate\Http\Request $request) {
+//    Excel::import(new \App\Imports\Backup\BackupImport(), $request->file('file')->store('temp'));
+//});

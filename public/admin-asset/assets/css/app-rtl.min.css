@@ -3310,8 +3310,7 @@ div.dt-button-info {
 
 .ms-container {
   background: transparent url("../images/plugin/multiple-arrow.png") no-repeat 50% 50%;
-  width: auto;
-  max-width: 370px; }
+  width: auto; }
   .ms-container .ms-list {
     box-shadow: none;
     border: 1px solid #ced4da; }

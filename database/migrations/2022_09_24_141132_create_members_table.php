@@ -18,13 +18,15 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name')->nullable();
             $table->string('code')->nullable();
+            $table->boolean('special_access')->default('0');
             $table->dateTime('date_of_birth')->nullable();
             $table->unsignedBigInteger('position_id')->nullable();
             $table->integer('status')->default(\App\Models\Member::MEMBER_STATUS['ACTIVE']); // 0 DEACTIVATE , 1 ACTIVE
+            $table->string('avatar')->nullable();
 
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();;
             $table->foreign('position_id')->references('id')->on('positions');
         });
     }

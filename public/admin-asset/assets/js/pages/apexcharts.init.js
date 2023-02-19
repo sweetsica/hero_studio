@@ -5,7 +5,7 @@ Website: https://coderthemes.com/
 Contact: support@coderthemes.com
 File: Apex Charts
 */
- 
+
 
 Apex = {
     chart: {
@@ -45,9 +45,9 @@ Apex = {
 
 /**
  * Utilit function to generate day wise series
- * @param {*} baseval 
- * @param {*} count 
- * @param {*} yrange 
+ * @param {*} baseval
+ * @param {*} count
+ * @param {*} yrange
  */
 function generateDayWiseTimeSeries(baseval, count, yrange) {
     var i = 0;
@@ -66,9 +66,9 @@ function generateDayWiseTimeSeries(baseval, count, yrange) {
 
 /**
  * Generates the data
- * @param {*} baseval 
- * @param {*} count 
- * @param {*} yrange 
+ * @param {*} baseval
+ * @param {*} count
+ * @param {*} yrange
  */
 function generateData(baseval, count, yrange) {
     var i = 0;
@@ -87,9 +87,9 @@ function generateData(baseval, count, yrange) {
 
 /**
  * Generates the alt data
- * @param {*} baseval1 
- * @param {*} count 
- * @param {*} yrange 
+ * @param {*} baseval1
+ * @param {*} count
+ * @param {*} yrange
  */
 function generateData1(baseval1, count, yrange) {
     var i = 0;
@@ -260,7 +260,7 @@ function generateData1(baseval1, count, yrange) {
                 hover: {
                     size: 7,
                 }
-                
+
             },
             yaxis: {
                 min: -10,
@@ -400,7 +400,7 @@ function generateData1(baseval1, count, yrange) {
             },
             yaxis: {
                 title: {
-                    text: '$ (thousands)'
+                    text: 'tasks'
                 }
             },
             grid: {
@@ -413,7 +413,7 @@ function generateData1(baseval1, count, yrange) {
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "$ " + val + " thousands"
+                        return + val + " tasks"
                     }
                 }
             }
@@ -547,7 +547,7 @@ function generateData1(baseval1, count, yrange) {
         //
         // Bar Chart - 1
         //
-        
+
         var options2 = {
             chart: {
                 height: 380,
@@ -573,7 +573,7 @@ function generateData1(baseval1, count, yrange) {
             document.querySelector("#apex-bar-1"),
             options2
         );
-        
+
         chart.render();
 
         //
@@ -726,7 +726,7 @@ function generateData1(baseval1, count, yrange) {
         );
 
         chart.render();
-        
+
         //
         // Mixed Chart - 2
         //
@@ -1624,7 +1624,7 @@ function generateData1(baseval1, count, yrange) {
 
         chart.render();
     },
-    
+
     //initializing
     ApexChartPage.prototype.init = function () {
         // charts
@@ -1638,4 +1638,4 @@ function ($) {
     "use strict";
     $.ApexChartPage.init();
 } (window.jQuery);
-    
+

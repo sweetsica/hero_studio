@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Member;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -10,39 +13,83 @@ class DepartmentController extends Controller
     public function getDepartmentList()
     {
         $datas = Department::all(); // Lấy danh sách phòng ban
-//        dd($datas);
 
         return view('admin-template.page.department.index', compact('datas'));
     }
 
     public function createDepartment()
     {
+        $departments = Department::all();
+        $members = Member::doesntHave('user.departments')->get();
+
         // Màn tạo phòng ban
-        return view('admin-template.page.department.create');
+        return view('admin-template.page.department.create', compact('members', 'departments'));
     }
 
-    public function storeDepartment()
+    public function storeDepartment(Request $request)
     {
-        // Lưu phòng ban
-        return view('admin-template.page.department.index');
+        $params = $request->all();
+        if (!$request->department_head_id) {
+            $params['department_head_id'] = 1;
+        } else {
+            $departmentHeadId = $request->department_head_id;
+
+            $member = Member::find($departmentHeadId);
+            if ($member->user->getRoleNames()[0] !== 'super admin') {
+                $member->user->syncRoles([Role::ROLE_COF]);
+            }
+        }
+
+        Department::create($params);
+
+        return redirect()->route('get.department');
     }
 
     public function editDepartmentById($department_id)
     {
+        $department = Department::find($department_id);
+        $departmentMemberIds = collect($department->members)->pluck('id')->toArray();
+        $memberNotHaveDepartment = Member::with('user')->doesntHave('departments')->get()->filter(function($item) {
+            return $item->user->getRoleNames()[0] === Role::ROLE_EDITOR;
+        })->pluck('id')->toArray();
+        $departmentMember = $department->members->pluck('id')->toArray();
+        $members = Member::whereIn('id', array_merge($memberNotHaveDepartment, $departmentMember))->get();
+
+        $cofListIds = Member::with('user')->doesntHave('departments')->get()->filter(function($item) {
+            return $item->user->getRoleNames()[0] === Role::ROLE_COF;
+        })->pluck('id')->toArray();
+        $cofList = Member::query()->whereIn('id', [...$cofListIds, 1, $department->department_head_id])->get();
+
         // Sửa phòng ban theo id
-        return view('admin-template.page.department.edit');
+        return view('admin-template.page.department.edit', compact('department', 'members', 'departmentMemberIds', 'memberNotHaveDepartment', 'cofList'));
     }
 
-    public function updateDepartment(Request $request)
+    public function updateDepartment(Request $request, $id)
     {
+        $department = Department::find($id);
+        $department->update($request->all());
+        $departmentHeadId = $request->department_head_id;
+
+        $member = Member::find($departmentHeadId);
+        if ($member->user->getRoleNames()[0] !== 'super admin') {
+            $member->user->syncRoles([Role::ROLE_COF]);
+        }
+
         // Cập nhật phòng ban theo id
-        return view('admin-template.page.department.index');
+        return redirect()->route('get.department');
+    }
+
+    public function updateMemberDepartment(Request $request, $id)
+    {
+        $department = Department::find($id);
+        $department->members()->sync($request->members);
+
+        return redirect()->back();
     }
 
     public function deleteDepartment($department_id)
     {
-        // Xóa phòng ban theo id
-        $notice = "Xoá thành công phòng ban";
-        return view('admin-template.page.department.index', compact('notice'));
+        Department::find($department_id)->delete();
+        return redirect()->route('get.department');
     }
 }

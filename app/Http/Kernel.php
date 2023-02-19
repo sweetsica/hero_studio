@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'kols' =>  \App\Http\Middleware\Role\ValidateKol::class,
         'cof' =>  \App\Http\Middleware\Role\ValidateCof::class,
         'editors' =>  \App\Http\Middleware\Role\ValidateEditor::class,
+        'listUserPermission' => \App\Http\Middleware\UserListPermissionMiddleware::class,
     ];
 }

@@ -15,18 +15,18 @@
                                     <img src="assets/images/logo-dark.png" alt="" height="24" />
                                 </a>
                             </div>
-
                             <h6 class="h5 mb-0 mt-3">Create your account</h6>
                             <p class="text-muted mt-1 mb-4">Create a free account and start using Shreyu</p>
 
-                            <form action="#" class="authentication-form">
+                            <form action="#" class="authentication-form" method="POST">
+                                @csrf
                                 <div class="mb-3">
                                     <label class="form-label">Name</label>
                                     <div class="input-group">
                                                     <span class="input-group-text">
                                                         <i class="icon-dual" data-feather="user"></i>
                                                     </span>
-                                        <input type="text" class="form-control" id="name" placeholder="Your full name">
+                                        <input name="name" type="text" class="form-control" id="name" placeholder="Your full name">
                                     </div>
                                 </div>
 
@@ -36,7 +36,7 @@
                                                     <span class="input-group-text">
                                                         <i class="icon-dual" data-feather="mail"></i>
                                                     </span>
-                                        <input type="email" class="form-control" id="email" placeholder="hello@coderthemes.com">
+                                        <input name="email" type="email" class="form-control" id="email" placeholder="hello@coderthemes.com">
                                     </div>
                                 </div>
 
@@ -46,7 +46,7 @@
                                                     <span class="input-group-text">
                                                         <i class="icon-dual" data-feather="lock"></i>
                                                     </span>
-                                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                                        <input name="password" type="password" class="form-control" id="password" placeholder="Enter your password">
                                     </div>
                                 </div>
 

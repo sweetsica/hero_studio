@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('department_member', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('department_id');
-            $table->unsignedBigInteger('member_id');
+            $table->unsignedBigInteger('department_id')->nullable();;
+            $table->unsignedBigInteger('member_id')->nullable();;
             $table->timestamps();
 
-            $table->foreign('department_id')->references('id')->on('departments');
-            $table->foreign('member_id')->references('id')->on('members');
+            $table->foreign('department_id')->references('id')->on('departments')->nullable()->cascadeOnDelete();;
+            $table->foreign('member_id')->references('id')->on('members')->nullable()->cascadeOnDelete();;
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('department_user');
+        Schema::dropIfExists('department_member');
     }
 };
