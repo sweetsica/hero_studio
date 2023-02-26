@@ -89,9 +89,11 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Task</th>
+                                                <th>Người yêu cầu</th>
                                                 <th>Người nhận</th>
                                                 <th>Thời lượng</th>
                                                 <th>Trạng thái</th>
+                                                <th>Thời gian hoàn thành</th>
                                                 <th>Hạn chót</th>
                                                 <th>Đánh giá</th>
                                                 <th>Ngày tạo</th>
@@ -112,9 +114,11 @@
                                                         <td>
                                                             <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                         </td>
+                                                        <td>{{$data->creator?->name}}</td>
                                                         <td>{{$data->member?->name}}</td>
                                                         <td>{{$data->product_length ? "$data->product_length phút " : ""}}</td>
                                                         <td>{{$data->status_code_text}}</td>
+                                                        <td>{{$data->completed_at }}</td>
                                                         <td>{{$data->deadline}}</td>
                                                         <td>{{$data->product_rate ? "$data->product_rate sao" : 'Chưa có'}}</td>
                                                         <td>{{ \Illuminate\Support\Carbon::parse($data->created_at)->format('d/m/Y')}}</td>

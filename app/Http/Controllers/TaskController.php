@@ -413,6 +413,8 @@ class TaskController extends Controller
         $params = $request->all();
         if ($request->status_code === 3) {
             $params['completed_at'] = Carbon::now();
+        } else {
+            $params['completed_at'] = null;
         }
 
         $task->update($params);
