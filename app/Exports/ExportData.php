@@ -50,7 +50,7 @@ class ExportData implements FromArray, WithHeadings, WithTitle, ShouldAutoSize, 
 
     public function sheets(): array
     {
-        $sheets[] = [];
+        $sheets = [];
         $dataDepartments = collect($this->data)->groupBy('department')->toArray();
         foreach ($dataDepartments as $key => $dataDepartment) {
             $sheets[] = new ExportPerSheetAdmin($dataDepartment, $key, $this->headings, $this->rowMaps);
