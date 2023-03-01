@@ -14,6 +14,9 @@ return new class extends Migration {
     {
         Schema::table('departments', function (Blueprint $table) {
             $table->dropForeign(['department_head_id']);
+        });
+
+         Schema::table('departments', function (Blueprint $table) {
             $table->foreign('department_head_id')
                 ->references('id')->on('members')
                 ->onDelete('cascade');

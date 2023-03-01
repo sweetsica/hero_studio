@@ -208,14 +208,16 @@ Route::get('/export/admin', function (\Illuminate\Http\Request $request) {
     )->with('creator', 'member', 'department')->get()->map(function ($task) {
         return [
             'name' => $task->name,
+            'department'=> $task->department->name,
+            'department_id'=> $task->department->id,
             'creator' => $task->creator->name,
             'member' => $task->member->name,
             'status_code' => $task->status_code,
             'product_length' => $task->product_length,
             'url_others' => $task->url_others,
-            'created_at' => $task->created_at ? $task->created_at->format('d-m-Y') : '',
-            'updated_at' => $task->updated_at ? $task->updated_at->format('d-m-Y') : '',
-            'completed_at' => $task->completed_at ? $task->completed_at->format('d-m-Y') : '',
+            'created_at' => $task->created_at ? Carbon::create($task->created_at)->format('d-m-Y') : '',
+            'updated_at' => $task->updated_at ? Carbon::create($task->updated_at)->format('d-m-Y') : '',
+            'completed_at' => $task->completed_at ? Carbon::create($task->completed_at)->format('d-m-Y') : '',
         ];
     });
 

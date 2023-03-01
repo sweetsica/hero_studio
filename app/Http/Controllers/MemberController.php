@@ -208,6 +208,7 @@ class MemberController extends Controller
         } else {
             $member->setRelation('tasks', $member->taskByYear($selectedYear)->paginate(10));
 
+//            dd($member, $member->user->roles[0]->name);
             $memberTaskByMonth = $member->taskByYear($selectedYear)->groupBy(function ($item, $key) {
                 return Carbon::parse($item->created_at)->month;
             });

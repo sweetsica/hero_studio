@@ -78,19 +78,21 @@ class Member extends Model
         return $this->hasMany(Task::class, 'creator_id');
     }
 
-    public function editorTaskByMonth($month, $year) {
+    public function editorTaskByMonth($month, $year)
+    {
         return $this->hasMany(Task::class)
-        ->whereMonth('created_at', $month)
-        ->whereYear('created_at', $year)
-        ->get();
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->get();
     }
 
-    public function editorTaskDoneByMonth($month, $year) {
+    public function editorTaskDoneByMonth($month, $year)
+    {
         return $this->hasMany(Task::class)
-        ->where('status_code', Task::TASK_STATUS['DONE'])
-        ->whereMonth('created_at', $month)
-        ->whereYear('created_at', $year)
-        ->get();
+            ->where('status_code', Task::TASK_STATUS['DONE'])
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->get();
     }
 
     public function lastMonthMemberEditorTasks()
@@ -129,9 +131,10 @@ class Member extends Model
      * @param $year
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function taskByYear($year) {
-        $dataEditor = $this->memberEditorTasks()->whereYear('created_at','=', $year)->get();
-        $dataCreator =  $this->memberCreatorTasks()->whereYear('created_at','=', $year)->get();
+    public function taskByYear($year)
+    {
+        $dataEditor = $this->memberEditorTasks()->whereYear('created_at', '=', $year)->get();
+        $dataCreator = $this->memberCreatorTasks()->whereYear('created_at', '=', $year)->get();
 
         return $dataEditor->merge($dataCreator)->sortByDesc('created_at');
     }
@@ -140,9 +143,10 @@ class Member extends Model
      * @param $year
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function taskByYearMonth($year, $month) {
-        $dataEditor = $this->memberEditorTasks()->whereYear('created_at','=', $year)->whereMonth('created_at', '=', $month)->get();
-        $dataCreator =  $this->memberCreatorTasks()->whereYear('created_at','=', $year)->whereMonth('created_at', '=', $month)->get();
+    public function taskByYearMonth($year, $month)
+    {
+        $dataEditor = $this->memberEditorTasks()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
+        $dataCreator = $this->memberCreatorTasks()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
 
         return $dataEditor->merge($dataCreator)->sortByDesc('created_at');
     }
