@@ -14,7 +14,6 @@ trait HasResponseApi
     public $exampleStatusCode = [
         'success' => ResponseAlias::HTTP_OK, /** Api thực thi thành công */
         'error' => ResponseAlias::HTTP_INTERNAL_SERVER_ERROR, /** Api lỗi , có thể dùng bất kì khi nào thất bại */
-
         'not_found' => ResponseAlias::HTTP_NOT_FOUND, /** Có thứ gì đó khi thực thi api không được tìm thấy */
         'bad_request' => ResponseAlias::HTTP_BAD_REQUEST, /** Dữ liệu truyền lên bị lỗi, không đúng với yêu cầu , vd user_id nhưng truyền lên email */
         'permission_denied' => ResponseAlias::HTTP_FORBIDDEN, /** Đang cố truy cập tài nguyên không đủ quyền hạn */
