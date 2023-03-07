@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(env('APP_URL').contains('https')) {
+        if (str_contains(env('APP_URL'), 'https')) {
             resolve(\Illuminate\Routing\UrlGenerator::class)->forceScheme('https');
         }
 
