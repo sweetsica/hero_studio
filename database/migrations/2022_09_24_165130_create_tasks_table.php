@@ -32,7 +32,7 @@ return new class extends Migration
             $table->integer('product_rate')->nullable();
 
             $table->string('source')->nullable();
-            $table->string('url_source')->nullable();
+            $table->text('url_source')->nullable();
 
             $table->text('url_others')->nullable();
             $table->dateTime('completed_at')->nullable();
