@@ -143,10 +143,30 @@ class Member extends Model
      * @param $year
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function taskByYearMonth($year, $month)
+    public function taskByYearMonth($year, $month, $department, $type)
     {
-        $dataEditor = $this->memberEditorTasks()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
-        $dataCreator = $this->memberCreatorTasks()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
+//        $dataEditor = $this->memberEditorTasks()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
+//        $dataCreator = $this->memberCreatorTasks()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
+        $dataEditor = $this->memberEditorTasks();
+        $dataCreator = $this->memberCreatorTasks();
+        if ($year) {
+            $dataEditor = $dataEditor->whereYear('created_at', '=', $year);
+            $dataCreator = $dataCreator->whereYear('created_at', '=', $year);
+        }
+        if ($month) {
+            $dataEditor = $dataEditor->whereMonth('created_at', '=', $month);
+            $dataCreator = $dataCreator->whereMonth('created_at', '=', $month);
+        }
+        if ($department) {
+            $dataEditor = $dataEditor->where('department_id', '=', $department);
+            $dataCreator = $dataCreator->where('department_id', '=', $department);
+        }
+        if ($type) {
+            $dataEditor = $dataEditor->where('type', '=', $type);
+            $dataCreator = $dataCreator->where('type', '=', $type);
+        }
+        $dataEditor = $dataEditor->get();
+        $dataCreator = $dataCreator->get();
 
         return $dataEditor->merge($dataCreator)->sortByDesc('created_at');
     }

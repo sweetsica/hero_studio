@@ -69,15 +69,15 @@
                                             </select>
                                         </div>
                                         @if(Auth::user()->hasRole('super admin'))
-                                        <div class="col-2">
-                                            <select class="form-control" name="department_id">
-                                                <option value="">Tất cả</option>
-                                                @foreach($departments as $department)
-                                                    <option value="{{$department->id}}"
-                                                            @if($department->id == $requestDepartment)  selected @endif> {{$department->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                            <div class="col-2">
+                                                <select class="form-control" name="department_id">
+                                                    <option value="">Tất cả</option>
+                                                    @foreach($departments as $department)
+                                                        <option value="{{$department->id}}"
+                                                                @if($department->id == $requestDepartment)  selected @endif> {{$department->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         @endif
                                         <div class="col-2">
                                             <button class="btn btn-primary"> Lọc</button>
@@ -114,8 +114,16 @@
                                                         <td>
                                                             <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                         </td>
-                                                        <td>{{$data->creator?->name}}</td>
-                                                        <td>{{$data->member?->name}}</td>
+                                                        <td>
+                                                            <a href="{{route('member.analytics', $data->creator?->id)}}">{{$data->creator?->name}}</a>
+                                                        </td>
+                                                        <td>
+                                                            @if($data->member)
+                                                                <a href="{{route('member.analytics', $data->member?->id)}}">{{$data->member?->name}}</a>
+                                                            @else
+                                                                {{$data->member?->name}}
+                                                            @endif
+                                                        </td>
                                                         <td>{{$data->product_length ? "$data->product_length phút " : ""}}</td>
                                                         <td>{{$data->status_code_text}}</td>
                                                         <td>{{$data->completed_at }}</td>

@@ -38,19 +38,57 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title mt-0 mb-1">{{ $member->name }}</h4>
-                            <div class="col-2 d-flex">
-                                <select name="year" id="yearpicker" class="form-select"></select>
-                                 <select name="month" id="monthpicker" class="form-select mx-2">
-                                    <option value="">Cả năm</option>
-                                    @for($i = 1; $i < 13; $i++)
-                                        <option value="{{$i}}" @if($selectedMonth == $i) selected @endif>Tháng {{$i}}</option>
-                                    @endfor
-                                </select>
+                            <div class="d-flex">
+                                <div class="d-flex">
+                                    <select name="year" id="yearpicker" class="form-select"></select>
+                                </div>
+                                <div class="d-flex">
+                                    <select name="month" id="monthpicker" class="form-select mx-2">
+                                        <option value="">Cả năm</option>
+                                        @for($i = 1; $i < 13; $i++)
+                                            <option value="{{$i}}" @if($selectedMonth == $i) selected @endif>
+                                                Tháng {{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="d-flex">
+                                    <select name="department" id="departmentSelect" class="form-select mx-2"
+                                            style="width: unset">
+                                        <option value="">Tất cả phòng ban</option>
+                                        @foreach($departments as $department)
+                                            <option value="{{$department->id}}"
+                                                    @if($selectedDepartment == $department->id) selected @endif>{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="d-flex">
+                                    <select class="form-select mx-2" name="type" id="typeSelect" required>
+                                        <option value="">Tất cả các loại</option>
+                                        <option @if($selectedType == 'Normal') selected @endif value="Normal">Thường
+                                        </option>
+                                        <option @if($selectedType == 'Sponsor') selected @endif value="Sponsor">Được tài
+                                            trợ
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <h6>Danh sách task</h6>
+                                    <style>
+                                        .data-row:nth-child(even) {
+                                            display: none;
+                                        }
 
+                                        .data-row:nth-child(odd):hover {
+                                            background-color: green;
+                                            color: white;
+                                        }
+
+                                        .data-row:nth-child(odd):hover + .data-row {
+                                            display: table-row;
+                                        }
+                                    </style>
                                     <table class="table table-centered" style="margin-bottom: 56px">
                                         <thead>
                                         <tr>
@@ -63,12 +101,40 @@
                                         </thead>
                                         <tbody>
                                         @foreach($member->tasks as $task)
-                                            <tr>
-                                                <td>{{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m - h:i')}}</td>
-                                                <td><a href="{{route('edit.taskOrder', $task->id)}}">{{ $task->name }}</a></td>
-                                                <td>{{ isset($task->department) ? $task->department->name : ''}}</td>
-                                                <td>{{ $task->deadline ? \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i') : ''}}</td>
-                                                <td>{{ $task->product_rate }} @if($task->product_rate) <i style="color: orange" class="bi bi-star-fill"></i> @endif</td>
+                                            <tr class="data-row">
+                                                <td style="width: 20%">{{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m - h:i')}}</td>
+                                                <td style="width: 20%">
+                                                    <a href="{{route('edit.taskOrder', $task->id)}}">{{ $task->name }}</a>
+                                                </td>
+                                                <td style="width: 20%">{{ isset($task->department) ? $task->department->name : ''}}</td>
+                                                <td style="width: 20%">{{ $task->deadline ? \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i') : ''}}</td>
+                                                <td style="width: 20%">{{ $task->product_rate }} @if($task->product_rate)
+                                                        <i
+                                                            style="color: orange" class="bi bi-star-fill"></i> @endif
+                                                </td>
+                                            </tr>
+                                            <tr class="data-row">
+                                                <td colspan="5">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <strong>Người yêu cầu</strong> : {{ $task->creator->name }}
+                                                            <br>
+                                                            <strong>Người nhận</strong> : {{ $task->member->name }} <br>
+                                                            <strong>Trạng thái</strong> : {{ $task->status_code_text  }}
+                                                            <br>
+                                                            <strong>Nguồn</strong> : {{ $task->source }} <br>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <strong>Thể loại</strong> : {{ $task->type }}
+                                                            <br>
+                                                            <strong>Thời lượng</strong> : {{ $task->product_length ? "$task->product_length phút " : "" }} <br>
+                                                            <strong>Ngày tạo</strong> : {{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m/Y') }}
+                                                            <br>
+                                                            <strong>Hạn chót</strong>: {{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m/Y') }}
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -285,6 +351,17 @@
 
         $('#monthpicker').on('change', function () {
             searchParams.set("month", this.value);
+            window.location.search = searchParams.toString();
+        })
+
+        $('#departmentSelect').on('change', function () {
+            searchParams.set("department", this.value);
+            window.location.search = searchParams.toString();
+        })
+
+
+        $('#typeSelect').on('change', function () {
+            searchParams.set("type", this.value);
             window.location.search = searchParams.toString();
         })
     </script>

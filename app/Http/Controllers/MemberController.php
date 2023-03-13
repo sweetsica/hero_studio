@@ -180,15 +180,17 @@ class MemberController extends Controller
     public function analytics(Request $request, $id)
     {
         $selectedYear = $request->year ?? Carbon::now()->year;
-        $selectedMonth = $request->month;
+        $selectedMonth = $request->month ?? null;
+        $selectedDepartment = $request->department ?? null;
+        $selectedType = $request->type ?? null;
 
         $member = Member::query()->where('id', $id)->first();
 
         if ($selectedMonth) {
             $carbonMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1);
 
-            $member->setRelation('tasks', $member->taskByYearMonth($selectedYear, $selectedMonth)->paginate(10));
-            $memberTaskByMonth = $member->taskByYearMonth($selectedYear, $selectedMonth)->groupBy(function ($item, $key) {
+            $member->setRelation('tasks', $member->taskByYearMonth($selectedYear, $selectedMonth, $selectedDepartment, $selectedType)->paginate(10));
+            $memberTaskByMonth = $member->taskByYearMonth($selectedYear, $selectedMonth, $selectedDepartment, $selectedType)->groupBy(function ($item, $key) {
                 return Carbon::parse($item->created_at)->day;
             });
 
@@ -200,16 +202,12 @@ class MemberController extends Controller
             })->map(function ($item) {
                 return collect($item)->count();
             });
-
             $passingData['taskByMonth']['value'] = $memberTaskByMonth->values()->toArray();
             $passingData['taskByMonth']['date'] = $memberTaskByMonth->keys()->toArray();
-
             $passingData['member'] = $member;
         } else {
-            $member->setRelation('tasks', $member->taskByYear($selectedYear)->paginate(10));
-
-//            dd($member, $member->user->roles[0]->name);
-            $memberTaskByMonth = $member->taskByYear($selectedYear)->groupBy(function ($item, $key) {
+            $member->setRelation('tasks', $member->taskByYearMonth($selectedYear, null, $selectedDepartment, $selectedType)->paginate(10));
+            $memberTaskByMonth = $member->taskByYearMonth($selectedYear, null, $selectedDepartment, $selectedType)->groupBy(function ($item, $key) {
                 return Carbon::parse($item->created_at)->month;
             });
             for ($i = 1; $i < 13; $i++) {
@@ -223,12 +221,15 @@ class MemberController extends Controller
 
             $passingData['taskByMonth']['value'] = $memberTaskByMonth->values()->toArray();
             $passingData['taskByMonth']['date'] = $memberTaskByMonth->keys()->toArray();
-
             $passingData['member'] = $member;
         }
 
+        $departments = Department::query()->get();
+        $passingData['departments'] = $departments;
         $passingData['selectedYear'] = $selectedYear;
         $passingData['selectedMonth'] = $selectedMonth;
+        $passingData['selectedDepartment'] = $selectedDepartment;
+        $passingData['selectedType'] = $selectedType;
 
         return view('admin-template.page.member.analytics', $passingData);
     }
