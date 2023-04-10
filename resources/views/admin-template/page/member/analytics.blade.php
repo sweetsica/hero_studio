@@ -127,10 +127,14 @@
                                                         <div class="col-6">
                                                             <strong>Thể loại</strong> : {{ $task->type }}
                                                             <br>
-                                                            <strong>Thời lượng</strong> : {{ $task->product_length ? "$task->product_length phút " : "" }} <br>
-                                                            <strong>Ngày tạo</strong> : {{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m/Y') }}
+                                                            <strong>Thời lượng</strong>
+                                                            : {{ $task->product_length ? "$task->product_length phút " : "" }}
                                                             <br>
-                                                            <strong>Hạn chót</strong>: {{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m/Y') }}
+                                                            <strong>Ngày tạo</strong>
+                                                            : {{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m/Y') }}
+                                                            <br>
+                                                            <strong>Hạn
+                                                                chót</strong>: {{ \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m/Y') }}
                                                             <br>
                                                         </div>
                                                     </div>
@@ -145,6 +149,95 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1">
+                                                            <span class="text-muted text-uppercase fs-12 fw-bold">Tổng số yêu cầu</span>
+                                                            <h3 class="mb-0"> {{ $member->tasks->total() }}</h3>
+                                                        </div>
+                                                        <div class="align-self-center flex-shrink-0">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 height="24" viewBox="0 0 24 24" fill="none"
+                                                                 stroke="currentColor" stroke-width="2"
+                                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                                 class="feather feather-file-text icon-lg icon-dual-info">
+                                                                <path
+                                                                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                                <polyline points="14 2 14 8 20 8"></polyline>
+                                                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                                                <polyline points="10 9 9 9 8 9"></polyline>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1">
+                                                            <span class="text-muted text-uppercase fs-12 fw-bold">Trung bình yêu cầu (@if(count($taskByMonth['date']) > 12) Ngày @else Tháng @endif)</span>
+                                                            @php $avg = $member->tasks->total() / count($taskByMonth['date']) @endphp
+                                                            <h3 class="mb-0"> {{ number_format((float)$avg, 2, '.', '')  }}</h3>
+                                                        </div>
+                                                        <div class="align-self-center flex-shrink-0">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 height="24" viewBox="0 0 24 24" fill="none"
+                                                                 stroke="currentColor" stroke-width="2"
+                                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                                 class="feather feather-file-text icon-lg icon-dual-info">
+                                                                <path
+                                                                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                                <polyline points="14 2 14 8 20 8"></polyline>
+                                                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                                                <polyline points="10 9 9 9 8 9"></polyline>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{--                                        <div class="col-4">--}}
+                                        {{--                                            <div class="card">--}}
+                                        {{--                                                <div class="card-body">--}}
+                                        {{--                                                    <div>--}}
+                                        {{--                                                    <span--}}
+                                        {{--                                                        class="text-muted text-uppercase fs-12 fw-bold">Today Revenue</span>--}}
+                                        {{--                                                        <h3>$6512</h3>--}}
+                                        {{--                                                        <div class="progress my-2" style="height: 5px;">--}}
+                                        {{--                                                            <div class="progress-bar bg-primary" role="progressbar"--}}
+                                        {{--                                                                 style="width: 32%" aria-valuenow="32" aria-valuemin="0"--}}
+                                        {{--                                                                 aria-valuemax="100"></div>--}}
+                                        {{--                                                        </div>--}}
+                                        {{--                                                        <span class="text-muted fw-semibold">36% Avg</span>--}}
+                                        {{--                                                    </div>--}}
+                                        {{--                                                </div>--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
+                                        {{--                                        <div class="col-4">--}}
+                                        {{--                                            <div class="card">--}}
+                                        {{--                                                <div class="card-body">--}}
+                                        {{--                                                    <div>--}}
+                                        {{--                                                    <span--}}
+                                        {{--                                                        class="text-muted text-uppercase fs-12 fw-bold">Today Revenue</span>--}}
+                                        {{--                                                        <h3>$6512</h3>--}}
+                                        {{--                                                        <div class="progress my-2" style="height: 5px;">--}}
+                                        {{--                                                            <div class="progress-bar bg-primary" role="progressbar"--}}
+                                        {{--                                                                 style="width: 32%" aria-valuenow="32" aria-valuemin="0"--}}
+                                        {{--                                                                 aria-valuemax="100"></div>--}}
+                                        {{--                                                        </div>--}}
+                                        {{--                                                        <span class="text-muted fw-semibold">36% Avg</span>--}}
+                                        {{--                                                    </div>--}}
+                                        {{--                                                </div>--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
+                                    </div>
                                     <div id="apex-line-2"></div>
                                 </div>
                             </div>
