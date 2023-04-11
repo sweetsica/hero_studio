@@ -119,11 +119,7 @@
                                                         <div class="col-6">
                                                             <strong>Người yêu cầu</strong> : {{ $task->creator->name }}
                                                             <br>
-                                                            @if($task->member->name)
-                                                            <strong>Người nhận</strong> : {{ $task->member->name }} <br>
-                                                            @else()
-                                                                <strong>Người nhận</strong> : <br>
-                                                            @endif
+                                                            <strong>Người nhận</strong> : {{ $task->member?->name }} <br>
                                                             <strong>Trạng thái</strong> : {{ $task->status_code_text  }}
                                                             <br>
                                                             <strong>Nguồn</strong> : {{ $task->source }} <br>
