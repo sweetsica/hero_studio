@@ -22,7 +22,7 @@
             <!-- end page title -->
             <!-- tasks panel -->
             <div class="row">
-                <div class="col-xl-10">
+                <div class="col-xl-12">
                     <div class="row">
                         <div class="col">
                             <div class="card">
@@ -33,32 +33,38 @@
                                             @php
                                                 $requestFilterBy = request()->input('filter_by', 'created_at');
                                                 $requestOrder = request()->input('order', 'desc');
-                                                $requestDepartment = request()->input('department_id', null)
+                                                $requestDepartment = request()->input('department_id', null);
+                                                $requestTaskType = request()->input('task_type', null);
                                             @endphp
 
-                                            <select class="form-control" name="filter_by" id="filter_by">
-                                                <option
-                                                    value="created_at" {{$requestFilterBy === 'created_at' ? 'selected' : ''}}>
-                                                    Ngày tạo
-                                                </option>
-                                                <option value="name" {{$requestFilterBy === 'name' ? 'selected' : ''}}>
-                                                    Tên yêu cầu
-                                                </option>
-                                                <option
-                                                    value="product_length" {{$requestFilterBy === 'product_length' ? 'selected' : ''}}>
-                                                    Thời lượng
-                                                </option>
-                                                <option
-                                                    value="product_rate" {{$requestFilterBy === 'product_length' ? 'selected' : ''}}>
-                                                    Đánh giá
-                                                </option>
-                                                <option
-                                                    value="deadline" {{$requestFilterBy === 'deadline' ? 'selected' : ''}}>
-                                                    Hạn chót
-                                                </option>
-                                            </select>
+                                            <div class="row">
+                                                <label>Sắp xếp theo</label>
+                                                <select class="form-control" name="filter_by" id="filter_by">
+                                                    <option
+                                                        value="created_at" {{$requestFilterBy === 'created_at' ? 'selected' : ''}}>
+                                                        Ngày tạo
+                                                    </option>
+                                                    <option
+                                                        value="name" {{$requestFilterBy === 'name' ? 'selected' : ''}}>
+                                                        Tên yêu cầu
+                                                    </option>
+                                                    <option
+                                                        value="product_length" {{$requestFilterBy === 'product_length' ? 'selected' : ''}}>
+                                                        Thời lượng
+                                                    </option>
+                                                    <option
+                                                        value="product_rate" {{$requestFilterBy === 'product_length' ? 'selected' : ''}}>
+                                                        Đánh giá
+                                                    </option>
+                                                    <option
+                                                        value="deadline" {{$requestFilterBy === 'deadline' ? 'selected' : ''}}>
+                                                        Hạn chót
+                                                    </option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="col-3">
+                                            <label>Thứ tự</label>
                                             <select class="form-control" name="order">
                                                 <option value="desc" {{$requestOrder === 'desc' ? 'selected' : '' }}>
                                                     Giảm dần
@@ -68,8 +74,20 @@
                                                 </option>
                                             </select>
                                         </div>
+                                        @if(Route::currentRouteName() != 'get.taskOrder.sponsor')
+                                        <div class="col-2">
+                                            <label>Loại nhiệm vụ</label>
+                                            <select class="form-control" name="task_type">
+                                                <option value="">Tất cả</option>
+                                                @foreach(\App\Models\Task::TASK_TYPE as $key => $value)
+                                                    <option value="{{$value}}" @if($value == $requestTaskType)  selected @endif>{{$key}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @endif
                                         @if(Auth::user()->hasRole('super admin'))
                                             <div class="col-2">
+                                                <label>Phòng ban</label>
                                                 <select class="form-control" name="department_id">
                                                     <option value="">Tất cả</option>
                                                     @foreach($departments as $department)
@@ -80,7 +98,8 @@
                                             </div>
                                         @endif
                                         <div class="col-2">
-                                            <button class="btn btn-primary"> Lọc</button>
+                                            <label> &nbsp; </label>
+                                            <button class="btn btn-primary" style="display: flex"> Lọc</button>
                                         </div>
                                     </form>
                                     <div class="table-responsive">
@@ -101,6 +120,7 @@
                                             </thead>
                                             <tbody>
                                             @foreach($infos as $data)
+                                                @php  $positionRanking = ($infos->currentPage() - 1) * $infos->perPage() + ($loop->index + 1)@endphp
                                                 @if($data->status_code_text == "Đang chờ nhận")
                                                     <tr class="table-active">
                                                 @elseif($data->status_code_text == "Đang thực hiện")
@@ -110,7 +130,7 @@
                                                 @else
                                                     <tr class="table-warning">
                                                         @endif
-                                                        <th scope="row">{{$loop->index + 1}}</th>
+                                                        <th scope="row">{{ $positionRanking }}</th>
                                                         <td>
                                                             <a href="{{route('edit.taskOrder',$data->id)}}">{{$data->name}}</a>
                                                         </td>
@@ -139,7 +159,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        {{ $infos->links('vendor.pagination.bootstrap-4') }}
+                    </div>
                 </div>
+{{--                <div class="col-xl-2">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col">--}}
+{{--                            <div class="card">--}}
+{{--                                abc--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
         </div> <!-- container -->
     </div> <!-- content -->

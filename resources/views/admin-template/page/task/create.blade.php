@@ -77,8 +77,9 @@
                                     <div class="col-md-4">
                                         <label class="form-label" for="exampleInputEmail1">Loại yêu cầu</label>
                                         <select class="form-select" name="type" required>
-                                            <option selected value="Normal">Thường</option>
-                                            <option value="Sponsor">Được tài trợ</option>
+                                            @foreach(\App\Models\Task::TASK_TYPE as $key => $value)
+                                                <option value="{{$value}}">{{$key}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

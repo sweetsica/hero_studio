@@ -19,6 +19,12 @@ class Task extends Model
         'WAITING_CONFIRM' => 6, // Chờ xác nhận task
     ];
 
+    const TASK_TYPE = [
+        'Thường' => 'Normal',
+        'Được tài trợ' => 'Sponsor',
+        'Short' => 'Short'
+    ];
+
     protected $guarded = [];
 
     public function creator() {
