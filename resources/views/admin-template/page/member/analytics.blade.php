@@ -64,11 +64,10 @@
                                 <div class="d-flex">
                                     <select class="form-select mx-2" name="type" id="typeSelect" required>
                                         <option value="">Tất cả các loại</option>
-                                        <option @if($selectedType == 'Normal') selected @endif value="Normal">Thường
-                                        </option>
-                                        <option @if($selectedType == 'Sponsor') selected @endif value="Sponsor">Được tài
-                                            trợ
-                                        </option>
+                                        @foreach(\App\Models\Task::TASK_TYPE as $key => $value)
+                                            <option value="{{$value}}"
+                                                    @if($value == $selectedType)  selected @endif>{{$key}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

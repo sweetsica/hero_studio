@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::get('danh-sach-hoan-thanh', [TaskController::class, 'getDoneTaskOrder'])->name('get.taskOrder.doneList');
         Route::get('danh-sach-xem-lai', [TaskController::class, 'getRedoTaskOrder'])->name('get.taskOrder.redoList');
         Route::get('danh-sach-duoc-tai-tro', [TaskController::class, 'getSponsorTaskOrder'])->name('get.taskOrder.sponsor');
+        Route::get('danh-sach-nganhan', [TaskController::class, 'getShortTaskOrder'])->name('get.taskOrder.short');
 
         Route::get('danh-sach/kol/{kol_id}', [TaskController::class, 'getTaskOrderKOL'])->name('get.taskOrderKOL.list');
         //KOL- Tạo yêu cầu

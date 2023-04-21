@@ -74,6 +74,7 @@
                         <ul class="nav-second-level">
                             <li><a href="{{route('get.taskOrder.list')}}">Danh sách nhiệm vụ</a></li>
                             <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
+                            <li><a href="{{route('get.taskOrder.short')}}">Yêu cầu ngắn hạn</a></li>
                         </ul>
                     </div>
                 </li>
@@ -110,6 +111,7 @@
                         <ul class="nav-second-level">
                             <li><a href="{{route('get.taskOrder.list')}}">Danh sách nhiệm vụ</a></li>
                             <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
+                            <li><a href="{{route('get.taskOrder.short')}}">Yêu cầu ngắn hạn</a></li>
                         </ul>
                     </div>
                 </li>
@@ -162,6 +164,7 @@
                             <li><a href="{{route('get.taskOrder.pendingList')}}">Yêu cầu chờ xử lý</a></li>
                             <li><a href="{{route('get.taskOrder.doneList')}}">Yêu cầu đã hoàn thành</a></li>
                             <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
+                            <li><a href="{{route('get.taskOrder.short')}}">Yêu cầu ngắn hạn</a></li>
                         </ul>
                     </div>
                 </li>
@@ -194,6 +197,7 @@
                         <ul class="nav-second-level">
                             <li><a href="{{route('get.taskOrder.list')}}">Công việc được giao</a></li>
                             <li><a href="{{route('get.taskOrder.sponsor')}}">Yêu cầu được tài trợ</a></li>
+                            <li><a href="{{route('get.taskOrder.short')}}">Yêu cầu ngắn hạn</a></li>
                             <li><a href="{{route('get.taskOrder.redoList')}}">Công việc cần kiểm tra</a></li>
                         </ul>
                     </div>

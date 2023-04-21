@@ -74,7 +74,7 @@
                                                 </option>
                                             </select>
                                         </div>
-                                        @if(Route::currentRouteName() != 'get.taskOrder.sponsor')
+                                        @if(Route::currentRouteName() == 'get.taskOrder.list')
                                         <div class="col-2">
                                             <label>Loại nhiệm vụ</label>
                                             <select class="form-control" name="task_type">
