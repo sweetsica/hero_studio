@@ -118,7 +118,7 @@
                                                         <div class="col-6">
                                                             <strong>Người yêu cầu</strong> : {{ $task->creator->name }}
                                                             <br>
-                                                            <strong>Người nhận</strong> : {{ $task->member->name }} <br>
+                                                            <strong>Người nhận</strong> : {{ $task->member->name ?? '' }} <br>
                                                             <strong>Trạng thái</strong> : {{ $task->status_code_text  }}
                                                             <br>
                                                             <strong>Nguồn</strong> : {{ $task->source }} <br>
