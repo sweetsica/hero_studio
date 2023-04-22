@@ -91,12 +91,10 @@
                                         <select class="form-select" name="type"
                                                 @if((Auth::user()->getRoleNames())[0]=='chief of department' || (Auth::user()->getRoleNames())[0]=='editor') disabled
                                                 style="background-color: #f6f6f7"@endif>
-                                            <option @if($task->type === 'Normal') selected @endif value="Normal">
-                                                Thường
-                                            </option>
-                                            <option @if($task->type === 'Sponsor') selected @endif value="Sponsor">Được
-                                                tài trợ
-                                            </option>
+                                            @foreach(\App\Models\Task::TASK_TYPE as $key => $value)
+                                            <option value="{{$value}}"
+                                                    @if($value == $task->type)  selected @endif>{{$key}}</option>
+                                        @endforeach
                                         </select>
                                     </div>
                                 </div>
