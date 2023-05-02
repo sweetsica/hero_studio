@@ -32,6 +32,8 @@ class Member extends Model
                 return 'KOL';
             case 'editor':
                 return 'Nhân viên';
+            case 'account':
+                return 'Account';
             default:
                 return 'Admin';
         }

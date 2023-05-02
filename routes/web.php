@@ -32,6 +32,16 @@ Route::middleware('auth')->group(function () {
     Route::get('', [DashboardController::class, 'index']);
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::prefix('nhiem-vu-account')->group(function() {
+        Route::get('danh-sach', [\App\Http\Controllers\TaskAccountController::class, 'index'])->name('taskAccount.index');
+        Route::get('danh-sach/thanh-vien-theo-phong-ban', [\App\Http\Controllers\TaskAccountController::class, 'getUserOfDepartment'])->name('taskAccount.getMember');
+        Route::get('tao-moi', [\App\Http\Controllers\TaskAccountController::class, 'create'])->name('taskAccount.create');
+        Route::post('tao-moi', [\App\Http\Controllers\TaskAccountController::class, 'store'])->name('taskAccount.store');
+        Route::get('chinh-sua/{id}', [\App\Http\Controllers\TaskAccountController::class, 'edit'])->name('taskAccount.edit');
+        Route::put('chinh-sua/{id}', [\App\Http\Controllers\TaskAccountController::class, 'update'])->name('taskAccount.update');
+        Route::get('xoa/{id}', [\App\Http\Controllers\TaskAccountController::class, 'delete'])->name('taskAccount.delete');
+        Route::post('comment/{taskId}', [\App\Http\Controllers\TaskAccountController::class, 'comment'])->name('taskAccount.comment');
+    });
     Route::prefix('nhiem-vu')->group(function () {
         //Danh sách yêu cầu theo KOL
         Route::get('danh-sach', [TaskController::class, 'getTaskOrder'])->name('get.taskOrder.list');

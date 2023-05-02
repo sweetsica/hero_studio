@@ -13,9 +13,12 @@ class Role extends \Spatie\Permission\Models\Role
     const ROLE_COF = 'chief of department';
     const ROLE_EDITOR = 'editor';
 
+    const ROLE_ACCOUNT = 'account';
+
     const roles = [
         'kols' => self::ROLE_KOLS,
         'cof' =>  self::ROLE_COF,
         'editor' => self::ROLE_EDITOR,
+        'account' => self::ROLE_ACCOUNT,
     ];
 }

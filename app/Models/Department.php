@@ -10,6 +10,13 @@ class Department extends Model
 {
     use HasFactory;
 
+    const STATIC_DEPARTMENT = [
+        self::DEPARTMENT_ACCOUNT,
+        self::DEPARTMENT_KOL,
+    ];
+    const DEPARTMENT_ACCOUNT = 'Phòng Account';
+    const DEPARTMENT_KOL = 'Phòng KOL';
+
     const STATUS = [
         'READY' => 1
     ];

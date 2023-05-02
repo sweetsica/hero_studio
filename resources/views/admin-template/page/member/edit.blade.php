@@ -76,31 +76,38 @@
                                     @if ($member->userRole !== 'Admin')
                                         <div class="col-md-12  mt-2">
                                             <label class="form-label" for="exampleInputEmail1">Vai trò</label>
-                                            <select name="role" class="form-select">
-                                                <option
-                                                    @if($member->primitiveUserRole === 'chief of department') selected
-                                                    @endif value="chief of department" disabled>Quản lý
-                                                </option>
-                                                <option
-                                                    @if($member->primitiveUserRole === 'key opinion leaders') selected
-                                                    @endif value="key opinion leaders">Kol
-                                                </option>
-                                                <option @if($member->primitiveUserRole === 'editor') selected
-                                                        @endif value="editor">Thành viên
-                                                </option>
-                                            </select>
+                                            @if ($member->departments[0]->id != $accountDepartment)
+                                                <select name="role" class="form-select" id="role-list">
+                                                    <option
+                                                        @if($member->primitiveUserRole === 'key opinion leaders') selected
+                                                        @endif value="key opinion leaders">Kol
+                                                    </option>
+                                                    <option @if($member->primitiveUserRole === 'editor') selected
+                                                            @endif value="editor">Thành viên
+                                                    </option>
+                                                </select>
+                                            @else
+                                                <select name="role" class="form-select" id="role-list">
+                                                    <option @if($member->primitiveUserRole === 'account') selected
+                                                            @endif value="account">Account
+                                                    </option>
+                                                </select>
+                                            @endif
                                         </div>
                                     @endif
 
                                     <div class="col-md-12 mt-2">
                                         <label class="form-label" for="exampleInputEmail1">Thuộc phòng ban</label>
                                         <select class="form-select"
-                                                name="departments[]">
+                                                id="department"
+                                                name="departments[]"
+                                                onchange="fetchRole()">
                                             @foreach($departments as $department)
                                                 <option value="{{$department->id}}"
                                                         @if(in_array($department->id, $memberDepartmentIds)) selected @endif> {{$department->name}}</option>
                                             @endforeach
                                         </select>
+                                        <input id="accountDepartment" type="hidden" value="{{$accountDepartment}}">
                                     </div>
 
                                     <div class="col-md-12 mt-2">
@@ -191,24 +198,66 @@
     <script src="{{ asset('admin-asset/assets/js/pages/form-advanced.init.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            const table = $('#basic-datatable').DataTable({
-                scrollCollapse: true,
-                paging: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    'excel', 'pdf', 'print', 'colvis'
-                ],
-                fixedColumns: {
-                    left: 2
-                }
-            });
-            table.buttons().container()
-                .appendTo('#basic-datatable .col-md-6:eq(0)');
+        let defaultOptions = []
+        let initDepartmentId = 0
+        const arr = [
+            {
+                value: 'chief of department',
+                text: 'Quản lý'
+            },
+            {
+                value: 'key opinion leaders',
+                text: 'Kol'
+            },
+            {
+                value: 'editor',
+                text: 'Thành viên'
+            },
+            {
+                value: 'account',
+                text: 'Account'
+            },
+        ]
 
-            // them class vào các btn của datatable cho giống theme
-            $('.dt-buttons').children().addClass('btn btn-secondary')
-        })
+        function fetchRole() {
+            const departmentId = $('#department').val()
+            const accountDepartment = $('#accountDepartment').val()
+            const roleSelect = document.getElementById('role-list')
+            const memberDepartmentId = {{$member->departments[0]->id}};
+
+            if (departmentId === accountDepartment) {
+                for (let i = 0; i < roleSelect.length; i++) {
+                    const option = new Option(roleSelect.options[i].text, roleSelect.options[i].value, roleSelect.options[i].defaultSelected, roleSelect.options[i].selected)
+                    defaultOptions.push(option)
+                }
+                while (roleSelect.options.length > 0) {
+                    roleSelect.remove(0);
+                }
+                const option = new Option('Account', 'account', true, true)
+                roleSelect.add(option)
+            } else {
+                if (memberDepartmentId == accountDepartment) {
+                    while (roleSelect.options.length > 0) {
+                        roleSelect.remove(0);
+                    }
+                    const option1 = new Option('Kol', 'key opinion leaders', true, true)
+                    roleSelect.add(option1)
+                    const option2 = new Option('Thành viên', 'editor', false, false)
+                    roleSelect.add(option2)
+                    defaultOptions = [];
+                } else {
+                    if (defaultOptions.length) {
+                        while (roleSelect.options.length > 0) {
+                            roleSelect.remove(0);
+                        }
+                        for (const option of defaultOptions) {
+                            roleSelect.add(option)
+                        }
+                        defaultOptions = [];
+                    }
+                }
+            }
+        }
     </script>
 
     <script>
@@ -220,5 +269,6 @@
                 URL.revokeObjectURL(output.src) // free memory
             }
         };
+
     </script>
 @endsection

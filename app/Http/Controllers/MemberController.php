@@ -103,18 +103,20 @@ class MemberController extends Controller
         $members = Member::with('user')->get();
         $departments = Department::all();
         $roles = Role::all();
+        $accountDepartment = Department::where('name', '=', Department::DEPARTMENT_ACCOUNT)->first()->id;
 
-        return view('admin-template.page.member.create', compact('members', 'departments', 'roles'));
+        return view('admin-template.page.member.create', compact('members', 'departments', 'roles', 'accountDepartment'));
     }
 
     public function editMember(Request $request, $id)
     {
+        $accountDepartment = Department::where('name', '=', Department::DEPARTMENT_ACCOUNT)->first()->id;
         $member = Member::find($id);
         $departments = Department::all();
         $roles = Role::all();
         $memberDepartmentIds = $member->departments->pluck('id')->toArray();
 
-        return view('admin-template.page.member.edit', compact('member', 'departments', 'roles', 'memberDepartmentIds'));
+        return view('admin-template.page.member.edit', compact('member', 'departments', 'roles', 'memberDepartmentIds', 'accountDepartment'));
     }
 
     public function updateMember(Request $request, $id)

@@ -49,6 +49,14 @@
                 </a>
             </li>
 
+            <li>
+                <a href="{{route('taskAccount.index')}}">
+                    <i class="uil uil-file"></i>
+                    <span> Nhiệm vụ account</span>
+                    <!-- <span class="menu-arrow"></span> -->
+                </a>
+            </li>
+
             {{--Menu super admin --}}
             @if((Auth::user()->hasRole('super admin')))
                 <li class="menu-title mt-2">Menu cấp admin</li>
@@ -225,6 +233,7 @@
                 {{--Hết menu nhân viên--}}
             @endif
             {{--Hết menu nhân viên--}}
+
             <li>
                 <a href="{{route('logout')}}">
                     <i class="uil uil-exit"></i>

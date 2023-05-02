@@ -85,7 +85,8 @@
                                         <td> {{  \Carbon\Carbon::parse($member->created_at)->format('d/m/Y')}} </td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="{{route('edit.member', $member->id)}}" class="btn btn-primary me-1"> Chỉnh sửa</a>
+                                                <a href="{{route('edit.member', $member->id)}}"
+                                                   class="btn btn-primary me-1"> Chỉnh sửa</a>
                                                 @if($member->user->getRoleNames()[0] !== 'super admin')
                                                     <form action="{{route('member.delete', $member->id)}}"
                                                           method="post">
@@ -164,21 +165,70 @@
                             </div>
                             <div class="col-md-12  mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Vai trò</label>
-                                <select name="role" class="form-select">
-                                    {{--                                    <option value="chief of department">Quản lý</option>--}}
-                                    <option value="key opinion leaders">Kol</option>
-                                    <option value="editor">Thành viên</option>
-                                </select>
+                                @if ($departments[0]->id != $accountDepartment)
+                                    <select name="role" class="form-select" id="role-list">
+                                        <option
+                                            @if($member->primitiveUserRole === 'key opinion leaders') selected
+                                            @endif value="key opinion leaders">Kol
+                                        </option>
+                                        <option @if($member->primitiveUserRole === 'editor') selected
+                                                @endif value="editor">Thành viên
+                                        </option>
+                                    </select>
+                                @else
+                                    <select name="role" class="form-select" id="role-list">
+                                        <option @if($member->primitiveUserRole === 'account') selected
+                                                @endif value="account">Account
+                                        </option>
+                                    </select>
+                                @endif
                             </div>
 
                             <div class="col-md-12 mt-2">
                                 <label class="form-label" for="exampleInputEmail1">Thuộc phòng ban</label>
                                 <select class="form-select"
-                                        name="departments[]">
+                                        name="departments[]"
+                                        onchange="fetchRole()"
+                                        id="department"
+                                >
                                     @foreach($departments as $department)
                                         <option value="{{$department->id}}"> {{$department->name}}</option>
                                     @endforeach
                                 </select>
+                                <input id="accountDepartment" type="hidden" value="{{$accountDepartment}}">
+                                <script>
+                                    let defaultOptions = []
+                                    let initDepartmentId = 0
+
+                                    function fetchRole() {
+                                        const departmentId = $('#department').val()
+                                        const accountDepartment = $('#accountDepartment').val()
+                                        const roleSelect = document.getElementById('role-list')
+                                        if (departmentId === accountDepartment) {
+                                            defaultOptions = [];
+                                            for (let i = 0; i < roleSelect.length; i++) {
+                                                const option = new Option(roleSelect.options[i].text, roleSelect.options[i].value, roleSelect.options[i].defaultSelected, roleSelect.options[i].selected)
+                                                defaultOptions.push(option)
+                                            }
+                                            while (roleSelect.options.length > 0) {
+                                                roleSelect.remove(0);
+                                            }
+                                            const option = new Option('Account', 'account', true, true)
+                                            roleSelect.add(option)
+                                        } else {
+                                            if (defaultOptions.length) {
+                                                while (roleSelect.options.length > 0) {
+                                                    roleSelect.remove(0);
+                                                }
+                                                for (const option of defaultOptions) {
+                                                    roleSelect.add(option)
+                                                }
+
+                                                defaultOptions = [];
+                                            }
+                                        }
+                                    }
+                                </script>
                             </div>
 
                             <div class="col-md-12 mt-2">
