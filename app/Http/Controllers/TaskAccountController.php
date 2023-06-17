@@ -118,7 +118,15 @@ class TaskAccountController extends Controller
             'member_id'
         ];
 
-        TaskAccount::create($request->only($validKeys));
+        $taskAccount = $request->only($validKeys);
+
+        if ($request->status_code == 3) {
+            $taskAccount['completed_at'] = Carbon::now();
+        } else {
+            $taskAccount['completed_at'] = null;
+        }
+
+        TaskAccount::create($taskAccount);
 
         return redirect()->route('taskAccount.index');
     }

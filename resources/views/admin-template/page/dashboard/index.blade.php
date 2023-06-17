@@ -141,15 +141,14 @@
                 </div>
             @else
                 <div class="row">
-                    <div class="col-md-6 ">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                {{--                                <a href="" class="p-0 float-end">Ngày\Tuần\Tháng<i class="uil uil-export ms-1"></i></a>--}}
                                 <h4 class="card-title header-title">Theo cá nhân</h4>
                                 <div class="table-responsive table-nowrap mt-3">
                                     <table class="table table-sm table-centered mb-0 fs-13">
                                         <thead class="table-light">
-                                        <tr>
+                                        <tr class="text-center">
                                             <th>Tên nhân viên</th>
                                             <th style="width: 30%;">Số đầu việc</th>
                                             <th style="width: 30%;">Số đầu việc hoàn thành</th>
@@ -157,14 +156,132 @@
                                             <th style="width: 30%;">Tổng thời lượng</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <style >
+                                            .caro > tr > td:nth-child(2n) {
+                                                background-color: #ffe9e9;
+                                            }
+
+                                            .caro > tr > td:nth-child(2n) {
+                                                background-color: #ffe9e9;
+                                            }
+                                        </style>
+                                        <tbody class="caro">
                                         @foreach($data['groupTaskByMember'] as $item)
                                             <tr>
                                                 <td>{{ $item['name'] }}</td>
-                                                <td>{{ $item['number_of_tasks'] }}</td>
-                                                <td>{{ $item['number_of_done_tasks'] }}</td>
-                                                <td>{{ $item['number_of_redo_tasks'] }}</td>
-                                                <td>{{ $item['total_product_length'] }}</td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        Tổng : {{ $item['number_of_tasks'] }}
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                Thường
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Tài trợ
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Ngắn
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_normal'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_sponsor'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_short'] }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="text-center">
+                                                        Tổng : {{ $item['number_of_done_tasks'] }}
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                Thường
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Tài trợ
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Ngắn
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_done_normal'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_done_sponsor'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_done_short'] }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="text-center">
+                                                        Tổng : {{ $item['number_of_undo_tasks'] }}
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                Thường
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Tài trợ
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Ngắn
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_undo_normal'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_undo_sponsor'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['group_task_undo_short'] }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="text-center">
+                                                        Tổng : {{ $item['total_product_length'] }}
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                Thường
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Tài trợ
+                                                            </div>
+                                                            <div class="col-4">
+                                                                Ngắn
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                {{ $item['total_product_normal_length'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['total_product_sponsor_length'] }}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                {{ $item['total_product_short_length'] }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+{{--                                                <td>{{ $item['total_product_length'] }}</td>--}}
                                             </tr>
                                         @endforeach
                                         </tbody>

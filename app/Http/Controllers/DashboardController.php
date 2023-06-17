@@ -59,7 +59,6 @@ class DashboardController extends Controller
         $passingData['highestProductRankingMember'] = $highestProductRankingMember;
         $passingData['sortBy'] = $sortBy;
         $passingData['month'] = $time->format('Y-m');
-
         return view('user-list', $passingData);
     }
 
@@ -441,25 +440,68 @@ class DashboardController extends Controller
         }
         $tasks = collect($tasks)
             ->map(function ($item, $key) {
-                $item = collect($item);
+                $task = collect($item);
                 $member = Member::find($key);
-                $taskDone = $item->filter(function ($i) {
-                    return $i->status_code === Task::TASK_STATUS['DONE'];
-                })->count();
-                $taskRedo = $item->filter(function ($i) {
-                    return $i->status_code === Task::TASK_STATUS['REDO'];
-                })->count();
 
-                return [
+                $groupTask = $task->groupBy('type');
+                $groupTaskNormal = isset($groupTask['Normal']) ? $groupTask['Normal']->count() : 0;
+                $groupTaskSponsor = isset($groupTask['Sponsor']) ? $groupTask['Sponsor']->count() : 0;
+                $groupTaskShort = isset($groupTask['Short']) ? $groupTask['Short']->count() : 0;
+
+
+                $taskDone = $task->filter(function ($i) {
+                    return $i->status_code === Task::TASK_STATUS['DONE'];
+                });
+
+
+
+                $groupTaskDone = $taskDone->groupBy('type');
+                $groupTaskDoneNormal = isset($groupTaskDone['Normal']) ? $groupTaskDone['Normal']->count() : 0;
+                $groupTaskDoneSponsor = isset($groupTaskDone['Sponsor']) ? $groupTaskDone['Sponsor']->count() : 0;
+                $groupTaskDoneShort = isset($groupTaskDone['Short']) ? $groupTaskDone['Short']->count() : 0;
+
+                $taskRedo = $task->filter(function ($i) {
+                    return $i->status_code === Task::TASK_STATUS['REDO'];
+                });
+
+                $groupTaskUndo = $taskRedo->groupBy('type');
+                $groupTaskUndoNormal = isset($groupTaskUndo['Normal']) ? $groupTaskUndo['Normal']->count() : 0;
+                $groupTaskUndoSponsor = isset($groupTaskUndo['Sponsor']) ? $groupTaskUndo['Sponsor']->count() : 0;
+                $groupTaskUndoShort = isset($groupTaskUndo['Short']) ? $groupTaskUndo['Short']->count() : 0;
+
+                $params = [
                     'name' => $member->name,
-                    'number_of_tasks' => $item->count(),
-                    'number_of_done_tasks' => $taskDone,
-                    'number_of_redo_tasks' => $taskRedo,
-                    'total_product_length' => $item->sum('product_length')
+                    'number_of_tasks' => $task->count(),
+                    'number_of_done_tasks' => $taskDone->count(),
+                    'number_of_undo_tasks' => $taskRedo->count(),
+                    'total_product_length' => $task->sum('product_length'),
+
+
+                    'group_task_normal' => $groupTaskNormal,
+                    'group_task_sponsor' => $groupTaskSponsor,
+                    'group_task_short' => $groupTaskShort,
+
+
+                    'group_task_done_normal' => $groupTaskDoneNormal,
+                    'group_task_done_sponsor' => $groupTaskDoneSponsor,
+                    'group_task_done_short' => $groupTaskDoneShort,
+
+
+                    'group_task_undo_normal' => $groupTaskUndoNormal,
+                    'group_task_undo_sponsor' => $groupTaskUndoSponsor,
+                    'group_task_undo_short' => $groupTaskUndoShort,
                 ];
+
+                $params['total_product_normal_length']  = isset($groupTask['Normal']) ?  $groupTask['Normal']->sum('product_length') : 0;
+                $params['total_product_sponsor_length']  = isset($groupTask['Sponsor']) ?  $groupTask['Sponsor']->sum('product_length') : 0;
+                $params['total_product_short_length']  = isset($groupTask['Short']) ?  $groupTask['Short']->sum('product_length') : 0;
+
+                return $params;
             });
+
         return $tasks;
     }
+
 
     public function filterByDate($query, $params)
     {

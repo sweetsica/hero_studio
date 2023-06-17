@@ -457,7 +457,15 @@ class TaskController extends Controller
             'member_id'
         ];
 
-        Task::create($request->only($validKeys));
+        $task = $request->only($validKeys);
+
+        if ($request->status_code == 3) {
+            $task['completed_at'] = Carbon::now();
+        } else {
+            $task['completed_at'] = null;
+        }
+
+        Task::create($task);
 
         return redirect()->route('get.taskOrder.list');
     }
