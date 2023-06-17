@@ -488,10 +488,10 @@ class TaskController extends Controller
         if (!isset($request->product_rate)) $task->product_rate = null;
         $params = $request->all();
 
-        if ($request->status_code == 3) {
-            $params['completed_at'] = $task->completed_at ? $task->completed_at : Carbon::now();
-        } else {
+        if ($request->status_code != 3) {
             $params['completed_at'] = null;
+        } else {
+            $params['completed_at'] = $task->completed_at ? $task->completed_at : Carbon::now();
         }
 
         $task->update($params);

@@ -146,7 +146,7 @@
                                                         </td>
                                                         <td>{{$data->product_length ? "$data->product_length phút " : ""}}</td>
                                                         <td>{{$data->status_code_text}}</td>
-                                                        <td>{{$data->completed_at }}</td>
+                                                        <td> {{ $data->status_code == 'Đã hoàn thành' && !$data->completed_at ? $data->updated_at  : $data->completed_at}}</td>
                                                         <td>{{$data->deadline}}</td>
                                                         <td>{{$data->product_rate ? "$data->product_rate sao" : 'Chưa có'}}</td>
                                                         <td>{{ \Illuminate\Support\Carbon::parse($data->created_at)->format('d/m/Y')}}</td>
