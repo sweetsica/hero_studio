@@ -33,33 +33,87 @@
 
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
-                            <a href="?start_date={{\Carbon\Carbon::now()->format('Y-m-d')}}&end_date={{\Carbon\Carbon::now()->addDays(1)->format('Y-m-d')}}">
-                                Hôm nay </a>
-                            |
-                            <a href="?start_date={{\Carbon\Carbon::now()->addDays(-6)->format('Y-m-d')}}&end_date={{\Carbon\Carbon::now()->format('Y-m-d')}}">
-                                7 ngày trước </a>
-                            |
-                            <a href="?start_date={{\Carbon\Carbon::now()->addDays(-30)->format('Y-m-d')}}&end_date={{\Carbon\Carbon::now()->format('Y-m-d')}}">
-                                30 ngày trước </a>
-                            <form action="">
-                                @csrf
-                                <div class="col-12 col-lg-auto row mt-2">
-                                    <div class="col-12 col-sm-6 col-lg-5 mb-2">
-                                        <input name="start_date" type="date" class="form-control"
-                                               style="min-width: 210px;" value="{{$startDate}}"/>
+                        <div class="row">
+                            <div class="card-body col-sm-12 col-md-8">
+                                <a href="javascript:updateMultiParams([
+                                        {
+                                            'key': 'start_date',
+                                            'value': '{{\Carbon\Carbon::now()->format('Y-m-d')}}'
+                                        },
+                                        {
+                                            'key': 'end_date',
+                                            'value': '{{\Carbon\Carbon::now()->addDays(1)->format('Y-m-d')}}'
+                                        }
+                                    ])">
+                                        Hôm nay </a>
+                                    |
+                                    <a href="javascript:updateMultiParams([
+                                        {
+                                            'key': 'start_date',
+                                            'value': '{{\Carbon\Carbon::now()->addDays(-6)->format('Y-m-d')}}'
+                                        },
+                                        {
+                                            'key': 'end_date',
+                                            'value': '{{\Carbon\Carbon::now()->format('Y-m-d')}}'
+                                        }
+                                    ])">
+                                        7 ngày trước </a>
+                                    |
+                                    <a href="javascript:updateMultiParams([
+                                        {
+                                            'key': 'start_date',
+                                            'value': '{{\Carbon\Carbon::now()->addDays(-30)->format('Y-m-d')}}'
+                                        },
+                                        {
+                                            'key': 'end_date',
+                                            'value': '{{\Carbon\Carbon::now()->format('Y-m-d')}}'
+                                        }
+                                    ])">
+                                        30 ngày trước </a>
+                                    |
+                                    <a href="javascript:updateMultiParams([
+                                        {
+                                            'key': 'start_date',
+                                            'value': '{{\Carbon\Carbon::now()->day(1)->format('Y-m-d')}}'
+                                        },
+                                        {
+                                            'key': 'end_date',
+                                            'value': '{{\Carbon\Carbon::now()->lastOfMonth()->format('Y-m-d')}}'
+                                        }
+                                    ])">
+                                        Tháng hiện tại </a>
+                                <form action="">
+                                    @csrf
+                                    <div class="col-12 col-lg-auto row mt-2">
+                                        <div class="col-12 col-sm-6 col-lg-5 mb-2">
+                                            <input name="start_date" type="date" class="form-control"
+                                                   style="min-width: 210px;" value="{{$startDate}}"/>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-5 mb-2">
+                                            <input name="end_date" type="date" class="form-control"
+                                                   style="min-width: 210px;" value="{{$endDate}}"/>
+                                        </div>
+                                        <div class="col-2">
+                                            <button class="btn btn-info">
+                                                Lọc
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-12 col-sm-6 col-lg-5 mb-2">
-                                        <input name="end_date" type="date" class="form-control"
-                                               style="min-width: 210px;" value="{{$endDate}}"/>
-                                    </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-info">
-                                            Lọc
-                                        </button>
-                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-body col-sm-12 col-md-4 align-self-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title header-title">Phòng ban</h4>
+                                    <select id="department-selection" style="width: fit-content" class="form-select"
+                                            onchange="updateDepartment()"
+                                            >
+                                        <option value="">Tất cả</option>
+                                        @foreach($departments as $department)
+                                            <option @if($selectedDepartmentId == $department->id) selected @endif value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -564,8 +618,9 @@
                 function updateUserRanking() {
                     const input = $('#ranking-selection').val() ?? 'last_month_tasks_avg_product_rate'
                     const month = $('#month_select').val() ?? null
+                    const departmentId = $('#department-selection').val() ?? null
 
-                    $.get('{{route('get.user.ranking')}}', {type: input, month}).then(function (res) {
+                    $.get('{{route('get.user.ranking')}}', {type: input, departmentId, month}).then(function (res) {
                         $('#ranking-content').html(res)
                     });
                 }
@@ -619,5 +674,39 @@
                 }
 
                 getDailyTask()
+            </script>
+            <script>
+                function updateDepartment() {
+                    const input = $('#department-selection').val() ?? ''
+                    updateCurrentParam('department_id', input);
+                }
+
+                 function updateMultiParams(pairParams) {
+                    var queryParams = new URLSearchParams(window.location.search);
+
+                    for (const pairKey in pairParams) {
+                        const obj = pairParams[pairKey];
+                        const key = obj.key;
+                        const value = obj.value;
+
+                        if (queryParams.get(key) === value) {
+                            queryParams.delete(key);
+                        } else {
+                            queryParams.set(key, value);
+                        }
+                    }
+                    window.location.href = window.location.origin + window.location.pathname + "?" + queryParams.toString();
+                }
+
+                function updateCurrentParam(key, value) {
+                    var queryParams = new URLSearchParams(window.location.search);
+                    if (queryParams.get(key) === value) {
+                        queryParams.delete(key);
+                    } else {
+                        queryParams.set(key, value);
+                    }
+
+                    window.location.href = window.location.origin + window.location.pathname + "?" + queryParams.toString();
+                }
             </script>
     @endpush

@@ -17,6 +17,7 @@ class DashboardController extends Controller
     {
         $sortBy = $request->get('type', 'last_month_tasks_avg_product_rate');
         $monthYear  = $request->get('month', null);
+        $departmentId  = $request->get('departmentId', null);
 
         $time = Carbon::now();
         if(isset($monthYear)) {
@@ -28,7 +29,15 @@ class DashboardController extends Controller
             return $item->members;
         })->flatten(1)->pluck('id')->toArray();
 
-        $highestProductRankingMember = Member::query()
+
+        $highestProductRankingMember = Member::query();
+        if($departmentId) {
+            $highestProductRankingMember = $highestProductRankingMember->whereHas('departments', function ($q) use ($departmentId) {
+                return $q->where('departments.id', $departmentId);
+            });
+        }
+
+        $highestProductRankingMember = $highestProductRankingMember
             ->with('user')
             ->get()
             ->filter(function ($item) use ($authUserDepartmentMembers) {
@@ -68,10 +77,12 @@ class DashboardController extends Controller
         $endDate = $request->end_date ? Carbon::parse($request->end_date)->startOfDay() : Carbon::now()->startOfDay()->addDays(1);
 
         $userRole = Auth::user()->getRoleNames()[0];
+        $departmentId = $request->input('department_id');
 
         $params['startDate'] = $startDate;
         $params['endDate'] = $endDate;
         $params['userRole'] = $userRole;
+        $params['departmentId'] = $departmentId;
 
         $highestProductRankingMember = Member::query()
             ->get()->map(function ($item) {
@@ -266,6 +277,7 @@ class DashboardController extends Controller
         $passingData['departmentDoneTasks'] = $departmentDoneTask;
         $passingData['departmentTaskLength'] = $departmentTaskLength;
         $passingData['departmentTaskDoneLength'] = $departmentTaskDoneLength;
+        $passingData['selectedDepartmentId'] = $departmentId;
 
         $date = Carbon::now();
         $arrayDate = [];
@@ -512,6 +524,15 @@ class DashboardController extends Controller
         return $query;
     }
 
+    public function filterByDepartment($query, $params)
+    {
+        if (isset($params['departmentId'])) {
+            $query = $query->where('department_id', $params['departmentId']);
+        }
+
+        return $query;
+    }
+
     public function filterByRole($query, $params)
     {
         if ($params['userRole'] === Role::ROLE_EDITOR) {
@@ -555,6 +576,9 @@ class DashboardController extends Controller
 
         // Lọc theo role
         $query = $this->filterByRole($query, $params);
+
+        // Lọc theo department
+        $query = $this->filterByDepartment($query, $params);
 
         return $query->get();
     }
