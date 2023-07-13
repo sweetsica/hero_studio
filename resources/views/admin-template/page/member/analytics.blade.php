@@ -95,18 +95,20 @@
                                             <th>Tên yêu cầu</th>
                                             <th>Phòng ban phụ trách</th>
                                             <th>Thời hạn</th>
+                                            <th>Thời gian hoàn thành</th>
                                             <th>Đánh giá</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($member->tasks as $task)
                                             <tr class="data-row">
-                                                <td style="width: 20%">{{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m - h:i')}}</td>
+                                                <td style="width: 15%">{{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m - h:i')}}</td>
                                                 <td style="width: 20%">
                                                     <a href="{{route('edit.taskOrder', $task->id)}}">{{ $task->name }}</a>
                                                 </td>
-                                                <td style="width: 20%">{{ isset($task->department) ? $task->department->name : ''}}</td>
-                                                <td style="width: 20%">{{ $task->deadline ? \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i') : ''}}</td>
+                                                <td style="width: 15%">{{ isset($task->department) ? $task->department->name : ''}}</td>
+                                                <td style="width: 15%">{{ $task->deadline ? \Illuminate\Support\Carbon::parse($task->deadline)->format('d/m - h:i') : ''}}</td>
+                                                <td style="width: 15%">{{$task->status_code == 'Đã hoàn thành' && !$task->completed_at ? $task->updated_at  : $task->completed_at}}</td>
                                                 <td style="width: 20%">{{ $task->product_rate }} @if($task->product_rate)
                                                         <i
                                                             style="color: orange" class="bi bi-star-fill"></i> @endif
