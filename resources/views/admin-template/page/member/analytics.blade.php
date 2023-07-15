@@ -80,8 +80,20 @@
                                         }
 
                                         .data-row:nth-child(odd):hover {
-                                            background-color: green;
+                                            /*background-color: green;*/
                                             color: white;
+                                        }
+                                        .data-row:nth-child(odd).warning:hover {
+                                            background-color: #ffbe0b;
+                                        }
+                                        .data-row:nth-child(odd).success:hover {
+                                            background-color: #009E60;
+                                        }
+                                        .data-row:nth-child(odd).info:hover {
+                                            background-color: #5cc6ee;
+                                        }
+                                        .data-row:nth-child(odd).active:hover {
+                                            background-color: #6c757d;
                                         }
 
                                         .data-row:nth-child(odd):hover + .data-row {
@@ -100,8 +112,14 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+
                                         @foreach($member->tasks as $task)
-                                            <tr class="data-row">
+                                            <tr class="data-row
+                                                @if($task->status_code_text == "Đang chờ nhận")active
+                                                @elseif($task->status_code_text == "Đang thực hiện")info
+                                                @elseif($task->status_code_text == "Đã hoàn thành")success
+                                                @else warning @endif
+                                            ">
                                                 <td style="width: 15%">{{ \Illuminate\Support\Carbon::parse($task->created_at)->format('d/m - h:i')}}</td>
                                                 <td style="width: 20%">
                                                     <a href="{{route('edit.taskOrder', $task->id)}}">{{ $task->name }}</a>
