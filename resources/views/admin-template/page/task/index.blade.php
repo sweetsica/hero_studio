@@ -85,7 +85,7 @@
                                             </select>
                                         </div>
                                         @endif
-                                        @if(Auth::user()->hasRole('super admin'))
+                                        @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('key opinion leaders'))
                                             <div class="col-2">
                                                 <label>Phòng ban</label>
                                                 <select class="form-control" name="department_id">
