@@ -55,9 +55,11 @@ class DepartmentController extends Controller
         $departmentMember = $department->members->pluck('id')->toArray();
         $members = Member::whereIn('id', array_merge($memberNotHaveDepartment, $departmentMember))->get();
 
-        $cofListIds = Member::with('user')->doesntHave('departments')->get()->filter(function($item) {
-            return $item->user->getRoleNames()[0] === Role::ROLE_COF;
-        })->pluck('id')->toArray();
+        $cofListIds = Member::with('user')->doesntHave('departments')->get()
+//        ->filter(function($item) {
+//            return $item->user->getRoleNames()[0] === Role::ROLE_COF;
+//        })
+        ->pluck('id')->toArray();
         $cofList = Member::query()->whereIn('id', [...$cofListIds, 1, $department->department_head_id])->get();
 
         // Sửa phòng ban theo id
