@@ -150,10 +150,13 @@
                     </li>
                 @endif
                 <li>
-                    <a href="{{route('report.department',Auth::user()->departments()->first()['id'])}}">
+
+                    @if(count(Auth::user()->departments()) > 0)
+                    <a href="{{route('report.department', Auth::user()->departments()->first()['id'])}}">
                         <i class="uil uil-file-check-alt"></i>
                         <span>Xuất báo cáo</span>
                     </a>
+                    @endif
                 </li>
             @endif
             {{--Hết menu quản lý--}

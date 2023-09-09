@@ -31,7 +31,7 @@ class TaskController extends Controller
             return $task;
         })->sortBy('priority_task', SORT_ASC);
 
-        return $tasks;
+        return $tasks->paginate(200);
     }
 
     public function getTaskOrder(Request $request)
@@ -74,7 +74,7 @@ class TaskController extends Controller
         }
         $count['task_inprocess_today'] = Task::whereDate('created_at', date('Y-m-d'))->where('status_code', Task::TASK_STATUS["IN_PROGRESS"])->count();
         $tasks = Task::with(['member', 'department', 'comments'])->get()->sortByDesc('created_at');
-        $infos = $this->sortTasks($infos)->paginate(200);
+        $infos = $this->sortTasks($infos);
         $departments = Department::all();
         return view('admin-template.page.task.index', compact('infos','departments', 'departments', 'tasks', 'totalTask', 'totalTaskInprogress', 'totalTaskDone', 'count'));
     }
