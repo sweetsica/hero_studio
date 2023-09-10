@@ -151,7 +151,7 @@
                 @endif
                 <li>
 
-                    @if(count(Auth::user()->departments()) > 0)
+                    @if(count(Auth::user()->departments) > 0)
                     <a href="{{route('report.department', Auth::user()->departments()->first()['id'])}}">
                         <i class="uil uil-file-check-alt"></i>
                         <span>Xuất báo cáo</span>
